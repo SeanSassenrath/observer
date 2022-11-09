@@ -1,12 +1,21 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
 	Button,
 	Layout,
 	Text,
 } from '@ui-kitten/components';
 
-const SignIn = () => {
+import { SignInScreenNavigationProp } from '../types';
+
+const SignInScreen = () => {
+  const navigation = useNavigation<SignInScreenNavigationProp>();
+
+  const onContinuePress = () => {
+    navigation.navigate('Home');
+  }
+
 	return (
 		<SafeAreaView style = {styles.container}>
 			<Layout style={styles.layoutTopContainer}>
@@ -18,7 +27,7 @@ const SignIn = () => {
 				</Text>
 			</Layout>
 			<Layout style={styles.layoutBottomContainer}>
-				<Button style={styles.button}>CONTINUE</Button>
+        <Button onPress={onContinuePress} style={styles.button}>CONTINUE</Button>
 			</Layout>
 		</SafeAreaView>
 	)
@@ -46,4 +55,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default SignIn;
+export default SignInScreen;

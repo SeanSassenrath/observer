@@ -6,11 +6,5 @@
 
     /* Completeness */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  },
-  "paths": {
-    "screens/*": [
-      "./src/screens/*",
-    ],
-    "components/*": ["./src/components/*"],
   }
 }

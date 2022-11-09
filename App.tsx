@@ -12,12 +12,12 @@ import React, {type PropsWithChildren} from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 
-import SignIn from './src/screens/SignIn';
+import AppNavigator from './src/navigation/App';
 
 const App = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <SignIn />
+      <AppNavigator />
     </ApplicationProvider>
   );
 };
