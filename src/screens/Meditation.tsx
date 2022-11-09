@@ -25,34 +25,37 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   }
 
   return (
-    <SafeAreaView style={styles.test}>
-      <Layout style={styles.container}>
-        <Layout style={styles.layout}>
-          <Button
-            appearance='ghost'
-            accessoryLeft={StarIcon}
-            onPress={onClosePress}
-          />
+    <Layout style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <Layout style={styles.container}>
+          <Layout style={styles.layout}>
+            <Button
+              appearance='ghost'
+              accessoryLeft={StarIcon}
+              onPress={onClosePress}
+            />
+          </Layout>
+          <Layout style={styles.header}>
+            <Text category='h5'>{name}</Text>
+          </Layout>
         </Layout>
-        <Layout>
-          <Text>Meditation</Text>
-          <Text>{name}</Text>
-        </Layout>
-      </Layout>
-    </SafeAreaView>
+      </SafeAreaView>
+    </Layout>
   )
 }
 
 const styles = StyleSheet.create({
-  test: {
-    flex: 1,
-  },
   container: {
     flex: 1,
   },
   icon: {
     width: 32,
     height: 32,
+  },
+  header: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
   layout: {
     flexDirection: 'row-reverse',

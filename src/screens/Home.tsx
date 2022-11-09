@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Card, Layout, Text } from '@ui-kitten/components'; 
 
@@ -13,6 +13,10 @@ const meditations = [{
   name: 'Blessing of the energy centers'
 }, {
   name: 'Tuning into new potentials'
+}, {
+  name: 'Breaking the habit of being yourself'
+}, {
+  name: 'Walking Meditation'
 }]
 
 const HomeScreen = () => {
@@ -25,29 +29,51 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView>
-      <Text>Home</Text>
-      <Layout style={styles.layout}>
-        {meditations.map(meditation =>
-          <Card
-            key={meditation.name}
-            onPress={() => onMeditationClick(meditation)}
-            style={styles.card}
-          >
-            <Text>{meditation.name}</Text>
-          </Card>
-        )}
-      </Layout>
-    </SafeAreaView>
+    <Layout style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <Layout style={styles.header}>
+          <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
+          <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
+        </Layout>
+        <Layout style={styles.section}>
+          <Text category='h6'>Meditations</Text>
+          <ScrollView horizontal={true} style={styles.horizontalContainer}>
+            {meditations.map(meditation =>
+              <Card
+                key={meditation.name}
+                onPress={() => onMeditationClick(meditation)}
+                style={styles.card}
+              >
+                <Text category='s1'>{meditation.name}</Text>
+              </Card>
+            )}
+          </ScrollView>
+        </Layout>
+      </SafeAreaView>
+    </Layout>
   )
 }
 
 const styles = StyleSheet.create({
   card: {
+    marginRight: 10,
+    paddingVertical: 10,
     width: 200,
   },
-  layout: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+  },
+  header: {
+    padding: 20,
+  },
+  headerText: {
+    padding: 2,
+  },
+  horizontalContainer: {
+    paddingVertical: 20,
+  },
+  section: {
+   padding: 20,
   }
 })
 
