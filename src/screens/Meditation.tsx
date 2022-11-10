@@ -23,6 +23,10 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
     navigation.pop();
   }
 
+  const onStartPress = () => {
+    navigation.navigate('MeditationPlayer', { name });
+  }
+
   const { name } = route.params;
 
   return (
@@ -43,7 +47,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
           <Text category='s1'>Take off watch</Text>
         </Layout>
         <Layout style={styles.bottomBar}>
-          <Button>Start</Button>
+          <Button onPress={onStartPress}>Start</Button>
         </Layout>
       </SafeAreaView>
     </Layout>

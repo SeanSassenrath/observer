@@ -19,6 +19,7 @@ export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type HomeStackParamList = {
   HomeDashboard: undefined;
   Meditation: Meditation;
+  MeditationPlayer: Meditation;
   MeditationSync: undefined;
 };
 
@@ -29,6 +30,11 @@ interface Meditation {
 export type MeditationProps = NativeStackScreenProps<HomeStackParamList, 'Meditation'>;
 export type MeditationScreenNavigationProp = MeditationProps['navigation'];
 export type MeditationStackScreenProps<T extends keyof HomeStackParamList> =
+  StackScreenProps<HomeStackParamList, T>;
+
+export type MeditationPlayerProps = NativeStackScreenProps<HomeStackParamList, 'MeditationPlayer'>;
+export type MeditationPlayerScreenNavigationProp = MeditationProps['navigation'];
+export type MeditationPlayerStackScreenProps<T extends keyof HomeStackParamList> =
   StackScreenProps<HomeStackParamList, T>;
 
 export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
