@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Avatar, Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
+import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
 
 import { MeditationSyncScreenNavigationProp, PickedFile } from '../types';
+import MeditationDataContext, { getMeditationData } from '../contexts/meditationData';
 
 const storageKey = '@meditation_data';
 
@@ -65,25 +66,14 @@ const placeholderFlatListItems = [
 ]
 
 const MeditationSync = () => {
+  const {meditationFiles, setMeditationFiles} = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
   const [fileStored, setFiledStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);
-  const [meditationFiles, setMeditationFiles] = useState([] as PickedFile[]);
 
   useEffect(() => {
-    getMeditationData();
+    getMeditationData(setMeditationFiles);
   }, [fileStored]);
-
-  const getMeditationData = async () => {
-    try {
-      const jsonMeditationFiles = await AsyncStorage.getItem(storageKey)
-      const meditationFiles = jsonMeditationFiles != null ? JSON.parse(jsonMeditationFiles) : null;
-      console.log('Async meditation data value', meditationFiles);
-      setMeditationFiles(meditationFiles)
-    } catch (e) {
-      console.log('error with setting meditation files', e);
-    }
-  }
 
   const onClosePress = () => {
     navigation.pop();
@@ -103,14 +93,13 @@ const MeditationSync = () => {
         await AsyncStorage.setItem(storageKey, stringifiedNormalizedMeditationData);
         setFiledStored(true);
       }
-      // setFileResponse(response);
     } catch (err) {
       console.log(err);
     }
 
     setTimeout(() => {
       setIsPickingFiles(false);
-    }, 800);
+    }, 600);
   }, []);
 
   const onRemoveMeditationsPress = async () => {
