@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { type PropsWithChildren, useState } from 'react';
+import React, { type PropsWithChildren, useState, useEffect } from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';

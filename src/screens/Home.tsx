@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, Layout, Text } from '@ui-kitten/components'; 
 
-import MeditationDataContext from '../contexts/meditationData';
-import { MeditationScreenNavigationProp } from '../types';
+import MeditationDataContext, { getMeditationData } from '../contexts/meditationData';
+import { MeditationScreenNavigationProp, PickedFile } from '../types';
 
 interface Meditation {
   name: string,
@@ -21,13 +21,19 @@ const meditations = [{
 }]
 
 const HomeScreen = () => {
-  const { meditationFiles } = useContext(MeditationDataContext);
+  const { meditationFiles, setMeditationFiles } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
-  const onMeditationClick = (meditation: Meditation) => {
-    navigation.navigate('Meditation', {
-      name: meditation.name,
-    });
+  useEffect(() => {
+    getMeditationData(setMeditationFiles);
+  }, []);
+
+  const onMeditationClick = (meditation: PickedFile) => {
+    if (meditation && meditation.normalizedName) {
+      navigation.navigate('Meditation', {
+        name: meditation.normalizedName,
+      });
+    }
   }
 
   const onMeditationSyncClick = () => {
@@ -35,6 +41,18 @@ const HomeScreen = () => {
   }
 
   const hasMeditationFiles = meditationFiles && meditationFiles.length;
+
+  const renderMeditations = () => (
+    meditationFiles.map(meditation => (
+      <Card
+        key={meditation.name}
+        onPress={() => onMeditationClick(meditation)}
+        style={styles.card}
+      >
+        <Text category='s1'>{meditation.normalizedName}</Text>
+      </Card>
+    ))
+  )
 
   return (
     <Layout style={styles.container}>
@@ -56,7 +74,8 @@ const HomeScreen = () => {
         <Layout style={styles.section}>
           <Text category='h6'>Meditations</Text>
           <ScrollView horizontal={true} style={styles.horizontalContainer}>
-            {meditations.map(meditation =>
+            {meditationFiles ? renderMeditations() : null}
+            {/* {meditations.map(meditation =>
               <Card
                 key={meditation.name}
                 onPress={() => onMeditationClick(meditation)}
@@ -64,7 +83,7 @@ const HomeScreen = () => {
               >
                 <Text category='s1'>{meditation.name}</Text>
               </Card>
-            )}
+            )} */}
           </ScrollView>
           <Text onPress={onMeditationSyncClick} style={styles.manageMeditationButton}>Manage Meditations</Text>
         </Layout>
