@@ -1,5 +1,7 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { DocumentPickerResponse } from 'react-native-document-picker';
+
 
 // App Navigation
 export type AppStackParamList = {
@@ -17,6 +19,7 @@ export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type HomeStackParamList = {
   HomeDashboard: undefined;
   Meditation: Meditation;
+  MeditationSync: undefined;
 };
 
 interface Meditation {
@@ -28,6 +31,15 @@ export type MeditationScreenNavigationProp = MeditationProps['navigation'];
 export type MeditationStackScreenProps<T extends keyof HomeStackParamList> =
   StackScreenProps<HomeStackParamList, T>;
 
+export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
+export type MeditationSyncScreenNavigationProp = MeditationSyncProps['navigation'];
+
+// File Picker
+export interface PickedFile extends DocumentPickerResponse {
+  normalizedName?: string,
+}
+
+// Global
 declare global {
   namespace ReactNavigation {
     interface RootParamList extends AppStackParamList { }

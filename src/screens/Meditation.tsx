@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import {
   Button,
   Icon,
@@ -11,18 +12,18 @@ import {
 
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
 
-const StarIcon = (props: any) => (
+const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
 );
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
-  const { name } = route.params;
-
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
   const onClosePress = () => {
     navigation.pop();
   }
+
+  const { name } = route.params;
 
   return (
     <Layout style={styles.container}>
@@ -31,7 +32,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
           <Layout style={styles.layout}>
             <Button
               appearance='ghost'
-              accessoryLeft={StarIcon}
+              accessoryLeft={CloseIcon}
               onPress={onClosePress}
             />
           </Layout>

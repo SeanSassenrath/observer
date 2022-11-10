@@ -17,19 +17,21 @@ const SignInScreen = () => {
   }
 
 	return (
-		<SafeAreaView style = {styles.container}>
-			<Layout style={styles.layoutTopContainer}>
-				<Text
-					category='h4'
-					style={styles.title}
-				>
-					Observer
-				</Text>
-			</Layout>
-			<Layout style={styles.layoutBottomContainer}>
-        <Button onPress={onContinuePress} style={styles.button}>CONTINUE</Button>
-			</Layout>
-		</SafeAreaView>
+    <Layout style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <Layout style={styles.layoutTopContainer}>
+          <Text
+            category='h4'
+            style={styles.title}
+          >
+            Observer
+          </Text>
+        </Layout>
+        <Layout style={styles.layoutBottomContainer}>
+          <Button onPress={onContinuePress} style={styles.button}>CONTINUE</Button>
+        </Layout>
+      </SafeAreaView>
+    </Layout>
 	)
 }
 

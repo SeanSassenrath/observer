@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Card, Layout, Text } from '@ui-kitten/components'; 
+import { Button, Card, Layout, Text } from '@ui-kitten/components'; 
 
 import { MeditationScreenNavigationProp } from '../types';
 
@@ -28,12 +28,23 @@ const HomeScreen = () => {
     });
   }
 
+  const onMeditationSyncClick = () => {
+    navigation.navigate('MeditationSync');
+  }
+
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.header}>
           <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
           <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
+        </Layout>
+        <Layout style={styles.section} level='3'>
+          <Text category='h6' style={styles.bannerText}>Add Meditations</Text>
+          <Text category='s1' style={styles.bannerText}>Add meditation files from your phone</Text>
+          <Button onPress={onMeditationSyncClick}>
+            Get Started
+          </Button>
         </Layout>
         <Layout style={styles.section}>
           <Text category='h6'>Meditations</Text>
@@ -55,6 +66,9 @@ const HomeScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  bannerText: {
+    paddingBottom: 10,
+  },
   card: {
     marginRight: 10,
     paddingVertical: 10,
