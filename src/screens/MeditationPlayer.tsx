@@ -1,18 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import TrackPlayer, { Capability  } from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
 import { Button, Layout, Text } from '@ui-kitten/components';
 
 import MeditationDataContext from '../contexts/meditationData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { getMeditation, getTrackURL } from '../utils/meditation';
-
-const trackOne = {
-  title: 'testing',
-  url: require('../tracks/test.mp3'),
-  artist: 'dr joe',
-}
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { meditations } = useContext(MeditationDataContext);
@@ -25,44 +19,48 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const trackURL = getTrackURL(meditation.id);
   const track = {
-    url: require('../tracks/test.mp3'),
+    ...trackURL,
     ...meditation,
   }
 
-  const setupTrackPlayer = async () => {
+  const addTracks = async () => {
     try {
-      await TrackPlayer.setupPlayer();
-      await TrackPlayer.add(trackOne)
-      TrackPlayer.updateOptions({
-        capabilities: [
-          Capability.Play,
-          Capability.Pause,
-          Capability.SkipToNext,
-          Capability.SkipToPrevious,
-          Capability.Stop,
-        ],
-
-        compactCapabilities: [Capability.Play, Capability.Pause],
-      })
+      await TrackPlayer.add(track)
     } catch(e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
+  const removeTracks = async () => {
+    await TrackPlayer.reset();
+    const queue = await TrackPlayer.getQueue();
+    console.log('Track queue - reset', queue);
+  }
+
   useEffect(() => {
-    setupTrackPlayer();
+    addTracks();
+
+    return () => {
+      removeTracks();
+    }
   }, []);
 
   const onClosePress = () => {
     navigation.pop();
   }
 
-  const onPlayPress = () => {
+  const onPlayPress = async () => {
     TrackPlayer.play();
+    await TrackPlayer.getState();
+    const playerPlay = await TrackPlayer.getState();
+    console.log('Player state - Play', playerPlay);
   }
 
-  const onPausePress = () => {
+  const onPausePress = async () => {
     TrackPlayer.pause();
+    await TrackPlayer.getState();
+    const playerPause = await TrackPlayer.getState();
+    console.log('Player state - Pause', playerPause);
   }
 
   return (
