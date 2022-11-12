@@ -18,13 +18,13 @@ export type SignInScreenNavigationProp = SignInProps['navigation'];
 // Home Navigation
 export type HomeStackParamList = {
   HomeDashboard: undefined;
-  Meditation: Meditation;
-  MeditationPlayer: Meditation;
+  Meditation: MeditationParams;
+  MeditationPlayer: MeditationParams;
   MeditationSync: undefined;
 };
 
-interface Meditation {
-  name: string,
+interface MeditationParams {
+  id: string,
 }
 
 export type MeditationProps = NativeStackScreenProps<HomeStackParamList, 'Meditation'>;
@@ -43,6 +43,14 @@ export type MeditationSyncScreenNavigationProp = MeditationSyncProps['navigation
 // File Picker
 export interface PickedFile extends DocumentPickerResponse {
   normalizedName?: string,
+}
+
+// Meditation Data
+export interface Meditation {
+  artist: string,
+  id: string,
+  name: string,
+  size: number,
 }
 
 // Global

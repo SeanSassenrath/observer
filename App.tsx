@@ -15,16 +15,16 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import AppNavigator from './src/navigation/App';
 import MeditationDataContext from './src/contexts/meditationData';
-import { PickedFile } from './src/types';
+import { Meditation } from './src/types';
 
 const App = () => {
-  const [meditationFiles, setMeditationFiles] = useState([] as PickedFile[]);
+  const [meditations, setMeditations] = useState([] as Meditation[]);
 
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
-        <MeditationDataContext.Provider value={{meditationFiles, setMeditationFiles}}>
+        <MeditationDataContext.Provider value={{meditations, setMeditations}}>
           <AppNavigator />
         </MeditationDataContext.Provider>
       </ApplicationProvider>

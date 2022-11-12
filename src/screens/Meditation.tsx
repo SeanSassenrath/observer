@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,29 +11,35 @@ import {
 
 
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
+import MeditationDataContext from '../contexts/meditationData';
+import { getMeditation } from '../utils/meditation';
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
 );
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
+  const { meditations } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
+  const { id } = route.params;
+
+  const meditation = getMeditation(id, meditations)
 
   const onClosePress = () => {
     navigation.pop();
   }
 
   const onStartPress = () => {
-    navigation.navigate('MeditationPlayer', { name });
+    navigation.navigate('MeditationPlayer', { id });
   }
 
-  const { name } = route.params;
+  if (!meditation) return null;
 
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topBar}>
-          <Text category='h4' style={styles.topBarText}>{name}</Text>
+          <Text category='h4' style={styles.topBarText}>{meditation.name}</Text>
           <Button
             appearance='ghost'
             accessoryLeft={CloseIcon}

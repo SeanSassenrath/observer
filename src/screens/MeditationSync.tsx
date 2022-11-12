@@ -5,8 +5,9 @@ import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-pi
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
 
-import { MeditationSyncScreenNavigationProp, PickedFile } from '../types';
+import { MeditationSyncScreenNavigationProp } from '../types';
 import MeditationDataContext, { getMeditationData } from '../contexts/meditationData';
+import { normalizeMeditationData } from '../utils/meditation';
 
 const storageKey = '@meditation_data';
 
@@ -19,17 +20,17 @@ const meditationNameMap: MeditationNameMap = {
   ['02 Body Parts - Space.m4a']: 'Breaking the Habit of Being Yourself',
 }
 
-const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
-  const normalizedFiles: PickedFile[] = []
-  files.map((file, index) => {
-    if (file && file.name) {
-      const normalizedFileName = meditationNameMap[file.name];
-      normalizedFiles.push({ ...file, normalizedName: normalizedFileName })
-    }
-  })
+// const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
+//   const normalizedFiles: PickedFile[] = []
+//   files.map((file, index) => {
+//     if (file && file.name) {
+//       const normalizedFileName = meditationNameMap[file.name];
+//       normalizedFiles.push({ ...file, normalizedName: normalizedFileName })
+//     }
+//   })
 
-  return normalizedFiles;
-}
+//   return normalizedFiles;
+// }
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
@@ -46,7 +47,7 @@ const IndeterminateIcon = (props: any) => (
 const renderMeditationItem = ({ item }: any) => (
   <ListItem
     accessoryLeft={SuccessIcon}
-    title={item.normalizedName}
+    title={item.name}
   />
 )
 
@@ -66,13 +67,13 @@ const placeholderFlatListItems = [
 ]
 
 const MeditationSync = () => {
-  const {meditationFiles, setMeditationFiles} = useContext(MeditationDataContext);
+  const {meditations, setMeditations} = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
   const [fileStored, setFiledStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);
 
   useEffect(() => {
-    getMeditationData(setMeditationFiles);
+    getMeditationData(setMeditations);
   }, [fileStored]);
 
   const onClosePress = () => {
@@ -87,10 +88,10 @@ const MeditationSync = () => {
         presentationStyle: 'fullScreen',
         allowMultiSelection: true,
       });
-      const normalizedMeditationData = normalizeMeditationData(response)
-      const stringifiedNormalizedMeditationData = JSON.stringify(normalizedMeditationData);
-      if (stringifiedNormalizedMeditationData !== null && stringifiedNormalizedMeditationData !==undefined) {
-        await AsyncStorage.setItem(storageKey, stringifiedNormalizedMeditationData);
+      const {meditations, errors} = normalizeMeditationData(response)
+      const stringifiedMeditationData = JSON.stringify(meditations);
+      if (stringifiedMeditationData !== null && stringifiedMeditationData !==undefined) {
+        await AsyncStorage.setItem(storageKey, stringifiedMeditationData);
         setFiledStored(true);
       }
     } catch (err) {
@@ -109,10 +110,10 @@ const MeditationSync = () => {
       console.log('error removing from storage', e)
     }
   
-    setMeditationFiles([])
+    setMeditations([])
   }
 
-  const hasMeditationFiles = meditationFiles && !!meditationFiles.length;
+  const hasMeditationFiles = meditations && !!meditations.length;
 
   return (
     <Layout style={styles.container}>
@@ -135,8 +136,8 @@ const MeditationSync = () => {
                 <Spinner size='giant' />
               </Layout>
             : <FlatList
-                data={meditationFiles || placeholderFlatListItems}
-                renderItem={meditationFiles ? renderMeditationItem : renderPlaceholderItem}
+                data={meditations || placeholderFlatListItems}
+                renderItem={meditations ? renderMeditationItem : renderPlaceholderItem}
               />
           }
           { hasMeditationFiles && !isPickingFiles

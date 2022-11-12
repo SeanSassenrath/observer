@@ -6,26 +6,34 @@ import { Button, Layout, Text } from '@ui-kitten/components';
 
 import MeditationDataContext from '../contexts/meditationData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
+import { getMeditation, getTrackURL } from '../utils/meditation';
 
-const track = {
+const trackOne = {
   title: 'testing',
   url: require('../tracks/test.mp3'),
   artist: 'dr joe',
 }
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
-  const { meditationFiles } = useContext(MeditationDataContext);
+  const { meditations } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
-  const { name } = route.params;
 
-  const meditationFile = meditationFiles.map(meditation => meditation.normalizedName === name);
+  const { id } = route.params;
+  const meditation = getMeditation(id, meditations);
+
+  if (!meditation) return null;
+
+  const trackURL = getTrackURL(meditation.id);
+  const track = {
+    url: require('../tracks/test.mp3'),
+    ...meditation,
+  }
 
   const setupTrackPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer();
-      await TrackPlayer.add(track)
+      await TrackPlayer.add(trackOne)
       TrackPlayer.updateOptions({
-        // Media controls capabilities
         capabilities: [
           Capability.Play,
           Capability.Pause,
@@ -34,7 +42,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
           Capability.Stop,
         ],
 
-        // Capabilities that will show up when the notification is in the compact form on Android
         compactCapabilities: [Capability.Play, Capability.Pause],
       })
     } catch(e) {
