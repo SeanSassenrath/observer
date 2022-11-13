@@ -6,31 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
 
 import { MeditationSyncScreenNavigationProp } from '../types';
-import MeditationDataContext, { getMeditationData } from '../contexts/meditationData';
+import MeditationDataContext, { getMeditationDataFromAsyncStorage, storageKey } from '../contexts/meditationData';
 import { normalizeMeditationData } from '../utils/meditation';
-
-const storageKey = '@meditation_data';
-
-interface MeditationNameMap {
-  [key: string]: string;
-}
-
-const meditationNameMap: MeditationNameMap = {
-  ['01-Introduction_to_Tuning_In_to_New_Potentials.mp3']: 'Tuning Into New Potentials',
-  ['02 Body Parts - Space.m4a']: 'Breaking the Habit of Being Yourself',
-}
-
-// const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
-//   const normalizedFiles: PickedFile[] = []
-//   files.map((file, index) => {
-//     if (file && file.name) {
-//       const normalizedFileName = meditationNameMap[file.name];
-//       normalizedFiles.push({ ...file, normalizedName: normalizedFileName })
-//     }
-//   })
-
-//   return normalizedFiles;
-// }
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
@@ -40,10 +17,6 @@ const SuccessIcon = (props: any) => (
   <Icon {...props} fill='#00A36C' name='checkmark-circle-2-outline' />
 );
 
-const IndeterminateIcon = (props: any) => (
-  <Icon {...props} fill='#8F9BB3' name='minus-circle-outline' />
-);
-
 const renderMeditationItem = ({ item }: any) => (
   <ListItem
     accessoryLeft={SuccessIcon}
@@ -51,29 +24,19 @@ const renderMeditationItem = ({ item }: any) => (
   />
 )
 
-const renderPlaceholderItem = ({ item }: any) => (
-  <ListItem
-    accessoryLeft={IndeterminateIcon}
-    title={item.name}
-  />
-)
-
-const placeholderFlatListItems = [
-  {"name": "Meditation Placeholder"},
-  {"name": "Meditation Placeholder"},
-  {"name": "Meditation Placeholder"},
-  {"name": "Meditation Placeholder"},
-  {"name": "Meditation Placeholder"},
-]
-
 const MeditationSync = () => {
   const {meditations, setMeditations} = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
   const [fileStored, setFiledStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);
 
+  const setMeditationsFromAsyncStorage = async () => {
+    const meditationsFromAsyncStorage = await getMeditationDataFromAsyncStorage();
+    setMeditations(meditationsFromAsyncStorage)
+  }
+
   useEffect(() => {
-    getMeditationData(setMeditations);
+    setMeditationsFromAsyncStorage();
   }, [fileStored]);
 
   const onClosePress = () => {
@@ -88,8 +51,10 @@ const MeditationSync = () => {
         presentationStyle: 'fullScreen',
         allowMultiSelection: true,
       });
-      const {meditations, errors} = normalizeMeditationData(response)
-      const stringifiedMeditationData = JSON.stringify(meditations);
+      const {normalizedMeditations, errors} = normalizeMeditationData(response)
+
+      // join existing meditations and new medidations
+      const stringifiedMeditationData = JSON.stringify(normalizedMeditations);
       if (stringifiedMeditationData !== null && stringifiedMeditationData !==undefined) {
         await AsyncStorage.setItem(storageKey, stringifiedMeditationData);
         setFiledStored(true);
@@ -135,10 +100,12 @@ const MeditationSync = () => {
             ? <Layout style={styles.spinnerContainer}>
                 <Spinner size='giant' />
               </Layout>
-            : <FlatList
-                data={meditations || placeholderFlatListItems}
-                renderItem={meditations ? renderMeditationItem : renderPlaceholderItem}
-              />
+            : hasMeditationFiles 
+              ? <FlatList
+                  data={meditations}
+                  renderItem={renderMeditationItem}
+                />
+              : null
           }
           { hasMeditationFiles && !isPickingFiles
             ? <Button

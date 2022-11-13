@@ -10,16 +10,17 @@ interface MeditationDataContext {
 
 const initialMeditationData = {} as MeditationDataContext;
 
+export const storageKey = '@meditation_data';
+
 const MeditationDataContext = createContext(initialMeditationData);
 
-const storageKey = '@meditation_data';
-
-export const getMeditationData = async (setMeditationFiles: React.Dispatch<React.SetStateAction<Meditation[]>>) => {
+export const getMeditationDataFromAsyncStorage = async () => {
   try {
     const jsonMeditationFiles = await AsyncStorage.getItem(storageKey)
     const meditationFiles = jsonMeditationFiles != null ? JSON.parse(jsonMeditationFiles) : null as Meditation[] | null;
     console.log('Async meditation data value', meditationFiles);
-    setMeditationFiles(meditationFiles)
+    return meditationFiles;
+    // setMeditationFiles(meditationFiles)
   } catch (e) {
     console.log('error with setting meditation files', e);
   }

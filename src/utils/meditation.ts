@@ -44,7 +44,7 @@ const normalizeMeditation = (file: DocumentPickerResponse) => {
 }
 
 export const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
-  const meditations: Meditation[] = []
+  const normalizedMeditations: Meditation[] = []
   const errors: DocumentPickerResponse[] = [];
 
   files.map((file) => {
@@ -53,11 +53,11 @@ export const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
     if (normalizedMeditation === null || normalizedMeditation === undefined) {
       errors.push(file);
     } else {
-      meditations.push(normalizedMeditation);
+      normalizedMeditations.push(normalizedMeditation);
     }
   })
 
-  return { meditations, errors };
+  return { normalizedMeditations, errors };
 };
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>

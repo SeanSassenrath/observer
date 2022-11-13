@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Card, Layout, Text } from '@ui-kitten/components'; 
 
-import MeditationDataContext, { getMeditationData } from '../contexts/meditationData';
+import MeditationDataContext, { getMeditationDataFromAsyncStorage } from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, Meditation } from '../types';
 
 const meditations = [{
@@ -20,8 +20,13 @@ const HomeScreen = () => {
   const { meditations, setMeditations } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
+  const setMeditationsFromAsyncStorage = async () => {
+    const meditationsFromAsyncStorage = await getMeditationDataFromAsyncStorage();
+    setMeditations(meditationsFromAsyncStorage)
+  }
+
   useEffect(() => {
-    getMeditationData(setMeditations);
+    setMeditationsFromAsyncStorage();
   }, []);
 
   const onMeditationClick = (meditation: Meditation) => {
