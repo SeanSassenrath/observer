@@ -1,36 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
-import { Bar } from 'react-native-progress';
-import { Button, Icon, Layout, Text } from '@ui-kitten/components';
+import Slider from '@react-native-community/slider';
+import { Icon, Layout, Text } from '@ui-kitten/components';
 
 import MeditationDataContext from '../contexts/meditationData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { getMeditation, getTrackURL } from '../utils/meditation';
-import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
+
+const brightWhite = '#fcfcfc';
+const lightWhite = '#f3f3f3';
+const lightestWhite = '#dcdcdc';
 
 const CloseIcon = (props: any) => (
-  <Icon {...props} name='close-outline' />
+  <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='close-outline' />
 );
 
 const PlayIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill='#b2b2b2' name='play-circle-outline' />
+  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='play-circle' />
 );
 
 const PauseIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill='#b2b2b2' name='pause-circle-outline' />
+  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='pause-circle' />
 );
 
 const RestartIcon = (props: any) => (
-  <Icon {...props} style={styles.restartIcon} fill='#b2b2b2' name='sync-outline' />
+  <Icon {...props} style={styles.restartIcon} fill={lightWhite} name='sync' />
 );
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { meditations } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
-  const { position, buffered, duration } = useProgress()
+  const { position, duration } = useProgress()
+  const [time, setTime] = React.useState(5);
+  const timerRef = React.useRef(time);
 
   const { id } = route.params;
   const meditation = getMeditation(id, meditations);
@@ -59,9 +64,20 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   useEffect(() => {
     addTracks();
+    const timerId = setInterval(() => {
+      timerRef.current -= 1;
+      if (timerRef.current < 0) {
+        TrackPlayer.play();
+        setIsPlaying(true);
+        clearInterval(timerId);
+      } else {
+        setTime(timerRef.current);
+      }
+    }, 1000);
 
     return () => {
       removeTracks();
+      clearInterval(timerId);
     }
   }, []);
 
@@ -92,57 +108,74 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     console.log('Track seek - 0');
   }
 
-  const trackProgress = (position / duration) || 0;
+  const timePassed = new Date(position * 1000).toISOString().slice(14, 19);
+
+  const timeLeft = new Date((duration - position) * 1000)
+    .toISOString()
+    .slice(14, 19);
 
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topBar}>
-          <Text category='h5' style={styles.topBarText}>{meditation.name}</Text>
-          <Button
-            appearance='ghost'
-            accessoryLeft={CloseIcon}
+          <TouchableWithoutFeedback
             onPress={onClosePress}
-            style={styles.topBarIcon}
-          />
+            // style={styles.closeIconContainer}
+          >
+            <Layout style={styles.closeIconContainer}>
+              <CloseIcon />
+            </Layout>
+          </TouchableWithoutFeedback>
         </Layout>
         <Layout style={styles.main}>
-          <Text></Text>
+          <Layout style={styles.countdownTextContainer}>
+            {time > 0
+              ? <Text style={styles.countdownText}>{time}</Text>
+              : null
+            }
+          </Layout>
+          <Layout style={styles.meditationName}>
+            <Text category='h6' style={styles.meditationNameText}>{meditation.name}</Text>
+          </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
           <TouchableWithoutFeedback
             onPress={onRestartPress}
-            style={styles.test}
           >
-            <RestartIcon />
+            <Layout style={styles.restartContainer}>
+              <RestartIcon />
+            </Layout>
           </TouchableWithoutFeedback>
-          <Bar animationType={'timing'} color={'#B2B2B2'} progress={trackProgress} width={200}/>
-          {isPlaying
+          <Slider
+            style={styles.slider}
+            value={position}
+            minimumValue={0}
+            maximumValue={duration}
+            thumbTintColor={brightWhite}
+            minimumTrackTintColor={brightWhite}
+            maximumTrackTintColor={lightestWhite}
+            onSlidingComplete={TrackPlayer.seekTo}
+          />
+          <Layout style={styles.timeTextContainer}>
+            <Layout style={styles.testTime}>
+              <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
+            </Layout>
+            <Layout style={styles.testTime}>
+              <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
+            </Layout>
+          </Layout>
+          { isPlaying
             ? <TouchableWithoutFeedback
-              onPress={onPausePress}
-              style={styles.test}
-            >
-              <PauseIcon />
-            </TouchableWithoutFeedback>
+                onPress={onPausePress}
+              >
+                <PauseIcon />
+              </TouchableWithoutFeedback>
             : <TouchableWithoutFeedback
                 onPress={onPlayPress}
-                style={styles.test}
               >
-              <PlayIcon />
-            </TouchableWithoutFeedback>
+                <PlayIcon />
+              </TouchableWithoutFeedback>
           }
-          {/* { isPlaying
-            ? <Button
-                appearance='ghost'
-                accessoryLeft={PauseIcon}
-                onPress={onPausePress}
-              />
-            : <Button
-                appearance='ghost'
-                accessoryLeft={PlayIcon}
-                onPress={onPlayPress}
-              />
-          } */}
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -152,15 +185,37 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 const styles = StyleSheet.create({
   bottomBar: {
     flex: 3,
-    justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'red',
+    backgroundColor: 'transparent',
   },
   container: {
     flex: 1,
+    backgroundColor: '#b2b2b2',
   },
   main: {
     flex: 6,
+    backgroundColor: '#transparent',
+    paddingHorizontal: 20,
+  },
+  countdownTextContainer: {
+    flex: 7,
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
+  },
+  meditationName: {
+    flex: 3,
+    backgroundColor: 'transparent',
+    flexDirection: 'column-reverse',
+    paddingBottom: 16,
+    color: 'red',
+  },
+  meditationNameText: {
+    color: '#fcfcfc'
+  },
+  countdownText: {
+    textAlign: 'center',
+    fontSize: 80,
+    color: lightestWhite,
   },
   playerIcon: {
     height: 70,
@@ -171,24 +226,44 @@ const styles = StyleSheet.create({
     width: 30,
   },
   topBar: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    paddingLeft: 20,
-    paddingTop: 20,
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+    backgroundColor: 'transparent',
     flex: 1,
   },
-  topBarText: {
-    flex: 9,
-    // paddingBottom: 20,
+  closeIcon: {
+    height: 20,
+    width: 20,
+
   },
-  topBarIcon: {
-    flex: 1,
+  closeIconContainer: {
+    padding: 20,
+    backgroundColor: 'transparent',
   },
-  test: {
-    // flex: 1,
-    // backgroundColor: 'blue',
+  restartContainer: {
     flexDirection: 'row',
     padding: 20,
+    backgroundColor: 'transparent',
+  },
+  timeTextContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    backgroundColor: 'transparent',
+  },
+  slider: {
+    width: 350,
+    backgroundColor: 'transparent',
+  },
+  testTime: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  timePassed: {
+    color: '#f3f3f3',
+  },
+  timeLeft: {
+    textAlign: 'right',
+    color: '#f3f3f3',
   }
 })
 

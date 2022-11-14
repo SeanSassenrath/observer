@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import {
   Button,
   Icon,
+  Input,
   Layout,
   Text,
 } from '@ui-kitten/components';
@@ -16,6 +17,14 @@ import { getMeditation } from '../utils/meditation';
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
+);
+
+const WarningIcon = (props: any) => (
+  <Icon {...props} style={styles.actionIcon} fill='#b2b2b2' name='bell-off-outline' />
+);
+
+const WatchIcon = (props: any) => (
+  <Icon {...props} style={styles.actionIcon} fill='#b2b2b2' name='clock-outline' />
 );
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
@@ -48,9 +57,20 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
           />
         </Layout>
         <Layout style={styles.mainSection}>
-          <Text category='s1'>Set intention</Text>
-          <Text category='s1'>Turn on do not disturb</Text>
-          <Text category='s1'>Take off watch</Text>
+          <Layout style={styles.actionSection}>
+            <WarningIcon />
+            <Text category='h6' style={styles.actionText}>Turn on do not disturb</Text>
+          </Layout>
+          <Layout style={styles.actionSection}>
+            <WatchIcon />
+            <Text category='h6' style={styles.actionText}>Take off your watch</Text>
+          </Layout>
+          <Layout style={styles.actionSection}>
+            <Input 
+              placeholder='What is your intention?'
+            />
+            <Text category='h6' style={styles.actionText}>Set intention</Text>
+          </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
           <Button onPress={onStartPress}>Start</Button>
@@ -61,6 +81,20 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 }
 
 const styles = StyleSheet.create({
+  actionSection: {
+    padding: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  actionText: {
+    textAlign: 'center',
+    paddingTop: 20,
+  },
+  actionIcon: {
+    height: 50,
+    width: 50,
+    // textAlign: 'center',
+  },
   bottomBar: {
     flex: 1,
     padding: 20,
@@ -83,6 +117,7 @@ const styles = StyleSheet.create({
   mainSection: {
     padding: 20,
     flex: 6,
+    justifyContent: 'center',
   },
   topBar: {
     alignItems: 'flex-start',
