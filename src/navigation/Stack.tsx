@@ -3,28 +3,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TrackPlayer from 'react-native-track-player';
 
-import HomeNavigator from './Home';
 import InitialUploadScreen from '../screens/InitialUpload';
+import MeditationPlayerModal from '../screens/MeditationPlayer';
+import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
 import WelcomeScreen from '../screens/Welcome';
-import { AppStackParamList } from '../types';
+import TabNavigator from './Tab';
+import { StackParamList } from '../types';
 
-const { Navigator, Screen } = createNativeStackNavigator<AppStackParamList>();
+const { Group, Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
-const AppNavigator = () => {
+const StackNavigator = () => {
   const setupPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer();
       const playerState = await TrackPlayer.getState();
       console.log('Setup Player State', playerState);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   }
 
   useEffect(() => {
     setupPlayer();
-  }, []) 
+  }, [])
 
   return (
     <NavigationContainer>
@@ -32,10 +34,14 @@ const AppNavigator = () => {
         <Screen name="Welcome" component={WelcomeScreen} />
         <Screen name="InitialUpload" component={InitialUploadScreen} />
         <Screen name="SignIn" component={SignInScreen} />
-        <Screen name="Home" component={HomeNavigator} />
+        <Screen name="Meditation" component={MeditationScreen} />
+        <Screen name="TabNavigation" component={TabNavigator} />
+        <Group screenOptions={{ presentation: 'modal' }}>
+          <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
+        </Group>
       </Navigator>
     </NavigationContainer>
   )
 }
 
-export default AppNavigator;
+export default StackNavigator;

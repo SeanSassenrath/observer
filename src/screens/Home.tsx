@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Card, Layout, Text } from '@ui-kitten/components'; 
+import { BottomNavigation, BottomNavigationTab, Button, Card, Layout, Text } from '@ui-kitten/components'; 
 
 import MeditationDataContext, { getMeditationDataFromAsyncStorage } from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, Meditation } from '../types';
@@ -88,6 +88,11 @@ const HomeScreen = () => {
           </ScrollView>
           <Text onPress={onMeditationSyncClick} style={styles.manageMeditationButton}>Manage Meditations</Text>
         </Layout>
+        {/* <BottomNavigation>
+          <BottomNavigationTab title='USERS' />
+          <BottomNavigationTab title='ORDERS' />
+          <BottomNavigationTab title='TRANSACTIONS' />
+        </BottomNavigation> */}
       </SafeAreaView>
     </Layout>
   )

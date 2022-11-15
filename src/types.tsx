@@ -1,50 +1,60 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { StackScreenProps } from '@react-navigation/stack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DocumentPickerResponse } from 'react-native-document-picker';
 
-
-// App Navigation
-export type AppStackParamList = {
-  Home: undefined;
+// Stack Navigation
+export type StackParamList = {
   InitialUpload: undefined;
   SignIn: undefined;
   Welcome: undefined;
-};
-
-type HomeProps = NativeStackScreenProps<AppStackParamList, 'Home'>;
-type InitialUploadProps = NativeStackScreenProps<AppStackParamList, 'InitialUpload'>;
-type SignInProps = NativeStackScreenProps<AppStackParamList, 'SignIn'>;
-type WelcomeProps = NativeStackScreenProps<AppStackParamList, 'Welcome'>;
-
-export type HomeScreenNavigationProp = HomeProps['navigation'];
-export type InitialUploadScreenNavigationProp = InitialUploadProps['navigation'];
-export type SignInScreenNavigationProp = SignInProps['navigation'];
-export type WelcomeScreenNavigationProp = WelcomeProps['navigation'];
-
-// Home Navigation
-export type HomeStackParamList = {
-  HomeDashboard: undefined;
   Meditation: MeditationParams;
   MeditationPlayer: MeditationParams;
-  MeditationSync: undefined;
+  TabNavigation: undefined;
 };
 
 interface MeditationParams {
   id: string,
 }
 
-export type MeditationProps = NativeStackScreenProps<HomeStackParamList, 'Meditation'>;
+type InitialUploadProps = NativeStackScreenProps<StackParamList, 'InitialUpload'>;
+type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
+type WelcomeProps = NativeStackScreenProps<StackParamList, 'Welcome'>;
+
+export type InitialUploadScreenNavigationProp = InitialUploadProps['navigation'];
+export type SignInScreenNavigationProp = SignInProps['navigation'];
+export type WelcomeScreenNavigationProp = WelcomeProps['navigation'];
+
+export type MeditationProps = NativeStackScreenProps<StackParamList, 'Meditation'>;
 export type MeditationScreenNavigationProp = MeditationProps['navigation'];
-export type MeditationStackScreenProps<T extends keyof HomeStackParamList> =
-  StackScreenProps<HomeStackParamList, T>;
+export type MeditationStackScreenProps<T extends keyof StackParamList> =
+  StackScreenProps<StackParamList, T>;
 
-export type MeditationPlayerProps = NativeStackScreenProps<HomeStackParamList, 'MeditationPlayer'>;
+export type MeditationPlayerProps = NativeStackScreenProps<StackParamList, 'MeditationPlayer'>;
 export type MeditationPlayerScreenNavigationProp = MeditationProps['navigation'];
-export type MeditationPlayerStackScreenProps<T extends keyof HomeStackParamList> =
-  StackScreenProps<HomeStackParamList, T>;
+export type MeditationPlayerStackScreenProps<T extends keyof StackParamList> =
+  StackScreenProps<StackParamList, T>;
 
-export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
-export type MeditationSyncScreenNavigationProp = MeditationSyncProps['navigation'];
+// Tab Navigation
+export type TabParamList = {
+  Home: undefined;
+  Insight: undefined;
+  Library: undefined;
+  Learn: undefined;
+}
+
+type HomeProps = BottomTabNavigationProp<TabParamList, 'Home'>;
+type InsightProps = BottomTabNavigationProp<TabParamList, 'Insight'>;
+type LibraryProps = BottomTabNavigationProp<TabParamList, 'Library'>;
+type LearnProps = BottomTabNavigationProp<TabParamList, 'Learn'>;
+
+export type HomeScreenNavigationProp = HomeProps['getParent'];
+export type InsightScreenNavigationProp = InsightProps['getParent'];
+export type LibraryScreenNavigationProp = LibraryProps['getParent'];
+export type LearnScreenNavigationProp = LearnProps['getParent'];
+
+// export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
+// export type MeditationSyncScreenNavigationProp = MeditationSyncProps['navigation'];
 
 // File Picker
 export interface PickedFile extends DocumentPickerResponse {
@@ -62,7 +72,7 @@ export interface Meditation {
 // Global
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends AppStackParamList { }
+    interface RootParamList extends StackParamList { }
   }
 }
 

@@ -13,7 +13,7 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
-import AppNavigator from './src/navigation/App';
+import StackNavigator from './src/navigation/Stack';
 import MeditationDataContext from './src/contexts/meditationData';
 import { Meditation } from './src/types';
 
@@ -25,7 +25,7 @@ const App = () => {
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <MeditationDataContext.Provider value={{meditations, setMeditations}}>
-          <AppNavigator />
+          <StackNavigator />
         </MeditationDataContext.Provider>
       </ApplicationProvider>
     </>

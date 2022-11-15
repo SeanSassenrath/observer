@@ -17,7 +17,7 @@ const InitialUploadScreen = () => {
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [screenState, setScreenState] = useState(ScreenState.Inital);
 
-  const onContinuePress = () => navigation.navigate('Home');
+  const onContinuePress = () => navigation.navigate('TabNavigation');
 
   const onUploadPress = async () => {
     const { normalizedMeditations, unsupportedNamesList } = await pickFilesFromDevice()
