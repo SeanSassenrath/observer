@@ -20,27 +20,28 @@ const InitialUploadScreen = () => {
   const onContinuePress = () => navigation.navigate('TabNavigation');
 
   const onUploadPress = async () => {
-    const { normalizedMeditations, unsupportedNamesList } = await pickFilesFromDevice()
+    const pickedFileData = await pickFilesFromDevice()
+    if (!pickedFileData) { return null; }
 
     if (
-      normalizedMeditations.length <= 0 &&
-      unsupportedNamesList.length > 0
+      pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
+      pickedFileData.unsupportedFileNames.length > 0
     ) {
       setScreenState(ScreenState.Fail);
     } else if (
-      normalizedMeditations.length > 0 &&
-      unsupportedNamesList.length > 0
+      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+      pickedFileData.unsupportedFileNames.length > 0
     ) {
       // save normalizedMeditations to Async Storage
       setScreenState(ScreenState.Mixed);
     } else if (
-      normalizedMeditations.length > 0 &&
-      unsupportedNamesList.length <=0
+      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+      pickedFileData.unsupportedFileNames.length <=0
     ) {
       setScreenState(ScreenState.Success);
     }
-    console.log('normalized meditations', normalizedMeditations);
-    console.log('unsupported files', unsupportedNamesList);
+    console.log('unlocked meditation ids', pickedFileData.updatedUnlockedMeditationIds);
+    console.log('unsupported file names', pickedFileData.unsupportedFileNames);
   };
 
   const getScreenStateContent = () => {

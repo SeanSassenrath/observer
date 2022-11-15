@@ -1,92 +1,32 @@
-import { DocumentPickerResponse } from "react-native-document-picker";
 import { Meditation } from "../types";
 
-export enum MeditationKeyss {
-  NewPotentialsOne = '56004113',
-  NewPotentialsOneBreath = '9674897',
-  BreakingTheHabitOne = '149360649',
-  BreakingTheHabitWaterOne = '140710975',
-}
-
-export enum MeditationSizes {
-  NewPotentials = 56004113,
-  NewPotentialsBreath = 9674897,
-  BreakingTheHabit = 149360649,
-  BreakingTheHabitWater = 140710975,
-}
-
-export const getMeditationName = (size: number) => {
-  switch (size) {
-    case MeditationSizes.NewPotentials:
-      return 'Tuning Into New Potentials'
-    case MeditationSizes.NewPotentialsBreath:
-      return 'Tuning Into New Potentials - Breath'
-    case MeditationSizes.BreakingTheHabit:
-      return 'Breaking The Habit Of Being Yourself'
-    case MeditationSizes.BreakingTheHabitWater:
-      return 'Breaking The Habit Of Being Yourself - Water'
-    default:
-      return 'Name not found'
-  }
-}
-
-// const normalizeMeditation = (file: DocumentPickerResponse) => {
-//   if (!file.size) { return null; }
-
-//   const key = JSON.stringify(file.size);
-
-//   return ({
-//     artist: 'Dr Joe Dispenza',
-//     name: getMeditationName(file.size),
-//     id: key,
-//     size: file.size,
-//   })
+// export const getMeditationName = (size: number) => {
+//   switch (size) {
+//     case MeditationSizes.NewPotentials:
+//       return 'Tuning Into New Potentials'
+//     case MeditationSizes.NewPotentialsBreath:
+//       return 'Tuning Into New Potentials - Breath'
+//     case MeditationSizes.BreakingTheHabit:
+//       return 'Breaking The Habit Of Being Yourself'
+//     case MeditationSizes.BreakingTheHabitWater:
+//       return 'Breaking The Habit Of Being Yourself - Water'
+//     default:
+//       return 'Name not found'
+//   }
 // }
-
-// export const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
-//   const normalizedMeditations: Meditation[] = []
-//   const errors: DocumentPickerResponse[] = [];
-
-//   files.map((file) => {
-//     const normalizedMeditation = normalizeMeditation(file);
-
-//     if (normalizedMeditation === null || normalizedMeditation === undefined) {
-//       errors.push(file);
-//     } else {
-//       normalizedMeditations.push(normalizedMeditation);
-//     }
-//   })
-
-//   return { normalizedMeditations, errors };
-// };
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
 
-interface TrackURL {
-  url: any;
-}
+// interface TrackURL {
+//   url: any;
+// }
 
-interface MeditationMap {
-  [key: string]: TrackURL,
-} 
+// interface MeditationMap {
+//   [key: string]: Meditation,
+// }
 
-export const meditationMap: MeditationMap = {
-  ['9674897']: {
-    url: require('../tracks/9674897.mp3'),
-  },
-  ['56004113']: {
-    url: require('../tracks/56004113.mp3'),
-  },
-  ['149360649']: {
-    url: require('../tracks/149360649.m4a'),
-  },
-  ['140710975']: {
-    url: require('../tracks/140710975.m4a'),
-  },
-}
-
-export const getTrackURL = (key: string) => meditationMap[key];
+// export const getTrackURL = (key: string) => meditationMap[key];
 
 // file picker
 // map over files

@@ -3,6 +3,8 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DocumentPickerResponse } from 'react-native-document-picker';
 
+import { MeditationGroup, MeditationSizes } from './constants/meditation';
+
 // Stack Navigation
 export type StackParamList = {
   InitialUpload: undefined;
@@ -62,11 +64,24 @@ export interface PickedFile extends DocumentPickerResponse {
 }
 
 // Meditation Data
+type MeditationArtist = string;
+type MeditationFormattedDuration = string;
+export type MeditationId = string;
+type MeditationInstanceId = string;
+type MeditationName = string;
 export interface Meditation {
-  artist: string,
-  id: string,
-  name: string,
-  size: number,
+  artist: MeditationArtist,
+  formattedDuration: MeditationFormattedDuration,
+  id: MeditationInstanceId,
+  group: MeditationGroup,
+  meditationId: MeditationId,
+  name: MeditationName,
+  size: MeditationSizes,
+  url: any,
+}
+
+export interface MeditationMap {
+  [key: string]: Meditation,
 }
 
 // Global
