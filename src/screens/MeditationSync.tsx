@@ -1,13 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
 
 import { MeditationSyncScreenNavigationProp } from '../types';
 import MeditationDataContext, { getMeditationDataFromAsyncStorage, storageKey } from '../contexts/meditationData';
-import { normalizeMeditationData } from '../utils/meditation';
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
@@ -27,7 +25,7 @@ const renderMeditationItem = ({ item }: any) => (
 const MeditationSync = () => {
   const {meditations, setMeditations} = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
-  const [fileStored, setFiledStored] = useState(false);
+  const [fileStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);
 
   const setMeditationsFromAsyncStorage = async () => {
@@ -45,23 +43,6 @@ const MeditationSync = () => {
 
   const handleDocumentSelection = useCallback(async () => {
     setIsPickingFiles(true);
-  
-    try {
-      const response = await DocumentPicker.pick({
-        presentationStyle: 'fullScreen',
-        allowMultiSelection: true,
-      });
-      const {normalizedMeditations, errors} = normalizeMeditationData(response)
-
-      // join existing meditations and new medidations
-      const stringifiedMeditationData = JSON.stringify(normalizedMeditations);
-      if (stringifiedMeditationData !== null && stringifiedMeditationData !==undefined) {
-        await AsyncStorage.setItem(storageKey, stringifiedMeditationData);
-        setFiledStored(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
 
     setTimeout(() => {
       setIsPickingFiles(false);

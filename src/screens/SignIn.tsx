@@ -12,23 +12,22 @@ import { SignInScreenNavigationProp } from '../types';
 const SignInScreen = () => {
   const navigation = useNavigation<SignInScreenNavigationProp>();
 
-  const onContinuePress = () => {
-    navigation.navigate('Home');
-  }
+  const onContinuePress = () => navigation.navigate('InitialUpload');
 
 	return (
-    <Layout style={styles.container}>
+    <Layout style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.layoutTopContainer}>
-          <Text
-            category='h4'
-            style={styles.title}
-          >
-            Observer
-          </Text>
+        <Layout style={styles.topContainer}>
+          <Layout style={styles.imgPlaceholder}/>
         </Layout>
-        <Layout style={styles.layoutBottomContainer}>
-          <Button onPress={onContinuePress} style={styles.button}>CONTINUE</Button>
+        <></>
+        <Layout style={styles.bottomContainer}>
+          <Button onPress={onContinuePress} style={styles.button}>Sign In With Google</Button>
+          <Button onPress={onContinuePress} style={styles.button}>Sign in With Apple</Button>
+          <Text category='p2' style={styles.disclaimer}>
+            Accounts are required to give you more information about your meditations.
+            We will never sell your data to anyone.
+          </Text>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -39,22 +38,34 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 	},
-	layoutTopContainer: {
+  disclaimer: {
+    marginBottom: 30,
+    marginTop: 20,
+  },
+	topContainer: {
 		alignItems: 'center',
+    justifyContent: 'center',
 		flex: 7,
-		padding: 20,		
+		padding: 20,
 	},
-	layoutBottomContainer: {
+	bottomContainer: {
 		flex: 3,
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	title: {
-		padding: 18
-	},
 	button: {
+    marginVertical: 12,
 		width: 200
-	}
+	},
+  imgPlaceholder: {
+    height: 300,
+    width: 300,
+    backgroundColor: 'gray',
+  },
+  rootContainer: {
+    flex: 1,
+    padding: 20,
+  },
 });
 
 export default SignInScreen;

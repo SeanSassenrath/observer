@@ -6,14 +6,20 @@ import { DocumentPickerResponse } from 'react-native-document-picker';
 // App Navigation
 export type AppStackParamList = {
   Home: undefined;
+  InitialUpload: undefined;
   SignIn: undefined;
+  Welcome: undefined;
 };
 
 type HomeProps = NativeStackScreenProps<AppStackParamList, 'Home'>;
+type InitialUploadProps = NativeStackScreenProps<AppStackParamList, 'InitialUpload'>;
 type SignInProps = NativeStackScreenProps<AppStackParamList, 'SignIn'>;
+type WelcomeProps = NativeStackScreenProps<AppStackParamList, 'Welcome'>;
 
 export type HomeScreenNavigationProp = HomeProps['navigation'];
+export type InitialUploadScreenNavigationProp = InitialUploadProps['navigation'];
 export type SignInScreenNavigationProp = SignInProps['navigation'];
+export type WelcomeScreenNavigationProp = WelcomeProps['navigation'];
 
 // Home Navigation
 export type HomeStackParamList = {

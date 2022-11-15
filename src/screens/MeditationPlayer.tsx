@@ -120,7 +120,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         <Layout style={styles.topBar}>
           <TouchableWithoutFeedback
             onPress={onClosePress}
-            // style={styles.closeIconContainer}
           >
             <Layout style={styles.closeIconContainer}>
               <CloseIcon />
@@ -234,7 +233,6 @@ const styles = StyleSheet.create({
   closeIcon: {
     height: 20,
     width: 20,
-
   },
   closeIconContainer: {
     padding: 20,

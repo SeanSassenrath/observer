@@ -4,7 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TrackPlayer from 'react-native-track-player';
 
 import HomeNavigator from './Home';
+import InitialUploadScreen from '../screens/InitialUpload';
 import SignInScreen from '../screens/SignIn';
+import WelcomeScreen from '../screens/Welcome';
 import { AppStackParamList } from '../types';
 
 const { Navigator, Screen } = createNativeStackNavigator<AppStackParamList>();
@@ -27,6 +29,8 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
+        <Screen name="Welcome" component={WelcomeScreen} />
+        <Screen name="InitialUpload" component={InitialUploadScreen} />
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="Home" component={HomeNavigator} />
       </Navigator>

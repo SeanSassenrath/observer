@@ -30,35 +30,35 @@ export const getMeditationName = (size: number) => {
   }
 }
 
-const normalizeMeditation = (file: DocumentPickerResponse) => {
-  if (!file.size) { return null; }
+// const normalizeMeditation = (file: DocumentPickerResponse) => {
+//   if (!file.size) { return null; }
 
-  const key = JSON.stringify(file.size);
+//   const key = JSON.stringify(file.size);
 
-  return ({
-    artist: 'Dr Joe Dispenza',
-    name: getMeditationName(file.size),
-    id: key,
-    size: file.size,
-  })
-}
+//   return ({
+//     artist: 'Dr Joe Dispenza',
+//     name: getMeditationName(file.size),
+//     id: key,
+//     size: file.size,
+//   })
+// }
 
-export const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
-  const normalizedMeditations: Meditation[] = []
-  const errors: DocumentPickerResponse[] = [];
+// export const normalizeMeditationData = (files: DocumentPickerResponse[]) => {
+//   const normalizedMeditations: Meditation[] = []
+//   const errors: DocumentPickerResponse[] = [];
 
-  files.map((file) => {
-    const normalizedMeditation = normalizeMeditation(file);
+//   files.map((file) => {
+//     const normalizedMeditation = normalizeMeditation(file);
 
-    if (normalizedMeditation === null || normalizedMeditation === undefined) {
-      errors.push(file);
-    } else {
-      normalizedMeditations.push(normalizedMeditation);
-    }
-  })
+//     if (normalizedMeditation === null || normalizedMeditation === undefined) {
+//       errors.push(file);
+//     } else {
+//       normalizedMeditations.push(normalizedMeditation);
+//     }
+//   })
 
-  return { normalizedMeditations, errors };
-};
+//   return { normalizedMeditations, errors };
+// };
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
@@ -67,11 +67,11 @@ interface TrackURL {
   url: any;
 }
 
-interface TrackURLMap {
+interface MeditationMap {
   [key: string]: TrackURL,
 } 
 
-const trackURLMap: TrackURLMap = {
+export const meditationMap: MeditationMap = {
   ['9674897']: {
     url: require('../tracks/9674897.mp3'),
   },
@@ -86,7 +86,7 @@ const trackURLMap: TrackURLMap = {
   },
 }
 
-export const getTrackURL = (key: string) => trackURLMap[key];
+export const getTrackURL = (key: string) => meditationMap[key];
 
 // file picker
 // map over files
