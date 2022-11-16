@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
+import _ from 'lodash';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
-import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
+import RecentMeditationIdsContext from '../contexts/recentMeditationData';
+import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -30,6 +32,7 @@ const RestartIcon = (props: any) => (
 );
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
+  const { recentMeditationIds, setRecentMeditationIds } = useContext(RecentMeditationIdsContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const { position, duration } = useProgress()
@@ -41,12 +44,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   if (!meditation) return null;
 
-  // const trackURL = getTrackURL(meditation.id);
-  // const track = {
-  //   ...trackURL,
-  //   ...meditation,
-  // }
-
   const addTracks = async () => {
     try {
       await TrackPlayer.add(meditation)
@@ -57,18 +54,29 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const removeTracks = async () => {
     await TrackPlayer.reset();
-    const queue = await TrackPlayer.getQueue();
-    console.log('Track queue - reset', queue);
+  }
+
+  const updateRecentMeditationIds = () => {
+    if (meditation) {
+      const recentlyPlayedIds = [meditation.meditationId, ...recentMeditationIds];
+      const dedupedRecentlyPlayedIds = _.uniq(recentlyPlayedIds);
+      return dedupedRecentlyPlayedIds.slice(0, 8);
+    }
   }
 
   useEffect(() => {
     addTracks();
+    const recentMeditationIds = updateRecentMeditationIds();
     const timerId = setInterval(() => {
       timerRef.current -= 1;
       if (timerRef.current < 0) {
         TrackPlayer.play();
         setIsPlaying(true);
         clearInterval(timerId);
+        if (recentMeditationIds) {
+          setRecentMeditationIdsInAsyncStorage(recentMeditationIds)
+          setRecentMeditationIds(recentMeditationIds)
+        }
       } else {
         setTime(timerRef.current);
       }
@@ -88,23 +96,18 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     TrackPlayer.play();
     await TrackPlayer.getState();
     const playerPlay = await TrackPlayer.getState();
-    console.log('Player state - Pushed Play', playerPlay);
     setIsPlaying(true);
-    console.log('is playing state - Pushed Play', isPlaying)
   }
 
   const onPausePress = async () => {
     TrackPlayer.pause();
     await TrackPlayer.getState();
     const playerPause = await TrackPlayer.getState();
-    console.log('Player state - Pushed Pause', playerPause);
     setIsPlaying(false);
-    console.log('is playing state - Pushed Pause', isPlaying)
   }
 
   const onRestartPress = async () => {
     TrackPlayer.seekTo(0);
-    console.log('Track seek - 0');
   }
 
   const timePassed = new Date(position * 1000).toISOString().slice(14, 19);
