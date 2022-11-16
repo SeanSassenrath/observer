@@ -1,59 +1,60 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { BottomNavigation, BottomNavigationTab, Button, Card, Layout, Text } from '@ui-kitten/components'; 
+import _ from 'lodash';
+import { Button, Card, Layout, Text } from '@ui-kitten/components'; 
 
-import MeditationDataContext, { getMeditationDataFromAsyncStorage } from '../contexts/meditationData';
-import { MeditationScreenNavigationProp, Meditation } from '../types';
-
-const meditations = [{
-  name: 'Blessing of the energy centers'
-}, {
-  name: 'Tuning into new potentials'
-}, {
-  name: 'Breaking the habit of being yourself'
-}, {
-  name: 'Walking Meditation'
-}]
+import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from '../contexts/meditationData';
+import { MeditationScreenNavigationProp, MeditationId } from '../types';
+import { meditationMap } from '../constants/meditation';
+import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
+import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 
 const HomeScreen = () => {
-  const { meditations, setMeditations } = useContext(MeditationDataContext);
+  const { unlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
+  const [meditationGroups, setMeditationGroups] = useState({} as MeditationGroupMap)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
-  const setMeditationsFromAsyncStorage = async () => {
-    const meditationsFromAsyncStorage = await getMeditationDataFromAsyncStorage();
-    setMeditations(meditationsFromAsyncStorage)
-  }
-
   useEffect(() => {
-    setMeditationsFromAsyncStorage();
+    const meditationGroups = makeMeditationGroups(unlockedMeditationIds);
+    setMeditationGroups(meditationGroups);
   }, []);
 
-  const onMeditationClick = (meditation: Meditation) => {
-    if (meditation && meditation.name) {
+  const onMeditationClick = (meditationId: MeditationId) => {
+    if (meditationId) {
       navigation.navigate('Meditation', {
-        id: meditation.id,
+        id: meditationId,
       });
     }
   }
 
-  const onMeditationSyncClick = () => {
-    navigation.navigate('MeditationSync');
+  const renderMeditationGroupSections = () => {
+    const meditationGroupsList = Object.entries(meditationGroups)
+    return meditationGroupsList.map(([key, meditationIds]) => {
+      console.log('key', key)
+      console.log('value', meditationIds)
+      const firstMeditationId = _.head(meditationIds)
+      if (!firstMeditationId) { return null; }
+      const firstMeditation = meditationMap[firstMeditationId];
+
+      return (
+        <Layout key={firstMeditation.groupKey}>
+          <Text category='h6'>{firstMeditation.groupName}</Text>
+          <ScrollView horizontal={true} style={styles.horizontalContainer}>
+            {meditationIds.map(meditationId => (
+              <Card
+                key={meditationMap[meditationId].meditationId}
+                onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
+                style={styles.card}
+              >
+                <Text category='s1'>{meditationMap[meditationId].name}</Text>
+              </Card>
+            ))}
+          </ScrollView>
+        </Layout>
+      )
+    })
   }
-
-  const hasMeditationFiles = meditations && meditations.length;
-
-  const renderMeditations = () => (
-    meditations.map(meditation => (
-      <Card
-        key={meditation.id}
-        onPress={() => onMeditationClick(meditation)}
-        style={styles.card}
-      >
-        <Text category='s1'>{meditation.name}</Text>
-      </Card>
-    ))
-  )
 
   return (
     <Layout style={styles.container}>
@@ -62,37 +63,16 @@ const HomeScreen = () => {
           <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
           <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
         </Layout>
-        { !hasMeditationFiles
-          ? <Layout style={styles.section} level='3'>
-              <Text category='h6' style={styles.bannerText}>Add Meditations</Text>
-              <Text category='s1' style={styles.bannerText}>Add meditation files from your phone</Text>
-              <Button onPress={onMeditationSyncClick}>
-                Get Started
-              </Button>
-            </Layout>
-          : null
-        }
         <Layout style={styles.section}>
-          <Text category='h6'>Meditations</Text>
-          <ScrollView horizontal={true} style={styles.horizontalContainer}>
-            {meditations ? renderMeditations() : null}
-            {/* {meditations.map(meditation =>
-              <Card
-                key={meditation.name}
-                onPress={() => onMeditationClick(meditation)}
-                style={styles.card}
-              >
-                <Text category='s1'>{meditation.name}</Text>
-              </Card>
-            )} */}
-          </ScrollView>
-          <Text onPress={onMeditationSyncClick} style={styles.manageMeditationButton}>Manage Meditations</Text>
+          {renderMeditationGroupSections() }
         </Layout>
-        {/* <BottomNavigation>
-          <BottomNavigationTab title='USERS' />
-          <BottomNavigationTab title='ORDERS' />
-          <BottomNavigationTab title='TRANSACTIONS' />
-        </BottomNavigation> */}
+        <Button
+          size='small'
+          appearance='ghost'
+          onPress={removeUnlockedMeditationIdsFromAsyncStorage}
+        >
+          Remove Meditation Ids
+        </Button>
       </SafeAreaView>
     </Layout>
   )

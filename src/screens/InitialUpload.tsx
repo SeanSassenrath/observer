@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button, Layout, Text } from '@ui-kitten/components/ui';
 
 import { InitialUploadScreenNavigationProp } from '../types';
-import { pickFilesFromDevice } from '../utils/filePicker';
+import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
+import UnlockedMeditationIdsContext from '../contexts/meditationData';
 
 enum ScreenState {
   'Inital',
@@ -14,6 +15,7 @@ enum ScreenState {
 }
 
 const InitialUploadScreen = () => {
+  const { setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [screenState, setScreenState] = useState(ScreenState.Inital);
 
@@ -32,16 +34,21 @@ const InitialUploadScreen = () => {
       pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
       pickedFileData.unsupportedFileNames.length > 0
     ) {
-      // save normalizedMeditations to Async Storage
+      setUnlockedMeditationIdsInAsyncStorage(
+        pickedFileData.updatedUnlockedMeditationIds,
+      )
+      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
       setScreenState(ScreenState.Mixed);
     } else if (
       pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
       pickedFileData.unsupportedFileNames.length <=0
     ) {
+      setUnlockedMeditationIdsInAsyncStorage(
+        pickedFileData.updatedUnlockedMeditationIds,
+      )
+      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
       setScreenState(ScreenState.Success);
     }
-    console.log('unlocked meditation ids', pickedFileData.updatedUnlockedMeditationIds);
-    console.log('unsupported file names', pickedFileData.unsupportedFileNames);
   };
 
   const getScreenStateContent = () => {

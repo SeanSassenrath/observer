@@ -42,15 +42,21 @@ const parsePickedFiles = (files: DocumentPickerResponse[]) => {
 
 export const setUnlockedMeditationIdsInAsyncStorage = async (
   unlockedMeditationIds: MeditationId[],
-  setFiledStoredState: (p: boolean) => void,
 ) => {
   try {
     const stringifiedMeditationData = JSON.stringify(unlockedMeditationIds);
     if (stringifiedMeditationData !== null && stringifiedMeditationData !== undefined) {
       await AsyncStorage.setItem(storageKey, stringifiedMeditationData);
     }
-    setFiledStoredState(true)
   } catch(e) {
     console.log('Error with setting meditation data to Async Storage', e);
+  }
+}
+
+export const removeUnlockedMeditationIdsFromAsyncStorage = async () => {
+  try {
+    await AsyncStorage.removeItem(storageKey)
+  } catch (e) {
+    console.log('error removing from storage', e)
   }
 }

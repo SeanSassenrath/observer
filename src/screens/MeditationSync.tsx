@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
 
 import { MeditationSyncScreenNavigationProp } from '../types';
-import MeditationDataContext, { getMeditationDataFromAsyncStorage, storageKey } from '../contexts/meditationData';
+import UnlockedMeditationIdsContext, { getMeditationDataFromAsyncStorage, storageKey } from '../contexts/meditationData';
 
 const CloseIcon = (props: any) => (
   <Icon {...props} name='close-outline' />
@@ -23,7 +23,7 @@ const renderMeditationItem = ({ item }: any) => (
 )
 
 const MeditationSync = () => {
-  const {meditations, setMeditations} = useContext(MeditationDataContext);
+  const {meditations, setMeditations} = useContext(UnlockedMeditationIdsContext);
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
   const [fileStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);

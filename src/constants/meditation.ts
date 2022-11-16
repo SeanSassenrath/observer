@@ -14,7 +14,13 @@ export enum MeditationSizes {
   BreakingTheHabitWater = 140710975,
 }
 
-export enum MeditationGroup {
+export enum MeditationGroupKey {
+  'EnergyCenter' = 'energyCenter',
+  'NewPotential' = 'newPotential',
+  'BreakingHabit' = 'breakingHabit',
+}
+
+export enum MeditationGroupName {
   'EnergyCenter' = 'Blessing of the Energy Centers',
   'NewPotential' = 'Tuning Into New Potentials',
   'BreakingHabit' = 'Breaking the Habit of Being Yourself',
@@ -28,7 +34,8 @@ export const meditationMap: MeditationMap = {
     artist,
     formattedDuration: placeholder,
     id: placeholder,
-    group: MeditationGroup.NewPotential,
+    groupKey: MeditationGroupKey.NewPotential,
+    groupName: MeditationGroupName.NewPotential,
     meditationId: MeditationKeys.NewPotentials,
     name: 'Tuning Into New Potentials',
     size: MeditationSizes.NewPotentials,
@@ -38,7 +45,8 @@ export const meditationMap: MeditationMap = {
     artist,
     formattedDuration: placeholder,
     id: placeholder,
-    group: MeditationGroup.NewPotential,
+    groupKey: MeditationGroupKey.NewPotential,
+    groupName: MeditationGroupName.NewPotential,
     meditationId: MeditationKeys.NewPotentialsBreath,
     name: 'Tuning Into New Potentials - Breath',
     size: MeditationSizes.NewPotentialsBreath,
@@ -48,20 +56,25 @@ export const meditationMap: MeditationMap = {
     artist,
     formattedDuration: placeholder,
     id: placeholder,
-    group: MeditationGroup.BreakingHabit,
+    groupKey: MeditationGroupKey.BreakingHabit,
+    groupName: MeditationGroupName.BreakingHabit,
     meditationId: MeditationKeys.BreakingTheHabit,
     name: 'Breaking The Habit Of Being Yourself',
     size: MeditationSizes.BreakingTheHabit,
     url: require('../tracks/149360649.m4a'),
   },
-  ['140710975']: {
+  [MeditationKeys.BreakingTheHabitWater]: {
     artist,
     formattedDuration: placeholder,
     id: placeholder,
-    group: MeditationGroup.BreakingHabit,
+    groupKey: MeditationGroupKey.BreakingHabit,
+    groupName: MeditationGroupName.BreakingHabit,
     meditationId: MeditationKeys.BreakingTheHabitWater,
     name: 'Breaking The Habit Of Being Yourself - Water',
     size: MeditationSizes.BreakingTheHabitWater,
     url: require('../tracks/140710975.m4a'),
   },
 }
+
+export const newPotentialGroupIds = [MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath]
+export const breakingHabitGroupIds = [MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater];

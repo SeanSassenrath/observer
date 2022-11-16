@@ -14,19 +14,19 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 import StackNavigator from './src/navigation/Stack';
-import MeditationDataContext from './src/contexts/meditationData';
-import { Meditation } from './src/types';
+import UnlockedMeditationIdsContext from './src/contexts/meditationData';
+import { MeditationId } from './src/types';
 
 const App = () => {
-  const [meditations, setMeditations] = useState([] as Meditation[]);
+  const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
 
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
-        <MeditationDataContext.Provider value={{meditations, setMeditations}}>
+        <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
           <StackNavigator />
-        </MeditationDataContext.Provider>
+        </UnlockedMeditationIdsContext.Provider>
       </ApplicationProvider>
     </>
   );

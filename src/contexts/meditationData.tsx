@@ -1,29 +1,30 @@
 import React, { createContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { Meditation } from '../types';
+import { Meditation, MeditationId } from '../types';
 
-interface MeditationDataContext {
-  meditations: Meditation[],
-  setMeditations: React.Dispatch<React.SetStateAction<Meditation[]>>, 
+interface UnlockedMeditationIdsContext {
+  unlockedMeditationIds: MeditationId[],
+  setUnlockedMeditationIds: React.Dispatch<React.SetStateAction<MeditationId[]>>, 
 }
 
-const initialMeditationData = {} as MeditationDataContext;
+const initialMeditationData = {} as UnlockedMeditationIdsContext;
 
 export const storageKey = '@unlocked_meditation_ids';
 
-const MeditationDataContext = createContext(initialMeditationData);
+const UnlockedMeditationIdsContext = createContext(initialMeditationData);
 
-export const getMeditationDataFromAsyncStorage = async () => {
+export const getUnlockedMeditationIdsFromAsyncStorage = async () => {
   try {
-    const jsonMeditationFiles = await AsyncStorage.getItem(storageKey)
-    const accessKeys = jsonMeditationFiles != null ? JSON.parse(jsonMeditationFiles) : null as Meditation[] | null;
-    console.log('Async meditation data value', meditationFiles);
-    return meditationFiles;
-    // setMeditationFiles(meditationFiles)
+    const unlockedMeditationIdsData = await AsyncStorage.getItem(storageKey)
+    const unlockedMeditationIds = unlockedMeditationIdsData != null
+      ? JSON.parse(unlockedMeditationIdsData)
+      : null as MeditationId[] | null;
+    console.log('Async meditation data value', unlockedMeditationIds);
+    return unlockedMeditationIds;
   } catch (e) {
     console.log('error with setting meditation files', e);
   }
 }
 
-export default MeditationDataContext;
+export default UnlockedMeditationIdsContext;

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
-import MeditationDataContext from '../contexts/meditationData';
+import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
-import { getMeditation, getTrackURL } from '../utils/meditation';
+import { meditationMap } from '../constants/meditation';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -30,7 +30,6 @@ const RestartIcon = (props: any) => (
 );
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
-  const { meditations } = useContext(MeditationDataContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const { position, duration } = useProgress()
@@ -38,19 +37,19 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const timerRef = React.useRef(time);
 
   const { id } = route.params;
-  const meditation = getMeditation(id, meditations);
+  const meditation = meditationMap[id]
 
   if (!meditation) return null;
 
-  const trackURL = getTrackURL(meditation.id);
-  const track = {
-    ...trackURL,
-    ...meditation,
-  }
+  // const trackURL = getTrackURL(meditation.id);
+  // const track = {
+  //   ...trackURL,
+  //   ...meditation,
+  // }
 
   const addTracks = async () => {
     try {
-      await TrackPlayer.add(track)
+      await TrackPlayer.add(meditation)
     } catch(e) {
       console.log(e);
     }

@@ -3,7 +3,7 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { DocumentPickerResponse } from 'react-native-document-picker';
 
-import { MeditationGroup, MeditationSizes } from './constants/meditation';
+import { MeditationGroupKey, MeditationGroupName, MeditationSizes } from './constants/meditation';
 
 // Stack Navigation
 export type StackParamList = {
@@ -69,11 +69,13 @@ type MeditationFormattedDuration = string;
 export type MeditationId = string;
 type MeditationInstanceId = string;
 type MeditationName = string;
+
 export interface Meditation {
   artist: MeditationArtist,
   formattedDuration: MeditationFormattedDuration,
   id: MeditationInstanceId,
-  group: MeditationGroup,
+  groupKey: MeditationGroupKey,
+  groupName: MeditationGroupName,
   meditationId: MeditationId,
   name: MeditationName,
   size: MeditationSizes,

@@ -31,9 +31,6 @@ const TabNavigator = () => (
     tabBarIcon: ({ color, size }) => {
       const routeName = route.name;
       const tabBarIcon = getTabBarIcon(routeName);
-
-      console.log('TAB BAR ICON', tabBarIcon);
-      console.log('Size', size);
       return <Icon fill={color} style={{ height: size, width: size }} name={tabBarIcon} />;
     }
   })}>
