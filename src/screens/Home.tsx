@@ -57,6 +57,7 @@ const HomeScreen = () => {
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.test}>
         <Layout style={styles.headerContainer}>
           <Layout>
             <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
@@ -66,23 +67,31 @@ const HomeScreen = () => {
             <FaceIcon />
           </Layout>
         </Layout>
-        <Layout style={styles.contentContainer}>
-          {renderRecentMeditations()}
-        </Layout>
-        <Button
-          size='small'
-          appearance='ghost'
-          onPress={removeUnlockedMeditationIdsFromAsyncStorage}
-        >
-          Remove Meditation Ids
-        </Button>
-        <Button
-          size='small'
-          appearance='ghost'
-          onPress={removeRecentMeditationIdsFromAsyncStorage}
-        >
-          Remove Recent Ids
-        </Button>
+          <Layout>
+            {renderRecentMeditations()}
+            <Button
+              size='small'
+              appearance='ghost'
+              onPress={removeUnlockedMeditationIdsFromAsyncStorage}
+            >
+              Remove Meditation Ids
+            </Button>
+            <Button
+              size='small'
+              appearance='ghost'
+              onPress={removeRecentMeditationIdsFromAsyncStorage}
+            >
+              Remove Recent Ids
+            </Button>
+            <Button
+              size='small'
+              appearance='ghost'
+              onPress={removeRecentMeditationIdsFromAsyncStorage}
+            >
+              Remove FTUX state
+            </Button>
+          </Layout>
+        </ScrollView>
       </SafeAreaView>
     </Layout>
   )
@@ -103,9 +112,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  contentContainer: {
-    flex: 8,
-  },
   faceIcon: {
     height: 35,
     width: 35,
@@ -122,9 +128,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flex: 2,
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingVertical: 30,
   },
   headerText: {
     padding: 2,
@@ -140,6 +145,10 @@ const styles = StyleSheet.create({
   meditationGroup: {
     paddingHorizontal: 20,
   },
+  test: {
+    flex: 1,
+    flexDirection: 'column'
+  }
 })
 
 export default HomeScreen;
