@@ -40,13 +40,14 @@ const LibraryScreen = () => {
 
       return (
         <Layout key={firstMeditation.groupKey} style={styles.section}>
-          <Text category='h6'>{firstMeditation.groupName}</Text>
+          <Text category='h6' style={styles.groupHeader}>{firstMeditation.groupName}</Text>
           <ScrollView horizontal={true} style={styles.horizontalContainer}>
-            {meditationIds.map(meditationId => (
+            {meditationIds.map((meditationId, i) => (
               <Card
+                appearance='filled'
                 key={meditationMap[meditationId].meditationId}
                 onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-                style={styles.card}
+                style={i === 0 ? styles.firstCard : styles.card}
               >
                 <Text category='s1'>{meditationMap[meditationId].name}</Text>
               </Card>
@@ -75,6 +76,7 @@ const LibraryScreen = () => {
 
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: '#31384b',
     marginRight: 10,
     width: 200,
     height: 200,
@@ -88,10 +90,24 @@ const styles = StyleSheet.create({
     height: 35,
     width: 35,
   },
+  firstCard: {
+    marginRight: 10,
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    justifyContent: 'flex-end',
+    backgroundColor: '#31384b',
+    marginLeft: 20,
+  },
+  groupHeader: {
+    paddingHorizontal: 20,
+    width: 300,
+  },
   headerContainer: {
     flex: 1,
     alignItems: 'flex-end',
-    paddingVertical: 10,
+    paddingTop: 30,
+    paddingHorizontal: 20,
   },
   headerText: {
     padding: 2,
@@ -104,7 +120,6 @@ const styles = StyleSheet.create({
   },
   rootContainer: {
     flex: 1,
-    padding: 20,
   },
 })
 

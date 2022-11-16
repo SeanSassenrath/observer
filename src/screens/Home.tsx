@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import _ from 'lodash';
+import _, { reduce } from 'lodash';
 import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components'; 
 
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
@@ -38,13 +38,14 @@ const HomeScreen = () => {
 
   const renderRecentMeditations = () => (
     <Layout>
-      <Text category='h6'>Recent Meditations</Text>
+      <Text category='h6' style={styles.meditationGroup}>Recent Meditations</Text>
       <ScrollView horizontal={true} style={styles.horizontalContainer}>
-        {recentMeditationIds.map(meditationId => (
+        {recentMeditationIds.map((meditationId, i) => (
           <Card
+            appearance='filled'
             key={meditationMap[meditationId].meditationId}
             onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-            style={styles.card}
+            style={i === 0 ? styles.firstCard : styles.card}
           >
             <Text category='s1'>{meditationMap[meditationId].name}</Text>
           </Card>
@@ -54,9 +55,9 @@ const HomeScreen = () => {
   );
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.header}>
+        <Layout style={styles.headerContainer}>
           <Layout>
             <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
             <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
@@ -80,7 +81,7 @@ const HomeScreen = () => {
           appearance='ghost'
           onPress={removeRecentMeditationIdsFromAsyncStorage}
         >
-          Remove Meditation Ids
+          Remove Recent Ids
         </Button>
       </SafeAreaView>
     </Layout>
@@ -96,7 +97,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 10,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    backgroundColor: '#31384b',
   },
   container: {
     flex: 1,
@@ -108,11 +110,21 @@ const styles = StyleSheet.create({
     height: 35,
     width: 35,
   },
-  header: {
+  firstCard: {
+    marginRight: 10,
+    width: 200,
+    height: 200,
+    borderRadius: 10,
+    justifyContent: 'flex-end',
+    backgroundColor: '#31384b',
+    marginLeft: 20,
+  },
+  headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     flex: 2,
-    paddingVertical: 10,
+    paddingHorizontal: 20,
+    paddingTop: 30,
   },
   headerText: {
     padding: 2,
@@ -120,14 +132,13 @@ const styles = StyleSheet.create({
   horizontalContainer: {
     paddingVertical: 20,
   },
-  rootContainer: {
-    flex: 1,
-    padding: 20,
-  },
   manageMeditationButton: {
     width: 200,
     padding: 0,
     color: 'gray',
+  },
+  meditationGroup: {
+    paddingHorizontal: 20,
   },
 })
 

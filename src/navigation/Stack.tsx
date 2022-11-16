@@ -13,6 +13,18 @@ import { StackParamList } from '../types';
 
 const { Group, Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: '#9147BB',
+    background: '',
+    card: '#1B2237',
+    text: '#F1D0F9',
+    border: '#1B2237',
+    notification: '',
+  },
+};
+
 const StackNavigator = () => {
   const setupPlayer = async () => {
     try {
@@ -29,7 +41,7 @@ const StackNavigator = () => {
   }, [])
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="Welcome" component={WelcomeScreen} />
         <Screen name="InitialUpload" component={InitialUploadScreen} />

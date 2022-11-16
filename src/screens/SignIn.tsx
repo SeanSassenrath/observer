@@ -2,11 +2,11 @@ import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
-	Button,
 	Layout,
 	Text,
 } from '@ui-kitten/components';
 
+import Button from '../components/Button';
 import { SignInScreenNavigationProp } from '../types';
 
 const SignInScreen = () => {
@@ -18,12 +18,15 @@ const SignInScreen = () => {
     <Layout style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topContainer}>
-          <Layout style={styles.imgPlaceholder}/>
         </Layout>
         <></>
         <Layout style={styles.bottomContainer}>
-          <Button onPress={onContinuePress} style={styles.button}>Sign In With Google</Button>
-          <Button onPress={onContinuePress} style={styles.button}>Sign in With Apple</Button>
+          <Layout style={styles.buttonContainer}>
+            <Button onPress={onContinuePress} size='large' style={styles.button}>Sign In With Google</Button>
+          </Layout>
+          <Layout style={styles.buttonContainer}>
+            <Button onPress={onContinuePress} size='large' style={styles.button}>Sign in With Apple</Button>
+          </Layout>
           <Text category='p2' style={styles.disclaimer}>
             Accounts are required to give you more information about your meditations.
             We will never sell your data to anyone.
@@ -49,18 +52,15 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	bottomContainer: {
+    paddingBottom: 10,
 		flex: 3,
-		justifyContent: 'center',
-		alignItems: 'center',
 	},
 	button: {
-    marginVertical: 12,
-		width: 200
+    marginVertical: 20,
+		width: 250
 	},
-  imgPlaceholder: {
-    height: 300,
-    width: 300,
-    backgroundColor: 'gray',
+  buttonContainer: {
+    marginVertical: 10,
   },
   rootContainer: {
     flex: 1,

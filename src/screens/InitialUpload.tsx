@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Layout, Text } from '@ui-kitten/components/ui';
+import { Layout, Text } from '@ui-kitten/components/ui';
 
+import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
@@ -96,10 +97,12 @@ const InitialUploadScreen = () => {
           >
             {screenStateContent.header}
           </Text>
-          <Text>{screenStateContent.body}</Text>
+          <Text category='s1'>{screenStateContent.body}</Text>
         </Layout>
         <Layout style={styles.bottomContainer}>
-          <Button onPress={screenStateContent.onPress}>{screenStateContent.buttonText}</Button>
+          <Button onPress={screenStateContent.onPress} size='large'>
+            {screenStateContent.buttonText.toUpperCase()}
+          </Button>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -109,6 +112,7 @@ const InitialUploadScreen = () => {
 const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
+    paddingBottom: 10,
   },
   closeIcon: {
     height: 20,

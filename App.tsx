@@ -17,6 +17,7 @@ import UnlockedMeditationIdsContext from './src/contexts/meditationData';
 import RecentMeditationIdsContext from './src/contexts/recentMeditationData';
 import StackNavigator from './src/navigation/Stack';
 import { MeditationId } from './src/types';
+import { default as theme } from './theme.json';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -25,7 +26,7 @@ const App = () => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
+      <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
         <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
           <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
             <StackNavigator />
