@@ -50,10 +50,10 @@ type InsightProps = BottomTabNavigationProp<TabParamList, 'Insight'>;
 type LibraryProps = BottomTabNavigationProp<TabParamList, 'Library'>;
 type LearnProps = BottomTabNavigationProp<TabParamList, 'Learn'>;
 
-export type HomeScreenNavigationProp = HomeProps['getParent'];
-export type InsightScreenNavigationProp = InsightProps['getParent'];
-export type LibraryScreenNavigationProp = LibraryProps['getParent'];
-export type LearnScreenNavigationProp = LearnProps['getParent'];
+export type HomeScreenNavigationProp = HomeProps['navigate'];
+export type InsightScreenNavigationProp = InsightProps['navigate'];
+export type LibraryScreenNavigationProp = LibraryProps['navigate'];
+export type LearnScreenNavigationProp = LearnProps['navigate'];
 
 // export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
 // export type MeditationSyncScreenNavigationProp = MeditationSyncProps['navigation'];
