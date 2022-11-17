@@ -9,7 +9,7 @@ import {
   Text,
 } from '@ui-kitten/components';
 
-
+import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
 
@@ -63,14 +63,10 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
             <Text category='h6' style={styles.actionText}>Take off your watch</Text>
           </Layout>
           <Layout style={styles.actionSection}>
-            <Input 
-              placeholder='What is your intention?'
-            />
-            <Text category='h6' style={styles.actionText}>Set intention</Text>
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
-          <Button onPress={onStartPress}>Start</Button>
+          <_Button onPress={onStartPress} size='large'>Start</_Button>
         </Layout>
       </SafeAreaView>
     </Layout>

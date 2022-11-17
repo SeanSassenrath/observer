@@ -32,7 +32,7 @@ const placeholder = '';
 export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentials]: {
     artist,
-    formattedDuration: placeholder,
+    formattedDuration: '45',
     id: placeholder,
     groupKey: MeditationGroupKey.NewPotential,
     groupName: MeditationGroupName.NewPotential,
@@ -43,7 +43,7 @@ export const meditationMap: MeditationMap = {
   },
   [MeditationKeys.NewPotentialsBreath]: {
     artist,
-    formattedDuration: placeholder,
+    formattedDuration: '7',
     id: placeholder,
     groupKey: MeditationGroupKey.NewPotential,
     groupName: MeditationGroupName.NewPotential,
@@ -54,7 +54,7 @@ export const meditationMap: MeditationMap = {
   },
   [MeditationKeys.BreakingTheHabit]: {
     artist,
-    formattedDuration: placeholder,
+    formattedDuration: '15',
     id: placeholder,
     groupKey: MeditationGroupKey.BreakingHabit,
     groupName: MeditationGroupName.BreakingHabit,
@@ -65,7 +65,7 @@ export const meditationMap: MeditationMap = {
   },
   [MeditationKeys.BreakingTheHabitWater]: {
     artist,
-    formattedDuration: placeholder,
+    formattedDuration: '11',
     id: placeholder,
     groupKey: MeditationGroupKey.BreakingHabit,
     groupName: MeditationGroupName.BreakingHabit,

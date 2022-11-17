@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
 import { Card, Icon, Layout, Text } from '@ui-kitten/components/ui';
@@ -8,21 +8,56 @@ import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { meditationMap } from '../constants/meditation';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
+import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 
 const FaceIcon = (props: any) => (
   <Icon {...props} style={styles.faceIcon} fill='#b2b2b2' name='smiling-face' />
 );
 
+const AddIcon = (props: any) => (
+  <Icon {...props} style={styles.faceIcon} fill='#9147BB' name='plus-circle-outline' />
+);
+
 const LibraryScreen = () => {
-  const { unlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
+  const { unlockedMeditationIds, setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
   const [meditationGroups, setMeditationGroups] = useState({} as MeditationGroupMap)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
   useEffect(() => {
     const meditationGroups = makeMeditationGroups(unlockedMeditationIds);
     setMeditationGroups(meditationGroups);
-  }, []);
+  }, [unlockedMeditationIds]);
 
+  const onAddPress = async () => {
+    const pickedFileData = await pickFilesFromDevice()
+    if (!pickedFileData) { return null; }
+
+    if (
+      pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
+      pickedFileData.unsupportedFileNames.length > 0
+    ) {
+      // setScreenState(ScreenState.Fail);
+    } else if (
+      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+      pickedFileData.unsupportedFileNames.length > 0
+    ) {
+      setUnlockedMeditationIdsInAsyncStorage(
+        pickedFileData.updatedUnlockedMeditationIds,
+      )
+      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+      // setScreenState(ScreenState.Mixed);
+    } else if (
+      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+      pickedFileData.unsupportedFileNames.length <= 0
+    ) {
+      setUnlockedMeditationIdsInAsyncStorage(
+        pickedFileData.updatedUnlockedMeditationIds,
+      )
+      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+      // setScreenState(ScreenState.Success);
+    }
+  }
+  
   const onMeditationClick = (meditationId: MeditationId) => {
     if (meditationId) {
       navigation.navigate('Meditation', {
@@ -43,14 +78,25 @@ const LibraryScreen = () => {
           <Text category='h6' style={styles.groupHeader}>{firstMeditation.groupName}</Text>
           <ScrollView horizontal={true} style={styles.horizontalContainer}>
             {meditationIds.map((meditationId, i) => (
-              <Card
-                appearance='filled'
+              <Layout
                 key={meditationMap[meditationId].meditationId}
-                onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-                style={i === 0 ? styles.firstCard : styles.card}
+                style={i === 0 ? styles.firstCardContainer : styles.cardContainer}
               >
-                <Text category='s1'>{meditationMap[meditationId].name}</Text>
-              </Card>
+                <Card
+                  appearance='filled'
+                  onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
+                  style={styles.card}
+                >
+                  <Text category='s2' style={styles.meditationName}>
+                    {`${meditationMap[meditationId].formattedDuration}`}
+                  </Text>
+                </Card>
+                <Layout style={styles.meditationData}>
+                  <Text category='s1' style={styles.meditationName}>
+                    {meditationMap[meditationId].name}
+                  </Text>
+                </Layout>
+              </Layout>
             ))}
           </ScrollView>
         </Layout>
@@ -63,9 +109,12 @@ const LibraryScreen = () => {
       <SafeAreaView style={styles.rootContainer}>
         <ScrollView>
           <Layout style={styles.headerContainer}>
-            <Layout>
-              <FaceIcon />
-            </Layout>
+            <TouchableWithoutFeedback
+              onPress={onAddPress}
+            >
+              <AddIcon />
+            </TouchableWithoutFeedback>
+            <FaceIcon />
           </Layout>
           <Layout>
             {renderMeditationGroupSections()}
@@ -79,27 +128,24 @@ const LibraryScreen = () => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#31384b',
-    marginRight: 10,
     width: 200,
-    height: 200,
+    height: 150,
     borderRadius: 10,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
-  // contentContainer: {
-  //   flex: 9,
-  // },
+  cardContainer: {
+    marginRight: 20,
+    width: 200,
+  },
+  firstCardContainer: {
+    marginRight: 20,
+    marginLeft: 20,
+    width: 200,
+  },
   faceIcon: {
     height: 35,
     width: 35,
-  },
-  firstCard: {
-    marginRight: 10,
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    justifyContent: 'flex-end',
-    backgroundColor: '#31384b',
-    marginLeft: 20,
   },
   groupHeader: {
     paddingHorizontal: 20,
@@ -107,18 +153,26 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flex: 1,
-    alignItems: 'flex-end',
-    paddingTop: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 30,
     paddingHorizontal: 20,
   },
   headerText: {
     padding: 2,
   },
   horizontalContainer: {
-    paddingVertical: 20,
+    paddingVertical: 24,
+  },
+  meditationData: {
+    marginVertical: 8,
+  },
+  meditationName: {
+    lineHeight: 22,
   },
   section: {
-    marginVertical: 12,
+    marginVertical: 10,
   },
   rootContainer: {
     flex: 1,

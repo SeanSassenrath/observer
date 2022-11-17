@@ -31,14 +31,26 @@ const HomeScreen = () => {
       <Text category='h6' style={styles.meditationGroup}>Recent Meditations</Text>
       <ScrollView horizontal={true} style={styles.horizontalContainer}>
         {recentMeditationIds.map((meditationId, i) => (
-          <Card
-            appearance='filled'
+          <Layout
             key={meditationMap[meditationId].meditationId}
-            onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-            style={i === 0 ? styles.firstCard : styles.card}
+            style={i === 0 ? styles.firstCardContainer : styles.cardContainer}
           >
-            <Text category='s1'>{meditationMap[meditationId].name}</Text>
-          </Card>
+            <Card
+              appearance='filled'
+              key={meditationMap[meditationId].meditationId}
+              onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
+              style={styles.card}
+            >
+              <Text category='s2' style={styles.meditationName}>
+                {`${meditationMap[meditationId].formattedDuration}`}
+              </Text>
+            </Card>
+            <Layout style={styles.meditationData}>
+              <Text category='s1' style={styles.meditationName}>
+                {meditationMap[meditationId].name}
+              </Text>
+            </Layout>
+          </Layout>
         ))}
       </ScrollView>
     </Layout>
@@ -92,28 +104,28 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   card: {
-    marginRight: 10,
+    backgroundColor: '#31384b',
     width: 200,
-    height: 200,
+    height: 150,
     borderRadius: 10,
     justifyContent: 'flex-end',
-    backgroundColor: '#31384b',
+    alignItems: 'flex-end',
   },
   container: {
     flex: 1,
   },
+  cardContainer: {
+    marginRight: 20,
+    width: 200,
+  },
+  firstCardContainer: {
+    marginRight: 20,
+    marginLeft: 20,
+    width: 200,
+  },
   faceIcon: {
     height: 35,
     width: 35,
-  },
-  firstCard: {
-    marginRight: 10,
-    width: 200,
-    height: 200,
-    borderRadius: 10,
-    justifyContent: 'flex-end',
-    backgroundColor: '#31384b',
-    marginLeft: 20,
   },
   headerContainer: {
     flexDirection: 'row',
@@ -134,6 +146,12 @@ const styles = StyleSheet.create({
   },
   meditationGroup: {
     paddingHorizontal: 20,
+  },
+  meditationData: {
+    marginVertical: 8,
+  },
+  meditationName: {
+    lineHeight: 22,
   },
   test: {
     flex: 1,
