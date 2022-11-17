@@ -4,7 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import _, { reduce } from 'lodash';
 import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components'; 
 
-import { MeditationScreenNavigationProp, MeditationId } from '../types';
+import _Button from '../components/Button';
+import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp } from '../types';
 import { meditationMap } from '../constants/meditation';
 import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
 import RecentMeditationIdsContext, { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
@@ -16,14 +17,19 @@ const FaceIcon = (props: any) => (
 
 const HomeScreen = () => {
   const { recentMeditationIds } = useContext(RecentMeditationIdsContext);
-  const navigation = useNavigation<MeditationScreenNavigationProp>();
+  const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
+  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
 
   const onMeditationClick = (meditationId: MeditationId) => {
     if (meditationId) {
-      navigation.navigate('Meditation', {
+      stackNavigation.navigate('Meditation', {
         id: meditationId,
       });
     }
+  }
+
+  const onStartClick = () => {
+    tabNavigation.navigate('Library');
   }
 
   const renderRecentMeditations = () => (
@@ -56,6 +62,27 @@ const HomeScreen = () => {
     </Layout>
   );
 
+  const renderStartMeditation = () => (
+    <Card
+      appearance='filled'
+      style={styles.startCard}
+    >
+      <Text
+        category='h6'
+        style={styles.startCardHeader}
+      >
+        Welcome to your home!
+      </Text>
+      <Text
+        category='s1'
+        style={styles.startCardDescription}
+      >
+        Select a meditation from the library to get started
+      </Text>
+      <_Button onPress={onStartClick}>SELECT MEDITATION</_Button>
+    </Card>
+  )
+
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -70,7 +97,10 @@ const HomeScreen = () => {
           </Layout>
         </Layout>
           <Layout>
-            {renderRecentMeditations()}
+            { recentMeditationIds.length
+                ? renderRecentMeditations()
+                : renderStartMeditation()
+            }
             <Button
               size='small'
               appearance='ghost'
@@ -152,6 +182,17 @@ const styles = StyleSheet.create({
   },
   meditationName: {
     lineHeight: 22,
+  },
+  startCard: {
+    backgroundColor: '#31384b',
+    margin: 20,
+    padding: 6,
+  },
+  startCardHeader: {
+    marginBottom: 8,
+  },
+  startCardDescription: {
+    marginBottom: 20,
   },
   test: {
     flex: 1,
