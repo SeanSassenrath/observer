@@ -1,10 +1,8 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
-  Button,
   Icon,
-  Input,
   Layout,
   Text,
 } from '@ui-kitten/components';
@@ -13,8 +11,10 @@ import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
 
-const CloseIcon = (props: any) => (
-  <Icon {...props} name='close-outline' />
+const brightWhite = '#fcfcfc';
+
+const BackIcon = (props: any) => (
+  <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
 );
 
 const WarningIcon = (props: any) => (
@@ -31,7 +31,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 
   const meditation = meditationMap[id];
 
-  const onClosePress = () => {
+  const onBackPress = () => {
     navigation.pop();
   }
 
@@ -45,24 +45,35 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topBar}>
-          <Text category='h4' style={styles.topBarText}>{meditation.name}</Text>
-          <Button
-            appearance='ghost'
-            accessoryLeft={CloseIcon}
-            onPress={onClosePress}
-            style={styles.topBarIcon}
-          />
+          <TouchableWithoutFeedback
+            onPress={onBackPress}
+          >
+            <Layout style={styles.closeIconContainer}>
+              <BackIcon />
+            </Layout>
+          </TouchableWithoutFeedback>
         </Layout>
         <Layout style={styles.mainSection}>
-          <Layout style={styles.actionSection}>
-            <WarningIcon />
-            <Text category='h6' style={styles.actionText}>Turn on do not disturb</Text>
-          </Layout>
-          <Layout style={styles.actionSection}>
-            <WatchIcon />
-            <Text category='h6' style={styles.actionText}>Take off your watch</Text>
-          </Layout>
-          <Layout style={styles.actionSection}>
+          <Text category='h6'>{meditation.name}</Text>
+          <Layout style={styles.meditationInfoContainer}>
+            <Layout style={styles.meditationInfo}>
+              <WatchIcon />
+              <Text
+                category='s1'
+                style={styles.meditationInfoText}
+              >
+                {`This meditation will take ${meditation.formattedDuration} min`}
+              </Text>
+            </Layout>
+            <Layout style={styles.meditationInfo}>
+              <WarningIcon />
+              <Text
+                category='s1'
+                style={styles.meditationInfoText}
+              >
+                Turn on "Do Not Disturb"
+              </Text>
+            </Layout>
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
@@ -84,20 +95,27 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   actionIcon: {
-    height: 50,
-    width: 50,
-    // textAlign: 'center',
+    height: 30,
+    width: 30,
   },
   bottomBar: {
     flex: 1,
     padding: 20,
   },
+  closeIcon: {
+    height: 32,
+    width: 32,
+  },
+  closeIconContainer: {
+    padding: 20,
+    backgroundColor: 'transparent',
+  },
   container: {
     flex: 1,
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 20,
+    height: 20,
   },
   header: {
     alignItems: 'center',
@@ -110,12 +128,23 @@ const styles = StyleSheet.create({
   mainSection: {
     padding: 20,
     flex: 6,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+  },
+  meditationInfoContainer: {
+    marginTop: 12,
+  },
+  meditationInfo: {
+    marginVertical: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  meditationInfoText: {
+    color: '#b2b2b2',
+    marginTop: 4,
+    marginLeft: 10,
   },
   topBar: {
-    alignItems: 'flex-start',
     flexDirection: 'row',
-    paddingLeft: 20,
     paddingTop: 20,
     flex: 1,
   },
