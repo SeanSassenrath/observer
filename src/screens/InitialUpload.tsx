@@ -7,6 +7,8 @@ import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
+import { setFtuxStateInAsyncStorage } from '../utils/ftux';
+import FtuxContext from '../contexts/ftuxData';
 
 enum ScreenState {
   'Inital',
@@ -16,11 +18,16 @@ enum ScreenState {
 }
 
 const InitialUploadScreen = () => {
+  const { setHasSeenFtux } = useContext(FtuxContext);
   const { setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [screenState, setScreenState] = useState(ScreenState.Inital);
 
-  const onContinuePress = () => navigation.navigate('TabNavigation');
+  const onContinuePress = async () => {
+    setFtuxStateInAsyncStorage();
+    setHasSeenFtux(true);
+    navigation.navigate('TabNavigation');
+  }
 
   const onUploadPress = async () => {
     const pickedFileData = await pickFilesFromDevice()

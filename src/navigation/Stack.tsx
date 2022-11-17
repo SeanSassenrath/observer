@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TrackPlayer from 'react-native-track-player';
 
+import FtuxContext from '../contexts/ftuxData';
+import { myTheme } from '../constants/navTheme';
 import InitialUploadScreen from '../screens/InitialUpload';
 import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
@@ -13,19 +15,8 @@ import { StackParamList } from '../types';
 
 const { Group, Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
-const MyTheme = {
-  dark: false,
-  colors: {
-    primary: '#9147BB',
-    background: '',
-    card: '#1B2237',
-    text: '#F1D0F9',
-    border: '#1B2237',
-    notification: '',
-  },
-};
-
 const StackNavigator = () => {
+  const { hasSeenFtux } = useContext(FtuxContext);
   const setupPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer();
@@ -41,13 +32,16 @@ const StackNavigator = () => {
   }, [])
 
   return (
-    <NavigationContainer theme={MyTheme}>
-      <Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer theme={myTheme}>
+      <Navigator
+        initialRouteName={hasSeenFtux ? "TabNavigation" : "Welcome"}
+        screenOptions={{ headerShown: false }}
+      >
         <Screen name="Welcome" component={WelcomeScreen} />
         <Screen name="InitialUpload" component={InitialUploadScreen} />
         <Screen name="SignIn" component={SignInScreen} />
-        <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
+        <Screen name="Meditation" component={MeditationScreen} />
         <Group screenOptions={{ presentation: 'modal' }}>
           <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         </Group>

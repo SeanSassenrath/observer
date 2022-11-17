@@ -7,26 +7,16 @@ import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
 import { meditationMap } from '../constants/meditation';
 import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
-import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage, removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
+import RecentMeditationIdsContext, { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
+import { removeFtuxStateFromAsyncStorage } from '../utils/ftux';
 
 const FaceIcon = (props: any) => (
   <Icon {...props} style={styles.faceIcon} fill='#b2b2b2' name='smiling-face' />
 );
 
 const HomeScreen = () => {
-  const { recentMeditationIds, setRecentMeditationIds } = useContext(RecentMeditationIdsContext);
+  const { recentMeditationIds } = useContext(RecentMeditationIdsContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
-
-  useEffect(() => {
-    const syncAsyncStorageToContext = async () => {
-      const recentMeditationIdsFromStorage = await getRecentMeditationIdsFromAsyncStorage();
-      if (recentMeditationIdsFromStorage) {
-        setRecentMeditationIds(recentMeditationIdsFromStorage);
-      }
-    }
-
-    syncAsyncStorageToContext();
-  }, []);
 
   const onMeditationClick = (meditationId: MeditationId) => {
     if (meditationId) {
@@ -86,7 +76,7 @@ const HomeScreen = () => {
             <Button
               size='small'
               appearance='ghost'
-              onPress={removeRecentMeditationIdsFromAsyncStorage}
+              onPress={removeFtuxStateFromAsyncStorage}
             >
               Remove FTUX state
             </Button>

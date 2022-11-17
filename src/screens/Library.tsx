@@ -60,15 +60,17 @@ const LibraryScreen = () => {
 
   return (
     <Layout style={styles.rootContainer}>
-      <SafeAreaView style={styles.contentContainer}>
-        <Layout style={styles.headerContainer}>
-          <Layout>
-            <FaceIcon />
+      <SafeAreaView style={styles.rootContainer}>
+        <ScrollView>
+          <Layout style={styles.headerContainer}>
+            <Layout>
+              <FaceIcon />
+            </Layout>
           </Layout>
-        </Layout>
-        <Layout style={styles.contentContainer}>
-          {renderMeditationGroupSections()}
-        </Layout>
+          <Layout>
+            {renderMeditationGroupSections()}
+          </Layout>
+        </ScrollView>
       </SafeAreaView>
     </Layout>
   )
@@ -83,9 +85,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'flex-end'
   },
-  contentContainer: {
-    flex: 9,
-  },
+  // contentContainer: {
+  //   flex: 9,
+  // },
   faceIcon: {
     height: 35,
     width: 35,
