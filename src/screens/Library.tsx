@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
-import { Card, Icon, Layout, Text } from '@ui-kitten/components/ui';
+import { Avatar, Card, Icon, Layout, Text } from '@ui-kitten/components/ui';
 
 import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
@@ -114,7 +114,7 @@ const LibraryScreen = () => {
             >
               <AddIcon />
             </TouchableWithoutFeedback>
-            <FaceIcon />
+            <Avatar source={require('../assets/avatar.jpeg')} />
           </Layout>
           <Layout>
             {renderMeditationGroupSections()}

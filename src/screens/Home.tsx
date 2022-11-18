@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _, { reduce } from 'lodash';
-import { Button, Card, Icon, Layout, Text } from '@ui-kitten/components'; 
+import { Avatar, Button, Card, Icon, Layout, Text } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp } from '../types';
@@ -48,7 +48,7 @@ const HomeScreen = () => {
               style={styles.card}
             >
               <Text category='s2' style={styles.meditationName}>
-                {`${meditationMap[meditationId].formattedDuration}`}
+                {`${meditationMap[meditationId].formattedDuration}m`}
               </Text>
             </Card>
             <Layout style={styles.meditationData}>
@@ -93,7 +93,7 @@ const HomeScreen = () => {
             <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
           </Layout>
           <Layout>
-            <FaceIcon />
+            <Avatar source={require('../assets/avatar.jpeg')} />
           </Layout>
         </Layout>
           <Layout>
