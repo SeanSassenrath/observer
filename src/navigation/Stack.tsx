@@ -44,9 +44,7 @@ const StackNavigator = () => {
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
-        <Group screenOptions={{ presentation: 'modal' }}>
-          <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
-        </Group>
+        <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
       </Navigator>
     </NavigationContainer>
   )
