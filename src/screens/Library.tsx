@@ -108,15 +108,15 @@ const LibraryScreen = () => {
     <Layout style={styles.rootContainer}>
       <SafeAreaView style={styles.rootContainer}>
         <ScrollView>
-          <Layout style={styles.headerContainer}>
+          {/* <Layout style={styles.headerContainer}>
             <TouchableWithoutFeedback
               onPress={onAddPress}
             >
               <AddIcon />
             </TouchableWithoutFeedback>
             <Avatar source={require('../assets/avatar.jpeg')} />
-          </Layout>
-          <Layout>
+          </Layout> */}
+          <Layout style={styles.libraryContainer}>
             {renderMeditationGroupSections()}
           </Layout>
         </ScrollView>
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 30,
+    paddingBottom: 20,
+    paddingTop: 30,
     paddingHorizontal: 20,
   },
   headerText: {
@@ -164,6 +165,9 @@ const styles = StyleSheet.create({
   },
   horizontalContainer: {
     paddingVertical: 24,
+  },
+  libraryContainer: {
+    paddingTop: 20,
   },
   meditationData: {
     marginVertical: 8,
