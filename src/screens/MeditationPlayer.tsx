@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
-import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
+import { MeditationFinishScreenNavigationProp, MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
 import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
@@ -15,6 +15,8 @@ import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
+
+const countDownInSeconds = 5;
 
 const CloseIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='close-outline' />
@@ -37,7 +39,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const { position, duration } = useProgress()
-  const [time, setTime] = React.useState(5);
+  const [time, setTime] = React.useState(countDownInSeconds);
   const timerRef = React.useRef(time);
 
   const { id } = route.params;
@@ -93,17 +95,19 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     navigation.pop();
   }
 
+  const onFinishPress = () => {
+    navigation.replace('MeditationFinish');
+  }
+
   const onPlayPress = async () => {
     TrackPlayer.play();
     await TrackPlayer.getState();
-    const playerPlay = await TrackPlayer.getState();
     setIsPlaying(true);
   }
 
   const onPausePress = async () => {
     TrackPlayer.pause();
     await TrackPlayer.getState();
-    const playerPause = await TrackPlayer.getState();
     setIsPlaying(false);
   }
 
@@ -116,6 +120,8 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
     .slice(14, 19);
+
+  const isFinishButtonDisabled = time > 0;
 
   return (
     <Layout style={styles.container}>
@@ -181,7 +187,14 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             }
           </Layout>
           <Layout style={styles.finishButtonContainer}>
-            <_Button size="large" style={styles.finishButton}>FINISH</_Button>
+            <_Button
+              disabled={isFinishButtonDisabled}
+              onPress={onFinishPress}
+              size="large"
+              style={styles.finishButton}
+            >
+              FINISH
+            </_Button>
           </Layout>
         </Layout>
       </SafeAreaView>

@@ -71,10 +71,7 @@ const App = () => {
         <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
           <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
             <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-              {/* {test */}
-                <StackNavigator />
-                {/* : <PreloadScreen /> */}
-              {/* } */}
+              <StackNavigator />
             </FtuxContext.Provider>
           </RecentMeditationIdsContext.Provider>
         </UnlockedMeditationIdsContext.Provider>

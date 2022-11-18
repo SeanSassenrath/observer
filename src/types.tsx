@@ -11,6 +11,7 @@ export type StackParamList = {
   SignIn: undefined;
   Welcome: undefined;
   Meditation: MeditationParams;
+  MeditationFinish: undefined;
   MeditationPlayer: MeditationParams;
   TabNavigation: undefined;
 };
@@ -31,6 +32,9 @@ export type MeditationProps = NativeStackScreenProps<StackParamList, 'Meditation
 export type MeditationScreenNavigationProp = MeditationProps['navigation'];
 export type MeditationStackScreenProps<T extends keyof StackParamList> =
   StackScreenProps<StackParamList, T>;
+
+export type MeditationFinishProps = NativeStackScreenProps<StackParamList, 'MeditationFinish'>;
+export type MeditationFinishScreenNavigationProp = MeditationProps['navigation'];
 
 export type MeditationPlayerProps = NativeStackScreenProps<StackParamList, 'MeditationPlayer'>;
 export type MeditationPlayerScreenNavigationProp = MeditationProps['navigation'];
