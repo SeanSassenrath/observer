@@ -6,6 +6,7 @@ import Slider from '@react-native-community/slider';
 import _ from 'lodash';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
+import _Button from '../components/Button';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
 import RecentMeditationIdsContext from '../contexts/recentMeditationData';
@@ -140,43 +141,48 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
-          <TouchableWithoutFeedback
-            onPress={onRestartPress}
-          >
-            <Layout style={styles.restartContainer}>
-              <RestartIcon />
+          <Layout style={styles.player}>
+            <TouchableWithoutFeedback
+              onPress={onRestartPress}
+            >
+              <Layout style={styles.restartContainer}>
+                <RestartIcon />
+              </Layout>
+            </TouchableWithoutFeedback>
+            <Slider
+              style={styles.slider}
+              value={position}
+              minimumValue={0}
+              maximumValue={duration}
+              thumbTintColor={brightWhite}
+              minimumTrackTintColor={brightWhite}
+              maximumTrackTintColor={lightestWhite}
+              onSlidingComplete={TrackPlayer.seekTo}
+            />
+            <Layout style={styles.timeTextContainer}>
+              <Layout style={styles.testTime}>
+                <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
+              </Layout>
+              <Layout style={styles.testTime}>
+                <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
+              </Layout>
             </Layout>
-          </TouchableWithoutFeedback>
-          <Slider
-            style={styles.slider}
-            value={position}
-            minimumValue={0}
-            maximumValue={duration}
-            thumbTintColor={brightWhite}
-            minimumTrackTintColor={brightWhite}
-            maximumTrackTintColor={lightestWhite}
-            onSlidingComplete={TrackPlayer.seekTo}
-          />
-          <Layout style={styles.timeTextContainer}>
-            <Layout style={styles.testTime}>
-              <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
-            </Layout>
-            <Layout style={styles.testTime}>
-              <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
-            </Layout>
-          </Layout>
-          { isPlaying
-            ? <TouchableWithoutFeedback
+            {isPlaying
+              ? <TouchableWithoutFeedback
                 onPress={onPausePress}
               >
                 <PauseIcon />
               </TouchableWithoutFeedback>
-            : <TouchableWithoutFeedback
+              : <TouchableWithoutFeedback
                 onPress={onPlayPress}
               >
                 <PlayIcon />
               </TouchableWithoutFeedback>
-          }
+            }
+          </Layout>
+          <Layout style={styles.finishButtonContainer}>
+            <_Button size="large" style={styles.finishButton}>FINISH</_Button>
+          </Layout>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -185,27 +191,28 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
 const styles = StyleSheet.create({
   bottomBar: {
-    flex: 3,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    flex: 4,
+    padding: 20
+  },
+  finishButton: {
+    paddingVertical: 20,
+  },
+  finishButtonContainer: {
+    marginVertical: 20,
   },
   container: {
     flex: 1,
-    backgroundColor: '#b2b2b2',
   },
   main: {
     flex: 6,
-    backgroundColor: '#transparent',
     paddingHorizontal: 20,
   },
   countdownTextContainer: {
-    flex: 7,
+    flex: 6,
     justifyContent: 'flex-end',
-    backgroundColor: 'transparent',
   },
   meditationName: {
     flex: 3,
-    backgroundColor: 'transparent',
     flexDirection: 'column-reverse',
     paddingBottom: 16,
     color: 'red',
@@ -229,7 +236,6 @@ const styles = StyleSheet.create({
   topBar: {
     alignItems: 'center',
     flexDirection: 'row-reverse',
-    backgroundColor: 'transparent',
     flex: 1,
   },
   closeIcon: {
@@ -238,25 +244,23 @@ const styles = StyleSheet.create({
   },
   closeIconContainer: {
     padding: 20,
-    backgroundColor: 'transparent',
+  },
+  player: {
+    alignItems: 'center',
   },
   restartContainer: {
     flexDirection: 'row',
     padding: 20,
-    backgroundColor: 'transparent',
   },
   timeTextContainer: {
     flexDirection: 'row',
     marginHorizontal: 20,
-    backgroundColor: 'transparent',
   },
   slider: {
     width: 350,
-    backgroundColor: 'transparent',
   },
   testTime: {
     flex: 1,
-    backgroundColor: 'transparent',
   },
   timePassed: {
     color: '#f3f3f3',

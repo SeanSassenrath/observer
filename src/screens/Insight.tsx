@@ -1,11 +1,13 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components/ui';
 
 const InsightScreen = () => (
   <Layout style={styles.rootContainer}>
     <SafeAreaView style={styles.contentContainer}>
+      <ImageBackground source={require('../assets/stars.png')} style={styles.contentContainer}>
       <Text category='h6'>Insight Screen</Text>
+      </ImageBackground>
     </SafeAreaView>
   </Layout>
 )

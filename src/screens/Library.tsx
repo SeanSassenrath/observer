@@ -88,7 +88,7 @@ const LibraryScreen = () => {
                   style={styles.card}
                 >
                   <Text category='s2' style={styles.meditationName}>
-                    {`${meditationMap[meditationId].formattedDuration}`}
+                    {`${meditationMap[meditationId].formattedDuration}m`}
                   </Text>
                 </Card>
                 <Layout style={styles.meditationData}>
