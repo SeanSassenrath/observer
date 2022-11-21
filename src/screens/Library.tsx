@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
-import { Icon, Layout } from '@ui-kitten/components/ui';
+import { Icon, Input, Layout } from '@ui-kitten/components';
 
 import { MeditationList } from '../components/MeditationList';
 import { meditationMap } from '../constants/meditation';
@@ -15,9 +15,12 @@ const AddIcon = (props: any) => (
   <Icon {...props} style={styles.addIcon} fill='#9147BB' name='plus-circle-outline' />
 );
 
+const EMPTY_SEARCH = '';
+
 const LibraryScreen = () => {
   const { unlockedMeditationIds, setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
   const [meditationGroups, setMeditationGroups] = useState({} as MeditationGroupMap)
+  const [searchInput, setSearchInput] = useState(EMPTY_SEARCH)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
   useEffect(() => {
@@ -63,10 +66,22 @@ const LibraryScreen = () => {
     }
   }
 
+  const filterBySearch = (searchInput: string, meditationIds: MeditationId[]) => {
+    const filteredIdList = meditationIds.filter((meditationId) => {
+      const meditation = meditationMap[meditationId];
+      if (_.startsWith(meditation.name.toLowerCase(), searchInput.toLowerCase())) {
+        return meditationId;
+      }
+    })
+    return filteredIdList;
+  }
+
   const renderMeditationGroupSections = () => {
     const meditationGroupsList = Object.entries(meditationGroups)
     return meditationGroupsList.map(([key, meditationIds]) => {
-      const firstMeditationId = _.head(meditationIds)
+      let _meditationIds = meditationIds;
+      _meditationIds = filterBySearch(searchInput, meditationIds);
+      const firstMeditationId = _.head(_meditationIds)
       if (!firstMeditationId) { return null; }
       const firstMeditation = meditationMap[firstMeditationId];
 
@@ -74,7 +89,7 @@ const LibraryScreen = () => {
         <MeditationList
           key={firstMeditation.groupName}
           header={firstMeditation.groupName}
-          meditationIds={meditationIds}
+          meditationIds={_meditationIds}
           onMeditationPress={onMeditationPress}
         />
       )
@@ -93,7 +108,14 @@ const LibraryScreen = () => {
             </TouchableWithoutFeedback>
             <Avatar source={require('../assets/avatar.jpeg')} />
           </Layout> */}
-          <Layout style={styles.libraryContainer}>
+          <Layout style={styles.screenContainer}>
+            <Layout style={styles.inputContainer}>
+              <Input 
+                placeholder='Search'
+                value={searchInput}
+                onChangeText={(nextInput) => setSearchInput(nextInput)}
+              />
+            </Layout>
             {renderMeditationGroupSections()}
           </Layout>
         </ScrollView>
@@ -107,11 +129,15 @@ const styles = StyleSheet.create({
     height: 25,
     width: 25,
   },
-  libraryContainer: {
-    paddingTop: 60,
+  inputContainer: {
+    marginHorizontal: 20,
+    marginBottom: 60,
   },
   rootContainer: {
     flex: 1,
+  },
+  screenContainer: {
+    paddingTop: 60,
   },
 })
 
