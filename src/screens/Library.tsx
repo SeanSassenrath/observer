@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
-import { Icon, Layout, Text } from '@ui-kitten/components/ui';
+import { Icon, Layout } from '@ui-kitten/components/ui';
 
-import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
-import UnlockedMeditationIdsContext from '../contexts/meditationData';
+import { MeditationList } from '../components/MeditationList';
 import { meditationMap } from '../constants/meditation';
+import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
+import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
-import { CardV2 } from '../components/Card';
 
 const AddIcon = (props: any) => (
   <Icon {...props} style={styles.faceIcon} fill='#9147BB' name='plus-circle-outline' />
@@ -55,7 +55,7 @@ const LibraryScreen = () => {
     }
   }
   
-  const onMeditationClick = (meditationId: MeditationId) => {
+  const onMeditationPress = (meditationId: MeditationId) => {
     if (meditationId) {
       navigation.navigate('Meditation', {
         id: meditationId,
@@ -71,25 +71,11 @@ const LibraryScreen = () => {
       const firstMeditation = meditationMap[firstMeditationId];
 
       return (
-        <Layout key={firstMeditation.groupKey} style={styles.section}>
-          <Text category='h6' style={styles.groupHeader}>{firstMeditation.groupName}</Text>
-          <ScrollView horizontal={true} style={styles.horizontalContainer}>
-            {meditationIds.map((meditationId, i) => {
-              const meditation = meditationMap[meditationId];
-              return (
-                <CardV2
-                  formattedDuration={meditation.formattedDuration}
-                  name={meditation.name}
-                  id={meditation.meditationId}
-                  key={meditation.meditationId}
-                  isFirstCard
-                  level='2'
-                />
-              )
-            }
-            )}
-          </ScrollView>
-        </Layout>
+        <MeditationList
+          header={firstMeditation.groupName}
+          meditationIds={meditationIds}
+          onMeditationPress={onMeditationPress}
+        />
       )
     })
   }
@@ -116,58 +102,8 @@ const LibraryScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: '#31384b',
-    width: 200,
-    height: 150,
-    borderRadius: 10,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  cardContainer: {
-    marginRight: 20,
-    width: 200,
-  },
-  firstCardContainer: {
-    marginRight: 20,
-    marginLeft: 20,
-    width: 200,
-  },
-  faceIcon: {
-    height: 35,
-    width: 35,
-  },
-  groupHeader: {
-    paddingHorizontal: 20,
-    width: 300,
-  },
-  headerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingBottom: 20,
-    paddingTop: 30,
-    paddingHorizontal: 20,
-  },
-  headerText: {
-    padding: 2,
-  },
-  horizontalContainer: {
-    paddingLeft: 20,
-    paddingVertical: 24,
-  },
   libraryContainer: {
-    paddingTop: 20,
-  },
-  meditationData: {
-    marginVertical: 8,
-  },
-  meditationName: {
-    lineHeight: 22,
-  },
-  section: {
-    marginVertical: 10,
+    paddingTop: 60,
   },
   rootContainer: {
     flex: 1,

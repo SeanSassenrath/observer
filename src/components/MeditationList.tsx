@@ -27,7 +27,7 @@ export const MeditationList = ({
   meditationIds,
   onMeditationPress,
 }: MeditationListProps) => (
-  <Layout style={styles.container}>
+  <Layout style={styles.container} key={header}>
     <Text category='s1' style={styles.header}>{header}</Text>
     <ScrollView horizontal={true} style={styles.horizontalContainer}>
       { meditationIds.length
