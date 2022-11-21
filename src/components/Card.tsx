@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Icon, Layout, Text } from '@ui-kitten/components';
+import { Pressable, StyleSheet } from 'react-native';
+import { Layout, Text } from '@ui-kitten/components';
 
 import {
   MeditationFormattedDuration,
@@ -11,13 +11,17 @@ import {
 interface CardProps {
   isFirstCard?: boolean,
   formattedDuration: MeditationFormattedDuration, 
-  id: MeditationId,
+  meditationId: MeditationId,
   level?: string,
   name: MeditationName,
+  onPress(id: MeditationId): void,
 }
 
 export const CardV1 = (props: CardProps) => (
-  <TouchableWithoutFeedback key={props.id}>
+  <Pressable
+    key={props.meditationId}
+    onPress={() => props.onPress(props.meditationId)}
+  >
     <Layout
       level={props.level}
       style={styles.card}
@@ -31,7 +35,7 @@ export const CardV1 = (props: CardProps) => (
         </Text>
       </Layout>
     </Layout>
-  </TouchableWithoutFeedback>
+  </Pressable>
 )
 
 const styles = StyleSheet.create({
@@ -56,7 +60,10 @@ const styles = StyleSheet.create({
 })
 
 export const CardV2 = (props: CardProps) => (
-  <TouchableWithoutFeedback key={props.id}>
+  <Pressable
+    key={props.id}
+    onPress={() => props.onPress(props.id)}
+  >
     <Layout
       level={props.level}
       style={stylesV2.card}
@@ -70,7 +77,7 @@ export const CardV2 = (props: CardProps) => (
         <Text category='s1'>{props.name}</Text>
       </Layout>
     </Layout>
-  </TouchableWithoutFeedback>
+  </Pressable>
 )
 
 const stylesV2 = StyleSheet.create({
@@ -93,7 +100,7 @@ const stylesV2 = StyleSheet.create({
 export const EmptyCard = () => (
   <Layout
     level='2'
-    style={emptyCardStyles.card}
+    style={emptyCardStyles.emptyCard}
   >
   </Layout>
 );
@@ -103,6 +110,14 @@ const emptyCardStyles = StyleSheet.create({
     borderRadius: 10,
     height: 140,
     marginRight: 20,
+    padding: 18,
+    width: 200,
+  },
+  emptyCard: {
+    borderRadius: 10,
+    height: 140,
+    marginRight: 20,
+    opacity: 0.6,
     padding: 18,
     width: 200,
   },
