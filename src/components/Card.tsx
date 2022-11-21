@@ -9,6 +9,7 @@ import {
 } from '../types';
 
 interface CardProps {
+  color: string,
   isFirstCard?: boolean,
   formattedDuration: MeditationFormattedDuration, 
   meditationId: MeditationId,
@@ -59,11 +60,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CardV2 = (props: CardProps) => (
+export const CardV3 = (props: CardProps) => (
   <Pressable onPress={() => props.onPress(props.meditationId)}>
     <Layout
       level={props.level}
-      style={stylesV2.card}
+      style={{ backgroundColor: props.color, ...stylesV2.card }}
     >
       <Layout level={props.level} style={stylesV2.formattedDurationContainer}>
         <Text category='s2'>
@@ -71,6 +72,23 @@ export const CardV2 = (props: CardProps) => (
         </Text>
       </Layout>
       <Layout level={props.level} style={stylesV2.nameContainer}>
+        <Text category='s1'>{props.name}</Text>
+      </Layout>
+    </Layout>
+  </Pressable>
+)
+
+export const CardV2 = (props: CardProps) => (
+  <Pressable onPress={() => props.onPress(props.meditationId)}>
+    <Layout
+      style={{ backgroundColor: props.color, ...stylesV2.card }}
+    >
+      <Layout style={{ backgroundColor: props.color, ...stylesV2.formattedDurationContainer }}>
+        <Text category='s2'>
+          {`${props.formattedDuration}m`}
+        </Text>
+      </Layout>
+      <Layout style={{ backgroundColor: props.color, ...stylesV2.nameContainer }}>
         <Text category='s1'>{props.name}</Text>
       </Layout>
     </Layout>

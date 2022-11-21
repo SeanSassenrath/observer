@@ -35,6 +35,7 @@ export const MeditationList = ({
           const meditation = meditationMap[id];
           return (
             <CardV2
+              color={meditation.color}
               formattedDuration={meditation.formattedDuration}
               name={meditation.name}
               meditationId={meditation.meditationId}

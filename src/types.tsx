@@ -78,6 +78,7 @@ export type MeditationName = string;
 export interface Meditation {
   artwork: any,
   artist: MeditationArtist,
+  color: string,
   formattedDuration: MeditationFormattedDuration,
   id: MeditationInstanceId,
   groupKey: MeditationGroupKey,

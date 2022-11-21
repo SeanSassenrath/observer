@@ -33,6 +33,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentials]: {
     artwork: '',
     artist,
+    color: '#055304',
     formattedDuration: '45',
     id: placeholder,
     groupKey: MeditationGroupKey.NewPotential,
@@ -45,6 +46,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentialsBreath]: {
     artwork: '',
     artist,
+    color: '#055304',
     formattedDuration: '7',
     id: placeholder,
     groupKey: MeditationGroupKey.NewPotential,
@@ -57,6 +59,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.BreakingTheHabit]: {
     artwork: '',
     artist,
+    color: '#003E54',
     formattedDuration: '15',
     id: placeholder,
     groupKey: MeditationGroupKey.BreakingHabit,
@@ -69,6 +72,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.BreakingTheHabitWater]: {
     artwork: '',
     artist,
+    color: '#003E54',
     formattedDuration: '11',
     id: placeholder,
     groupKey: MeditationGroupKey.BreakingHabit,
