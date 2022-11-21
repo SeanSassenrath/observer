@@ -13,6 +13,7 @@ import SignInScreen from '../screens/SignIn';
 import WelcomeScreen from '../screens/Welcome';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
+import DebugScreen from '../screens/Debug';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
@@ -45,6 +46,7 @@ const StackNavigator = () => {
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
+        <Screen name="Debug" component={DebugScreen} />
       </Navigator>
     </NavigationContainer>
   )

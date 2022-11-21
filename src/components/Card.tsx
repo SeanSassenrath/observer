@@ -60,10 +60,7 @@ const styles = StyleSheet.create({
 })
 
 export const CardV2 = (props: CardProps) => (
-  <Pressable
-    key={props.id}
-    onPress={() => props.onPress(props.id)}
-  >
+  <Pressable onPress={() => props.onPress(props.meditationId)}>
     <Layout
       level={props.level}
       style={stylesV2.card}

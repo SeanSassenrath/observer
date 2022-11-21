@@ -7,6 +7,7 @@ import { MeditationGroupKey, MeditationGroupName, MeditationSizes } from './cons
 
 // Stack Navigation
 export type StackParamList = {
+  Debug: undefined;
   InitialUpload: undefined;
   SignIn: undefined;
   Welcome: undefined;

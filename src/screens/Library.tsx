@@ -12,7 +12,7 @@ import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 
 const AddIcon = (props: any) => (
-  <Icon {...props} style={styles.faceIcon} fill='#9147BB' name='plus-circle-outline' />
+  <Icon {...props} style={styles.addIcon} fill='#9147BB' name='plus-circle-outline' />
 );
 
 const LibraryScreen = () => {
@@ -72,6 +72,7 @@ const LibraryScreen = () => {
 
       return (
         <MeditationList
+          key={firstMeditation.groupName}
           header={firstMeditation.groupName}
           meditationIds={meditationIds}
           onMeditationPress={onMeditationPress}
@@ -102,6 +103,10 @@ const LibraryScreen = () => {
 }
 
 const styles = StyleSheet.create({
+  addIcon: {
+    height: 25,
+    width: 25,
+  },
   libraryContainer: {
     paddingTop: 60,
   },
