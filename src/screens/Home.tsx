@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import _, { reduce } from 'lodash';
+import _ from 'lodash';
 import { Avatar, Button, Card, Icon, Layout, Text } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
@@ -10,19 +10,21 @@ import { meditationMap } from '../constants/meditation';
 import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
 import RecentMeditationIdsContext, { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
 import { removeFtuxStateFromAsyncStorage } from '../utils/ftux';
+import { CardV2, EmptyCard } from '../components/Card';
+import { TouchableWithoutFeedback } from '@ui-kitten/components/devsupport';
 
-const FaceIcon = (props: any) => (
-  <Icon {...props} style={styles.faceIcon} fill='#b2b2b2' name='smiling-face' />
+const SearchIcon = (props: any) => (
+  <Icon {...props} style={styles.searchIcon} fill='#b2b2b2' name='search' />
 );
 
 const HomeScreen = () => {
   const { recentMeditationIds } = useContext(RecentMeditationIdsContext);
-  const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
+  const meditationNavigation = useNavigation<MeditationScreenNavigationProp>();
   const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
 
   const onMeditationClick = (meditationId: MeditationId) => {
     if (meditationId) {
-      stackNavigation.navigate('Meditation', {
+      meditationNavigation.navigate('Meditation', {
         id: meditationId,
       });
     }
@@ -33,31 +35,22 @@ const HomeScreen = () => {
   }
 
   const renderRecentMeditations = () => (
-    <Layout>
+    <Layout style={styles.section}>
       <Text category='h6' style={styles.meditationGroup}>Recent Meditations</Text>
       <ScrollView horizontal={true} style={styles.horizontalContainer}>
-        {recentMeditationIds.map((meditationId, i) => (
-          <Layout
-            key={meditationMap[meditationId].meditationId}
-            style={i === 0 ? styles.firstCardContainer : styles.cardContainer}
-          >
-            <Card
-              appearance='filled'
-              key={meditationMap[meditationId].meditationId}
-              onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-              style={styles.card}
-            >
-              <Text category='s2' style={styles.meditationName}>
-                {`${meditationMap[meditationId].formattedDuration}m`}
-              </Text>
-            </Card>
-            <Layout style={styles.meditationData}>
-              <Text category='s1' style={styles.meditationName}>
-                {meditationMap[meditationId].name}
-              </Text>
-            </Layout>
-          </Layout>
-        ))}
+        {recentMeditationIds.map((meditationId, i) => {
+          const meditation = meditationMap[meditationId];
+          return (
+            <CardV2
+              formattedDuration={meditation.formattedDuration}
+              name={meditation.name}
+              id={meditation.meditationId}
+              key={meditation.meditationId}
+              isFirstCard
+              level='2'
+            />
+          )
+        })}
       </ScrollView>
     </Layout>
   );
@@ -83,24 +76,70 @@ const HomeScreen = () => {
     </Card>
   )
 
+  const renderEmptyCards = (categoryName: string) => (
+    <Layout style={styles.section}>
+      <Text category='h6' style={styles.meditationGroup}>{categoryName}</Text>
+      <ScrollView horizontal={true} style={styles.horizontalContainer}>
+        <EmptyCard />
+        <EmptyCard />
+        <EmptyCard />
+        <EmptyCard />
+        <EmptyCard />
+      </ScrollView>
+    </Layout>
+  )
+
+  const renderTopBar = () => (
+    <Layout style={styles.topBarContainer}>
+      <Layout level='4' style={styles.topBarVoidContainer}>
+        <Text category='s2' style={styles.topBarVoidText}>2k in the void</Text>
+      </Layout>
+      <Layout style={styles.topBarActionItemsContainer}>
+        <Layout level='2' style={styles.topBarSearchContainer}>
+          <TouchableWithoutFeedback>
+            <SearchIcon />
+          </TouchableWithoutFeedback>
+        </Layout>
+        <Avatar source={require('../assets/avatar.jpeg')} />
+      </Layout>
+    </Layout>
+  )
+
+  const renderStreakCard = () => (
+    <Layout>
+      <Text category='h6' style={styles.meditationGroup}>Streaks</Text>
+      <Layout level='2' style={styles.streakCardContainer}>
+        <Layout level='2'>
+          <Text category='s2' style={styles.streakCardHeader}>CURRENT</Text>
+          <Layout level='2' style={styles.streakCardCountContainer}>
+            <Text category='h5' style={styles.streakCardCount}>8</Text>
+          </Layout>
+          <Text category='s2' style={styles.streakCardHeader}>Days</Text>
+        </Layout>
+        <Layout style={styles.streakCardDivider} />
+        <Layout level='2'>
+          <Text category='s2' style={styles.streakCardHeader}>LONGEST</Text>
+          <Layout level='2' style={styles.streakCardCountContainer}>
+            <Text category='h5' style={styles.streakCardCount}>43</Text>
+          </Layout>
+          <Text category='s2' style={styles.streakCardHeader}>Days</Text>
+        </Layout>
+      </Layout>
+    </Layout>
+  )
+
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.test}>
-        <Layout style={styles.headerContainer}>
-          <Layout>
-            <Text category='h4' style={styles.headerText}>Good Morning, Sean</Text>
-            <Text category='s1' style={styles.headerText}>Current Streak: 5 days</Text>
-          </Layout>
-          <Layout>
-            <Avatar source={require('../assets/avatar.jpeg')} />
-          </Layout>
-        </Layout>
+          {renderTopBar()}
+          {renderStreakCard()}
           <Layout>
             { recentMeditationIds.length
                 ? renderRecentMeditations()
                 : renderStartMeditation()
             }
+            {renderEmptyCards('Favorites')}
             <Button
               size='small'
               appearance='ghost'
@@ -133,42 +172,16 @@ const styles = StyleSheet.create({
   bannerText: {
     paddingBottom: 10,
   },
-  card: {
-    backgroundColor: '#31384b',
-    width: 200,
-    height: 150,
-    borderRadius: 10,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
   container: {
     flex: 1,
   },
-  cardContainer: {
-    marginRight: 20,
-    width: 200,
-  },
-  firstCardContainer: {
-    marginRight: 20,
-    marginLeft: 20,
-    width: 200,
-  },
-  faceIcon: {
-    height: 35,
-    width: 35,
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-    paddingTop: 30,
-  },
-  headerText: {
-    padding: 2,
+  searchIcon: {
+    height: 25,
+    width: 25,
   },
   horizontalContainer: {
-    paddingVertical: 20,
+    paddingLeft: 20,
+    paddingRight: 100,
   },
   manageMeditationButton: {
     width: 200,
@@ -177,6 +190,7 @@ const styles = StyleSheet.create({
   },
   meditationGroup: {
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   meditationData: {
     marginVertical: 8,
@@ -198,6 +212,58 @@ const styles = StyleSheet.create({
   test: {
     flex: 1,
     flexDirection: 'column'
+  },
+  section: {
+    marginBottom: 60,
+  },
+  streakCardContainer: {
+    flexDirection: 'row',
+    marginBottom: 60,
+    justifyContent: 'space-around',
+    marginHorizontal: 20,
+    borderRadius: 10,
+  },
+  streakCardHeader: {
+    opacity: 0.3,
+    padding: 10,
+    textAlign: 'center',
+  },
+  streakCardCountContainer: {
+    textAlign: 'center',
+  },
+  streakCardCount: {
+    textAlign: 'center',
+  },
+  streakCardDivider: {
+    backgroundColor: '#ffffff',
+    marginVertical: 20,
+    width: 1,
+    opacity: 0.3,
+  },
+  topBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+    marginBottom: 20,
+  },
+  topBarActionItemsContainer: {
+    flexDirection: 'row',
+  },
+  topBarSearchContainer: {
+    alignItems: 'center',
+    borderRadius: 50,
+    justifyContent: 'center',
+    marginHorizontal: 18,
+    padding: 8,
+  },
+  topBarVoidContainer: {
+    borderRadius: 25,
+    paddingHorizontal: 24,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  topBarVoidText: {
+    opacity: 0.7,
   }
 })
 

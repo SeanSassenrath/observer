@@ -2,17 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _ from 'lodash';
-import { Avatar, Card, Icon, Layout, Text } from '@ui-kitten/components/ui';
+import { Icon, Layout, Text } from '@ui-kitten/components/ui';
 
 import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { meditationMap } from '../constants/meditation';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
-
-const FaceIcon = (props: any) => (
-  <Icon {...props} style={styles.faceIcon} fill='#b2b2b2' name='smiling-face' />
-);
+import { CardV2 } from '../components/Card';
 
 const AddIcon = (props: any) => (
   <Icon {...props} style={styles.faceIcon} fill='#9147BB' name='plus-circle-outline' />
@@ -77,27 +74,20 @@ const LibraryScreen = () => {
         <Layout key={firstMeditation.groupKey} style={styles.section}>
           <Text category='h6' style={styles.groupHeader}>{firstMeditation.groupName}</Text>
           <ScrollView horizontal={true} style={styles.horizontalContainer}>
-            {meditationIds.map((meditationId, i) => (
-              <Layout
-                key={meditationMap[meditationId].meditationId}
-                style={i === 0 ? styles.firstCardContainer : styles.cardContainer}
-              >
-                <Card
-                  appearance='filled'
-                  onPress={() => onMeditationClick(meditationMap[meditationId].meditationId)}
-                  style={styles.card}
-                >
-                  <Text category='s2' style={styles.meditationName}>
-                    {`${meditationMap[meditationId].formattedDuration}m`}
-                  </Text>
-                </Card>
-                <Layout style={styles.meditationData}>
-                  <Text category='s1' style={styles.meditationName}>
-                    {meditationMap[meditationId].name}
-                  </Text>
-                </Layout>
-              </Layout>
-            ))}
+            {meditationIds.map((meditationId, i) => {
+              const meditation = meditationMap[meditationId];
+              return (
+                <CardV2
+                  formattedDuration={meditation.formattedDuration}
+                  name={meditation.name}
+                  id={meditation.meditationId}
+                  key={meditation.meditationId}
+                  isFirstCard
+                  level='2'
+                />
+              )
+            }
+            )}
           </ScrollView>
         </Layout>
       )
@@ -164,6 +154,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   horizontalContainer: {
+    paddingLeft: 20,
     paddingVertical: 24,
   },
   libraryContainer: {

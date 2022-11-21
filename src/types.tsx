@@ -34,10 +34,10 @@ export type MeditationStackScreenProps<T extends keyof StackParamList> =
   StackScreenProps<StackParamList, T>;
 
 export type MeditationFinishProps = NativeStackScreenProps<StackParamList, 'MeditationFinish'>;
-export type MeditationFinishScreenNavigationProp = MeditationProps['navigation'];
+export type MeditationFinishScreenNavigationProp = MeditationFinishProps['navigation'];
 
 export type MeditationPlayerProps = NativeStackScreenProps<StackParamList, 'MeditationPlayer'>;
-export type MeditationPlayerScreenNavigationProp = MeditationProps['navigation'];
+export type MeditationPlayerScreenNavigationProp = MeditationPlayerProps['navigation'];
 export type MeditationPlayerStackScreenProps<T extends keyof StackParamList> =
   StackScreenProps<StackParamList, T>;
 
@@ -56,7 +56,7 @@ type LearnProps = BottomTabNavigationProp<TabParamList, 'Learn'>;
 
 export type HomeScreenNavigationProp = HomeProps['navigate'];
 export type InsightScreenNavigationProp = InsightProps['navigate'];
-export type LibraryScreenNavigationProp = LibraryProps['navigate'];
+export type LibraryScreenNavigationProp = LibraryProps[];
 export type LearnScreenNavigationProp = LearnProps['navigate'];
 
 // export type MeditationSyncProps = NativeStackScreenProps<HomeStackParamList, 'MeditationSync'>;
@@ -69,12 +69,13 @@ export interface PickedFile extends DocumentPickerResponse {
 
 // Meditation Data
 type MeditationArtist = string;
-type MeditationFormattedDuration = string;
+export type MeditationFormattedDuration = string;
 export type MeditationId = string;
 type MeditationInstanceId = string;
-type MeditationName = string;
+export type MeditationName = string;
 
 export interface Meditation {
+  artwork: any,
   artist: MeditationArtist,
   formattedDuration: MeditationFormattedDuration,
   id: MeditationInstanceId,

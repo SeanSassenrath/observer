@@ -14,7 +14,7 @@ import WelcomeScreen from '../screens/Welcome';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 
-const { Group, Navigator, Screen } = createNativeStackNavigator<StackParamList>();
+const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
   const { hasSeenFtux } = useContext(FtuxContext);

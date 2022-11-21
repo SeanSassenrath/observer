@@ -38,7 +38,10 @@ const App = () => {
     const syncAsyncRecentMeditationStorageToContext = async () => {
       const recentMeditationIdsFromStorage = await getRecentMeditationIdsFromAsyncStorage();
       if (recentMeditationIdsFromStorage) {
+        console.log('HERE', recentMeditationIdsFromStorage)
         setRecentMeditationIds(recentMeditationIdsFromStorage);
+      } else {
+        return null;
       }
     }
 

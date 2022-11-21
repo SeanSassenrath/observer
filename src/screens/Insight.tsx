@@ -15,7 +15,7 @@ const InsightScreen = () => {
         <Layout level={level} style={styles.listItemDataContainer}>
           <Layout level={level}>
             <Text category='s1' style={styles.listItemText}>{item.date}</Text>
-            <Text category='s2' style={styles.listItemText}>{item.time}</Text>
+            {/* <Text category='s2' style={styles.listItemText}>{item.time}</Text> */}
             <Text category='s2' style={styles.listItemText}>{item.name}</Text>
           </Layout>
           <Layout level={level}>

@@ -31,6 +31,7 @@ const placeholder = '';
 
 export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentials]: {
+    artwork: '',
     artist,
     formattedDuration: '45',
     id: placeholder,
@@ -42,6 +43,7 @@ export const meditationMap: MeditationMap = {
     url: require('../tracks/56004113.mp3'),
   },
   [MeditationKeys.NewPotentialsBreath]: {
+    artwork: '',
     artist,
     formattedDuration: '7',
     id: placeholder,
@@ -53,6 +55,7 @@ export const meditationMap: MeditationMap = {
     url: require('../tracks/9674897.mp3'),
   },
   [MeditationKeys.BreakingTheHabit]: {
+    artwork: '',
     artist,
     formattedDuration: '15',
     id: placeholder,
@@ -64,6 +67,7 @@ export const meditationMap: MeditationMap = {
     url: require('../tracks/149360649.m4a'),
   },
   [MeditationKeys.BreakingTheHabitWater]: {
+    artwork: '',
     artist,
     formattedDuration: '11',
     id: placeholder,
