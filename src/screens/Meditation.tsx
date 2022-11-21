@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {
   Icon,
+  Input,
   Layout,
   Text,
+  Toggle,
 } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
@@ -21,12 +23,42 @@ const WarningIcon = (props: any) => (
   <Icon {...props} style={styles.actionIcon} fill='#b2b2b2' name='bell-off-outline' />
 );
 
-const WatchIcon = (props: any) => (
-  <Icon {...props} style={styles.actionIcon} fill='#b2b2b2' name='clock-outline' />
-);
+interface Option1Props {
+  toggledState: boolean;
+  setToggledState(): void;
+}
+
+const LayoutOption1 = (props: Option1Props) => (
+  <Layout style={styles.option1Container}>
+    <Layout style={styles.option1ActionsContainer}>
+      <Toggle
+        checked={props.toggledState}
+        onChange={props.setToggledState}
+        style={styles.toggle}
+      >
+        Add breath work to this meditation
+      </Toggle>
+      <Input
+        multiline
+        textStyle={{ minHeight: 64 }}
+        placeholder='Set an intention for this meditation'
+      />
+    </Layout>
+    <Layout style={styles.meditationInfo}>
+      <WarningIcon />
+      <Text
+        category='s1'
+        style={styles.meditationInfoText}
+      >
+        Don't forget to turn on "Do Not Disturb"
+      </Text>
+    </Layout>
+  </Layout>
+)
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
   const navigation = useNavigation<MeditationScreenNavigationProp>();
+  const [toggledState, setToggledState] = useState(false);
   const { id } = route.params;
 
   const meditation = meditationMap[id];
@@ -37,6 +69,10 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 
   const onStartPress = () => {
     navigation.navigate('MeditationPlayer', { id });
+  }
+  
+  const onTogglePress = () => {
+    setToggledState(!toggledState);
   }
 
   if (!meditation) return null;
@@ -55,16 +91,11 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
         </Layout>
         <Layout style={styles.mainSection}>
           <Text category='h6'>{meditation.name}</Text>
-          <Layout style={styles.meditationInfoContainer}>
-            <Layout style={styles.meditationInfo}>
-              <WatchIcon />
-              <Text
-                category='s1'
-                style={styles.meditationInfoText}
-              >
-                {`This meditation will take ${meditation.formattedDuration} min`}
-              </Text>
-            </Layout>
+          <LayoutOption1
+            toggledState={toggledState}
+            setToggledState={onTogglePress}
+          />          
+          {/* <Layout style={styles.meditationInfoContainer}>
             <Layout style={styles.meditationInfo}>
               <WarningIcon />
               <Text
@@ -74,7 +105,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
                 Turn on "Do Not Disturb"
               </Text>
             </Layout>
-          </Layout>
+          </Layout> */}
         </Layout>
         <Layout style={styles.bottomBar}>
           <_Button onPress={onStartPress} size='large'>Start</_Button>
@@ -134,13 +165,13 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   meditationInfo: {
-    marginVertical: 12,
+    marginTop: 12,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   meditationInfoText: {
     color: '#b2b2b2',
-    marginTop: 4,
     marginLeft: 10,
   },
   topBar: {
@@ -153,6 +184,16 @@ const styles = StyleSheet.create({
   },
   topBarIcon: {
     flex: 1
+  },
+  option1Container: {
+    marginTop: 30,
+  },
+  option1ActionsContainer: {
+    marginBottom: 60,
+  },
+  toggle: {
+    justifyContent: 'flex-start',
+    marginBottom: 30,
   }
 })
 
