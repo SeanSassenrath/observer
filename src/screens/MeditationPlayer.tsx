@@ -2,36 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
-import Slider from '@react-native-community/slider';
 import _ from 'lodash';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
-import { MeditationFinishScreenNavigationProp, MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
+import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
 import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
+import { Player } from '../components/Player';
 
 const brightWhite = '#fcfcfc';
-const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
-
 const countDownInSeconds = 5;
 
 const CloseIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='close-outline' />
-);
-
-const PlayIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='play-circle' />
-);
-
-const PauseIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='pause-circle' />
-);
-
-const RestartIcon = (props: any) => (
-  <Icon {...props} style={styles.restartIcon} fill={lightWhite} name='sync' />
 );
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
@@ -51,18 +37,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   if (!meditation) return null;
 
-  const addTracks = async () => {
-    try {
-      await TrackPlayer.add(tracks)
-    } catch(e) {
-      console.log(e);
-    }
-  }
-
-  const removeTracks = async () => {
-    await TrackPlayer.reset();
-  }
-
   const updateRecentMeditationIds = () => {
     if (meditation) {
       const recentlyPlayedIds = [meditation.meditationId, ...recentMeditationIds];
@@ -72,7 +46,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   useEffect(() => {
-    addTracks();
     const recentMeditationIds = updateRecentMeditationIds();
     const timerId = setInterval(() => {
       timerRef.current -= 1;
@@ -90,7 +63,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     }, 1000);
 
     return () => {
-      removeTracks();
       clearInterval(timerId);
     }
   }, []);
@@ -102,28 +74,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const onFinishPress = () => {
     navigation.replace('MeditationFinish');
   }
-
-  const onPlayPress = async () => {
-    TrackPlayer.play();
-    await TrackPlayer.getState();
-    setIsPlaying(true);
-  }
-
-  const onPausePress = async () => {
-    TrackPlayer.pause();
-    await TrackPlayer.getState();
-    setIsPlaying(false);
-  }
-
-  const onRestartPress = async () => {
-    TrackPlayer.seekTo(0);
-  }
-
-  const timePassed = new Date(position * 1000).toISOString().slice(14, 19);
-
-  const timeLeft = new Date((duration - position) * 1000)
-    .toISOString()
-    .slice(14, 19);
 
   const isFinishButtonDisabled = time > 0;
 
@@ -151,45 +101,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar}>
-          <Layout style={styles.player}>
-            <TouchableWithoutFeedback
-              onPress={onRestartPress}
-            >
-              <Layout style={styles.restartContainer}>
-                <RestartIcon />
-              </Layout>
-            </TouchableWithoutFeedback>
-            <Slider
-              style={styles.slider}
-              value={position}
-              minimumValue={0}
-              maximumValue={duration}
-              thumbTintColor={brightWhite}
-              minimumTrackTintColor={brightWhite}
-              maximumTrackTintColor={lightestWhite}
-              onSlidingComplete={TrackPlayer.seekTo}
-            />
-            <Layout style={styles.timeTextContainer}>
-              <Layout style={styles.testTime}>
-                <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
-              </Layout>
-              <Layout style={styles.testTime}>
-                <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
-              </Layout>
-            </Layout>
-            {isPlaying
-              ? <TouchableWithoutFeedback
-                onPress={onPausePress}
-              >
-                <PauseIcon />
-              </TouchableWithoutFeedback>
-              : <TouchableWithoutFeedback
-                onPress={onPlayPress}
-              >
-                <PlayIcon />
-              </TouchableWithoutFeedback>
-            }
-          </Layout>
+          <Player tracks={tracks} />
           <Layout style={styles.finishButtonContainer}>
             <_Button
               disabled={isFinishButtonDisabled}
@@ -242,14 +154,6 @@ const styles = StyleSheet.create({
     fontSize: 80,
     color: lightestWhite,
   },
-  playerIcon: {
-    height: 70,
-    width: 70,
-  },
-  restartIcon: {
-    height: 30,
-    width: 30,
-  },
   topBar: {
     alignItems: 'center',
     flexDirection: 'row-reverse',
@@ -262,30 +166,6 @@ const styles = StyleSheet.create({
   closeIconContainer: {
     padding: 20,
   },
-  player: {
-    alignItems: 'center',
-  },
-  restartContainer: {
-    flexDirection: 'row',
-    padding: 20,
-  },
-  timeTextContainer: {
-    flexDirection: 'row',
-    marginHorizontal: 20,
-  },
-  slider: {
-    width: 350,
-  },
-  testTime: {
-    flex: 1,
-  },
-  timePassed: {
-    color: '#f3f3f3',
-  },
-  timeLeft: {
-    textAlign: 'right',
-    color: '#f3f3f3',
-  }
 })
 
 export default MeditationPlayer;
