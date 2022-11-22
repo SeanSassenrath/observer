@@ -39,6 +39,7 @@ export const meditationMap: MeditationMap = {
     groupKey: MeditationGroupKey.NewPotential,
     groupName: MeditationGroupName.NewPotential,
     meditationId: MeditationKeys.NewPotentials,
+    meditationBreathId: MeditationKeys.NewPotentialsBreath,
     name: 'Tuning Into New Potentials',
     size: MeditationSizes.NewPotentials,
     url: require('../tracks/56004113.mp3'),

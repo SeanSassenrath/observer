@@ -24,6 +24,7 @@ const WarningIcon = (props: any) => (
 );
 
 interface Option1Props {
+  hasBreathMeditation: boolean;
   toggledState: boolean;
   setToggledState(): void;
 }
@@ -31,13 +32,16 @@ interface Option1Props {
 const LayoutOption1 = (props: Option1Props) => (
   <Layout style={styles.option1Container}>
     <Layout style={styles.option1ActionsContainer}>
-      <Toggle
-        checked={props.toggledState}
-        onChange={props.setToggledState}
-        style={styles.toggle}
-      >
-        Add breath work to this meditation
-      </Toggle>
+      { props.hasBreathMeditation
+        ? <Toggle
+            checked={props.toggledState}
+            onChange={props.setToggledState}
+            style={styles.toggle}
+          >
+            Add breath work to this meditation
+          </Toggle>
+        : null
+      }
       <Input
         multiline
         textStyle={styles.textStyle}
@@ -63,13 +67,18 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const { id } = route.params;
 
   const meditation = meditationMap[id];
+  const meditationBreathId = toggledState ? meditation.meditationBreathId : '';
 
   const onBackPress = () => {
     navigation.pop();
   }
 
   const onStartPress = () => {
-    navigation.navigate('MeditationPlayer', { id });
+
+    navigation.navigate('MeditationPlayer', {
+      id,
+      meditationBreathId: meditationBreathId
+    });
   }
   
   const onTogglePress = () => {
@@ -93,6 +102,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
         <Layout style={styles.mainSection}>
           <Text category='h6'>{meditation.name}</Text>
           <LayoutOption1
+            hasBreathMeditation={!!meditation.meditationBreathId}
             toggledState={toggledState}
             setToggledState={onTogglePress}
           />          

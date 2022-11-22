@@ -18,7 +18,8 @@ export type StackParamList = {
 };
 
 interface MeditationParams {
-  id: string,
+  id: MeditationId,
+  meditationBreathId?: MeditationId,
 }
 
 type InitialUploadProps = NativeStackScreenProps<StackParamList, 'InitialUpload'>;
@@ -84,6 +85,7 @@ export interface Meditation {
   groupKey: MeditationGroupKey,
   groupName: MeditationGroupName,
   meditationId: MeditationId,
+  meditationBreathId?: MeditationId,
   name: MeditationName,
   size: MeditationSizes,
   url: any,

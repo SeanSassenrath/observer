@@ -42,14 +42,18 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const [time, setTime] = React.useState(countDownInSeconds);
   const timerRef = React.useRef(time);
 
-  const { id } = route.params;
+  const { id, meditationBreathId } = route.params;
   const meditation = meditationMap[id]
+  const tracks = [meditation]
+  if (meditationBreathId) {
+    tracks.unshift(meditationMap[meditationBreathId])
+  };
 
   if (!meditation) return null;
 
   const addTracks = async () => {
     try {
-      await TrackPlayer.add(meditation)
+      await TrackPlayer.add(tracks)
     } catch(e) {
       console.log(e);
     }
