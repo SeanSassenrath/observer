@@ -10,6 +10,7 @@ import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
 import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
+import { SearchBar } from '../components/SearchBar';
 
 const AddIcon = (props: any) => (
   <Icon {...props} style={styles.addIcon} fill='#9147BB' name='plus-circle-outline' />
@@ -66,6 +67,8 @@ const LibraryScreen = () => {
     }
   }
 
+  const onClearPress = () => setSearchInput(EMPTY_SEARCH);
+
   const filterBySearch = (searchInput: string, meditationIds: MeditationId[]) => {
     const filteredIdList = meditationIds.filter((meditationId) => {
       const meditation = meditationMap[meditationId];
@@ -110,10 +113,10 @@ const LibraryScreen = () => {
           </Layout> */}
           <Layout style={styles.screenContainer}>
             <Layout style={styles.inputContainer}>
-              <Input 
-                placeholder='Search'
-                value={searchInput}
-                onChangeText={(nextInput) => setSearchInput(nextInput)}
+              <SearchBar
+                input={searchInput}
+                onChangeText={setSearchInput}
+                onClearPress={onClearPress}
               />
             </Layout>
             {renderMeditationGroupSections()}
@@ -137,7 +140,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   screenContainer: {
-    paddingTop: 60,
+    paddingTop: 40,
   },
 })
 
