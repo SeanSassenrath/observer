@@ -60,11 +60,11 @@ const HomeScreen = () => {
           <HomeTopBar onVoidPress={onVoidPress}/>
           <HomeStreaks />
           <Layout>
-            <MeditationList
+            {/* <MeditationList
               header='Recently Uploaded'
               meditationIds={recentMeditationIds}
               onMeditationPress={onMeditationClick}
-            />
+            /> */}
             <MeditationList
               header='Recent Meditations'
               meditationIds={recentMeditationIds}
