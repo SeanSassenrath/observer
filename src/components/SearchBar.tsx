@@ -8,10 +8,6 @@ interface SearchBarProps {
   onClearPress(): void;
 }
 
-const ClearIcon = (props: any) => (
-  <Icon {...props} style={styles.clearIcon} fill='#9147BB' name='close-circle' />
-);
-
 interface ClearButton {
   onClearPress(): void;
 }

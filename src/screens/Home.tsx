@@ -55,29 +55,29 @@ const HomeScreen = () => {
 
   return (
     <Layout style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollContainer}>
-          <HomeTopBar onVoidPress={onVoidPress}/>
-          <HomeStreaks />
-          <Layout>
-            {/* <MeditationList
-              header='Recently Uploaded'
-              meditationIds={recentMeditationIds}
-              onMeditationPress={onMeditationClick}
-            /> */}
-            <MeditationList
-              header='Recent Meditations'
-              meditationIds={recentMeditationIds}
-              onMeditationPress={onMeditationClick}
-            />
-            <MeditationList
-              header='Favorites'
-              meditationIds={[]}
-              onMeditationPress={_.noop}
-            />
-          </Layout>
-        </ScrollView>
-      </SafeAreaView>
+      <ScrollView style={styles.scrollContainer}>
+        <SafeAreaView style={styles.container}>
+            <HomeTopBar onVoidPress={onVoidPress}/>
+            <HomeStreaks />
+            <Layout>
+              {/* <MeditationList
+                header='Recently Uploaded'
+                meditationIds={recentMeditationIds}
+                onMeditationPress={onMeditationClick}
+              /> */}
+              <MeditationList
+                header='Recent Meditations'
+                meditationIds={recentMeditationIds}
+                onMeditationPress={onMeditationClick}
+              />
+              <MeditationList
+                header='Favorites'
+                meditationIds={[]}
+                onMeditationPress={_.noop}
+              />
+            </Layout>
+        </SafeAreaView>
+      </ScrollView>
     </Layout>
   )
 }

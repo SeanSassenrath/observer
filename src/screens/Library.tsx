@@ -101,8 +101,8 @@ const LibraryScreen = () => {
 
   return (
     <Layout style={styles.rootContainer}>
-      <SafeAreaView style={styles.rootContainer}>
-        <ScrollView>
+      <ScrollView>
+        <SafeAreaView style={styles.rootContainer}>
           {/* <Layout style={styles.headerContainer}>
             <TouchableWithoutFeedback
               onPress={onAddPress}
@@ -121,8 +121,8 @@ const LibraryScreen = () => {
             </Layout>
             {renderMeditationGroupSections()}
           </Layout>
-        </ScrollView>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ScrollView>
     </Layout>
   )
 }

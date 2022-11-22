@@ -40,8 +40,9 @@ const LayoutOption1 = (props: Option1Props) => (
       </Toggle>
       <Input
         multiline
-        textStyle={{ minHeight: 64 }}
+        textStyle={styles.textStyle}
         placeholder='Set an intention for this meditation'
+        style={styles.inputStyle}
       />
     </Layout>
     <Layout style={styles.meditationInfo}>
@@ -194,6 +195,15 @@ const styles = StyleSheet.create({
   toggle: {
     justifyContent: 'flex-start',
     marginBottom: 30,
+  },
+  textStyle: {
+    minHeight: 80,
+    fontSize: 16,
+  },
+  inputStyle: {
+    borderColor: 'transparent',
+    borderRadius: 10,
+    backgroundColor: '#1B2237',
   }
 })
 

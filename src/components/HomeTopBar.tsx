@@ -18,11 +18,11 @@ export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => (
       </Layout>
     </Pressable>
     <Layout style={styles.topBarActionItemsContainer}>
-      <Layout level='2' style={styles.topBarSearchContainer}>
+      {/* <Layout level='2' style={styles.topBarSearchContainer}>
         <TouchableWithoutFeedback>
           <SearchIcon />
         </TouchableWithoutFeedback>
-      </Layout>
+      </Layout> */}
       <Avatar source={require('../assets/avatar.jpeg')} />
     </Layout>
   </Layout>
