@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import TrackPlayer, { useProgress } from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
 import _ from 'lodash';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
@@ -24,13 +24,13 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const { recentMeditationIds, setRecentMeditationIds } = useContext(RecentMeditationIdsContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
-  const { position, duration } = useProgress()
   const [time, setTime] = React.useState(countDownInSeconds);
   const timerRef = React.useRef(time);
 
   const { id, meditationBreathId } = route.params;
   const meditation = meditationMap[id]
   const tracks = [meditation]
+  console.log('tracks ', tracks);
   if (meditationBreathId) {
     tracks.unshift(meditationMap[meditationBreathId])
   };
