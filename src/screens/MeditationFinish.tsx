@@ -1,37 +1,64 @@
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Layout, Text } from '@ui-kitten/components';
-import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
 
 import _Button from '../components/Button';
+import { MultiLineInput } from '../components/MultiLineInput';
 import { MeditationFinishScreenNavigationProp } from '../types';
+import { MeditationFeedbackCard } from '../components/MeditationFeedbackCard';
+
+const EMPTY_INPUT = '';
 
 const MeditationFinishScreen = () => {
   const navigation = useNavigation<MeditationFinishScreenNavigationProp>();
+  const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
+  const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
 
   const onDonePress = () => {
     navigation.navigate('TabNavigation')
   }
 
   return (
-    <Layout style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <Layout style={styles.contentContainer}>
-          <Text category='s1' style={styles.text}>What does this screen look like?</Text>
-          <_Button
-            onPress={onDonePress}
-            style={styles.doneButton}
-          >
-            DONE
-          </_Button>
-        </Layout>
-      </SafeAreaView>
+    <Layout style={styles.rootContainer}>
+      <ScrollView style={styles.scrollContainer}>
+        <SafeAreaView>
+          <Layout style={styles.contentContainer}>
+            <Text category='h5' style={styles.text}>Welcome back</Text>
+            <MeditationFeedbackCard />
+            <MultiLineInput
+              onChangeText={setFirstInput}
+              placeholder='What feelings did you embody?'
+              value={firstInput}
+              style={styles.input}
+            />
+            <MultiLineInput
+              onChangeText={setFirstInput}
+              placeholder='What do you want to focus on next time?'
+              value={firstInput}
+              style={styles.input}
+            />
+          </Layout>
+        </SafeAreaView>
+      </ScrollView>
+      <Layout style={styles.bottomBarContainer}>
+        <_Button
+          onPress={onDonePress}
+          style={styles.doneButton}
+        >
+          DONE
+        </_Button>
+      </Layout>
     </Layout>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
+  bottomBarContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 60,
+  },
+  rootContainer: {
     flex: 1,
   },
   contentContainer: {
@@ -43,8 +70,15 @@ const styles = StyleSheet.create({
   doneButton: {
     marginTop: 20,
   },
+  scrollContainer: {
+    flex: 1,
+  },
   text: {
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  input: {
+    marginBottom: 60,
   }
 })
 

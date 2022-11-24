@@ -12,8 +12,10 @@ import {
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
 import { meditationMap } from '../constants/meditation';
+import { MultiLineInput } from '../components/MultiLineInput';
 
 const brightWhite = '#fcfcfc';
+const EMPTY_INPUT = '';
 
 const BackIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
@@ -25,8 +27,10 @@ const WarningIcon = (props: any) => (
 
 interface Option1Props {
   hasBreathMeditation: boolean;
-  toggledState: boolean;
+  onChangeText(newVal: string): void;
   setToggledState(): void;
+  toggledState: boolean;
+  value: string;
 }
 
 const LayoutOption1 = (props: Option1Props) => (
@@ -42,11 +46,10 @@ const LayoutOption1 = (props: Option1Props) => (
           </Toggle>
         : null
       }
-      <Input
-        multiline
-        textStyle={styles.textStyle}
-        placeholder='Set an intention for this meditation'
-        style={styles.inputStyle}
+      <MultiLineInput
+        onChangeText={props.onChangeText}
+        placeholder='Set an intention for your meditation'
+        value={props.value}
       />
     </Layout>
     <Layout style={styles.meditationInfo}>
@@ -64,6 +67,7 @@ const LayoutOption1 = (props: Option1Props) => (
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
   const navigation = useNavigation<MeditationScreenNavigationProp>();
   const [toggledState, setToggledState] = useState(false);
+  const [inputValue, setInputValue] = useState(EMPTY_INPUT);
   const { id } = route.params;
 
   const meditation = meditationMap[id];
@@ -103,8 +107,10 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
           <Text category='h6'>{meditation.name}</Text>
           <LayoutOption1
             hasBreathMeditation={!!meditation.meditationBreathId}
-            toggledState={toggledState}
+            onChangeText={setInputValue}
             setToggledState={onTogglePress}
+            toggledState={toggledState}
+            value={inputValue}
           />          
           {/* <Layout style={styles.meditationInfoContainer}>
             <Layout style={styles.meditationInfo}>
@@ -206,15 +212,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginBottom: 30,
   },
-  textStyle: {
-    minHeight: 80,
-    fontSize: 16,
-  },
-  inputStyle: {
-    borderColor: 'transparent',
-    borderRadius: 10,
-    backgroundColor: '#1B2237',
-  }
 })
 
 export default MeditationScreen;

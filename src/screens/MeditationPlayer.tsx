@@ -30,7 +30,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const { id, meditationBreathId } = route.params;
   const meditation = meditationMap[id]
   const tracks = [meditation]
-  console.log('tracks ', tracks);
+  
   if (meditationBreathId) {
     tracks.unshift(meditationMap[meditationBreathId])
   };
