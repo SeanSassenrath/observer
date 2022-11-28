@@ -34,8 +34,8 @@ interface Option1Props {
 }
 
 const LayoutOption1 = (props: Option1Props) => (
-  <Layout style={styles.option1Container}>
-    <Layout style={styles.option1ActionsContainer}>
+  <Layout style={styles.option1Container} level='4'>
+    <Layout style={styles.option1ActionsContainer} level='4'>
       { props.hasBreathMeditation
         ? <Toggle
             checked={props.toggledState}
@@ -52,7 +52,7 @@ const LayoutOption1 = (props: Option1Props) => (
         value={props.value}
       />
     </Layout>
-    <Layout style={styles.meditationInfo}>
+    <Layout style={styles.meditationInfo} level='4'>
       <WarningIcon />
       <Text
         category='s1'
@@ -92,18 +92,16 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   if (!meditation) return null;
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topBar}>
-          <TouchableWithoutFeedback
-            onPress={onBackPress}
-          >
+        <Layout style={styles.topBar} level='4'>
+          <TouchableWithoutFeedback onPress={onBackPress}>
             <Layout style={styles.closeIconContainer}>
               <BackIcon />
             </Layout>
           </TouchableWithoutFeedback>
         </Layout>
-        <Layout style={styles.mainSection}>
+        <Layout style={styles.mainSection} level='4'>
           <Text category='h6'>{meditation.name}</Text>
           <LayoutOption1
             hasBreathMeditation={!!meditation.meditationBreathId}
@@ -124,7 +122,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
             </Layout>
           </Layout> */}
         </Layout>
-        <Layout style={styles.bottomBar}>
+        <Layout style={styles.bottomBar} level='4'>
           <_Button onPress={onStartPress} size='large'>Start</_Button>
         </Layout>
       </SafeAreaView>

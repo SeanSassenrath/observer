@@ -78,11 +78,11 @@ export const Player = (props: PlayerProps) => {
     .slice(14, 19);
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level='4'>
       <TouchableWithoutFeedback
         onPress={onRestartPress}
       >
-        <Layout style={styles.restartContainer}>
+        <Layout style={styles.restartContainer} level='4'>
           <RestartIcon />
         </Layout>
       </TouchableWithoutFeedback>
@@ -96,11 +96,11 @@ export const Player = (props: PlayerProps) => {
         maximumTrackTintColor={lightestWhite}
         onSlidingComplete={TrackPlayer.seekTo}
       />
-      <Layout style={styles.timeTextContainer}>
-        <Layout style={styles.timeContainer}>
+      <Layout style={styles.timeTextContainer} level='4'>
+        <Layout style={styles.timeContainer} level='4'>
           <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
         </Layout>
-        <Layout style={styles.timeContainer}>
+        <Layout style={styles.timeContainer} level='4'>
           <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
         </Layout>
       </Layout>

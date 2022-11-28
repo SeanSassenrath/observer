@@ -3,9 +3,9 @@ export const myTheme = {
   colors: {
     primary: '#9147BB',
     background: '',
-    card: '#1B2237',
+    card: '#04060C',
     text: '#F1D0F9',
-    border: '#1B2237',
+    border: '#31384b',
     notification: '',
   },
 };

@@ -78,31 +78,31 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const isFinishButtonDisabled = time > 0;
 
   return (
-    <Layout style={styles.container}>
+    <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topBar}>
+        <Layout style={styles.topBar} level='4'>
           <TouchableWithoutFeedback
             onPress={onClosePress}
           >
-            <Layout style={styles.closeIconContainer}>
+            <Layout style={styles.closeIconContainer} level='4'>
               <CloseIcon />
             </Layout>
           </TouchableWithoutFeedback>
         </Layout>
-        <Layout style={styles.main}>
-          <Layout style={styles.countdownTextContainer}>
+        <Layout style={styles.main} level='4'>
+          <Layout style={styles.countdownTextContainer} level='4'>
             {time > 0
               ? <Text style={styles.countdownText}>{time}</Text>
               : null
             }
           </Layout>
-          <Layout style={styles.meditationName}>
+          <Layout style={styles.meditationName} level='4'>
             <Text category='h6' style={styles.meditationNameText}>{meditation.name}</Text>
           </Layout>
         </Layout>
-        <Layout style={styles.bottomBar}>
+        <Layout style={styles.bottomBar} level='4'>
           <Player tracks={tracks} />
-          <Layout style={styles.finishButtonContainer}>
+          <Layout style={styles.finishButtonContainer} level='4'>
             <_Button
               disabled={isFinishButtonDisabled}
               onPress={onFinishPress}

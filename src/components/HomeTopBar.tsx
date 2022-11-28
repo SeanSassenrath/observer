@@ -11,13 +11,13 @@ interface HomeTopBarProps {
 }
 
 export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => (
-  <Layout style={styles.topBarContainer}>
+  <Layout style={styles.topBarContainer} level='4'>
     <Pressable onPress={onVoidPress}>
-      <Layout level='4' style={styles.topBarVoidContainer}>
+      <Layout level='2' style={styles.topBarVoidContainer}>
         <Text category='s2' style={styles.topBarVoidText}>2k in the void</Text>
       </Layout>
     </Pressable>
-    <Layout style={styles.topBarActionItemsContainer}>
+    <Layout style={styles.topBarActionItemsContainer} level='4'>
       {/* <Layout level='2' style={styles.topBarSearchContainer}>
         <TouchableWithoutFeedback>
           <SearchIcon />
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   topBarActionItemsContainer: {
     flexDirection: 'row',

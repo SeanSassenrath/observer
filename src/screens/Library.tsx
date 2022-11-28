@@ -100,7 +100,7 @@ const LibraryScreen = () => {
   }
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout style={styles.rootContainer} level='4'>
       <ScrollView>
         <SafeAreaView style={styles.rootContainer}>
           {/* <Layout style={styles.headerContainer}>
@@ -111,8 +111,8 @@ const LibraryScreen = () => {
             </TouchableWithoutFeedback>
             <Avatar source={require('../assets/avatar.jpeg')} />
           </Layout> */}
-          <Layout style={styles.screenContainer}>
-            <Layout style={styles.inputContainer}>
+          <Layout style={styles.screenContainer} level='4'>
+            <Layout style={styles.inputContainer} level='4'>
               <SearchBar
                 input={searchInput}
                 onChangeText={setSearchInput}

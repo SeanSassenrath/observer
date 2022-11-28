@@ -27,12 +27,12 @@ const InsightScreen = () => {
   }
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout style={styles.rootContainer} level='4'>
       <SafeAreaView style={styles.screenContainer}>
-        <Layout style={styles.headerContainer}>
+        <Layout style={styles.headerContainer} level='4'>
           {/* <Avatar source={require('../assets/avatar.jpeg')} /> */}
         </Layout>
-        <Layout style={styles.contentContainer}>
+        <Layout style={styles.contentContainer} level='4'>
           {/* <Layout style={styles.streaksContainer}>
             <Layout level='2' style={styles.streaksCard}>
               <Text category='h6' style={styles.streaksHeader}>Streaks</Text>
@@ -40,7 +40,7 @@ const InsightScreen = () => {
               <Text style={styles.streaksDescription}>Current Streak: 7 days</Text>
             </Layout>
           </Layout> */}
-          <Layout style={styles.historyContainer}>
+          <Layout style={styles.historyContainer} level='4'>
             <List
               data={newData}
               renderItem={renderListItem}

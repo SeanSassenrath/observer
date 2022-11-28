@@ -20,10 +20,10 @@ const MeditationFinishScreen = () => {
   }
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout style={styles.rootContainer} level='4'>
       <ScrollView style={styles.scrollContainer}>
         <SafeAreaView>
-          <Layout style={styles.contentContainer}>
+          <Layout style={styles.contentContainer} level='4'>
             <Text category='h5' style={styles.text}>Welcome back</Text>
             <MeditationFeedbackCard />
             <MultiLineInput
@@ -41,7 +41,7 @@ const MeditationFinishScreen = () => {
           </Layout>
         </SafeAreaView>
       </ScrollView>
-      <Layout style={styles.bottomBarContainer}>
+      <Layout style={styles.bottomBarContainer} level='4'>
         <_Button
           onPress={onDonePress}
           style={styles.doneButton}

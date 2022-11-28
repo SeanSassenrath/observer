@@ -27,8 +27,8 @@ export const MeditationList = ({
   meditationIds,
   onMeditationPress,
 }: MeditationListProps) => (
-  <Layout style={styles.container} key={header}>
-    <Text category='s1' style={styles.header}>{header}</Text>
+  <Layout style={styles.container} key={header} level='4'>
+    <Text category='h6' style={styles.header}>{header}</Text>
     <ScrollView horizontal={true} style={styles.horizontalContainer}>
       { meditationIds.length
         ? meditationIds.map((id, i) => {

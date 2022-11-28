@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 export const HomeStreaks = () => (
-  <Layout>
-    <Text category='s1' style={styles.header}>Streaks</Text>
+  <Layout level='4'>
+    <Text category='h6' style={styles.header}>Streaks</Text>
     <Layout level='2' style={styles.streakCardContainer}>
       <Layout level='2'>
         <Text category='s2' style={styles.streakCardHeader}>Current</Text>
