@@ -75,7 +75,7 @@ const App = () => {
         {...eva}
         theme={{ ...eva.dark, ...theme }}
         // @ts-ignore
-        customMapping={mapping}
+        // customMapping={mapping}
       >
         <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
           <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>

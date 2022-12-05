@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
-import { reduce } from 'lodash';
 
 export const MeditationTimeLog = () => {
   const styles = useStyleSheet(themedStyles);
@@ -68,6 +67,6 @@ const themedStyles = StyleSheet.create({
     marginTop: 16,
   },
   timePeriod: {
-    
+
   }
 })

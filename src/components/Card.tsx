@@ -166,7 +166,7 @@ const stylesV4 = StyleSheet.create({
 
 export const EmptyCard = () => (
   <Layout
-    level='2'
+    level='1'
     style={emptyCardStyles.emptyCard}
   >
   </Layout>

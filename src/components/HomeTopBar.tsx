@@ -55,8 +55,8 @@ const themedStyles = StyleSheet.create({
     padding: 8,
   },
   topBarVoidContainer: {
-    backgroundColor: 'color-primary-800',
-    borderColor: 'color-primary-600',
+    backgroundColor: 'color-primary-600',
+    borderColor: 'color-primary-800',
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: 24,
