@@ -14,6 +14,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Observer-ObserverTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Observer-ObserverTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		FF1EB311293D8845006141B8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */; };
+		FF1EB312293D8845006141B8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */; };
+		FF1EB314293D8852006141B8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB313293D8852006141B8 /* Roboto-Light.ttf */; };
+		FF1EB315293D8852006141B8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB313293D8852006141B8 /* Roboto-Light.ttf */; };
+		FF1EB317293D885E006141B8 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */; };
+		FF1EB318293D885E006141B8 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */; };
 		FFBBAA52291DD7D500E916AB /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFBBAA51291DD7D500E916AB /* dummy.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +51,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Observer/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Observer-ObserverTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Observer-ObserverTests.release.xcconfig"; path = "Target Support Files/Pods-Observer-ObserverTests/Pods-Observer-ObserverTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Bold.ttf"; path = "../assets/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		FF1EB313293D8852006141B8 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Light.ttf"; path = "../assets/Roboto-Light.ttf"; sourceTree = "<group>"; };
+		FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../assets/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		FFBBAA50291DD7D500E916AB /* Observer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Observer-Bridging-Header.h"; sourceTree = "<group>"; };
 		FFBBAA51291DD7D500E916AB /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -89,6 +98,9 @@
 		13B07FAE1A68108700A75B9A /* Observer */ = {
 			isa = PBXGroup;
 			children = (
+				FF1EB313293D8852006141B8 /* Roboto-Light.ttf */,
+				FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */,
+				FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -240,6 +252,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF1EB318293D885E006141B8 /* Roboto-Regular.ttf in Resources */,
+				FF1EB315293D8852006141B8 /* Roboto-Light.ttf in Resources */,
+				FF1EB312293D8845006141B8 /* Roboto-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +264,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				FF1EB317293D885E006141B8 /* Roboto-Regular.ttf in Resources */,
+				FF1EB314293D8852006141B8 /* Roboto-Light.ttf in Resources */,
+				FF1EB311293D8845006141B8 /* Roboto-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

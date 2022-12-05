@@ -17,6 +17,7 @@ import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage 
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
 import StackNavigator from './src/navigation/Stack';
 import { MeditationId } from './src/types';
+import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
@@ -70,7 +71,12 @@ const App = () => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={{ ...eva.dark, ...theme }}>
+      <ApplicationProvider
+        {...eva}
+        theme={{ ...eva.dark, ...theme }}
+        // @ts-ignore
+        customMapping={mapping}
+      >
         <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
           <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
             <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
