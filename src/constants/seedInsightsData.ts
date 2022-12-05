@@ -1,49 +1,49 @@
 export const data = [
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   },
   {
     name: 'Tuning Into New Potentials',
-    date: 'Nov 12th',
+    date: '09/12/22',
     time: '3:12PM',
     rating: 'good',
   }
@@ -51,9 +51,9 @@ export const data = [
 
 const item = {
   name: 'Tuning Into New Potentials',
-  date: 'Nov 12th',
+  date: '09/12/22',
   time: '3:12PM',
   rating: 'good',
 }
 
-export const newData = new Array(50).fill(item)
+export const newData = new Array(49).fill(item)

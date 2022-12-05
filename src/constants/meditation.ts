@@ -33,6 +33,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentials]: {
     artwork: '',
     artist,
+    backgroundImage: require('../assets/new_potential.png'),
     color: '#055304',
     formattedDuration: '45',
     id: placeholder,
@@ -47,6 +48,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentialsBreath]: {
     artwork: '',
     artist,
+    backgroundImage: require('../assets/new_potential.png'),
     color: '#055304',
     formattedDuration: '7',
     id: placeholder,
@@ -60,6 +62,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.BreakingTheHabit]: {
     artwork: '',
     artist,
+    backgroundImage: require('../assets/breaking_habit.png'),
     color: '#003E54',
     formattedDuration: '15',
     id: placeholder,
@@ -73,6 +76,7 @@ export const meditationMap: MeditationMap = {
   [MeditationKeys.BreakingTheHabitWater]: {
     artwork: '',
     artist,
+    backgroundImage: require('../assets/breaking_habit.png'),
     color: '#003E54',
     formattedDuration: '11',
     id: placeholder,

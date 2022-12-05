@@ -10,7 +10,7 @@ import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { HomeStreaks } from '../components/HomeStreaks';
-import { OrbSection } from '../components/OrbSection';
+import { Inspiration } from '../components/Inspiration';
 
 const HomeScreen = () => {
   const { recentMeditationIds } = useContext(RecentMeditationIdsContext);
@@ -59,6 +59,7 @@ const HomeScreen = () => {
       <ScrollView style={styles.scrollContainer}>
         <SafeAreaView style={styles.container}>
           <HomeTopBar onVoidPress={onVoidPress} />
+          <Inspiration />
           <HomeStreaks />
           <Layout level='4'>
             {/* <MeditationList

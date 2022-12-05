@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
-import { CardV2, EmptyCard } from './Card';
+import { CardV4, EmptyCard } from './Card';
 import { meditationMap } from '../constants/meditation';
 import { MeditationId } from '../types';
 
@@ -34,7 +34,8 @@ export const MeditationList = ({
         ? meditationIds.map((id, i) => {
           const meditation = meditationMap[id];
           return (
-            <CardV2
+            <CardV4
+              backgroundImage={meditation.backgroundImage}
               color={meditation.color}
               formattedDuration={meditation.formattedDuration}
               name={meditation.name}

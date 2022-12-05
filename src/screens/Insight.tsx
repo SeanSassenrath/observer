@@ -1,8 +1,12 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Avatar, Card, Layout, List, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { newData } from '../constants/seedInsightsData';
+import { HomeStreaks } from '../components/HomeStreaks';
+import { MeditationTimeLog } from '../components/MeditationTimeLog';
+import { TopMeditations } from '../components/TopMeditations';
+import { MeditationHistory } from '../components/MeditationHistory';
 
 const InsightScreen = () => {
   const styles = useStyleSheet(themedStyles);
@@ -28,45 +32,24 @@ const InsightScreen = () => {
 
   return (
     <Layout style={styles.rootContainer} level='4'>
-      <SafeAreaView style={styles.screenContainer}>
-        <Layout style={styles.headerContainer} level='4'>
-          {/* <Avatar source={require('../assets/avatar.jpeg')} /> */}
-        </Layout>
-        <Layout style={styles.contentContainer} level='4'>
-          {/* <Layout style={styles.streaksContainer}>
-            <Layout level='2' style={styles.streaksCard}>
-              <Text category='h6' style={styles.streaksHeader}>Streaks</Text>
-              <Text style={styles.streaksDescription}>Longest Streak: 38 days</Text>
-              <Text style={styles.streaksDescription}>Current Streak: 7 days</Text>
-            </Layout>
-          </Layout> */}
-          <Layout style={styles.historyContainer} level='4'>
-            <List
-              data={newData}
-              renderItem={renderListItem}
-            />
-          </Layout>
-        </Layout>
-        {/* <Layout style={styles.contentContainer}>
-          <Layout style={styles.streaksContainer}>
-            <Text category='h6' style={styles.streaksHeader}>Streaks</Text>
-            <Text style={styles.streaksDescription}>Longest Streak: 38 days</Text>
-            <Text style={styles.streaksDescription}>Current Streak: 7 days</Text>
-          </Layout>
-          <Layout>
-            <Text category='h6' style={styles.historyHeader}>History</Text>
-            <List
-              data={newData}
-              renderItem={renderListItem}
-            />
-          </Layout>
-        </Layout> */}
-      </SafeAreaView>
+      <ScrollView style={styles.scrollContainer}>
+        <SafeAreaView style={styles.screenContainer}>
+          <Layout level='4' style={styles.topSpacer} />
+          <HomeStreaks />
+          <MeditationTimeLog />
+          <TopMeditations />
+          <MeditationHistory />
+        </SafeAreaView>
+      </ScrollView>
     </Layout>
   )
 }
 
 const themedStyles = StyleSheet.create({
+  scrollContainer: {
+    flex: 1,
+    flexDirection: 'column'
+  },
   screenContainer: {
     flex: 1,
   },
@@ -115,6 +98,27 @@ const themedStyles = StyleSheet.create({
   },
   streaksDescription: {
     marginBottom: 8,
+  },
+  topSpacer: {
+    margin: 30,
+  },
+  timeContainer: {
+    marginHorizontal: 20,
+    borderRadius: 10,
+    padding: 18,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  timeAmountContainer: {
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  timePeriod: {
+
+  },
+  timeAmount: {
+    marginTop: 16,
   }
 })
 

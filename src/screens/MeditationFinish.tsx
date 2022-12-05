@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 import { Layout, Text } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
@@ -41,7 +42,7 @@ const MeditationFinishScreen = () => {
           </Layout>
         </SafeAreaView>
       </ScrollView>
-      <Layout style={styles.bottomBarContainer} level='4'>
+      <Layout level='4' style={styles.bottomBarContainer}>
         <_Button
           onPress={onDonePress}
           style={styles.doneButton}
@@ -56,7 +57,7 @@ const MeditationFinishScreen = () => {
 const styles = StyleSheet.create({
   bottomBarContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 60,
+    paddingBottom: 60,
   },
   rootContainer: {
     flex: 1,
