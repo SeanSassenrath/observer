@@ -41,8 +41,9 @@ const LayoutOption1 = (props: Option1Props) => (
             checked={props.toggledState}
             onChange={props.setToggledState}
             style={styles.toggle}
+            status='primary'
           >
-            Add breath work to this meditation
+            Add breathwork to this meditation
           </Toggle>
         : null
       }

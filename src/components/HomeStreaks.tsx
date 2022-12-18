@@ -35,8 +35,14 @@ const StreaksV2 = ({ styles }: StreakProps) => (
     <Layout level='1' style={styles.streakCardContainerV2}>
       <Layout style={styles.barContainer}>
         <Layout style={styles.textContainer}>
-          <Text category='s1' style={styles.text}>Current 8</Text>
-          <Text category='s1' style={styles.text}>Best 59</Text>
+          <Layout style={styles.streakTextContainer}>
+            <Text category='s1' style={styles.textLabel}>Current:</Text>
+            <Text category='s1' style={styles.textAmount}>8</Text>
+          </Layout>
+          <Layout style={styles.streakTextContainer}>
+            <Text category='s1' style={styles.textLabel}>Best:</Text>
+            <Text category='s1' style={styles.textAmount}>59</Text>
+          </Layout>
         </Layout>
         <Layout style={styles.largestBar} />
         <Layout style={styles.currentBar}/>
@@ -112,7 +118,11 @@ const themedStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  text: {
+  textLabel: {
+    marginRight: 8,
+  },
+  streakTextContainer: {
+    flexDirection: 'row',
     marginBottom: 18,
   }
 })

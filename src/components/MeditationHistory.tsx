@@ -25,10 +25,9 @@ export const MeditationHistory = () => {
     <Layout level='4'>
       <Text category='h6' style={styles.header}>Meditation History</Text>
       <Layout style={styles.historyContainer} level='1'>
-        <List
-          data={newData}
-          renderItem={renderListItem}
-        />
+        { newData.map((item, index) => {
+          return renderListItem({item, index})
+        })}
       </Layout>
     </Layout>
   )
