@@ -7,12 +7,15 @@ import {
 } from '@ui-kitten/components';
 
 import Button from '../components/Button';
-import { SignInScreenNavigationProp } from '../types';
+import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '../types';
 
 const SignInScreen = () => {
-  const navigation = useNavigation<SignInScreenNavigationProp>();
+  // const navigation = useNavigation<SignInScreenNavigationProp>();
+  const navigation = useNavigation<InitialUploadScreenNavigationProp>();
 
-  const onContinuePress = () => navigation.navigate('InitialUpload');
+
+  // const onContinuePress = () => navigation.navigate('InitialUpload');
+  const onContinuePress = () => navigation.navigate('TabNavigation');
 
 	return (
     <Layout style={styles.rootContainer}>

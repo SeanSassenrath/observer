@@ -53,6 +53,14 @@ export const setUnlockedMeditationIdsInAsyncStorage = async (
   }
 }
 
+export const getUnlockedMeditationIdsFromAsyncStorage = async () => {
+  try {
+    await AsyncStorage.getItem(storageKey);
+  } catch (e) {
+    console.log('error getting from storage', e);
+  }
+}
+
 export const removeUnlockedMeditationIdsFromAsyncStorage = async () => {
   try {
     await AsyncStorage.removeItem(storageKey)

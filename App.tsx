@@ -21,6 +21,7 @@ import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
+import { MeditationKeys } from './src/constants/meditation';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -29,6 +30,10 @@ const App = () => {
   const [isReady, setIsReady] = React.useState(false);
 
   useEffect(() => {
+    const setMeditationIds = async () => {
+      setUnlockedMeditationIds([MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath, MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater])
+    }
+
     const syncAsyncUnlockedMeditationStorageToContext = async () => {
       const unlockedMeditationIdsFromStorage = await getUnlockedMeditationIdsFromAsyncStorage();
       if (unlockedMeditationIdsFromStorage) {
@@ -60,8 +65,9 @@ const App = () => {
     if (!isReady) {
       getFtux();
     }
-    syncAsyncRecentMeditationStorageToContext();
-    syncAsyncUnlockedMeditationStorageToContext();
+    // syncAsyncRecentMeditationStorageToContext();
+    // syncAsyncUnlockedMeditationStorageToContext();
+    setMeditationIds();
   }, [isReady])
 
   if (!isReady) {

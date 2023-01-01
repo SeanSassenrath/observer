@@ -34,9 +34,9 @@ const MeditationFinishScreen = () => {
               style={styles.input}
             />
             <MultiLineInput
-              onChangeText={setFirstInput}
+              onChangeText={setSecondInput}
               placeholder='What do you want to focus on next time?'
-              value={firstInput}
+              value={secondInput}
               style={styles.input}
             />
           </Layout>
