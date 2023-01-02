@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "859830619066",
+    "project_id": "observer-e8e74",
+    "storage_bucket": "observer-e8e74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859830619066:android:6ff16074e51af6dce4eb83",
+        "android_client_info": {
+          "package_name": "com.observer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTek9XwqoZOVyOb8cj4jUii9Al7dcP7qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859830619066-2ckrufa1gm3qr9ibla5tfurcl1m5ashe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Observer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
