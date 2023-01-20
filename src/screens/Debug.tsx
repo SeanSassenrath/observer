@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Layout } from '@ui-kitten/components';
+import auth from '@react-native-firebase/auth';
 
 import { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
 import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
@@ -7,10 +8,21 @@ import { removeFtuxStateFromAsyncStorage } from '../utils/ftux';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MeditationScreenNavigationProp } from '../types';
+import UserContext, { initialUserState } from '../contexts/userData';
 
 const DebugScreen = () => {
+  const { setUser } = useContext(UserContext);
   const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
   const onBackPress = () => stackNavigation.navigate('TabNavigation');
+  const onSignOut = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        console.log('User signed out!')
+        setUser(initialUserState)
+        stackNavigation.navigate('SignIn');
+      });
+  }
 
   return (
     <Layout style={styles.container}>
@@ -33,6 +45,11 @@ const DebugScreen = () => {
         onPress={removeFtuxStateFromAsyncStorage}
       >
         Remove FTUX state
+      </Button>
+      <Button
+        onPress={onSignOut}
+      >
+        Sign Out
       </Button>
     </Layout>
   )

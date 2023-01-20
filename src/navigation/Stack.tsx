@@ -14,11 +14,14 @@ import WelcomeScreen from '../screens/Welcome';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 import DebugScreen from '../screens/Debug';
+import UserContext from '../contexts/userData';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
   const { hasSeenFtux } = useContext(FtuxContext);
+  const { user } = useContext(UserContext);
+
   const setupPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer();
@@ -36,7 +39,7 @@ const StackNavigator = () => {
   return (
     <NavigationContainer theme={myTheme}>
       <Navigator
-        initialRouteName={hasSeenFtux ? "TabNavigation" : "Welcome"}
+        initialRouteName={(user && user.uid.length <= 0) ? "Welcome" : "TabNavigation"}
         screenOptions={{ headerShown: false }}
       >
         <Screen name="Welcome" component={WelcomeScreen} />

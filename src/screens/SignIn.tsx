@@ -7,29 +7,15 @@ import {
 } from '@ui-kitten/components';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '../types';
 
 const SignInScreen = () => {
-  // const navigation = useNavigation<SignInScreenNavigationProp>();
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
 
-
-  // const onContinuePress = () => navigation.navigate('InitialUpload');
   const onContinuePress = () => navigation.navigate('TabNavigation');
-
-  // sign in
-  // get user id
-  // look up if use id is in firestore
-  // if not
-    // create a new user with that id
-    // take to ftux
-  // if so
-    // take to home
-
 
   const signIn = async () => {
     let userInfo;
@@ -44,32 +30,8 @@ const SignInScreen = () => {
         return;
       }
 
-      firestore()
-        .collection('users')
-        .doc(user.id)
-        .get()
-        .then(documentSnapshot => {
-          if (documentSnapshot.exists) {
-            // TODO: Add to async storage
-            console.log('User data: ', documentSnapshot.data());
-          } else {
-            firestore()
-              .collection('users')
-              .add({
-                providerId: user.id,
-                createdAt: firestore.FieldValue.serverTimestamp(),
-                ...user
-              })
-              .then(() => {
-                // TODO: Add metric here for monitoring
-              })
-              .catch(() => {
-                // TODO: Add metric here for monitoring
-              })
-          }
-        });
-
       auth().signInWithCredential(googleCredential);
+      navigation.navigate('TabNavigation');
       setIsSignInPending(false);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
