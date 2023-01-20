@@ -12,6 +12,7 @@ import React, { type PropsWithChildren, useState, useEffect } from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
@@ -30,6 +31,10 @@ const App = () => {
   const [isReady, setIsReady] = React.useState(false);
 
   useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'
+    })
+
     const setMeditationIds = async () => {
       setUnlockedMeditationIds([MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath, MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater])
     }
