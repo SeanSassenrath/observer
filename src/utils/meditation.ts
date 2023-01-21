@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { MeditationGroupKey, meditationMap } from "../constants/meditation";
 import { recentMeditationIdsStorageKey } from "../contexts/recentMeditationData";
-import { Meditation, MeditationId } from "../types";
+import { Meditation, MeditationBaseMap, MeditationId } from "../types";
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
@@ -10,15 +9,16 @@ export interface MeditationGroupMap {
   [key: string]: MeditationId[]
 }
 
-export const makeMeditationGroups = (meditationIds: MeditationId[]) => {
+export const makeMeditationGroups = (meditationBaseMap: MeditationBaseMap) => {
   const meditationGroupMap: MeditationGroupMap = {};
+  const meditationBaseIds = Object.keys(meditationBaseMap);
 
-  meditationIds.forEach(meditationId => {
-    const meditation = meditationMap[meditationId];
-    if (meditationGroupMap.hasOwnProperty(meditation.groupKey)) {
-      meditationGroupMap[meditation.groupKey].push(meditationId)
+  meditationBaseIds.forEach(meditationBaseId => {
+    const meditationBase = meditationBaseMap[meditationBaseId];
+    if (meditationGroupMap.hasOwnProperty(meditationBase.groupKey)) {
+      meditationGroupMap[meditationBase.groupKey].push(meditationBaseId)
     } else {
-      meditationGroupMap[meditation.groupKey] = [meditationId];
+      meditationGroupMap[meditationBase.groupKey] = [meditationBaseId];
     }
   })
 

@@ -3,12 +3,12 @@ import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { CardV4, EmptyCard } from './Card';
-import { meditationMap } from '../constants/meditation';
+import { meditationBaseMap, meditationMap } from '../constants/meditation';
 import { MeditationId } from '../types';
 
 interface MeditationListProps {
   header: string,
-  meditationIds: MeditationId[],
+  meditationBaseIds: MeditationId[],
   onMeditationPress(id: MeditationId): void,
 }
 
@@ -24,24 +24,24 @@ const EmptyList = () => (
 
 export const MeditationList = ({
   header,
-  meditationIds,
+  meditationBaseIds,
   onMeditationPress,
 }: MeditationListProps) => (
   <Layout style={styles.container} key={header} level='4'>
     <Text category='h6' style={styles.header}>{header}</Text>
     <ScrollView horizontal={true} style={styles.horizontalContainer}>
-      { meditationIds.length
-        ? meditationIds.map((id, i) => {
-          const meditation = meditationMap[id];
+      {meditationBaseIds?.length
+        ? meditationBaseIds.map((id, i) => {
+          const meditation = meditationBaseMap[id];
           return (
             <CardV4
               backgroundImage={meditation.backgroundImage}
               color={meditation.color}
               formattedDuration={meditation.formattedDuration}
               name={meditation.name}
-              meditationId={meditation.meditationId}
+              meditationId={meditation.meditationBaseId}
               isFirstCard
-              key={meditation.meditationId}
+              key={meditation.meditationBaseId}
               level='2'
               onPress={onMeditationPress}
             />

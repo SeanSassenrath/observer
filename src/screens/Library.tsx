@@ -5,12 +5,13 @@ import _ from 'lodash';
 import { Icon, Input, Layout } from '@ui-kitten/components';
 
 import { MeditationList } from '../components/MeditationList';
-import { meditationMap } from '../constants/meditation';
+import { meditationBaseMap } from '../constants/meditation';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
 import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
 import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 import { SearchBar } from '../components/SearchBar';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const AddIcon = (props: any) => (
   <Icon {...props} style={styles.addIcon} fill='#9147BB' name='plus-circle-outline' />
@@ -20,14 +21,15 @@ const EMPTY_SEARCH = '';
 
 const LibraryScreen = () => {
   const { unlockedMeditationIds, setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
+  const { meditationBaseData } = useContext(MeditationBaseDataContext);
   const [meditationGroups, setMeditationGroups] = useState({} as MeditationGroupMap)
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
 
   useEffect(() => {
-    const meditationGroups = makeMeditationGroups(unlockedMeditationIds);
+    const meditationGroups = makeMeditationGroups(meditationBaseData);
     setMeditationGroups(meditationGroups);
-  }, [unlockedMeditationIds]);
+  }, [meditationBaseData]);
 
   const onAddPress = async () => {
     const pickedFileData = await pickFilesFromDevice()
@@ -69,11 +71,11 @@ const LibraryScreen = () => {
 
   const onClearPress = () => setSearchInput(EMPTY_SEARCH);
 
-  const filterBySearch = (searchInput: string, meditationIds: MeditationId[]) => {
-    const filteredIdList = meditationIds.filter((meditationId) => {
-      const meditation = meditationMap[meditationId];
+  const filterBySearch = (searchInput: string, meditationBaseIds: MeditationId[]) => {
+    const filteredIdList = meditationBaseIds.filter((meditationBaseId) => {
+      const meditation = meditationBaseMap[meditationBaseId];
       if (_.startsWith(meditation.name.toLowerCase(), searchInput.toLowerCase())) {
-        return meditationId;
+        return meditationBaseId;
       }
     })
     return filteredIdList;
@@ -81,18 +83,18 @@ const LibraryScreen = () => {
 
   const renderMeditationGroupSections = () => {
     const meditationGroupsList = Object.entries(meditationGroups)
-    return meditationGroupsList.map(([key, meditationIds]) => {
-      let _meditationIds = meditationIds;
-      _meditationIds = filterBySearch(searchInput, meditationIds);
-      const firstMeditationId = _.head(_meditationIds)
-      if (!firstMeditationId) { return null; }
-      const firstMeditation = meditationMap[firstMeditationId];
+    return meditationGroupsList.map(([key, meditationBaseIds]) => {
+      let _meditationBaseIds = meditationBaseIds;
+      _meditationBaseIds = filterBySearch(searchInput, meditationBaseIds);
+      const firstMeditationId = _.head(_meditationBaseIds)
+      if (!firstMeditationId || !_meditationBaseIds) { return null; }
+      const firstMeditation = meditationBaseMap[firstMeditationId];
 
       return (
         <MeditationList
           key={firstMeditation.groupName}
           header={firstMeditation.groupName}
-          meditationIds={_meditationIds}
+          meditationBaseIds={_meditationBaseIds}
           onMeditationPress={onMeditationPress}
         />
       )

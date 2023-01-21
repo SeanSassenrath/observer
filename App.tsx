@@ -19,17 +19,19 @@ import firestore from '@react-native-firebase/firestore';
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
 import StackNavigator from './src/navigation/Stack';
-import { MeditationId } from './src/types';
+import { MeditationBaseMap, MeditationId } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
-import { MeditationKeys } from './src/constants/meditation';
+import { meditationBaseMap, MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
 import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
+import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
+  const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
   const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
   const [user, setUser] = useState(initialUserState as User);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
@@ -82,13 +84,32 @@ const App = () => {
     }
   }
 
-  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
+  const setMeditationBaseDataToContext = async () => {
     const filePathData = await getMeditationFilePathDataInAsyncStorage()
-    console.log('APP: file path data from Async Storage', filePathData);
+
+    if (filePathData) {
+      let meditationBaseData = {} as MeditationBaseMap;
+      const parsedFilePathData = JSON.parse(filePathData);
+      console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
+      const filePathDataKeys = Object.keys(parsedFilePathData);
+
+      filePathDataKeys.forEach(key => {
+        const meditationFilePath = parsedFilePathData[key];
+        const meditationBase = {
+          ...meditationBaseMap[key],
+          url: meditationFilePath,
+        }
+        meditationBaseData = { [key]: meditationBase, ...meditationBaseData}
+      })
+
+      console.log('APP: Setting meditation base data to context', meditationBaseData);
+
+      setMeditationBaseData(meditationBaseData);
+    }
   }
 
   useEffect(() => {
-    setExistingMeditationFilePathDataFromAsyncStorage();
+    setMeditationBaseDataToContext();
 
     GoogleSignin.configure({
       webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'
@@ -152,13 +173,15 @@ const App = () => {
         // customMapping={mapping}
       >
         <UserContext.Provider value={{ user, setUser }}>
-          <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
-            <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
-              <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                <StackNavigator />
-              </FtuxContext.Provider>
-            </RecentMeditationIdsContext.Provider>
-          </UnlockedMeditationIdsContext.Provider>
+          <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
+            <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
+              <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
+                <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
+                  <StackNavigator />
+                </FtuxContext.Provider>
+              </RecentMeditationIdsContext.Provider>
+            </UnlockedMeditationIdsContext.Provider>
+          </MeditationBaseDataContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>
     </>

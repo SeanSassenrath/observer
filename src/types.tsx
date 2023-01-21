@@ -92,6 +92,26 @@ export interface Meditation {
   url: any,
 }
 
+export interface MeditationBase {
+  artwork: any,
+  artist: MeditationArtist,
+  backgroundImage?: any,
+  color: string,
+  formattedDuration: MeditationFormattedDuration,
+  id: MeditationInstanceId,
+  groupKey: MeditationGroupKey,
+  groupName: MeditationGroupName,
+  meditationBaseId: MeditationId,
+  meditationBreathId?: MeditationId,
+  name: MeditationName,
+  size: MeditationSizes,
+  url: any,
+}
+
+export interface MeditationBaseMap {
+  [key: string]: MeditationBase,
+}
+
 export interface MeditationMap {
   [key: string]: Meditation,
 }
