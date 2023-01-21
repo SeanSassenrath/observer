@@ -2,9 +2,74 @@ import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-pi
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from "lodash";
 
-import { meditationMap } from '../constants/meditation';
+import { MeditationBaseKeys, meditationMap, MeditationStringSizes } from '../constants/meditation';
 import { storageKey } from '../contexts/meditationData';
 import { MeditationId } from '../types';
+import { MeditationFilePathData } from './asyncStorageMeditation';
+
+export const pickFiles = async (
+  existingMeditationFilePathData: MeditationFilePathData
+) => {
+  try {
+    console.log('DOCUMENT PICKER: Existing picked files', existingMeditationFilePathData);
+    const files = await DocumentPicker.pick({ allowMultiSelection: true });
+    console.log('DOCUMENT PICKER: Picked files', files);
+    const filePathDataList = makeFilePathDataList(files, existingMeditationFilePathData);
+    console.log('DOCUMENT PICKER: File path data', filePathDataList);
+    return filePathDataList as MeditationFilePathData;
+  } catch (e) {
+    console.log('DOCUMENT PICKER: Error picking files', e);
+  }
+}
+
+const makeFilePathDataList = (
+  files: DocumentPickerResponse[],
+  existingMeditationFilePathData: MeditationFilePathData,
+) => {
+  let filePathDataMap = { ...existingMeditationFilePathData } as any;
+
+  files.forEach(file => {
+    const filePathData = makeFilePathData(file);
+    if (filePathData) {
+      filePathDataMap = { ...filePathData, ...filePathDataMap};
+    }
+  })
+
+  return filePathDataMap;
+}
+
+const makeFilePathData = (file: DocumentPickerResponse) => {
+  const fileSize = file.size;
+  const fileSizeString = fileSize?.toString().slice(0, 5);
+
+  switch (fileSizeString) {
+    case MeditationStringSizes.MedNewPotentialsV1:
+      return {
+        [MeditationBaseKeys.MedNewPotentialsV1]: file.uri,
+      }
+    case MeditationStringSizes.BreathNewPotentialsV1:
+      return {
+        [MeditationBaseKeys.BreathNewPotentialsV1]: file.uri,
+      }
+    case MeditationStringSizes.MedBreakingHabitSpaceV1:
+      return {
+        [MeditationBaseKeys.MedBreakingHabitSpaceV1]: file.uri,
+      }
+    case MeditationStringSizes.MedBreakingHabitWaterV1:
+      return {
+        [MeditationBaseKeys.MedBreakingHabitWaterV1]: file.uri,
+      }
+    default:
+      break;
+  }
+}
+
+
+
+
+
+
+
 
 export const pickFilesFromDevice = async (unlockedMeditationIds: MeditationId[] = []) => {
     try {
@@ -40,11 +105,24 @@ const parsePickedFiles = (files: DocumentPickerResponse[]) => {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 export const setUnlockedMeditationIdsInAsyncStorage = async (
   unlockedMeditationIds: MeditationId[],
 ) => {
   try {
     const stringifiedMeditationData = JSON.stringify(unlockedMeditationIds);
+    console.log('setting files paths in async storage', stringifiedMeditationData);
     if (stringifiedMeditationData !== null && stringifiedMeditationData !== undefined) {
       await AsyncStorage.setItem(storageKey, stringifiedMeditationData);
     }
@@ -55,7 +133,9 @@ export const setUnlockedMeditationIdsInAsyncStorage = async (
 
 export const getUnlockedMeditationIdsFromAsyncStorage = async () => {
   try {
-    await AsyncStorage.getItem(storageKey);
+    const result = await AsyncStorage.getItem(storageKey);
+    console.log('result', result);
+    return result;
   } catch (e) {
     console.log('error getting from storage', e);
   }

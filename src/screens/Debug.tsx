@@ -3,12 +3,12 @@ import { Button, Layout } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 
 import { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
-import { removeUnlockedMeditationIdsFromAsyncStorage } from '../utils/filePicker';
 import { removeFtuxStateFromAsyncStorage } from '../utils/ftux';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MeditationScreenNavigationProp } from '../types';
 import UserContext, { initialUserState } from '../contexts/userData';
+import { removeMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 
 const DebugScreen = () => {
   const { setUser } = useContext(UserContext);
@@ -32,9 +32,9 @@ const DebugScreen = () => {
         Go Back
       </Button>
       <Button
-        onPress={removeUnlockedMeditationIdsFromAsyncStorage}
+        onPress={removeMeditationFilePathDataInAsyncStorage}
       >
-        Remove Meditation Ids
+        Remove Meditation File Data
       </Button>
       <Button
         onPress={removeRecentMeditationIdsFromAsyncStorage}

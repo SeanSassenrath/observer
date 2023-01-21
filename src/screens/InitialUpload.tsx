@@ -1,14 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { isEmpty } from 'lodash';
 import { Layout, Text } from '@ui-kitten/components/ui';
 
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
-import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
-import UnlockedMeditationIdsContext from '../contexts/meditationData';
-import { setFtuxStateInAsyncStorage } from '../utils/ftux';
 import FtuxContext from '../contexts/ftuxData';
+import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
+import { pickFiles } from '../utils/filePicker';
+import { setFtuxStateInAsyncStorage } from '../utils/ftux';
 
 enum ScreenState {
   'Inital',
@@ -19,9 +20,22 @@ enum ScreenState {
 
 const InitialUploadScreen = () => {
   const { setHasSeenFtux } = useContext(FtuxContext);
-  const { setUnlockedMeditationIds } = useContext(UnlockedMeditationIdsContext);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [screenState, setScreenState] = useState(ScreenState.Inital);
+  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+
+  useEffect(() => {
+    setExistingMeditationFilePathDataFromAsyncStorage();
+  }, [])
+
+  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
+    const filePathData = await getMeditationFilePathDataInAsyncStorage()
+    console.log('INITIAL UPLOAD: Existing file path data from Async Storage', filePathData);
+    if (filePathData) {
+      const parsedFilePathData = JSON.parse(filePathData);
+      setExistingMeditationFilePathData(parsedFilePathData);
+    }
+  }
 
   const onContinuePress = async () => {
     setFtuxStateInAsyncStorage();
@@ -30,33 +44,41 @@ const InitialUploadScreen = () => {
   }
 
   const onUploadPress = async () => {
-    const pickedFileData = await pickFilesFromDevice()
+    const pickedFileData = await pickFiles(existingMediationFilePathData);
     if (!pickedFileData) { return null; }
+    console.log('INITIAL UPLOAD: Picked file data', pickedFileData)
 
-    if (
-      pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
-      pickedFileData.unsupportedFileNames.length > 0
-    ) {
-      setScreenState(ScreenState.Fail);
-    } else if (
-      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-      pickedFileData.unsupportedFileNames.length > 0
-    ) {
-      setUnlockedMeditationIdsInAsyncStorage(
-        pickedFileData.updatedUnlockedMeditationIds,
+    if (!isEmpty(pickedFileData)) {
+      setMeditationFilePathDataInAsyncStorage(
+        pickedFileData
       )
-      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-      setScreenState(ScreenState.Mixed);
-    } else if (
-      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-      pickedFileData.unsupportedFileNames.length <=0
-    ) {
-      setUnlockedMeditationIdsInAsyncStorage(
-        pickedFileData.updatedUnlockedMeditationIds,
-      )
-      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-      setScreenState(ScreenState.Success);
     }
+
+    // if (
+    //   pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
+    //   pickedFileData.unsupportedFileNames.length > 0
+    // ) {
+    //   setScreenState(ScreenState.Fail);
+    // } else if (
+    //   pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+    //   pickedFileData.unsupportedFileNames.length > 0
+    // ) {
+    //   setUnlockedMeditationIdsInAsyncStorage(
+    //     pickedFileData.updatedUnlockedMeditationIds,
+    //   )
+    //   setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+    //   setScreenState(ScreenState.Mixed);
+    // } else if (
+    //   pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+    //   pickedFileData.unsupportedFileNames.length <=0
+    // ) {
+    //   console.log('meditation ids, pickedFileData.updatedUnlockedMeditationIds')
+    //   setUnlockedMeditationIdsInAsyncStorage(
+    //     pickedFileData.updatedUnlockedMeditationIds,
+    //   )
+    //   setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+    //   setScreenState(ScreenState.Success);
+    // }
   };
 
   const getScreenStateContent = () => {

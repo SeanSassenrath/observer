@@ -1,5 +1,22 @@
 import { MeditationMap } from "../types";
 
+export enum MeditationBaseKeys {
+  MedNewPotentialsV1 = 'm-new-potentials-v1',
+  BreathNewPotentialsV1 = 'b-new-potentials-v1',
+  MedBreakingHabitSpaceV1 = 'm-breaking-habit-space-v1',
+  MedBreakingHabitWaterV1 = 'm-breaking-habit-water-v1',
+  MedPresentMomentV1 = 'm-present-moment-v1',
+  MedDailyMorningV1 = 'm-daily-morning-v1',
+  MedDailyEveningV1 = 'm-daily-evening-v1',
+}
+
+export enum MeditationStringSizes {
+  MedNewPotentialsV1 = '56004',
+  BreathNewPotentialsV1 = '96748',
+  MedBreakingHabitSpaceV1 = '14936',
+  MedBreakingHabitWaterV1 = '14071',
+}
+
 export enum MeditationKeys {
   NewPotentials = '56004113',
   NewPotentialsBreath = '9674897',

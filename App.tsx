@@ -26,6 +26,7 @@ import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
 import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
+import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -81,7 +82,14 @@ const App = () => {
     }
   }
 
+  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
+    const filePathData = await getMeditationFilePathDataInAsyncStorage()
+    console.log('APP: file path data from Async Storage', filePathData);
+  }
+
   useEffect(() => {
+    setExistingMeditationFilePathDataFromAsyncStorage();
+
     GoogleSignin.configure({
       webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'
     })
