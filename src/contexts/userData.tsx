@@ -1,16 +1,29 @@
 import React, { createContext } from 'react';
+import { MeditationId } from '../types';
 
-interface UserMetaData {
-  creationTime: number,
-  lastSignInTime: number,
-}
-
-interface User {
+interface UserProfile {
+  creationTime: string,
   displayName: string,
   email: string,
-  metaData: UserMetaData,
+  firstName: string,
+  lastName: string,
+  lastSignInTime: string,
   photoURL: string,
+}
+
+export interface User {
   uid: string,
+  profile: UserProfile,
+  meditationHistoryIds?: MeditationId[],
+  meditationUserData?: {
+    meditationCounts?: {
+      // <meditation id>: 55
+      key: number
+    },
+    currentStreak: number,
+    longestStreak: number,
+    totalMeditationTime: number,
+  }
 }
 
 interface UserContext {
@@ -23,14 +36,22 @@ const initialUserContext = {} as UserContext;
 const UserContext = createContext(initialUserContext);
 
 export const initialUserState = {
-  displayName: '',
-  email: '',
-  metaData: {
-    creationTime: 0,
-    lastSignInTime: 0,
-  },
-  photoURL: '',
   uid: '',
+  profile: {
+    displayName: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    creationTime: '',
+    lastSignInTime: '',
+    photoURL: '',
+  },
+  meditationHistoryIds: [],
+  meditationUserData: {
+    currentStreak: 0,
+    longestStreak: 0,
+    totalMeditationTime: 0,
+  }
 };
 
 export default UserContext;

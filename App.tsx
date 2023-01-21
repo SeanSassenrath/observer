@@ -13,7 +13,8 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
@@ -24,30 +25,59 @@ import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
 import { MeditationKeys } from './src/constants/meditation';
-import UserContext, { initialUserState } from './src/contexts/userData';
+import UserContext, { initialUserState, User } from './src/contexts/userData';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
   const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
-  const [user, setUser] = useState(initialUserState);
+  const [user, setUser] = useState(initialUserState as User);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
 
-  const normalizeFirebaseUser = (firebaseUser: any) => ({
-    displayName: firebaseUser.displayName,
-    email: firebaseUser.email,
-    metaData: {
+  const normalizeFirebaseUser = (firebaseUser: any): User => ({
+    uid: firebaseUser.uid,
+    profile: {
+      displayName: firebaseUser.displayName,
+      email: firebaseUser.email,
+      firstName: firebaseUser.displayName.split(' ')[0],
+      lastName: firebaseUser.displayName.split(' ')[1],
       creationTime: firebaseUser.metadata.creationTime,
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
-    },
-    photoURL: firebaseUser.photoURL,
-    uid: firebaseUser.uid,
+      photoURL: firebaseUser.photoURL,
+    }
   })
 
   const onAuthStateChanged = (firebaseUser: any) => {
     if (firebaseUser && user && user.uid.length <= 0) {
-      console.log('firebase user', firebaseUser);
-      setUser(normalizeFirebaseUser(firebaseUser));
+      const normalizedUser = normalizeFirebaseUser(firebaseUser)
+      setUser(normalizedUser);
+
+      firestore()
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .get()
+        .then(documentSnapshot => {
+          if (documentSnapshot.exists) {
+            const fullUserData = documentSnapshot.data();
+            if (fullUserData) {
+              setUser(fullUserData as User);
+            }
+          } else {
+            console.log('adding user')
+            firestore()
+              .collection('users')
+              .doc(firebaseUser.uid)
+              .set(normalizeFirebaseUser(firebaseUser))
+              .then(() => {
+                console.log('user added')
+                // TODO: Add monitoring here
+              })
+              .catch((e) => {
+                console.log('user not added', e)
+                // TODO: Add monitoring here
+              })
+          }
+        })
     }
   }
 

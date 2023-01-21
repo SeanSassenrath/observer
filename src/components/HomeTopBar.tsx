@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import UserContext from '../contexts/userData';
 
 const SearchIcon = (props: any) => (
   <Icon {...props} style={styles.searchIcon} fill='#b2b2b2' name='search' />
@@ -11,6 +12,7 @@ interface HomeTopBarProps {
 }
 
 export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
+  const { user } = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
   return (
@@ -26,7 +28,10 @@ export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
             <SearchIcon />
           </TouchableWithoutFeedback>
         </Layout> */}
-        <Avatar source={require('../assets/avatar.jpeg')} />
+        { user.profile && user.profile.photoURL
+          ? <Avatar source={{ uri: user.profile.photoURL }} />
+          : null
+        }
       </Layout>
     </Layout>
   )
