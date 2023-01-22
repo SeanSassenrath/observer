@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Layout, Text } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import _ from 'lodash';
 
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
@@ -18,9 +19,39 @@ const EMPTY_INPUT = '';
 const MeditationFinishScreen = () => {
   const navigation = useNavigation<MeditationFinishScreenNavigationProp>();
   const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
+
+  const updateRecentMeditationIds = () => {
+    const recentMeditationBaseIds = user
+      && user.meditationUserData
+      && user.meditationUserData.recentMeditationBaseIds
+      && user.meditationUserData.recentMeditationBaseIds.slice(0, 5)
+      || [];
+
+    const updatedRecentMeditationBaseIds = _.uniq([
+      meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
+    ])
+
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds
+      })
+      .then(() => {
+        setUser({
+          ...user,
+          meditationUserData: {
+            ...user.meditationUserData,
+            recentMeditationBaseIds: updatedRecentMeditationBaseIds,
+          },
+        })
+
+        console.log('MEDITATION FINISH: Added recent meditation base id to firebase');
+      })
+  }
 
   const onDonePress = () => {
     const meditationInstanceForFirebase = {
@@ -40,13 +71,15 @@ const MeditationFinishScreen = () => {
         console.log('MEDITATION FINISH: Added meditation instance to firebase');
       })
 
+    updateRecentMeditationIds();
+
     navigation.navigate('TabNavigation')
   }
 
   return (
     <KeyboardAwareScrollView>
       <Layout style={styles.rootContainer} level='4'>
-          <SafeAreaView>
+          {/* <SafeAreaView> */}
               <Layout style={styles.contentContainer} level='4'>
                 <Text category='h5' style={styles.text}>Welcome back</Text>
                 <MeditationFeedbackCard />
@@ -69,7 +102,7 @@ const MeditationFinishScreen = () => {
                   DONE
                 </_Button>
               </Layout>
-          </SafeAreaView>
+          {/* </SafeAreaView> */}
         {/* <Layout level='4' style={styles.bottomBarContainer}>
           <_Button
             onPress={onDonePress}

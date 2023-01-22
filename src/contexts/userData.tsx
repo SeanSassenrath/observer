@@ -1,5 +1,5 @@
 import React, { createContext } from 'react';
-import { MeditationId } from '../types';
+import { MeditationBaseId, MeditationId } from '../types';
 
 interface UserProfile {
   creationTime: string,
@@ -14,15 +14,16 @@ interface UserProfile {
 export interface User {
   uid: string,
   profile: UserProfile,
-  meditationHistoryIds?: MeditationId[],
+  meditationHistoryIds?: MeditationBaseId[],
   meditationUserData?: {
+    recentMeditationBaseIds?: MeditationBaseId[],
     meditationCounts?: {
       // <meditation id>: 55
       key: number
     },
-    currentStreak: number,
-    longestStreak: number,
-    totalMeditationTime: number,
+    currentStreak?: number,
+    longestStreak?: number,
+    totalMeditationTime?: number,
   }
 }
 

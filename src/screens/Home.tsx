@@ -11,11 +11,14 @@ import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { HomeStreaks } from '../components/HomeStreaks';
 import { Inspiration } from '../components/Inspiration';
+import UserContext from '../contexts/userData';
 
 const HomeScreen = () => {
-  const { recentMeditationIds } = useContext(RecentMeditationIdsContext);
+  const { user } = useContext(UserContext);
   const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
   const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
+
+  const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
 
   const onMeditationClick = (meditationId: MeditationId) => {
     if (meditationId) {
@@ -24,7 +27,6 @@ const HomeScreen = () => {
       });
     }
   }
-
   // const onStartClick = () => {
   //   tabNavigation.navigate('Library');
   // }
@@ -69,7 +71,7 @@ const HomeScreen = () => {
             /> */}
             <MeditationList
               header='Recent Meditations'
-              meditationBaseIds={recentMeditationIds}
+              meditationBaseIds={recentMeditationBaseIds}
               onMeditationPress={onMeditationClick}
             />
             <MeditationList
