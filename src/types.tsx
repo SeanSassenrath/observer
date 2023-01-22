@@ -73,6 +73,7 @@ export interface PickedFile extends DocumentPickerResponse {
 type MeditationArtist = string;
 export type MeditationFormattedDuration = string;
 export type MeditationId = string;
+export type MeditationBaseId = string;
 type MeditationInstanceId = string;
 export type MeditationName = string;
 
@@ -102,7 +103,7 @@ export interface MeditationBase {
   groupKey: MeditationGroupKey,
   groupName: MeditationGroupName,
   meditationBaseId: MeditationId,
-  meditationBreathId?: MeditationId,
+  meditationBaseBreathId?: MeditationId,
   name: MeditationName,
   size: MeditationSizes,
   url: any,
@@ -123,4 +124,14 @@ declare global {
   }
 }
 
-
+export interface MeditationInstance {
+  uid?: MeditationInstanceId,
+  creationTime?: any;
+  meditationBaseId: MeditationBaseId,
+  meditationBaseBreathId?: MeditationBaseId,
+  name: MeditationName,
+  intention?: string,
+  timeMeditated?: number,
+  notes?: string,
+  feedback?: string,
+}

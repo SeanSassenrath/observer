@@ -11,6 +11,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
 import { Player } from '../components/Player';
+import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 
 
 const brightWhite = '#fcfcfc';
@@ -24,6 +25,7 @@ const CloseIcon = (props: any) => (
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { recentMeditationIds, setRecentMeditationIds } = useContext(RecentMeditationIdsContext);
   const { meditationBaseData } = useContext(MeditationBaseDataContext);
+  const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
@@ -94,6 +96,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   const onFinishPress = () => {
+
     navigation.replace('MeditationFinish');
   }
 

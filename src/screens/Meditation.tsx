@@ -1,6 +1,7 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   Icon,
   Input,
@@ -10,9 +11,10 @@ import {
 } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
-import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
+import { MeditationInstance, MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
 import { meditationBaseMap } from '../constants/meditation';
 import { MultiLineInput } from '../components/MultiLineInput';
+import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_INPUT = '';
@@ -67,18 +69,41 @@ const LayoutOption1 = (props: Option1Props) => (
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
   const navigation = useNavigation<MeditationScreenNavigationProp>();
+  const {setMeditationInstanceData} = useContext(MeditationInstanceDataContext);
   const [toggledState, setToggledState] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_INPUT);
   const { id } = route.params;
 
   const meditation = meditationBaseMap[id];
-  const meditationBreathId = toggledState ? meditation.meditationBreathId : '';
+  const meditationBreathId = toggledState ? meditation.meditationBaseBreathId : '';
 
   const onBackPress = () => {
     navigation.pop();
   }
 
   const onStartPress = () => {
+    let meditationInstanceData: MeditationInstance = {
+      name: meditation.name,
+      meditationBaseId: meditation.meditationBaseId,
+      intention: inputValue,
+    }
+
+    if (meditation.meditationBaseBreathId) {
+      meditationInstanceData = {
+        meditationBaseBreathId: meditation.meditationBaseBreathId,
+        ...meditationInstanceData,
+      }
+    }
+
+    setMeditationInstanceData({
+      name: meditation.name,
+      meditationBaseId: meditation.meditationBaseId,
+      intention: inputValue,
+    })
+
+    if (meditation.meditationBaseBreathId) {
+
+    }
 
     navigation.navigate('MeditationPlayer', {
       id,
@@ -102,27 +127,29 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
             </Layout>
           </TouchableWithoutFeedback>
         </Layout>
-        <Layout style={styles.mainSection} level='4'>
-          <Text category='h6'>{meditation.name}</Text>
-          <LayoutOption1
-            hasBreathMeditation={!!meditation.meditationBreathId}
-            onChangeText={setInputValue}
-            setToggledState={onTogglePress}
-            toggledState={toggledState}
-            value={inputValue}
-          />          
-          {/* <Layout style={styles.meditationInfoContainer}>
-            <Layout style={styles.meditationInfo}>
-              <WarningIcon />
-              <Text
-                category='s1'
-                style={styles.meditationInfoText}
-              >
-                Turn on "Do Not Disturb"
-              </Text>
-            </Layout>
-          </Layout> */}
-        </Layout>
+        <KeyboardAwareScrollView>
+          <Layout style={styles.mainSection} level='4'>
+              <Text category='h6'>{meditation.name}</Text>
+              <LayoutOption1
+                hasBreathMeditation={!!meditation.meditationBaseBreathId}
+                onChangeText={setInputValue}
+                setToggledState={onTogglePress}
+                toggledState={toggledState}
+                value={inputValue}
+              />          
+              {/* <Layout style={styles.meditationInfoContainer}>
+                <Layout style={styles.meditationInfo}>
+                  <WarningIcon />
+                  <Text
+                    category='s1'
+                    style={styles.meditationInfoText}
+                  >
+                    Turn on "Do Not Disturb"
+                  </Text>
+                </Layout>
+              </Layout> */}
+          </Layout>
+        </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level='4'>
           <_Button onPress={onStartPress} size='large'>Start</_Button>
         </Layout>

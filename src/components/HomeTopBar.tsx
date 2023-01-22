@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 import UserContext from '../contexts/userData';
+import { useNavigation } from '@react-navigation/native';
+import { InitialUploadScreenNavigationProp } from '../types';
 
 const SearchIcon = (props: any) => (
   <Icon {...props} style={styles.searchIcon} fill='#b2b2b2' name='search' />
@@ -14,6 +16,9 @@ interface HomeTopBarProps {
 export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
   const { user } = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
+  const navigation = useNavigation<InitialUploadScreenNavigationProp>();
+
+  const onAvatarPress = () => navigation.navigate('InitialUpload');
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
@@ -29,7 +34,9 @@ export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
           </TouchableWithoutFeedback>
         </Layout> */}
         { user.profile && user.profile.photoURL
-          ? <Avatar source={{ uri: user.profile.photoURL }} />
+          ? <Pressable onPress={onAvatarPress}>
+              <Avatar source={{ uri: user.profile.photoURL }} />
+            </Pressable>
           : null
         }
       </Layout>

@@ -25,34 +25,34 @@ const HomeScreen = () => {
     }
   }
 
-  const onStartClick = () => {
-    tabNavigation.navigate('Library');
-  }
+  // const onStartClick = () => {
+  //   tabNavigation.navigate('Library');
+  // }
 
   const onVoidPress = () => {
     stackNavigation.navigate('Debug');
   }
 
-  const renderStartMeditation = () => (
-    <Card
-      appearance='filled'
-      style={styles.startCard}
-    >
-      <Text
-        category='h6'
-        style={styles.startCardHeader}
-      >
-        Welcome to your home!
-      </Text>
-      <Text
-        category='s1'
-        style={styles.startCardDescription}
-      >
-        Select a meditation from the library to get started
-      </Text>
-      <_Button onPress={onStartClick}>SELECT MEDITATION</_Button>
-    </Card>
-  )
+  // const renderStartMeditation = () => (
+  //   <Card
+  //     appearance='filled'
+  //     style={styles.startCard}
+  //   >
+  //     <Text
+  //       category='h6'
+  //       style={styles.startCardHeader}
+  //     >
+  //       Welcome to your home!
+  //     </Text>
+  //     <Text
+  //       category='s1'
+  //       style={styles.startCardDescription}
+  //     >
+  //       Select a meditation from the library to get started
+  //     </Text>
+  //     <_Button onPress={onStartClick}>SELECT MEDITATION</_Button>
+  //   </Card>
+  // )
 
   return (
     <Layout style={styles.container} level='4'>
@@ -69,12 +69,12 @@ const HomeScreen = () => {
             /> */}
             <MeditationList
               header='Recent Meditations'
-              meditationIds={recentMeditationIds}
+              meditationBaseIds={recentMeditationIds}
               onMeditationPress={onMeditationClick}
             />
             <MeditationList
               header='Favorites'
-              meditationIds={[]}
+              meditationBaseIds={[]}
               onMeditationPress={_.noop}
             />
           </Layout>

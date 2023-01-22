@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
 import StackNavigator from './src/navigation/Stack';
-import { MeditationBaseMap, MeditationId } from './src/types';
+import { MeditationBaseMap, MeditationId, MeditationInstance } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
@@ -28,11 +28,13 @@ import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { setMeditationBaseDataToContext } from './src/utils/meditation';
+import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
   const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
   const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
+  const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
   const [user, setUser] = useState(initialUserState as User);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
@@ -150,13 +152,15 @@ const App = () => {
       >
         <UserContext.Provider value={{ user, setUser }}>
           <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
-            <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
-              <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
-                <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                  <StackNavigator />
-                </FtuxContext.Provider>
-              </RecentMeditationIdsContext.Provider>
-            </UnlockedMeditationIdsContext.Provider>
+            <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
+              <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
+                <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
+                  <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
+                    <StackNavigator />
+                  </FtuxContext.Provider>
+                </RecentMeditationIdsContext.Provider>
+              </UnlockedMeditationIdsContext.Provider>
+            </MeditationInstanceDataContext.Provider>
           </MeditationBaseDataContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>

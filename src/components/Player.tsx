@@ -23,7 +23,8 @@ const RestartIcon = (props: any) => (
 );
 
 interface PlayerProps {
-  tracks: Meditation[];
+  // tracks: Meditation[];
+  tracks: any;
 }
 
 export const Player = (props: PlayerProps) => {
@@ -57,7 +58,8 @@ export const Player = (props: PlayerProps) => {
 
   const onPlayPress = async () => {
     TrackPlayer.play();
-    await TrackPlayer.getState();
+    const test = await TrackPlayer.getState();
+    console.log('player state', test);
     setIsPlaying(true);
   }
 

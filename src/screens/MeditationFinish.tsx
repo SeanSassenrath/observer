@@ -1,56 +1,85 @@
-import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Layout, Text } from '@ui-kitten/components';
+import firestore from '@react-native-firebase/firestore';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
 import { MeditationFinishScreenNavigationProp } from '../types';
 import { MeditationFeedbackCard } from '../components/MeditationFeedbackCard';
+import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import UserContext from '../contexts/userData';
 
 const EMPTY_INPUT = '';
 
 const MeditationFinishScreen = () => {
   const navigation = useNavigation<MeditationFinishScreenNavigationProp>();
+  const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
+  const { user } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
 
   const onDonePress = () => {
+    const meditationInstanceForFirebase = {
+      ...meditationInstanceData,
+      notes: firstInput,
+      feedback: secondInput,
+      creationTime: firestore.FieldValue.serverTimestamp(),
+    }
+
+    console.log('MEDITATION FINISH: full meditation instance', meditationInstanceForFirebase)
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('meditationHistory')
+      .add(meditationInstanceForFirebase)
+      .then(() => {
+        console.log('MEDITATION FINISH: Added meditation instance to firebase');
+      })
+
     navigation.navigate('TabNavigation')
   }
 
   return (
-    <Layout style={styles.rootContainer} level='4'>
-      <ScrollView style={styles.scrollContainer}>
-        <SafeAreaView>
-          <Layout style={styles.contentContainer} level='4'>
-            <Text category='h5' style={styles.text}>Welcome back</Text>
-            <MeditationFeedbackCard />
-            <MultiLineInput
-              onChangeText={setFirstInput}
-              placeholder='What feelings did you embody?'
-              value={firstInput}
-              style={styles.input}
-            />
-            <MultiLineInput
-              onChangeText={setSecondInput}
-              placeholder='What do you want to focus on next time?'
-              value={secondInput}
-              style={styles.input}
-            />
-          </Layout>
-        </SafeAreaView>
-      </ScrollView>
-      <Layout level='4' style={styles.bottomBarContainer}>
-        <_Button
-          onPress={onDonePress}
-          style={styles.doneButton}
-        >
-          DONE
-        </_Button>
+    <KeyboardAwareScrollView>
+      <Layout style={styles.rootContainer} level='4'>
+          <SafeAreaView>
+              <Layout style={styles.contentContainer} level='4'>
+                <Text category='h5' style={styles.text}>Welcome back</Text>
+                <MeditationFeedbackCard />
+                <MultiLineInput
+                  onChangeText={setFirstInput}
+                  placeholder='What feelings did you embody?'
+                  value={firstInput}
+                  style={styles.input}
+                />
+                <MultiLineInput
+                  onChangeText={setSecondInput}
+                  placeholder='What do you want to focus on next time?'
+                  value={secondInput}
+                  style={styles.input}
+                />
+                <_Button
+                  onPress={onDonePress}
+                  style={styles.doneButton}
+                >
+                  DONE
+                </_Button>
+              </Layout>
+          </SafeAreaView>
+        {/* <Layout level='4' style={styles.bottomBarContainer}>
+          <_Button
+            onPress={onDonePress}
+            style={styles.doneButton}
+          >
+            DONE
+          </_Button>
+        </Layout> */}
       </Layout>
-    </Layout>
+    </KeyboardAwareScrollView>
   )
 }
 

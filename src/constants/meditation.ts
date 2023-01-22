@@ -57,7 +57,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     groupKey: MeditationGroupKey.NewPotential,
     groupName: MeditationGroupName.NewPotential,
     meditationBaseId: MeditationBaseKeys.MedNewPotentialsV1,
-    meditationBreathId: MeditationKeys.NewPotentialsBreath,
+    meditationBaseBreathId: MeditationKeys.NewPotentialsBreath,
     name: 'Tuning Into New Potentials',
     size: MeditationSizes.NewPotentials,
     url: placeholder,

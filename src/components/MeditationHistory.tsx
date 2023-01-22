@@ -1,20 +1,47 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import { DateTime } from 'luxon';
 import { Layout, List, Text, useStyleSheet } from '@ui-kitten/components';
 
-import { newData } from '../constants/seedInsightsData';
+import UserContext from '../contexts/userData';
+import { MeditationInstance } from '../types';
 
 export const MeditationHistory = () => {
   const styles = useStyleSheet(themedStyles);
+  const { user } = useContext(UserContext);
+  const [meditationHistory, setMeditationHistory] = useState([] as MeditationInstance[])
+
+  useEffect(() => {
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .collection('meditationHistory')
+      .orderBy('creationTime', 'desc')
+      .limit(20)
+      .get()
+      .then(meditationInstances => {
+        console.log('INSIGHTS: Fetching meditation instances from firebase', meditationInstances);
+        const docs = meditationInstances.docs;
+        const meditationHistoryFromFirebase = docs.map(doc => doc.data());
+        setMeditationHistory(meditationHistoryFromFirebase as MeditationInstance[]);
+
+        console.log('meditationHistoryFromFirebase', meditationHistoryFromFirebase);
+      })
+  }, [])
 
   const renderListItem = ({ item, index }: any) => {
     const level = index % 2 ? '2' : '1';
+    const date = DateTime.fromSeconds(item.creationTime.seconds)
+    const displayDate = date.toLocaleString(DateTime.TIME_SIMPLE);
 
     return (
-      <Layout style={styles.listItem} level={level}>
+      <Layout style={styles.listItem} level={level} key={index}>
         <Layout level={level} style={styles.listItemDataContainer}>
-          <Text category='s2' style={styles.listItemText}>{item.date}</Text>
-          <Text category='s2' style={styles.listItemText}>{item.name}</Text>
+          <Layout level={level}>
+            <Text category='s2' style={styles.listItemText}>{item.name}</Text>
+            <Text category='s2' style={styles.listItemText}>{displayDate}</Text>
+          </Layout>
           <Layout style={styles.listItemIndicator} />
         </Layout>
       </Layout>
@@ -25,7 +52,7 @@ export const MeditationHistory = () => {
     <Layout level='4'>
       <Text category='h6' style={styles.header}>Meditation History</Text>
       <Layout style={styles.historyContainer} level='1'>
-        { newData.map((item, index) => {
+        {meditationHistory.map((item, index) => {
           return renderListItem({item, index})
         })}
       </Layout>
@@ -50,7 +77,8 @@ const themedStyles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   listItemText: {
-    marginVertical: 2,
+    flex: 1,
+    marginVertical: 6,
   },
   listItemIndicator: {
     borderRadius: 50,

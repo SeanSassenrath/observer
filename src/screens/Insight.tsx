@@ -2,7 +2,6 @@ import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { Avatar, Card, Layout, List, Text, useStyleSheet } from '@ui-kitten/components';
 
-import { newData } from '../constants/seedInsightsData';
 import { HomeStreaks } from '../components/HomeStreaks';
 import { MeditationTimeLog } from '../components/MeditationTimeLog';
 import { TopMeditations } from '../components/TopMeditations';
