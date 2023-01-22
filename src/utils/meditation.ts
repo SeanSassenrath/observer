@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { meditationBaseMap } from "../constants/meditation";
 import { recentMeditationIdsStorageKey } from "../contexts/recentMeditationData";
 import { Meditation, MeditationBaseMap, MeditationId } from "../types";
+import { getMeditationFilePathDataInAsyncStorage } from "./asyncStorageMeditation";
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
@@ -24,6 +26,40 @@ export const makeMeditationGroups = (meditationBaseMap: MeditationBaseMap) => {
 
   return meditationGroupMap;
 }
+
+export const setMeditationBaseDataToContext = async (
+  setMeditationBaseData: React.Dispatch<React.SetStateAction<MeditationBaseMap>>
+) => {
+  const filePathData = await getMeditationFilePathDataInAsyncStorage()
+
+  if (filePathData) {
+    let meditationBaseData = {} as MeditationBaseMap;
+    const parsedFilePathData = JSON.parse(filePathData);
+    console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
+    const filePathDataKeys = Object.keys(parsedFilePathData);
+
+    filePathDataKeys.forEach(key => {
+      const meditationFilePath = parsedFilePathData[key];
+      console.log('APP: meditation file path', meditationFilePath);
+      const meditationBase = {
+        ...meditationBaseMap[key],
+        url: meditationFilePath,
+      }
+      meditationBaseData = { [key]: meditationBase, ...meditationBaseData }
+    })
+
+    console.log('APP: Setting meditation base data to context', meditationBaseData);
+
+    setMeditationBaseData(meditationBaseData);
+  }
+}
+
+
+
+
+
+
+
 
 export const setRecentMeditationIdsInAsyncStorage = async (
   recentMeditationIds: MeditationId[] = [],

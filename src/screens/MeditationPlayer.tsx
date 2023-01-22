@@ -7,10 +7,11 @@ import { Icon, Layout, Text } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
-import { meditationMap } from '../constants/meditation';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
 import { Player } from '../components/Player';
+
 
 const brightWhite = '#fcfcfc';
 const lightestWhite = '#dcdcdc';
@@ -22,31 +23,46 @@ const CloseIcon = (props: any) => (
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { recentMeditationIds, setRecentMeditationIds } = useContext(RecentMeditationIdsContext);
+  const { meditationBaseData } = useContext(MeditationBaseDataContext);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
   const timerRef = React.useRef(time);
 
   const { id, meditationBreathId } = route.params;
-  const meditation = meditationMap[id]
+  const meditation = meditationBaseData[id]
   const tracks = [meditation]
+
+  console.log('MEDITATION PLAYER: Tracks', tracks);
   
-  if (meditationBreathId) {
-    tracks.unshift(meditationMap[meditationBreathId])
-  };
+  // if (meditationBreathId) {
+  //   tracks.unshift(meditationMap[meditationBreathId])
+  // };
 
-  if (!meditation) return null;
+  // if (!meditation) return null;
 
-  const updateRecentMeditationIds = () => {
-    if (meditation) {
-      const recentlyPlayedIds = [meditation.meditationId, ...recentMeditationIds];
-      const dedupedRecentlyPlayedIds = _.uniq(recentlyPlayedIds);
-      return dedupedRecentlyPlayedIds.slice(0, 8);
-    }
+  // const updateRecentMeditationIds = () => {
+  //   if (meditation) {
+  //     const recentlyPlayedIds = [meditation.meditationId, ...recentMeditationIds];
+  //     const dedupedRecentlyPlayedIds = _.uniq(recentlyPlayedIds);
+  //     return dedupedRecentlyPlayedIds.slice(0, 8);
+  //   }
+  // }
+
+  // const tester = async () => {
+  //   const result = await AsyncStorage.getItem(storageKey);
+  //   setFilePath(result as any);
+  //   console.log('result 2', result);
+  // }
+
+  const tester2 = async () => {
+    const test = await TrackPlayer.getState();
+    console.log('player state', test);
   }
 
   useEffect(() => {
-    const recentMeditationIds = updateRecentMeditationIds();
+    // const recentMeditationIds = updateRecentMeditationIds();
+
     const timerId = setInterval(() => {
       timerRef.current -= 1;
       if (timerRef.current < 0) {
@@ -57,13 +73,19 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
           setRecentMeditationIdsInAsyncStorage(recentMeditationIds)
           setRecentMeditationIds(recentMeditationIds)
         }
+        tester2();
       } else {
         setTime(timerRef.current);
       }
     }, 1000);
 
+    const testInterval = setInterval(() => {
+      tester2();
+    }, 5000)
+
     return () => {
       clearInterval(timerId);
+      clearInterval(testInterval);
     }
   }, []);
 

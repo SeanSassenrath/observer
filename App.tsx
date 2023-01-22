@@ -24,10 +24,10 @@ import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
-import { meditationBaseMap, MeditationKeys } from './src/constants/meditation';
+import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
-import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
+import { setMeditationBaseDataToContext } from './src/utils/meditation';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -84,32 +84,8 @@ const App = () => {
     }
   }
 
-  const setMeditationBaseDataToContext = async () => {
-    const filePathData = await getMeditationFilePathDataInAsyncStorage()
-
-    if (filePathData) {
-      let meditationBaseData = {} as MeditationBaseMap;
-      const parsedFilePathData = JSON.parse(filePathData);
-      console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
-      const filePathDataKeys = Object.keys(parsedFilePathData);
-
-      filePathDataKeys.forEach(key => {
-        const meditationFilePath = parsedFilePathData[key];
-        const meditationBase = {
-          ...meditationBaseMap[key],
-          url: meditationFilePath,
-        }
-        meditationBaseData = { [key]: meditationBase, ...meditationBaseData}
-      })
-
-      console.log('APP: Setting meditation base data to context', meditationBaseData);
-
-      setMeditationBaseData(meditationBaseData);
-    }
-  }
-
   useEffect(() => {
-    setMeditationBaseDataToContext();
+    setMeditationBaseDataToContext(setMeditationBaseData);
 
     GoogleSignin.configure({
       webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'

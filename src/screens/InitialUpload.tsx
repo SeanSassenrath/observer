@@ -10,6 +10,8 @@ import FtuxContext from '../contexts/ftuxData';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { pickFiles } from '../utils/filePicker';
 import { setFtuxStateInAsyncStorage } from '../utils/ftux';
+import { setMeditationBaseDataToContext } from '../utils/meditation';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 enum ScreenState {
   'Inital',
@@ -20,6 +22,7 @@ enum ScreenState {
 
 const InitialUploadScreen = () => {
   const { setHasSeenFtux } = useContext(FtuxContext);
+  const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [screenState, setScreenState] = useState(ScreenState.Inital);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
@@ -45,13 +48,13 @@ const InitialUploadScreen = () => {
 
   const onUploadPress = async () => {
     const pickedFileData = await pickFiles(existingMediationFilePathData);
+    console.log('INITIAL UPLOAD: Picked file data', pickedFileData)
     if (!pickedFileData) { return null; }
     console.log('INITIAL UPLOAD: Picked file data', pickedFileData)
 
     if (!isEmpty(pickedFileData)) {
-      setMeditationFilePathDataInAsyncStorage(
-        pickedFileData
-      )
+      setMeditationFilePathDataInAsyncStorage(pickedFileData)
+      setMeditationBaseDataToContext(setMeditationBaseData);
     }
 
     // if (

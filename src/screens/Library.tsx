@@ -61,10 +61,10 @@ const LibraryScreen = () => {
     }
   }
   
-  const onMeditationPress = (meditationId: MeditationId) => {
-    if (meditationId) {
+  const onMeditationPress = (meditationBaseId: MeditationId) => {
+    if (meditationBaseId) {
       navigation.navigate('Meditation', {
-        id: meditationId,
+        id: meditationBaseId,
       });
     }
   }

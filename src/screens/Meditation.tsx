@@ -11,7 +11,7 @@ import {
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
-import { meditationMap } from '../constants/meditation';
+import { meditationBaseMap } from '../constants/meditation';
 import { MultiLineInput } from '../components/MultiLineInput';
 
 const brightWhite = '#fcfcfc';
@@ -71,7 +71,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const [inputValue, setInputValue] = useState(EMPTY_INPUT);
   const { id } = route.params;
 
-  const meditation = meditationMap[id];
+  const meditation = meditationBaseMap[id];
   const meditationBreathId = toggledState ? meditation.meditationBreathId : '';
 
   const onBackPress = () => {

@@ -43,7 +43,7 @@ export const MeditationList = ({
               isFirstCard
               key={meditation.meditationBaseId}
               level='2'
-              onPress={onMeditationPress}
+              onPress={() => onMeditationPress(meditation.meditationBaseId)}
             />
           )
         })

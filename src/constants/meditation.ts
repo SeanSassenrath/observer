@@ -1,4 +1,4 @@
-import { MeditationMap } from "../types";
+import { MeditationBaseMap, MeditationMap } from "../types";
 
 export enum MeditationBaseKeys {
   MedNewPotentialsV1 = 'm-new-potentials-v1',
@@ -45,6 +45,68 @@ export enum MeditationGroupName {
 
 const artist = 'Dr. Joe Dispenza';
 const placeholder = '';
+
+export const meditationBaseMap: MeditationBaseMap = {
+  [MeditationBaseKeys.MedNewPotentialsV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/new_potential.png'),
+    color: '#055304',
+    formattedDuration: '45',
+    id: placeholder,
+    groupKey: MeditationGroupKey.NewPotential,
+    groupName: MeditationGroupName.NewPotential,
+    meditationBaseId: MeditationBaseKeys.MedNewPotentialsV1,
+    meditationBreathId: MeditationKeys.NewPotentialsBreath,
+    name: 'Tuning Into New Potentials',
+    size: MeditationSizes.NewPotentials,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.BreathNewPotentialsV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/new_potential.png'),
+    color: '#055304',
+    formattedDuration: '7',
+    id: placeholder,
+    groupKey: MeditationGroupKey.NewPotential,
+    groupName: MeditationGroupName.NewPotential,
+    meditationBaseId: MeditationBaseKeys.BreathNewPotentialsV1,
+    name: 'Tuning Into New Potentials - Breath',
+    size: MeditationSizes.NewPotentialsBreath,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.MedBreakingHabitSpaceV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/breaking_habit.png'),
+    color: '#003E54',
+    formattedDuration: '15',
+    id: placeholder,
+    groupKey: MeditationGroupKey.BreakingHabit,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: MeditationBaseKeys.MedBreakingHabitSpaceV1,
+    name: 'Breaking The Habit Of Being Yourself',
+    size: MeditationSizes.BreakingTheHabit,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.MedBreakingHabitWaterV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/breaking_habit.png'),
+    color: '#003E54',
+    formattedDuration: '11',
+    id: placeholder,
+    groupKey: MeditationGroupKey.BreakingHabit,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: MeditationBaseKeys.MedBreakingHabitWaterV1,
+    name: 'Breaking The Habit Of Being Yourself - Water',
+    size: MeditationSizes.BreakingTheHabitWater,
+    url: placeholder,
+  },
+}
+
+// -------
 
 export const meditationMap: MeditationMap = {
   [MeditationKeys.NewPotentials]: {
