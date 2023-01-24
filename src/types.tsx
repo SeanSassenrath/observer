@@ -103,10 +103,16 @@ export interface MeditationBase {
   groupKey: MeditationGroupKey,
   groupName: MeditationGroupName,
   meditationBaseId: MeditationId,
-  meditationBaseBreathId?: MeditationId,
   name: MeditationName,
   size: MeditationSizes,
+  type: MeditationTypes,
   url: any,
+}
+
+enum MeditationTypes {
+  Meditation,
+  Breath,
+  Heart,
 }
 
 export interface MeditationBaseMap {
@@ -129,9 +135,11 @@ export interface MeditationInstance {
   creationTime?: any;
   meditationBaseId: MeditationBaseId,
   meditationBaseBreathId?: MeditationBaseId,
+  meditationBaseHeartId?: MeditationBaseId,
   name: MeditationName,
   intention?: string,
   timeMeditated?: number,
   notes?: string,
   feedback?: string,
+  type: MeditationTypes,
 }

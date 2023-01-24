@@ -15,6 +15,7 @@ import { MeditationInstance, MeditationScreenNavigationProp, MeditationStackScre
 import { meditationBaseMap } from '../constants/meditation';
 import { MultiLineInput } from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import { MeditationList } from '../components/MeditationList';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_INPUT = '';
@@ -55,15 +56,6 @@ const LayoutOption1 = (props: Option1Props) => (
         value={props.value}
       />
     </Layout>
-    <Layout style={styles.meditationInfo} level='4'>
-      <WarningIcon />
-      <Text
-        category='s1'
-        style={styles.meditationInfoText}
-      >
-        Don't forget to turn on "Do Not Disturb"
-      </Text>
-    </Layout>
   </Layout>
 )
 
@@ -75,7 +67,6 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const { id } = route.params;
 
   const meditation = meditationBaseMap[id];
-  const meditationBreathId = toggledState ? meditation.meditationBaseBreathId : '';
 
   const onBackPress = () => {
     navigation.pop();
@@ -86,28 +77,31 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
       name: meditation.name,
       meditationBaseId: meditation.meditationBaseId,
       intention: inputValue,
+      type: meditation.type,
     }
 
-    if (meditation.meditationBaseBreathId) {
-      meditationInstanceData = {
-        meditationBaseBreathId: meditation.meditationBaseBreathId,
-        ...meditationInstanceData,
-      }
-    }
+    // if (meditation.meditationBaseBreathId) {
+    //   meditationInstanceData = {
+    //     meditationBaseBreathId: meditation.meditationBaseBreathId,
+    //     ...meditationInstanceData,
+    //   }
+    // }
 
     setMeditationInstanceData({
       name: meditation.name,
       meditationBaseId: meditation.meditationBaseId,
+      type: meditation.type,
       intention: inputValue,
     })
 
-    if (meditation.meditationBaseBreathId) {
+    // if (meditation.meditationBaseBreathId) {
 
-    }
+    // }
 
     navigation.navigate('MeditationPlayer', {
       id,
-      meditationBreathId: meditationBreathId
+      // meditationBreathId: meditationBreathId
+      // heartId: meditationBreathId
     });
   }
   
@@ -120,38 +114,48 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   return (
     <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topBar} level='4'>
-          <TouchableWithoutFeedback onPress={onBackPress}>
-            <Layout style={styles.closeIconContainer}>
-              <BackIcon />
-            </Layout>
-          </TouchableWithoutFeedback>
-        </Layout>
         <KeyboardAwareScrollView>
-          <Layout style={styles.mainSection} level='4'>
-              <Text category='h6'>{meditation.name}</Text>
-              <LayoutOption1
-                hasBreathMeditation={!!meditation.meditationBaseBreathId}
-                onChangeText={setInputValue}
-                setToggledState={onTogglePress}
-                toggledState={toggledState}
-                value={inputValue}
-              />          
-              {/* <Layout style={styles.meditationInfoContainer}>
-                <Layout style={styles.meditationInfo}>
-                  <WarningIcon />
-                  <Text
-                    category='s1'
-                    style={styles.meditationInfoText}
-                  >
-                    Turn on "Do Not Disturb"
-                  </Text>
-                </Layout>
-              </Layout> */}
+          <Layout style={styles.topBar} level='4'>
+            <TouchableWithoutFeedback onPress={onBackPress}>
+              <Layout style={styles.closeIconContainer}>
+                <BackIcon />
+              </Layout>
+            </TouchableWithoutFeedback>
           </Layout>
+          <Layout style={styles.mainSection} level='4'>
+            <Text category='h6'>{meditation.name}</Text>
+            <LayoutOption1
+              hasBreathMeditation={false}
+              onChangeText={setInputValue}
+              setToggledState={onTogglePress}
+              toggledState={toggledState}
+              value={inputValue}
+            />  
+          </Layout>  
+          <MeditationList
+            header='Add syncing the heart'
+            meditationBaseIds={[]}
+            onMeditationPress={() => { }}
+            isMini
+          />
+          <MeditationList
+            header='Add breath work'
+            meditationBaseIds={[]}
+            onMeditationPress={() => { }}
+            isMini
+          />   
         </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level='4'>
-          <_Button onPress={onStartPress} size='large'>Start</_Button>
+          <Layout style={styles.meditationInfo} level='4'>
+            <WarningIcon />
+            <Text
+              category='s1'
+              style={styles.meditationInfoText}
+            >
+              Don't forget to turn on "Do Not Disturb"
+            </Text>
+          </Layout>
+           <_Button onPress={onStartPress} size='large'>Start</_Button>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -159,6 +163,9 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 }
 
 const styles = StyleSheet.create({
+  additionalWork: {
+    paddingVertical: 40,
+  },
   actionSection: {
     padding: 40,
     justifyContent: 'center',
@@ -173,8 +180,8 @@ const styles = StyleSheet.create({
     width: 30,
   },
   bottomBar: {
-    flex: 1,
     padding: 20,
+    justifyContent: 'flex-end'
   },
   closeIcon: {
     height: 32,
@@ -201,17 +208,15 @@ const styles = StyleSheet.create({
   },
   mainSection: {
     padding: 20,
-    flex: 6,
     justifyContent: 'flex-end',
   },
-  meditationInfoContainer: {
-    marginTop: 12,
-  },
   meditationInfo: {
-    marginTop: 12,
+    marginBottom: 24,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    opacity: 0.8,
   },
   meditationInfoText: {
     color: '#b2b2b2',
@@ -219,8 +224,6 @@ const styles = StyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    paddingTop: 20,
-    flex: 1,
   },
   topBarText: {
     flex: 9,
@@ -232,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   option1ActionsContainer: {
-    marginBottom: 60,
+    marginBottom: 40,
   },
   toggle: {
     justifyContent: 'flex-start',

@@ -10,15 +10,16 @@ interface MeditationListProps {
   header: string,
   meditationBaseIds: MeditationId[],
   onMeditationPress(id: MeditationId): void,
+  isMini?: boolean,
 }
 
-const EmptyList = () => (
+const EmptyList = (isMini: boolean) => (
   <>
-    <EmptyCard />
-    <EmptyCard />
-    <EmptyCard />
-    <EmptyCard />
-    <EmptyCard />
+    <EmptyCard isMini={isMini}/>
+    <EmptyCard isMini={isMini}/>
+    <EmptyCard isMini={isMini}/>
+    <EmptyCard isMini={isMini}/>
+    <EmptyCard isMini={isMini}/>
   </>
 )
 
@@ -26,8 +27,9 @@ export const MeditationList = ({
   header,
   meditationBaseIds,
   onMeditationPress,
+  isMini,
 }: MeditationListProps) => (
-  <Layout style={styles.container} key={header} level='4'>
+  <Layout style={isMini? styles.container : styles.containerMini} key={header} level='4'>
     <Text category='h6' style={styles.header}>{header}</Text>
     <ScrollView horizontal={true} style={styles.horizontalContainer}>
       {meditationBaseIds?.length
@@ -44,6 +46,7 @@ export const MeditationList = ({
               key={meditation.meditationBaseId}
               level='2'
               onPress={() => onMeditationPress(meditation.meditationBaseId)}
+              isMini={isMini}
             />
           )
         })
@@ -56,6 +59,9 @@ export const MeditationList = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: 60,
+  },
+  containerMini: {
+    marginBottom: 40,
   },
   header: {
     opacity: 0.8,

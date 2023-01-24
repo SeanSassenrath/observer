@@ -17,6 +17,7 @@ interface CardProps {
   level?: string,
   name: MeditationName,
   onPress(id: MeditationId): void,
+  isMini?: boolean,
 }
 
 export const CardV1 = (props: CardProps) => (
@@ -126,7 +127,7 @@ export const CardV4 = (props: CardProps) => (
     key={props.meditationId}
     onPress={() => props.onPress(props.meditationId)}
   >
-    <ImageBackground source={props.backgroundImage} style={stylesV4.card}>
+    <ImageBackground source={props.backgroundImage} style={props.isMini ? stylesV4.miniCard : stylesV4.card}>
       <Layout level={props.level} style={stylesV4.formattedDurationContainer}>
         <Text category='s2'>
           {`${props.formattedDuration}m`}
@@ -149,6 +150,15 @@ const stylesV4 = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(100, 100, 100, 0.5)',
   },
+  miniCard: {
+    borderRadius: 10,
+    height: 80,
+    marginRight: 20,
+    width: 140,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(100, 100, 100, 0.5)',
+  },
   formattedDurationContainer: {
     alignItems: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -164,10 +174,14 @@ const stylesV4 = StyleSheet.create({
   }
 })
 
-export const EmptyCard = () => (
+interface EmptyCardProps {
+  isMini?: boolean,
+}
+
+export const EmptyCard = (props: EmptyCardProps) => (
   <Layout
     level='1'
-    style={emptyCardStyles.emptyCard}
+    style={props.isMini ? emptyCardStyles.emptyCardMini : emptyCardStyles.emptyCard}
   >
   </Layout>
 );
@@ -187,6 +201,14 @@ const emptyCardStyles = StyleSheet.create({
     opacity: 0.6,
     padding: 18,
     width: 200,
+  },
+  emptyCardMini: {
+    borderRadius: 10,
+    height: 100,
+    marginRight: 20,
+    opacity: 0.6,
+    padding: 18,
+    width: 140,
   },
   formattedDurationContainer: {
     alignItems: 'flex-end',
