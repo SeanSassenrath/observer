@@ -23,7 +23,7 @@ const MeditationFinishScreen = () => {
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
 
-  const updateRecentMeditationIds = () => {
+  const updateUserMeditationData = () => {
     const recentMeditationBaseIds = user
       && user.meditationUserData
       && user.meditationUserData.recentMeditationBaseIds
@@ -34,11 +34,21 @@ const MeditationFinishScreen = () => {
       meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
     ])
 
+    const meditationInstanceCount = user
+      && user.meditationUserData
+      && user.meditationUserData.meditationCounts
+      && user.meditationUserData.meditationCounts[meditationInstanceData.meditationBaseId]
+      && user.meditationUserData.meditationCounts[meditationInstanceData.meditationBaseId].count;
+
+    const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
+
     firestore()
       .collection('users')
       .doc(user.uid)
       .update({
-        'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds
+        'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
+        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.count`]: updatedMeditationInstanceCount,
+        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.name`]: meditationInstanceData.name,
       })
       .then(() => {
         setUser({
@@ -46,6 +56,13 @@ const MeditationFinishScreen = () => {
           meditationUserData: {
             ...user.meditationUserData,
             recentMeditationBaseIds: updatedRecentMeditationBaseIds,
+            meditationCounts: {
+              ...user.meditationUserData?.meditationCounts,
+              [meditationInstanceData.meditationBaseId]: {
+                count: updatedMeditationInstanceCount,
+                name: meditationInstanceData.name,
+              },
+            }
           },
         })
 
@@ -71,7 +88,7 @@ const MeditationFinishScreen = () => {
         console.log('MEDITATION FINISH: Added meditation instance to firebase');
       })
 
-    updateRecentMeditationIds();
+    updateUserMeditationData();
 
     navigation.navigate('TabNavigation')
   }

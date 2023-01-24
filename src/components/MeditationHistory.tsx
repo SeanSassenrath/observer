@@ -33,7 +33,7 @@ export const MeditationHistory = () => {
   const renderListItem = ({ item, index }: any) => {
     const level = index % 2 ? '2' : '1';
     const date = DateTime.fromSeconds(item.creationTime.seconds)
-    const displayDate = date.toLocaleString(DateTime.TIME_SIMPLE);
+    const displayDate = date.toLocaleString(DateTime.DATETIME_SHORT);
 
     return (
       <Layout style={styles.listItem} level={level} key={index}>

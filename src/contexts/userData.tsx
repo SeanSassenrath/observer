@@ -18,8 +18,10 @@ export interface User {
   meditationUserData?: {
     recentMeditationBaseIds?: MeditationBaseId[],
     meditationCounts?: {
-      // <meditation id>: 55
-      key: number
+      [key: string]: { 
+        count: number,
+        name: string,
+      },
     },
     currentStreak?: number,
     longestStreak?: number,
