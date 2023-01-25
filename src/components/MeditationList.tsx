@@ -7,19 +7,24 @@ import { meditationBaseMap, meditationMap } from '../constants/meditation';
 import { MeditationId } from '../types';
 
 interface MeditationListProps {
-  header: string,
-  meditationBaseIds: MeditationId[],
-  onMeditationPress(id: MeditationId): void,
-  isMini?: boolean,
+  header: string;
+  meditationBaseIds: MeditationId[];
+  onMeditationPress(id: MeditationId): void;
+  isMini?: boolean;
+  selectedCardId?: string; 
 }
 
-const EmptyList = (isMini: boolean) => (
+interface EmptyListProps {
+  isMini?: boolean;
+}
+
+const EmptyList = (props: EmptyListProps) => (
   <>
-    <EmptyCard isMini={isMini}/>
-    <EmptyCard isMini={isMini}/>
-    <EmptyCard isMini={isMini}/>
-    <EmptyCard isMini={isMini}/>
-    <EmptyCard isMini={isMini}/>
+    <EmptyCard isMini={props.isMini}/>
+    <EmptyCard isMini={props.isMini}/>
+    <EmptyCard isMini={props.isMini}/>
+    <EmptyCard isMini={props.isMini}/>
+    <EmptyCard isMini={props.isMini}/>
   </>
 )
 
@@ -28,8 +33,9 @@ export const MeditationList = ({
   meditationBaseIds,
   onMeditationPress,
   isMini,
+  selectedCardId,
 }: MeditationListProps) => (
-  <Layout style={isMini? styles.container : styles.containerMini} key={header} level='4'>
+  <Layout style={isMini ? styles.containerMini : styles.container} key={header} level='4'>
     <Text category='h6' style={styles.header}>{header}</Text>
     <ScrollView horizontal={true} style={styles.horizontalContainer}>
       {meditationBaseIds?.length
@@ -47,10 +53,11 @@ export const MeditationList = ({
               level='2'
               onPress={() => onMeditationPress(meditation.meditationBaseId)}
               isMini={isMini}
+              isSelected={meditation.meditationBaseId === selectedCardId}
             />
           )
         })
-        : <EmptyList />
+        : <EmptyList isMini={isMini}/>
       }
     </ScrollView>
   </Layout>

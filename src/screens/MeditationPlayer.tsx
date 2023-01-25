@@ -31,31 +31,19 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const [time, setTime] = React.useState(countDownInSeconds);
   const timerRef = React.useRef(time);
 
-  const { id, meditationBreathId } = route.params;
+  const { id } = route.params;
   const meditation = meditationBaseData[id]
+  const meditationBreathId = meditationInstanceData.meditationBaseBreathId;
   const tracks = [meditation]
 
-  console.log('MEDITATION PLAYER: Tracks', tracks);
   
-  // if (meditationBreathId) {
-  //   tracks.unshift(meditationMap[meditationBreathId])
-  // };
+  if (meditationBreathId && meditationBreathId?.length > 0) {
+    tracks.unshift(meditationBaseData[meditationBreathId])
+  };
 
-  // if (!meditation) return null;
+  console.log('MEDITATION PLAYER: Tracks', tracks);
 
-  // const updateRecentMeditationIds = () => {
-  //   if (meditation) {
-  //     const recentlyPlayedIds = [meditation.meditationId, ...recentMeditationIds];
-  //     const dedupedRecentlyPlayedIds = _.uniq(recentlyPlayedIds);
-  //     return dedupedRecentlyPlayedIds.slice(0, 8);
-  //   }
-  // }
-
-  // const tester = async () => {
-  //   const result = await AsyncStorage.getItem(storageKey);
-  //   setFilePath(result as any);
-  //   console.log('result 2', result);
-  // }
+  if (!meditation) return null;
 
   const tester2 = async () => {
     const test = await TrackPlayer.getState();
@@ -63,8 +51,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   useEffect(() => {
-    // const recentMeditationIds = updateRecentMeditationIds();
-
     const timerId = setInterval(() => {
       timerRef.current -= 1;
       if (timerRef.current < 0) {
@@ -96,7 +82,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   const onFinishPress = () => {
-
     navigation.replace('MeditationFinish');
   }
 

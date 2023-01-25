@@ -1,4 +1,4 @@
-import { MeditationBaseMap, MeditationMap } from "../types";
+import { MeditationBaseMap, MeditationMap, MeditationTypes } from "../types";
 
 export enum MeditationBaseKeys {
   MedNewPotentialsV1 = 'm-new-potentials-v1',
@@ -57,9 +57,9 @@ export const meditationBaseMap: MeditationBaseMap = {
     groupKey: MeditationGroupKey.NewPotential,
     groupName: MeditationGroupName.NewPotential,
     meditationBaseId: MeditationBaseKeys.MedNewPotentialsV1,
-    meditationBaseBreathId: MeditationKeys.NewPotentialsBreath,
     name: 'Tuning Into New Potentials',
     size: MeditationSizes.NewPotentials,
+    type: MeditationTypes.Meditation,
     url: placeholder,
   },
   [MeditationBaseKeys.BreathNewPotentialsV1]: {
@@ -74,6 +74,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     meditationBaseId: MeditationBaseKeys.BreathNewPotentialsV1,
     name: 'Tuning Into New Potentials - Breath',
     size: MeditationSizes.NewPotentialsBreath,
+    type: MeditationTypes.Breath,
     url: placeholder,
   },
   [MeditationBaseKeys.MedBreakingHabitSpaceV1]: {
@@ -88,6 +89,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     meditationBaseId: MeditationBaseKeys.MedBreakingHabitSpaceV1,
     name: 'Breaking The Habit Of Being Yourself',
     size: MeditationSizes.BreakingTheHabit,
+    type: MeditationTypes.Meditation,
     url: placeholder,
   },
   [MeditationBaseKeys.MedBreakingHabitWaterV1]: {
@@ -102,6 +104,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     meditationBaseId: MeditationBaseKeys.MedBreakingHabitWaterV1,
     name: 'Breaking The Habit Of Being Yourself - Water',
     size: MeditationSizes.BreakingTheHabitWater,
+    type: MeditationTypes.Meditation,
     url: placeholder,
   },
 }
@@ -170,3 +173,7 @@ export const meditationMap: MeditationMap = {
 
 export const newPotentialGroupIds = [MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath]
 export const breakingHabitGroupIds = [MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater];
+
+export const breathMeditationTypeBaseIds = [
+  MeditationBaseKeys.BreathNewPotentialsV1,
+]

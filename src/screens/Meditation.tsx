@@ -11,14 +11,15 @@ import {
 } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
-import { MeditationInstance, MeditationScreenNavigationProp, MeditationStackScreenProps } from '../types';
-import { meditationBaseMap } from '../constants/meditation';
+import { MeditationBaseId, MeditationScreenNavigationProp, MeditationStackScreenProps, MeditationTypes } from '../types';
+import { breathMeditationTypeBaseIds, meditationBaseMap } from '../constants/meditation';
 import { MultiLineInput } from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import { MeditationList } from '../components/MeditationList';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const brightWhite = '#fcfcfc';
-const EMPTY_INPUT = '';
+const EMPTY_STRING = '';
 
 const BackIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
@@ -61,9 +62,11 @@ const LayoutOption1 = (props: Option1Props) => (
 
 const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) => {
   const navigation = useNavigation<MeditationScreenNavigationProp>();
-  const {setMeditationInstanceData} = useContext(MeditationInstanceDataContext);
+  const {meditationInstanceData, setMeditationInstanceData} = useContext(MeditationInstanceDataContext);
+  const {meditationBaseData} = useContext(MeditationBaseDataContext);
   const [toggledState, setToggledState] = useState(false);
-  const [inputValue, setInputValue] = useState(EMPTY_INPUT);
+  const [inputValue, setInputValue] = useState(EMPTY_STRING);
+  const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const { id } = route.params;
 
   const meditation = meditationBaseMap[id];
@@ -73,35 +76,16 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   }
 
   const onStartPress = () => {
-    let meditationInstanceData: MeditationInstance = {
-      name: meditation.name,
-      meditationBaseId: meditation.meditationBaseId,
-      intention: inputValue,
-      type: meditation.type,
-    }
-
-    // if (meditation.meditationBaseBreathId) {
-    //   meditationInstanceData = {
-    //     meditationBaseBreathId: meditation.meditationBaseBreathId,
-    //     ...meditationInstanceData,
-    //   }
-    // }
-
     setMeditationInstanceData({
+      ...meditationInstanceData,
       name: meditation.name,
       meditationBaseId: meditation.meditationBaseId,
-      type: meditation.type,
       intention: inputValue,
+      type: meditation.type,
     })
-
-    // if (meditation.meditationBaseBreathId) {
-
-    // }
 
     navigation.navigate('MeditationPlayer', {
       id,
-      // meditationBreathId: meditationBreathId
-      // heartId: meditationBreathId
     });
   }
   
@@ -109,7 +93,26 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
     setToggledState(!toggledState);
   }
 
+  const onBreathMeditationPress = (meditationBaseBreathId: MeditationBaseId) => {
+    const shouldUnselect = selectedBreathCardId === meditationBaseBreathId;
+    const _meditationBaseBreathId = shouldUnselect ? EMPTY_STRING : meditationBaseBreathId;
+    const selectedCardId = shouldUnselect ? EMPTY_STRING : meditationBaseBreathId;
+
+    setMeditationInstanceData({
+      ...meditationInstanceData,
+      meditationBaseBreathId: _meditationBaseBreathId,
+    })
+
+    setSelectedBreathCardId(selectedCardId);
+  }
+
   if (!meditation) return null;
+
+  const breathMeditationsList = meditation.type !== MeditationTypes.Breath
+    ? breathMeditationTypeBaseIds.map(medtationId => {
+        return meditationBaseData[medtationId].meditationBaseId;
+      })
+    : [];
 
   return (
     <Layout style={styles.container} level='4'>
@@ -133,17 +136,21 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
             />  
           </Layout>  
           <MeditationList
-            header='Add syncing the heart'
+            header='Add heart sync'
             meditationBaseIds={[]}
             onMeditationPress={() => { }}
             isMini
           />
-          <MeditationList
-            header='Add breath work'
-            meditationBaseIds={[]}
-            onMeditationPress={() => { }}
-            isMini
-          />   
+          {breathMeditationsList.length > 0
+            ? <MeditationList
+                header='Add breath work'
+                meditationBaseIds={breathMeditationsList}
+                onMeditationPress={onBreathMeditationPress}
+                selectedCardId={selectedBreathCardId}
+                isMini
+              />   
+            : null
+          }
         </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level='4'>
           <Layout style={styles.meditationInfo} level='4'>
@@ -181,7 +188,8 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     padding: 20,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    borderTopWidth: 2,
   },
   closeIcon: {
     height: 32,

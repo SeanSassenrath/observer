@@ -18,6 +18,7 @@ interface CardProps {
   name: MeditationName,
   onPress(id: MeditationId): void,
   isMini?: boolean,
+  isSelected?: boolean,
 }
 
 export const CardV1 = (props: CardProps) => (
@@ -127,7 +128,14 @@ export const CardV4 = (props: CardProps) => (
     key={props.meditationId}
     onPress={() => props.onPress(props.meditationId)}
   >
-    <ImageBackground source={props.backgroundImage} style={props.isMini ? stylesV4.miniCard : stylesV4.card}>
+    <ImageBackground source={props.backgroundImage} style={
+      props.isMini
+        ? props.isSelected
+          ? stylesV4.miniSelectedCard
+          : stylesV4.miniCard
+        : stylesV4.card
+      }
+    >
       <Layout level={props.level} style={stylesV4.formattedDurationContainer}>
         <Text category='s2'>
           {`${props.formattedDuration}m`}
@@ -148,16 +156,25 @@ const stylesV4 = StyleSheet.create({
     width: 200,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(100, 100, 100, 0.5)',
+    borderColor: 'rgba(90, 90, 90, 0.9)',
   },
   miniCard: {
     borderRadius: 10,
-    height: 80,
+    height: 100,
     marginRight: 20,
     width: 140,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(100, 100, 100, 0.5)',
+    borderWidth: 2,
+    borderColor: 'rgba(90, 90, 90, 0.9)',
+  },
+  miniSelectedCard: {
+    borderRadius: 10,
+    height: 100,
+    marginRight: 20,
+    width: 140,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#CBF6A1'
   },
   formattedDurationContainer: {
     alignItems: 'flex-end',

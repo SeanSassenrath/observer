@@ -109,7 +109,7 @@ export interface MeditationBase {
   url: any,
 }
 
-enum MeditationTypes {
+export enum MeditationTypes {
   Meditation,
   Breath,
   Heart,
