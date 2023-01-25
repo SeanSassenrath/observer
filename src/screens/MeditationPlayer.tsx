@@ -13,10 +13,10 @@ import { setRecentMeditationIdsInAsyncStorage } from '../utils/meditation';
 import { Player } from '../components/Player';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 
-
 const brightWhite = '#fcfcfc';
 const lightestWhite = '#dcdcdc';
 const countDownInSeconds = 5;
+const EMPTY_STRING = '';
 
 const CloseIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='close-outline' />
@@ -29,6 +29,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const [ isPlaying, setIsPlaying ] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
+  const [currentTrackName, setCurrentTrackName] = React.useState<string>();
   const timerRef = React.useRef(time);
 
   const { id } = route.params;
@@ -107,11 +108,14 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             }
           </Layout>
           <Layout style={styles.meditationName} level='4'>
-            <Text category='h6' style={styles.meditationNameText}>{meditation.name}</Text>
+            <Text category='h6' style={styles.meditationNameText}>{currentTrackName}</Text>
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar} level='4'>
-          <Player tracks={tracks} />
+          <Player
+            setCurrentTrackName={setCurrentTrackName}
+            tracks={tracks}
+          />
           <Layout style={styles.finishButtonContainer} level='4'>
             <_Button
               disabled={isFinishButtonDisabled}

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Slider from '@react-native-community/slider';
-import TrackPlayer, { useProgress } from 'react-native-track-player';
+import TrackPlayer, { useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import { Icon, Layout, Text } from '@ui-kitten/components';
-
-import { Meditation } from '../types';
+import { MeditationBase } from '../types';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -23,7 +22,7 @@ const RestartIcon = (props: any) => (
 );
 
 interface PlayerProps {
-  // tracks: Meditation[];
+  setCurrentTrackName: Dispatch<SetStateAction<string | undefined>>;
   tracks: any;
 }
 
@@ -43,6 +42,13 @@ export const Player = (props: PlayerProps) => {
       clearTimeout(timeout);
     }
   }, []);
+
+  useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
+    if (event.type === Event.PlaybackTrackChanged && event.nextTrack != null) {
+      const track = await TrackPlayer.getTrack(event.nextTrack) as any;
+      props.setCurrentTrackName(track.name);
+    }
+  });
 
   const addTracks = async () => {
     try {
