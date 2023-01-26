@@ -30,8 +30,6 @@ const HomeScreen = () => {
     favoriteMeditations = allMeditationIds.slice(0, 5);
   }
 
-  const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts);
-
   const onMeditationPress = (meditationId: MeditationId) => {
     if (meditationId) {
       stackNavigation.navigate('Meditation', {
@@ -70,8 +68,8 @@ const HomeScreen = () => {
 
   return (
     <Layout style={styles.container} level='4'>
-      <ScrollView style={styles.scrollContainer}>
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.scrollContainer}>
           <HomeTopBar onVoidPress={onVoidPress} />
           <Inspiration />
           <HomeStreaks />
@@ -92,8 +90,8 @@ const HomeScreen = () => {
               onMeditationPress={onMeditationPress}
             />
           </Layout>
-        </SafeAreaView>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </Layout>
   )
 }

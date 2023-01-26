@@ -31,15 +31,15 @@ const InsightScreen = () => {
 
   return (
     <Layout style={styles.rootContainer} level='4'>
-      <ScrollView style={styles.scrollContainer}>
-        <SafeAreaView style={styles.screenContainer}>
-          <Layout level='4' style={styles.topSpacer} />
-          <HomeStreaks />
-          <MeditationTimeLog />
-          <TopMeditations />
-          <MeditationHistory />
-        </SafeAreaView>
-      </ScrollView>
+      <SafeAreaView style={styles.screenContainer}>
+        <ScrollView style={styles.scrollContainer}>
+            <Layout level='4' style={styles.topSpacer} />
+            <HomeStreaks />
+            <MeditationTimeLog />
+            <TopMeditations />
+            <MeditationHistory />
+        </ScrollView>
+      </SafeAreaView>
     </Layout>
   )
 }
