@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import _ from 'lodash';
+import _, { sortBy } from 'lodash';
 import { Card, Layout, Text } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
@@ -20,7 +20,19 @@ const HomeScreen = () => {
 
   const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
 
-  const onMeditationClick = (meditationId: MeditationId) => {
+  let favoriteMeditations = [] as MeditationId[];
+  const meditationInstanceCounts = user
+    && user.meditationUserData
+    && user.meditationUserData.meditationCounts;
+
+  if (meditationInstanceCounts) {
+    const allMeditationIds = Object.keys(meditationInstanceCounts);
+    favoriteMeditations = allMeditationIds.slice(0, 5);
+  }
+
+  const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts);
+
+  const onMeditationPress = (meditationId: MeditationId) => {
     if (meditationId) {
       stackNavigation.navigate('Meditation', {
         id: meditationId,
@@ -72,12 +84,12 @@ const HomeScreen = () => {
             <MeditationList
               header='Recent Meditations'
               meditationBaseIds={recentMeditationBaseIds}
-              onMeditationPress={onMeditationClick}
+              onMeditationPress={onMeditationPress}
             />
             <MeditationList
               header='Favorites'
-              meditationBaseIds={[]}
-              onMeditationPress={_.noop}
+              meditationBaseIds={favoriteMeditations}
+              onMeditationPress={onMeditationPress}
             />
           </Layout>
         </SafeAreaView>
