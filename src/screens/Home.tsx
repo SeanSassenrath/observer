@@ -54,7 +54,8 @@ const HomeScreen = () => {
     console.log('HOME: Picked file data', pickedFileData)
 
     if (!isEmpty(pickedFileData)) {
-      setMeditationFilePathDataInAsyncStorage(pickedFileData)
+      setMeditationFilePathDataInAsyncStorage(pickedFileData);
+      setExistingMeditationFilePathData(pickedFileData);
       setMeditationBaseDataToContext(setMeditationBaseData);
     }
   };

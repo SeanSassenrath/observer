@@ -8,6 +8,8 @@ export enum MeditationBaseKeys {
   MedPresentMomentV1 = 'm-present-moment-v1',
   MedDailyMorningV1 = 'm-daily-morning-v1',
   MedDailyEveningV1 = 'm-daily-evening-v1',
+  MedReconditionV1 = 'm-recondition-v1',
+  BreathReconditionV1 = 'b-recondition-v1',
 }
 
 export enum MeditationStringSizes {
@@ -15,6 +17,9 @@ export enum MeditationStringSizes {
   BreathNewPotentialsV1 = '96748',
   MedBreakingHabitSpaceV1 = '14936',
   MedBreakingHabitWaterV1 = '14071',
+  MedPresentMoment = '68710',
+  MedRecondition = '55295',
+  BreathRecondition = '95032',
 }
 
 export enum MeditationKeys {
@@ -22,6 +27,9 @@ export enum MeditationKeys {
   NewPotentialsBreath = '9674897',
   BreakingTheHabit = '149360649',
   BreakingTheHabitWater = '140710975',
+  PresentMoment = '68710984',
+  Recondition = '55295394',
+  ReconditionBreath = '9503256',
 }
 
 export enum MeditationSizes {
@@ -29,18 +37,25 @@ export enum MeditationSizes {
   NewPotentialsBreath = 9674897,
   BreakingTheHabit = 149360649,
   BreakingTheHabitWater = 140710975,
+  PresentMoment = 68710984,
+  Recondition = 55295394,
+  ReconditionBreath = 9503256,
 }
 
 export enum MeditationGroupKey {
   'EnergyCenter' = 'energyCenter',
   'NewPotential' = 'newPotential',
   'BreakingHabit' = 'breakingHabit',
+  'Recondition' = 'recondition',
+  'Other' = 'other',
 }
 
 export enum MeditationGroupName {
   'EnergyCenter' = 'Blessing of the Energy Centers',
   'NewPotential' = 'Tuning Into New Potentials',
   'BreakingHabit' = 'Breaking the Habit of Being Yourself',
+  'Recondition' = 'Reconditioning the Body to a New Mind',
+  'Other' = 'Other'
 }
 
 const artist = 'Dr. Joe Dispenza';
@@ -107,67 +122,50 @@ export const meditationBaseMap: MeditationBaseMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
-}
-
-// -------
-
-export const meditationMap: MeditationMap = {
-  [MeditationKeys.NewPotentials]: {
+  [MeditationBaseKeys.MedPresentMomentV1]: {
     artwork: '',
     artist,
-    backgroundImage: require('../assets/new_potential.png'),
-    color: '#055304',
-    formattedDuration: '45',
-    id: placeholder,
-    groupKey: MeditationGroupKey.NewPotential,
-    groupName: MeditationGroupName.NewPotential,
-    meditationId: MeditationKeys.NewPotentials,
-    meditationBreathId: MeditationKeys.NewPotentialsBreath,
-    name: 'Tuning Into New Potentials',
-    size: MeditationSizes.NewPotentials,
-    url: require('../tracks/56004113.mp3'),
-  },
-  [MeditationKeys.NewPotentialsBreath]: {
-    artwork: '',
-    artist,
-    backgroundImage: require('../assets/new_potential.png'),
-    color: '#055304',
-    formattedDuration: '7',
-    id: placeholder,
-    groupKey: MeditationGroupKey.NewPotential,
-    groupName: MeditationGroupName.NewPotential,
-    meditationId: MeditationKeys.NewPotentialsBreath,
-    name: 'Tuning Into New Potentials - Breath',
-    size: MeditationSizes.NewPotentialsBreath,
-    url: require('../tracks/9674897.mp3'),
-  },
-  [MeditationKeys.BreakingTheHabit]: {
-    artwork: '',
-    artist,
-    backgroundImage: require('../assets/breaking_habit.png'),
+    backgroundImage: require('../assets/present_moment.png'),
     color: '#003E54',
-    formattedDuration: '15',
+    formattedDuration: '47',
     id: placeholder,
-    groupKey: MeditationGroupKey.BreakingHabit,
-    groupName: MeditationGroupName.BreakingHabit,
-    meditationId: MeditationKeys.BreakingTheHabit,
-    name: 'Breaking The Habit Of Being Yourself',
-    size: MeditationSizes.BreakingTheHabit,
-    url: require('../tracks/149360649.m4a'),
+    groupKey: MeditationGroupKey.Other,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: MeditationBaseKeys.MedPresentMomentV1,
+    name: 'Generous Present Moment',
+    size: MeditationSizes.PresentMoment,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
   },
-  [MeditationKeys.BreakingTheHabitWater]: {
+  [MeditationBaseKeys.MedReconditionV1]: {
     artwork: '',
     artist,
-    backgroundImage: require('../assets/breaking_habit.png'),
+    backgroundImage: require('../assets/present_moment.png'),
     color: '#003E54',
-    formattedDuration: '11',
+    formattedDuration: '46',
     id: placeholder,
-    groupKey: MeditationGroupKey.BreakingHabit,
-    groupName: MeditationGroupName.BreakingHabit,
-    meditationId: MeditationKeys.BreakingTheHabitWater,
-    name: 'Breaking The Habit Of Being Yourself - Water',
-    size: MeditationSizes.BreakingTheHabitWater,
-    url: require('../tracks/140710975.m4a'),
+    groupKey: MeditationGroupKey.Recondition,
+    groupName: MeditationGroupName.Recondition,
+    meditationBaseId: MeditationBaseKeys.MedReconditionV1,
+    name: 'Reconditioning the Body to a New Mind',
+    size: MeditationSizes.Recondition,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.BreathReconditionV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/present_moment.png'),
+    color: '#003E54',
+    formattedDuration: '8',
+    id: placeholder,
+    groupKey: MeditationGroupKey.Recondition,
+    groupName: MeditationGroupName.Recondition,
+    meditationBaseId: MeditationBaseKeys.BreathReconditionV1,
+    name: 'Reconditioning the Body to a New Mind - Breath',
+    size: MeditationSizes.ReconditionBreath,
+    type: MeditationTypes.Breath,
+    url: placeholder,
   },
 }
 
@@ -176,4 +174,5 @@ export const breakingHabitGroupIds = [MeditationKeys.BreakingTheHabit, Meditatio
 
 export const breathMeditationTypeBaseIds = [
   MeditationBaseKeys.BreathNewPotentialsV1,
+  MeditationBaseKeys.BreathReconditionV1,
 ]

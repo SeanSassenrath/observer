@@ -9,7 +9,7 @@ import { meditationBaseMap } from '../constants/meditation';
 import UnlockedMeditationIdsContext from '../contexts/meditationData';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
 import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
-import { pickFilesFromDevice, setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
+import { setUnlockedMeditationIdsInAsyncStorage } from '../utils/filePicker';
 import { SearchBar } from '../components/SearchBar';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
@@ -31,35 +31,35 @@ const LibraryScreen = () => {
     setMeditationGroups(meditationGroups);
   }, [meditationBaseData]);
 
-  const onAddPress = async () => {
-    const pickedFileData = await pickFilesFromDevice()
-    if (!pickedFileData) { return null; }
+  // const onAddPress = async () => {
+  //   // const pickedFileData = await pickFilesFromDevice()
+  //   if (!pickedFileData) { return null; }
 
-    if (
-      pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
-      pickedFileData.unsupportedFileNames.length > 0
-    ) {
-      // setScreenState(ScreenState.Fail);
-    } else if (
-      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-      pickedFileData.unsupportedFileNames.length > 0
-    ) {
-      setUnlockedMeditationIdsInAsyncStorage(
-        pickedFileData.updatedUnlockedMeditationIds,
-      )
-      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-      // setScreenState(ScreenState.Mixed);
-    } else if (
-      pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-      pickedFileData.unsupportedFileNames.length <= 0
-    ) {
-      setUnlockedMeditationIdsInAsyncStorage(
-        pickedFileData.updatedUnlockedMeditationIds,
-      )
-      setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-      // setScreenState(ScreenState.Success);
-    }
-  }
+  //   if (
+  //     pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
+  //     pickedFileData.unsupportedFileNames.length > 0
+  //   ) {
+  //     // setScreenState(ScreenState.Fail);
+  //   } else if (
+  //     pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+  //     pickedFileData.unsupportedFileNames.length > 0
+  //   ) {
+  //     setUnlockedMeditationIdsInAsyncStorage(
+  //       pickedFileData.updatedUnlockedMeditationIds,
+  //     )
+  //     setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+  //     // setScreenState(ScreenState.Mixed);
+  //   } else if (
+  //     pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
+  //     pickedFileData.unsupportedFileNames.length <= 0
+  //   ) {
+  //     setUnlockedMeditationIdsInAsyncStorage(
+  //       pickedFileData.updatedUnlockedMeditationIds,
+  //     )
+  //     setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
+  //     // setScreenState(ScreenState.Success);
+  //   }
+  // }
   
   const onMeditationPress = (meditationBaseId: MeditationId) => {
     if (meditationBaseId) {
@@ -103,28 +103,28 @@ const LibraryScreen = () => {
 
   return (
     <Layout style={styles.rootContainer} level='4'>
-      <ScrollView>
-        <SafeAreaView style={styles.rootContainer}>
-          {/* <Layout style={styles.headerContainer}>
-            <TouchableWithoutFeedback
-              onPress={onAddPress}
-            >
-              <AddIcon />
-            </TouchableWithoutFeedback>
-            <Avatar source={require('../assets/avatar.jpeg')} />
-          </Layout> */}
-          <Layout style={styles.screenContainer} level='4'>
-            <Layout style={styles.inputContainer} level='4'>
-              <SearchBar
-                input={searchInput}
-                onChangeText={setSearchInput}
-                onClearPress={onClearPress}
-              />
+      <SafeAreaView style={styles.rootContainer}>
+        <ScrollView>
+            {/* <Layout style={styles.headerContainer}>
+              <TouchableWithoutFeedback
+                onPress={onAddPress}
+              >
+                <AddIcon />
+              </TouchableWithoutFeedback>
+              <Avatar source={require('../assets/avatar.jpeg')} />
+            </Layout> */}
+            <Layout style={styles.screenContainer} level='4'>
+              <Layout style={styles.inputContainer} level='4'>
+                <SearchBar
+                  input={searchInput}
+                  onChangeText={setSearchInput}
+                  onClearPress={onClearPress}
+                />
+              </Layout>
+              {renderMeditationGroupSections()}
             </Layout>
-            {renderMeditationGroupSections()}
-          </Layout>
-        </SafeAreaView>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </Layout>
   )
 }

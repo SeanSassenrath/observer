@@ -10,7 +10,8 @@ export const setMeditationFilePathDataInAsyncStorage = async (
   meditationFilePathData: MeditationFilePathData,
 ) => {
   try {
-    const stringifiedData = JSON.stringify(meditationFilePathData);
+    console.log('ASYNC STORAGE: meditationFilePathData', meditationFilePathData);
+    const stringifiedData = JSON.stringify({ ...meditationFilePathData });
     console.log('ASYNC STORAGE: Setting file path data', stringifiedData);
     if (stringifiedData !== null && stringifiedData !== undefined) {
       await AsyncStorage.setItem(storageKey, stringifiedData)

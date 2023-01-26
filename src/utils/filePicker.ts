@@ -2,7 +2,7 @@ import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-pi
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from "lodash";
 
-import { MeditationBaseKeys, meditationMap, MeditationStringSizes } from '../constants/meditation';
+import { MeditationBaseKeys, MeditationStringSizes } from '../constants/meditation';
 import { storageKey } from '../contexts/meditationData';
 import { MeditationId } from '../types';
 import { MeditationFilePathData } from './asyncStorageMeditation';
@@ -31,7 +31,7 @@ const makeFilePathDataList = (
   files.forEach(file => {
     const filePathData = makeFilePathData(file);
     if (filePathData) {
-      filePathDataMap = { ...filePathData, ...filePathDataMap};
+      filePathDataMap = { ...filePathDataMap, ...filePathData };
     }
   })
 
@@ -59,6 +59,18 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedBreakingHabitWaterV1]: file.uri,
       }
+    case MeditationStringSizes.MedPresentMoment:
+      return {
+        [MeditationBaseKeys.MedPresentMomentV1]: file.uri,
+      }
+    case MeditationStringSizes.MedRecondition:
+      return {
+        [MeditationBaseKeys.MedReconditionV1]: file.uri,
+      }
+    case MeditationStringSizes.BreathRecondition:
+      return {
+        [MeditationBaseKeys.BreathReconditionV1]: file.uri,
+      }
     default:
       break;
   }
@@ -71,39 +83,39 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
 
 
-export const pickFilesFromDevice = async (unlockedMeditationIds: MeditationId[] = []) => {
-    try {
-      const files = await DocumentPicker.pick({ allowMultiSelection: true });
-      const { updatedUnlockedMeditationIds, unsupportedFileNames } = parsePickedFiles(files);
+// export const pickFilesFromDevice = async (unlockedMeditationIds: MeditationId[] = []) => {
+//     try {
+//       const files = await DocumentPicker.pick({ allowMultiSelection: true });
+//       const { updatedUnlockedMeditationIds, unsupportedFileNames } = parsePickedFiles(files);
 
-      const joinedMeditationIds: MeditationId[] = [...unlockedMeditationIds, ...updatedUnlockedMeditationIds]
-      const dedupedMeditationIds = _.uniq(joinedMeditationIds);
+//       const joinedMeditationIds: MeditationId[] = [...unlockedMeditationIds, ...updatedUnlockedMeditationIds]
+//       const dedupedMeditationIds = _.uniq(joinedMeditationIds);
   
-      return { updatedUnlockedMeditationIds: dedupedMeditationIds, unsupportedFileNames }
-    } catch(e) {
-      console.log('Picking files error', e);
-    }
-  }
+//       return { updatedUnlockedMeditationIds: dedupedMeditationIds, unsupportedFileNames }
+//     } catch(e) {
+//       console.log('Picking files error', e);
+//     }
+//   }
 
-const parsePickedFiles = (files: DocumentPickerResponse[]) => {
-  const updatedUnlockedMeditationIds: MeditationId[] = [];
-  const unsupportedFileNames: string[] = [];
-  const defaultFileName = 'Unknown';
+// const parsePickedFiles = (files: DocumentPickerResponse[]) => {
+//   const updatedUnlockedMeditationIds: MeditationId[] = [];
+//   const unsupportedFileNames: string[] = [];
+//   const defaultFileName = 'Unknown';
 
-  files.forEach(file => {
-    const meditationId = file.size?.toString()
-    if (meditationId && meditationMap[meditationId]) {
-      updatedUnlockedMeditationIds.push(meditationId);
-    } else {
-      unsupportedFileNames.push(file.name || defaultFileName);
-    }
-  })
+//   files.forEach(file => {
+//     const meditationId = file.size?.toString()
+//     if (meditationId && meditationMap[meditationId]) {
+//       updatedUnlockedMeditationIds.push(meditationId);
+//     } else {
+//       unsupportedFileNames.push(file.name || defaultFileName);
+//     }
+//   })
 
-  return {
-    updatedUnlockedMeditationIds,
-    unsupportedFileNames,
-  }
-}
+//   return {
+//     updatedUnlockedMeditationIds,
+//     unsupportedFileNames,
+//   }
+// }
 
 
 

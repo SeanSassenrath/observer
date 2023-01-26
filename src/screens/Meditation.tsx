@@ -108,11 +108,21 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 
   if (!meditation) return null;
 
-  const breathMeditationsList = meditation.type !== MeditationTypes.Breath
-    ? breathMeditationTypeBaseIds.map(medtationId => {
-        return meditationBaseData[medtationId].meditationBaseId;
+  const makeBreathMeditationsList = () => {
+    let breathMeditationList = [] as MeditationBaseId[];
+
+    if (meditation.type !== MeditationTypes.Breath) {
+      breathMeditationTypeBaseIds.forEach(meditationId => {
+        if (meditationBaseData[meditationId]) {
+          breathMeditationList.push(meditationBaseData[meditationId].meditationBaseId)
+        }
       })
-    : [];
+    }
+
+    return breathMeditationList;
+  }
+
+  const breathMeditationsList = makeBreathMeditationsList();
 
   return (
     <Layout style={styles.container} level='4'>
@@ -135,12 +145,12 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
               value={inputValue}
             />  
           </Layout>  
-          <MeditationList
+          {/* <MeditationList
             header='Add heart sync'
             meditationBaseIds={[]}
             onMeditationPress={() => { }}
             isMini
-          />
+          /> */}
           {breathMeditationsList.length > 0
             ? <MeditationList
                 header='Add breath work'
