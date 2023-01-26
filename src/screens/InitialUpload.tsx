@@ -41,8 +41,8 @@ const InitialUploadScreen = () => {
   }
 
   const onContinuePress = async () => {
-    setFtuxStateInAsyncStorage();
-    setHasSeenFtux(true);
+    // setFtuxStateInAsyncStorage();
+    // setHasSeenFtux(true);
     navigation.navigate('TabNavigation');
   }
 

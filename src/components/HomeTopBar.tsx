@@ -2,12 +2,6 @@ import React, { useContext } from 'react';
 import { Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 import UserContext from '../contexts/userData';
-import { useNavigation } from '@react-navigation/native';
-import { InitialUploadScreenNavigationProp } from '../types';
-
-const SearchIcon = (props: any) => (
-  <Icon {...props} style={styles.searchIcon} fill='#b2b2b2' name='search' />
-);
 
 interface HomeTopBarProps {
   onVoidPress(): void,
@@ -16,9 +10,6 @@ interface HomeTopBarProps {
 export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
   const { user } = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
-  const navigation = useNavigation<InitialUploadScreenNavigationProp>();
-
-  const onAvatarPress = () => navigation.navigate('InitialUpload');
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
@@ -28,13 +19,8 @@ export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
         </Layout>
       </Pressable>
       <Layout style={styles.topBarActionItemsContainer} level='4'>
-        {/* <Layout level='2' style={styles.topBarSearchContainer}>
-          <TouchableWithoutFeedback>
-            <SearchIcon />
-          </TouchableWithoutFeedback>
-        </Layout> */}
         { user.profile && user.profile.photoURL
-          ? <Pressable onPress={onAvatarPress}>
+          ? <Pressable>
               <Avatar source={{ uri: user.profile.photoURL }} />
             </Pressable>
           : null
@@ -67,7 +53,7 @@ const themedStyles = StyleSheet.create({
     padding: 8,
   },
   topBarVoidContainer: {
-    backgroundColor: 'color-primary-600',
+    backgroundColor: 'color-primary-700',
     borderColor: 'color-primary-800',
     borderWidth: 1,
     borderRadius: 25,

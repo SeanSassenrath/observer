@@ -10,7 +10,7 @@ export const Inspiration = () => {
 
   return (
     <Layout level='1' style={styles.container}>
-      <Text category='h5' style={styles.header}>Good morning, {user.profile.firstName}</Text>
+      <Text category='h5' style={styles.header}>Hello, {user.profile.firstName}</Text>
       <Text category='s1' style={styles.prompt}>Where will you place your energy today?</Text>
     </Layout>
   )
@@ -18,16 +18,13 @@ export const Inspiration = () => {
 
 const themedStyles = StyleSheet.create({
   container: {
-    // backgroundColor: 'color-primary-800',
     padding: 18,
     marginHorizontal: 20,
-    marginBottom: 60,
+    marginBottom: 40,
     borderRadius: 10,
-    // opacity: 0.9
   },
   header: {
     marginBottom: 10,
-    // opacity: 0.9,
   },
   prompt: {
     opacity: 0.7,

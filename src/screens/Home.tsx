@@ -1,22 +1,26 @@
-import React, { useContext, useEffect } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Pressable, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import _, { sortBy } from 'lodash';
-import { Card, Layout, Text } from '@ui-kitten/components'; 
+import _, { isEmpty } from 'lodash';
+import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp } from '../types';
-import RecentMeditationIdsContext from '../contexts/recentMeditationData';
 import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
-import { HomeStreaks } from '../components/HomeStreaks';
 import { Inspiration } from '../components/Inspiration';
 import UserContext from '../contexts/userData';
+import { pickFiles } from '../utils/filePicker';
+import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
+import { setMeditationBaseDataToContext } from '../utils/meditation';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const HomeScreen = () => {
   const { user } = useContext(UserContext);
   const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
-  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
+  const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
+  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const styles = useStyleSheet(themedStyles);
 
   const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
 
@@ -30,6 +34,31 @@ const HomeScreen = () => {
     favoriteMeditations = allMeditationIds.slice(0, 5);
   }
 
+  useEffect(() => {
+    setExistingMeditationFilePathDataFromAsyncStorage();
+  }, [])
+
+  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
+    const filePathData = await getMeditationFilePathDataInAsyncStorage()
+    console.log('HOME: Existing file path data from Async Storage', filePathData);
+    if (filePathData) {
+      const parsedFilePathData = JSON.parse(filePathData);
+      setExistingMeditationFilePathData(parsedFilePathData);
+    }
+  }
+
+  const onAddMeditationsPress = async () => {
+    const pickedFileData = await pickFiles(existingMediationFilePathData);
+    console.log('HOME: Picked file data', pickedFileData)
+    if (!pickedFileData) { return null; }
+    console.log('HOME: Picked file data', pickedFileData)
+
+    if (!isEmpty(pickedFileData)) {
+      setMeditationFilePathDataInAsyncStorage(pickedFileData)
+      setMeditationBaseDataToContext(setMeditationBaseData);
+    }
+  };
+
   const onMeditationPress = (meditationId: MeditationId) => {
     if (meditationId) {
       stackNavigation.navigate('Meditation', {
@@ -37,34 +66,10 @@ const HomeScreen = () => {
       });
     }
   }
-  // const onStartClick = () => {
-  //   tabNavigation.navigate('Library');
-  // }
 
   const onVoidPress = () => {
     stackNavigation.navigate('Debug');
   }
-
-  // const renderStartMeditation = () => (
-  //   <Card
-  //     appearance='filled'
-  //     style={styles.startCard}
-  //   >
-  //     <Text
-  //       category='h6'
-  //       style={styles.startCardHeader}
-  //     >
-  //       Welcome to your home!
-  //     </Text>
-  //     <Text
-  //       category='s1'
-  //       style={styles.startCardDescription}
-  //     >
-  //       Select a meditation from the library to get started
-  //     </Text>
-  //     <_Button onPress={onStartClick}>SELECT MEDITATION</_Button>
-  //   </Card>
-  // )
 
   return (
     <Layout style={styles.container} level='4'>
@@ -72,13 +77,14 @@ const HomeScreen = () => {
         <ScrollView style={styles.scrollContainer}>
           <HomeTopBar onVoidPress={onVoidPress} />
           <Inspiration />
-          <HomeStreaks />
+          <Layout level='4' style={styles.addMeditationsContainer}>
+            <Pressable onPress={onAddMeditationsPress}>
+              <Layout style={styles.addMeditationsButton}>
+                <Text category='s1' style={styles.addMeditationsText}>Add Meditations</Text>
+              </Layout>
+            </Pressable>
+          </Layout>
           <Layout level='4'>
-            {/* <MeditationList
-              header='Recently Uploaded'
-              meditationIds={recentMeditationIds}
-              onMeditationPress={onMeditationClick}
-            /> */}
             <MeditationList
               header='Recent Meditations'
               meditationBaseIds={recentMeditationBaseIds}
@@ -96,7 +102,24 @@ const HomeScreen = () => {
   )
 }
 
-const styles = StyleSheet.create({
+const themedStyles = StyleSheet.create({
+  addMeditationsContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+  },
+  addMeditationsButton: {
+    backgroundColor: 'color-primary-600',
+    borderColor: 'color-primary-800',
+    borderWidth: 1,
+    borderRadius: 25,
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addMeditationsText: {
+    opacity: 0.8,
+  },
   container: {
     flex: 1,
   },

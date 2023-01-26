@@ -34,8 +34,8 @@ const InsightScreen = () => {
       <SafeAreaView style={styles.screenContainer}>
         <ScrollView style={styles.scrollContainer}>
             <Layout level='4' style={styles.topSpacer} />
-            <HomeStreaks />
-            <MeditationTimeLog />
+            {/* <HomeStreaks /> */}
+            {/* <MeditationTimeLog /> */}
             <TopMeditations />
             <MeditationHistory />
         </ScrollView>

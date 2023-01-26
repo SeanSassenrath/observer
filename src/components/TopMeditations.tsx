@@ -15,7 +15,6 @@ export const TopMeditations = () => {
     && user.meditationUserData.meditationCounts;
   const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts);
   const series = sortedMeditationInstanceCounts.map(instance => instance.count);
-  console.log('INSIGHTS: sortedMeditationInstanceCounts', sortedMeditationInstanceCounts[0].count);
   const widthAndHeight = 200
   const sliceColor = ['#DFA3F3', '#BB6FDD', '#9147BB']
 
@@ -47,18 +46,6 @@ export const TopMeditations = () => {
             )
             : null}
         </Layout>
-        {/* <Layout level='2' style={styles.topMeditationContainer}>
-          <Text category='h6' style={styles.topMeditationAmountStart}>143</Text>
-          <Text category='s1'>Tuning Into New Potentials</Text>
-        </Layout>
-        <Layout level='2' style={styles.topMeditationContainer}>
-          <Text category='h6' style={styles.topMeditationAmountMiddle}>56</Text>
-          <Text category='s1'>Breaking The Habit Of Being Yourself</Text>
-        </Layout>
-        <Layout level='2' style={styles.topMeditationContainer}>
-          <Text category='h6' style={styles.topMeditationAmountEnd}>23</Text>
-          <Text category='s1'>Blessing Of The Energy Centers IV</Text>
-        </Layout> */}
       </Layout>
     </Layout>
   )
