@@ -21,6 +21,7 @@ export interface User {
       [key: string]: { 
         count: number,
         name: string,
+        id: string,
       },
     },
     currentStreak?: number,

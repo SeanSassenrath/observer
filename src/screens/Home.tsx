@@ -5,7 +5,7 @@ import _, { isEmpty } from 'lodash';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
-import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp } from '../types';
+import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp } from '../types';
 import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { Inspiration } from '../components/Inspiration';
@@ -18,6 +18,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 const HomeScreen = () => {
   const { user } = useContext(UserContext);
   const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
+  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
   const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const styles = useStyleSheet(themedStyles);
@@ -57,6 +58,7 @@ const HomeScreen = () => {
       setMeditationFilePathDataInAsyncStorage(pickedFileData);
       setExistingMeditationFilePathData(pickedFileData);
       setMeditationBaseDataToContext(setMeditationBaseData);
+      tabNavigation.navigate('Library');
     }
   };
 

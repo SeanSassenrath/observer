@@ -49,6 +49,7 @@ const MeditationFinishScreen = () => {
         'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
         [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.count`]: updatedMeditationInstanceCount,
         [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.name`]: meditationInstanceData.name,
+        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.id`]: meditationInstanceData.meditationBaseId,
       })
       .then(() => {
         setUser({
@@ -61,6 +62,7 @@ const MeditationFinishScreen = () => {
               [meditationInstanceData.meditationBaseId]: {
                 count: updatedMeditationInstanceCount,
                 name: meditationInstanceData.name,
+                id: meditationInstanceData.meditationBaseId,
               },
             }
           },

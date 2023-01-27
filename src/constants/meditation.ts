@@ -140,7 +140,7 @@ export const meditationBaseMap: MeditationBaseMap = {
   [MeditationBaseKeys.MedReconditionV1]: {
     artwork: '',
     artist,
-    backgroundImage: require('../assets/present_moment.png'),
+    backgroundImage: require('../assets/recondition.png'),
     color: '#003E54',
     formattedDuration: '46',
     id: placeholder,
@@ -155,7 +155,7 @@ export const meditationBaseMap: MeditationBaseMap = {
   [MeditationBaseKeys.BreathReconditionV1]: {
     artwork: '',
     artist,
-    backgroundImage: require('../assets/present_moment.png'),
+    backgroundImage: require('../assets/recondition.png'),
     color: '#003E54',
     formattedDuration: '8',
     id: placeholder,

@@ -13,8 +13,10 @@ export const TopMeditations = () => {
   const meditationInstanceCounts = user
     && user.meditationUserData
     && user.meditationUserData.meditationCounts;
-  const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts);
-  const series = sortedMeditationInstanceCounts.map(instance => instance.count);
+  const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts, ['count']);
+  const reversedMeditationInstanceCounts = sortedMeditationInstanceCounts.reverse();
+  const topThreeMeditationInstanceCounts = reversedMeditationInstanceCounts.slice(0, 3);
+  const series = topThreeMeditationInstanceCounts.map(instance => instance.count);
   const widthAndHeight = 200
   const sliceColor = ['#DFA3F3', '#BB6FDD', '#9147BB']
 
@@ -34,7 +36,7 @@ export const TopMeditations = () => {
         </Layout>
         <Layout level='2'>
           {sortedMeditationInstanceCounts
-            ? sortedMeditationInstanceCounts.map((instance) =>
+            ? topThreeMeditationInstanceCounts.map((instance) =>
               <Layout
                 level='2'
                 style={styles.topMeditationContainer}
