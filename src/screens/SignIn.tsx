@@ -64,9 +64,9 @@ const SignInScreen = () => {
           <Layout style={styles.buttonContainer}>
             <Button onPress={signIn} size='large' style={styles.button}>Sign In With Google</Button>
           </Layout>
-          <Layout style={styles.buttonContainer}>
+          {/* <Layout style={styles.buttonContainer}>
             <Button onPress={onContinuePress} size='large' style={styles.button}>Sign in With Apple</Button>
-          </Layout>
+          </Layout> */}
           <Text category='p2' style={styles.disclaimer}>
             Accounts are required to give you more information about your meditations.
             We will never sell your data to anyone.
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
     paddingBottom: 10,
-		flex: 3,
+		flex: 2,
 	},
 	button: {
     marginVertical: 20,

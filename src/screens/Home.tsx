@@ -65,15 +65,17 @@ const HomeScreen = () => {
         position: 'bottom',
         bottomOffset: 100,
         onPress: () => onAddMeditationsPress(),
+        visibilityTime: 5000,
       });
     } else {
       Toast.show({
         type: 'success',
         text1: 'Meditations added',
-        text2: `${numberOfMeditations} were added to your library`,
+        text2: `New meditations were added to your library`,
         position: 'bottom',
         bottomOffset: 100,
         onPress: () => onAddMeditationsPress(),
+        visibilityTime: 5000,
       });
     }
 
