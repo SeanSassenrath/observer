@@ -82,25 +82,6 @@ export const CardV3 = (props: CardProps) => (
   </Pressable>
 )
 
-export const CardV2 = (props: CardProps) => (
-  <Pressable onPress={() => props.onPress(props.meditationId)}>
-    {/* <Layout
-      style={{ backgroundColor: props.color, ...stylesV2.card }}
-    > */}
-    <ImageBackground source={require('../assets/new_potential.png')} style={stylesV2.card}>
-        <Layout style={stylesV2.formattedDurationContainer}>
-          <Text category='s2'>
-            {`${props.formattedDuration}m`}
-          </Text>
-        </Layout>
-        <Layout style={stylesV2.nameContainer}>
-          <Text category='s1'>{props.name}</Text>
-        </Layout>
-      </ImageBackground>
-    {/* </Layout> */}
-  </Pressable>
-)
-
 const stylesV2 = StyleSheet.create({
   card: {
     borderRadius: 10,

@@ -71,6 +71,42 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.BreathReconditionV1]: file.uri,
       }
+    case MeditationStringSizes.MedBlessingCenter1V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter1V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter2V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter2V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter3V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter3V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter4V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter4V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter5V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter5V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter6V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter6V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter7V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter7V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter8V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter8V1]: file.uri,
+      }
+    case MeditationStringSizes.MedBlessingCenter9V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter9V1]: file.uri,
+      }
     default:
       break;
   }
