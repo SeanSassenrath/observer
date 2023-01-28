@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
+import Toast from 'react-native-toast-message';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
 
 import _Button from '../components/Button';
@@ -60,11 +61,25 @@ const HomeScreen = () => {
     }
   };
 
-  const onMeditationPress = (meditationId: MeditationId) => {
+  const onMeditationPress = (
+    meditationId: MeditationId,
+    isDisabled: boolean,
+  ) => {
     if (meditationId) {
-      stackNavigation.navigate('Meditation', {
-        id: meditationId,
-      });
+      if (isDisabled) {
+        Toast.show({
+          type: 'info',
+          text1: 'Meditation not found',
+          text2: 'Click to re-add the meditation',
+          position: 'bottom',
+          bottomOffset: 100,
+          onPress: () => onAddMeditationsPress(),
+        });
+      } else {
+        stackNavigation.navigate('Meditation', {
+          id: meditationId,
+        });
+      }
     }
   }
 

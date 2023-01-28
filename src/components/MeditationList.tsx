@@ -10,7 +10,7 @@ import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 interface MeditationListProps {
   header: string;
   meditationBaseIds: MeditationId[];
-  onMeditationPress(id: MeditationId): void;
+  onMeditationPress(id: MeditationId, isDisabled?: boolean): void;
   isMini?: boolean;
   selectedCardId?: string;
   existingMediationFilePathData?: MeditationFilePathData;
@@ -58,7 +58,7 @@ export const MeditationList = ({
               isFirstCard
               key={meditation.meditationBaseId}
               level='2'
-              onPress={() => onMeditationPress(meditation.meditationBaseId)}
+              onPress={() => onMeditationPress(meditation.meditationBaseId, isDisabled)}
               isMini={isMini}
               isSelected={meditation.meditationBaseId === selectedCardId}
               isDisabled={isDisabled}

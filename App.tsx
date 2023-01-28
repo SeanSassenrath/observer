@@ -8,13 +8,14 @@
  * @format
  */
 
-import React, { type PropsWithChildren, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth, { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
@@ -29,6 +30,7 @@ import UserContext, { initialUserState, User } from './src/contexts/userData';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { setMeditationBaseDataToContext } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
+import toastConfig from './src/toastConfig';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -164,6 +166,7 @@ const App = () => {
           </MeditationBaseDataContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>
+      <Toast config={toastConfig as any} />
     </>
   );
 };
