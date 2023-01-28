@@ -52,6 +52,30 @@ const HomeScreen = () => {
   const onAddMeditationsPress = async () => {
     const pickedFileData = await pickFiles(existingMediationFilePathData);
     if (!pickedFileData) { return null; }
+    const numberOfMeditations = Object.keys(pickedFileData).length;
+
+    if (
+      !pickedFileData ||
+      numberOfMeditations <= 0
+    ) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error adding meditations',
+        text2: 'Tap to re-try',
+        position: 'bottom',
+        bottomOffset: 100,
+        onPress: () => onAddMeditationsPress(),
+      });
+    } else {
+      Toast.show({
+        type: 'success',
+        text1: 'Meditations added',
+        text2: `${numberOfMeditations} were added to your library`,
+        position: 'bottom',
+        bottomOffset: 100,
+        onPress: () => onAddMeditationsPress(),
+      });
+    }
 
     if (!isEmpty(pickedFileData)) {
       setMeditationFilePathDataInAsyncStorage(pickedFileData);
@@ -68,9 +92,9 @@ const HomeScreen = () => {
     if (meditationId) {
       if (isDisabled) {
         Toast.show({
-          type: 'info',
+          type: 'error',
           text1: 'Meditation not found',
-          text2: 'Click to re-add the meditation',
+          text2: 'Tap to re-add the meditation',
           position: 'bottom',
           bottomOffset: 100,
           onPress: () => onAddMeditationsPress(),

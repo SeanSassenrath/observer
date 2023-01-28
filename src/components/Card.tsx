@@ -192,7 +192,7 @@ const stylesV4 = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'rgba(90, 90, 90, 0.9)',
-    opacity: 0.5,
+    opacity: 0.4,
   },
   miniCard: {
     borderRadius: 10,
@@ -220,7 +220,7 @@ const stylesV4 = StyleSheet.create({
     overflow: 'hidden',
     borderWidth: 2,
     borderColor: 'rgba(90, 90, 90, 0.9)',
-    opacity: 0.5,
+    opacity: 0.4,
   },
   formattedDurationContainer: {
     alignItems: 'flex-end',
@@ -241,7 +241,7 @@ const stylesV4 = StyleSheet.create({
     paddingHorizontal: 8,
     paddingBottom: 6,
     width: 200,
-    opacity: 0.5,
+    opacity: 0.4,
   }
 })
 
