@@ -50,9 +50,7 @@ const HomeScreen = () => {
 
   const onAddMeditationsPress = async () => {
     const pickedFileData = await pickFiles(existingMediationFilePathData);
-    console.log('HOME: Picked file data', pickedFileData)
     if (!pickedFileData) { return null; }
-    console.log('HOME: Picked file data', pickedFileData)
 
     if (!isEmpty(pickedFileData)) {
       setMeditationFilePathDataInAsyncStorage(pickedFileData);
@@ -92,11 +90,13 @@ const HomeScreen = () => {
               header='Recent Meditations'
               meditationBaseIds={recentMeditationBaseIds}
               onMeditationPress={onMeditationPress}
+              existingMediationFilePathData={existingMediationFilePathData}
             />
             <MeditationList
               header='Favorites'
               meditationBaseIds={favoriteMeditations}
               onMeditationPress={onMeditationPress}
+              existingMediationFilePathData={existingMediationFilePathData}
             />
           </Layout>
         </ScrollView>

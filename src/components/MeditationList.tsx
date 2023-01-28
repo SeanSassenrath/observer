@@ -3,15 +3,17 @@ import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components';
 
 import { CardV4, EmptyCard } from './Card';
-import { meditationBaseMap, meditationMap } from '../constants/meditation';
+import { meditationBaseMap } from '../constants/meditation';
 import { MeditationId } from '../types';
+import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 
 interface MeditationListProps {
   header: string;
   meditationBaseIds: MeditationId[];
   onMeditationPress(id: MeditationId): void;
   isMini?: boolean;
-  selectedCardId?: string; 
+  selectedCardId?: string;
+  existingMediationFilePathData?: MeditationFilePathData;
 }
 
 interface EmptyListProps {
@@ -34,6 +36,7 @@ export const MeditationList = ({
   onMeditationPress,
   isMini,
   selectedCardId,
+  existingMediationFilePathData,
 }: MeditationListProps) => (
   <Layout style={isMini ? styles.containerMini : styles.container} key={header} level='4'>
     <Text category='h6' style={styles.header}>{header}</Text>
@@ -41,6 +44,10 @@ export const MeditationList = ({
       {meditationBaseIds?.length
         ? meditationBaseIds.map((id, i) => {
           const meditation = meditationBaseMap[id];
+          const isDisabled = existingMediationFilePathData
+            ? !existingMediationFilePathData[id]
+            : false;
+
           return (
             <CardV4
               backgroundImage={meditation.backgroundImage}
@@ -54,6 +61,7 @@ export const MeditationList = ({
               onPress={() => onMeditationPress(meditation.meditationBaseId)}
               isMini={isMini}
               isSelected={meditation.meditationBaseId === selectedCardId}
+              isDisabled={isDisabled}
             />
           )
         })
