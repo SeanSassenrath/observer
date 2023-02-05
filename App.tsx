@@ -16,6 +16,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
+import TrackPlayer, { Track } from 'react-native-track-player';
 
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
@@ -25,12 +26,16 @@ import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
-import { MeditationKeys } from './src/constants/meditation';
+import { MeditationBaseKeys, MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
-import { setMeditationBaseDataToContext } from './src/utils/meditation';
+import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
 import toastConfig from './src/toastConfig';
+import { SetupService } from './src/services/setupService';
+import { QueueInitialTracksService } from './src/services/queueInitialTracksService';
+import _ from 'lodash';
+import { convertMeditationToTrack } from './src/utils/track';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -40,6 +45,7 @@ const App = () => {
   const [user, setUser] = useState(initialUserState as User);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
+  const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
     uid: firebaseUser.uid,
@@ -88,8 +94,47 @@ const App = () => {
     }
   }
 
+  const makeTracks = () => {
+    // loop overall base ids
+    const baseMeditations = [
+      meditationBaseData[MeditationBaseKeys.BreathNewPotentialsV1],
+      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
+      meditationBaseData[MeditationBaseKeys.BreathReconditionV1],
+      meditationBaseData[MeditationBaseKeys.MedReconditionV1],
+      meditationBaseData[MeditationBaseKeys.MedPresentMomentV1],
+      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
+      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
+    ]
+
+    const tracks = baseMeditations.map(meditation => convertMeditationToTrack(meditation));
+    return tracks;
+  }
+
+  const setMeditationBaseDataToContext = async () => {
+    const meditationBaseData = await makeMeditationBaseData();
+    if (meditationBaseData) {
+      setMeditationBaseData(meditationBaseData);
+    }
+  }
+
   useEffect(() => {
-    setMeditationBaseDataToContext(setMeditationBaseData);
+    let unmounted = false;
+
+    (async () => {
+      const isSetup = await SetupService();
+      if (unmounted) return;
+      setIsPlayerReady(isSetup);
+      const queue = await TrackPlayer.getQueue();
+      if (unmounted) return;
+      if (isSetup && queue.length <= 0) {
+        const tracks = makeTracks();
+        if (tracks.length > 0) {
+          await QueueInitialTracksService(tracks);
+        }
+      }
+    })();
+
+    setMeditationBaseDataToContext();
 
     GoogleSignin.configure({
       webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'
@@ -136,7 +181,10 @@ const App = () => {
     // syncAsyncUnlockedMeditationStorageToContext();
     setMeditationIds();
 
-    return subscriber;
+    return () => {
+      unmounted = true;
+      subscriber;
+    }
   }, [isReady])
 
   if (!isReady) {

@@ -27,9 +27,7 @@ export const makeMeditationGroups = (meditationBaseMap: MeditationBaseMap) => {
   return meditationGroupMap;
 }
 
-export const setMeditationBaseDataToContext = async (
-  setMeditationBaseData: React.Dispatch<React.SetStateAction<MeditationBaseMap>>
-) => {
+export const makeMeditationBaseData = async () => {
   const filePathData = await getMeditationFilePathDataInAsyncStorage()
 
   if (filePathData) {
@@ -50,7 +48,7 @@ export const setMeditationBaseDataToContext = async (
 
     console.log('APP: Setting meditation base data to context', meditationBaseData);
 
-    setMeditationBaseData(meditationBaseData);
+    return meditationBaseData;
   }
 }
 

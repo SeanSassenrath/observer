@@ -22,19 +22,19 @@ const StackNavigator = () => {
   const { hasSeenFtux } = useContext(FtuxContext);
   const { user } = useContext(UserContext);
 
-  const setupPlayer = async () => {
-    try {
-      await TrackPlayer.setupPlayer();
-      const playerState = await TrackPlayer.getState();
-      console.log('Setup Player State', playerState);
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  // const setupPlayer = async () => {
+  //   try {
+  //     await TrackPlayer.setupPlayer();
+  //     const playerState = await TrackPlayer.getState();
+  //     console.log('Setup Player State', playerState);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // }
 
-  useEffect(() => {
-    setupPlayer();
-  }, [])
+  // useEffect(() => {
+  //   setupPlayer();
+  // }, [])
 
   return (
     <NavigationContainer theme={myTheme}>

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -67,9 +67,14 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const [toggledState, setToggledState] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
+  const [meditationBreathId, setMeditationBreathId] = useState('');
   const { id } = route.params;
 
   const meditation = meditationBaseMap[id];
+
+  useEffect(() => {
+    console.log('MEDITATION meditation instance data', meditationInstanceData);
+  }, [])
 
   const onBackPress = () => {
     navigation.pop();
@@ -86,6 +91,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
 
     navigation.navigate('MeditationPlayer', {
       id,
+      meditationBreathId,
     });
   }
   
@@ -96,6 +102,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const onBreathMeditationPress = (meditationBaseBreathId: MeditationBaseId) => {
     const shouldUnselect = selectedBreathCardId === meditationBaseBreathId;
     const _meditationBaseBreathId = shouldUnselect ? EMPTY_STRING : meditationBaseBreathId;
+    setMeditationBreathId(_meditationBaseBreathId);
     const selectedCardId = shouldUnselect ? EMPTY_STRING : meditationBaseBreathId;
 
     setMeditationInstanceData({

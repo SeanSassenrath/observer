@@ -12,7 +12,9 @@ export const pickFiles = async (
 ) => {
   try {
     console.log('DOCUMENT PICKER: Existing picked files', existingMeditationFilePathData);
-    const files = await DocumentPicker.pick({ allowMultiSelection: true });
+    const files = await DocumentPicker.pick({
+      allowMultiSelection: true,
+    });
     console.log('DOCUMENT PICKER: Picked files', files);
     const filePathDataList = makeFilePathDataList(files, existingMeditationFilePathData);
     console.log('DOCUMENT PICKER: File path data', filePathDataList);

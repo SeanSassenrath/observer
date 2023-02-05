@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Slider from '@react-native-community/slider';
-import TrackPlayer, { useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
+import TrackPlayer, { useProgress, useTrackPlayerEvents, Event, Track } from 'react-native-track-player';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 import { MeditationBase } from '../types';
 
@@ -24,11 +24,13 @@ const RestartIcon = (props: any) => (
 interface PlayerProps {
   setCurrentTrackName: Dispatch<SetStateAction<string | undefined>>;
   tracks: any;
+  trackState: any;
 }
 
 export const Player = (props: PlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const { position, duration } = useProgress()
+  const [trackData, setTrackData] = useState({} as Track);
 
   useEffect(() => {
     addTracks();
@@ -44,9 +46,18 @@ export const Player = (props: PlayerProps) => {
   }, []);
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
+    console.log(' ');
+    console.log('TRACK PLAYER EVENT', event);
+    console.log('TRACK PLAYER EVENT TYPE', event.type);
+    console.log('TRACK PLAYER EVENT NEXT TRACK', event.nextTrack);
     if (event.type === Event.PlaybackTrackChanged && event.nextTrack != null) {
-      const track = await TrackPlayer.getTrack(event.nextTrack) as any;
-      props.setCurrentTrackName(track.name);
+      const track = await TrackPlayer.getTrack(event.nextTrack);
+      if (track) {
+        console.log('TRACK PLAYER EVENT TRACK NAME', track.name)
+        console.log(' ')
+        setTrackData(track);
+        props.setCurrentTrackName(track.name);
+      }
     }
   });
 
@@ -59,7 +70,7 @@ export const Player = (props: PlayerProps) => {
   }
 
   const removeTracks = async () => {
-    await TrackPlayer.reset();
+    // await TrackPlayer.reset();
   }
 
   const onPlayPress = async () => {
@@ -87,6 +98,11 @@ export const Player = (props: PlayerProps) => {
 
   return (
     <Layout style={styles.container} level='4'>
+      <Layout>
+        <Text category='s2'>{`Name: ${trackData.name}`}</Text>
+        <Text category='s2'>{`Url: ${trackData.url}`}</Text>
+        <Text category='s2'>{`State: ${props.trackState}`}</Text>
+      </Layout>
       <TouchableWithoutFeedback
         onPress={onRestartPress}
       >
