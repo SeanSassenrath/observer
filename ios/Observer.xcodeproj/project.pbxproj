@@ -11,9 +11,11 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4D9BA080758D6407485E255E /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC97A9B809A0C630145C606B /* ExpoModulesProvider.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		9B743CE194E68F2FAA709A1A /* Pods_Observer_ObserverTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B04394E5F4C4D38B8D6643F8 /* Pods_Observer_ObserverTests.framework */; };
 		BCD8BE167E1655DE62D25813 /* Pods_Observer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1F4DEBEBD14309E9E4CB11E /* Pods_Observer.framework */; };
+		CEBDE6A5395ED405AEDC888C /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF4EAF4E31A757F8951410B /* ExpoModulesProvider.swift */; };
 		FF1EB311293D8845006141B8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */; };
 		FF1EB312293D8845006141B8 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */; };
 		FF1EB314293D8852006141B8 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FF1EB313293D8852006141B8 /* Roboto-Light.ttf */; };
@@ -47,9 +49,11 @@
 		3B4392A12AC88292D35C810B /* Pods-Observer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Observer.debug.xcconfig"; path = "Target Support Files/Pods-Observer/Pods-Observer.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Observer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Observer.release.xcconfig"; path = "Target Support Files/Pods-Observer/Pods-Observer.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Observer-ObserverTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Observer-ObserverTests.debug.xcconfig"; path = "Target Support Files/Pods-Observer-ObserverTests/Pods-Observer-ObserverTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7AF4EAF4E31A757F8951410B /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Observer/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Observer/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Observer-ObserverTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Observer-ObserverTests.release.xcconfig"; path = "Target Support Files/Pods-Observer-ObserverTests/Pods-Observer-ObserverTests.release.xcconfig"; sourceTree = "<group>"; };
 		B04394E5F4C4D38B8D6643F8 /* Pods_Observer_ObserverTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Observer_ObserverTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC97A9B809A0C630145C606B /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Observer-ObserverTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		C1F4DEBEBD14309E9E4CB11E /* Pods_Observer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Observer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FF1EB310293D8845006141B8 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Bold.ttf"; path = "../assets/Roboto-Bold.ttf"; sourceTree = "<group>"; };
@@ -142,6 +146,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
 				FFBBAA50291DD7D500E916AB /* Observer-Bridging-Header.h */,
+				BA8F66FCABE0924F9231B1A4 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -157,6 +162,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		882D5E892DA4BAB4747162CE /* ObserverTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC97A9B809A0C630145C606B /* ExpoModulesProvider.swift */,
+			);
+			name = ObserverTests;
+			sourceTree = "<group>";
+		};
+		BA8F66FCABE0924F9231B1A4 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				BDD9EB8C7D7DF5B63E14FD1E /* Observer */,
+				882D5E892DA4BAB4747162CE /* ObserverTests */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +188,14 @@
 				89C6BE57DB24E9ADA2F236DE /* Pods-Observer-ObserverTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BDD9EB8C7D7DF5B63E14FD1E /* Observer */ = {
+			isa = PBXGroup;
+			children = (
+				7AF4EAF4E31A757F8951410B /* ExpoModulesProvider.swift */,
+			);
+			name = Observer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -446,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* ObserverTests.m in Sources */,
+				4D9BA080758D6407485E255E /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +487,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				FFBBAA52291DD7D500E916AB /* dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				CEBDE6A5395ED405AEDC888C /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,7 +513,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ObserverTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -492,6 +524,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Observer.app/Observer";
@@ -506,7 +539,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ObserverTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -517,6 +550,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Observer.app/Observer";
@@ -542,6 +576,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Observer;
 				SWIFT_OBJC_BRIDGING_HEADER = "Observer-Bridging-Header.h";
@@ -569,6 +604,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = Observer;
 				SWIFT_OBJC_BRIDGING_HEADER = "Observer-Bridging-Header.h";
@@ -626,7 +662,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -691,7 +727,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

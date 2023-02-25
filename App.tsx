@@ -120,19 +120,19 @@ const App = () => {
   useEffect(() => {
     let unmounted = false;
 
-    (async () => {
-      const isSetup = await SetupService();
-      if (unmounted) return;
-      setIsPlayerReady(isSetup);
-      const queue = await TrackPlayer.getQueue();
-      if (unmounted) return;
-      if (isSetup && queue.length <= 0) {
-        const tracks = makeTracks();
-        if (tracks.length > 0) {
-          await QueueInitialTracksService(tracks);
-        }
-      }
-    })();
+    // (async () => {
+    //   const isSetup = await SetupService();
+    //   if (unmounted) return;
+    //   setIsPlayerReady(isSetup);
+    //   const queue = await TrackPlayer.getQueue();
+    //   if (unmounted) return;
+    //   if (isSetup && queue.length <= 0) {
+    //     const tracks = makeTracks();
+    //     if (tracks.length > 0) {
+    //       await QueueInitialTracksService(tracks);
+    //     }
+    //   }
+    // })();
 
     setMeditationBaseDataToContext();
 
