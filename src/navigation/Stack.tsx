@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TrackPlayer from 'react-native-track-player';
 
 import FtuxContext from '../contexts/ftuxData';
 import { myTheme } from '../constants/navTheme';
@@ -21,20 +20,6 @@ const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 const StackNavigator = () => {
   const { hasSeenFtux } = useContext(FtuxContext);
   const { user } = useContext(UserContext);
-
-  // const setupPlayer = async () => {
-  //   try {
-  //     await TrackPlayer.setupPlayer();
-  //     const playerState = await TrackPlayer.getState();
-  //     console.log('Setup Player State', playerState);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   setupPlayer();
-  // }, [])
 
   return (
     <NavigationContainer theme={myTheme}>

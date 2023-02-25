@@ -26,6 +26,8 @@
     "@types/react-native-keep-awake": "^2.0.3",
     "@ui-kitten/components": "^5.1.2",
     "@ui-kitten/eva-icons": "^5.1.2",
+    "expo": "^47.0.0",
+    "expo-constants": "~14.0.2",
     "lodash": "^4.17.21",
     "luxon": "^3.2.1",
     "react": "18.1.0",
@@ -40,9 +42,7 @@
     "react-native-screens": "^3.18.2",
     "react-native-svg": "^13.5.0",
     "react-native-toast-message": "^2.1.5",
-    "react-native-track-player": "^3.2.0",
-    "expo": "^47.0.0",
-    "expo-constants": "~14.0.2"
+    "react-native-track-player": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

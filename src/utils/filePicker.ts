@@ -14,6 +14,7 @@ export const pickFiles = async (
     console.log('DOCUMENT PICKER: Existing picked files', existingMeditationFilePathData);
     const files = await DocumentPicker.pick({
       allowMultiSelection: true,
+      copyTo: 'documentDirectory',
     });
     console.log('DOCUMENT PICKER: Picked files', files);
     const filePathDataList = makeFilePathDataList(files, existingMeditationFilePathData);
@@ -43,71 +44,72 @@ const makeFilePathDataList = (
 const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
+  console.log('sean >>', file);
 
   switch (fileSizeString) {
     case MeditationStringSizes.MedNewPotentialsV1:
       return {
-        [MeditationBaseKeys.MedNewPotentialsV1]: file.uri,
+        [MeditationBaseKeys.MedNewPotentialsV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.BreathNewPotentialsV1:
       return {
-        [MeditationBaseKeys.BreathNewPotentialsV1]: file.uri,
+        [MeditationBaseKeys.BreathNewPotentialsV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBreakingHabitSpaceV1:
       return {
-        [MeditationBaseKeys.MedBreakingHabitSpaceV1]: file.uri,
+        [MeditationBaseKeys.MedBreakingHabitSpaceV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBreakingHabitWaterV1:
       return {
-        [MeditationBaseKeys.MedBreakingHabitWaterV1]: file.uri,
+        [MeditationBaseKeys.MedBreakingHabitWaterV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedPresentMoment:
       return {
-        [MeditationBaseKeys.MedPresentMomentV1]: file.uri,
+        [MeditationBaseKeys.MedPresentMomentV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedRecondition:
       return {
-        [MeditationBaseKeys.MedReconditionV1]: file.uri,
+        [MeditationBaseKeys.MedReconditionV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.BreathRecondition:
       return {
-        [MeditationBaseKeys.BreathReconditionV1]: file.uri,
+        [MeditationBaseKeys.BreathReconditionV1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter1V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter1V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter1V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter2V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter2V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter2V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter3V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter3V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter3V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter4V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter4V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter4V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter5V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter5V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter5V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter6V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter6V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter6V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter7V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter7V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter7V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter8V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter8V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter8V1]: file.fileCopyUri,
       }
     case MeditationStringSizes.MedBlessingCenter9V1:
       return {
-        [MeditationBaseKeys.MedBlessingCenter9V1]: file.uri,
+        [MeditationBaseKeys.MedBlessingCenter9V1]: file.fileCopyUri,
       }
     default:
       break;

@@ -9,7 +9,6 @@ import { Icon, Layout, Text } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { convertMeditationToTrack } from '../utils/track';
 
@@ -36,77 +35,26 @@ const RestartIcon = (props: any) => (
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { meditationBaseData } = useContext(MeditationBaseDataContext);
-  const { meditationInstanceData } = useContext(MeditationInstanceDataContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
-  const [currentTrackName, setCurrentTrackName] = React.useState<string>();
-  const [trackState, setTrackState] = useState() as any;
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const timerRef = React.useRef(time);
   const { position, duration } = useProgress();
   const [trackData, setTrackData] = useState({} as Track);
-  // const [tracks, setTracks] = useState([] as Track[]);
-  const [trackChangeCount, setTrackChangeCount] = useState(0);
+  const [tracks, setTracks] = useState([] as Track[]);
 
   const { id, meditationBreathId } = route.params;
   const meditation = meditationBaseData[id]
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-    console.log(' ');
-    console.log('TRACK PLAYER EVENT', event);
-    console.log('TRACK PLAYER EVENT TYPE', event.type);
-    console.log('TRACK PLAYER EVENT NEXT TRACK', event.nextTrack);
-    if (
-      event.type === Event.PlaybackTrackChanged
-      && meditationBreathId
-      && trackChangeCount === 1
-    ) {
-      let nextTrackIndex;
-      const queue = await TrackPlayer.getQueue();
-
-        nextTrackIndex = _.findIndex(queue, (item) => {
-          return item.title === meditation.name
-        });
-        console.log('NEXT TRACK INDEX HERE:', nextTrackIndex);
-        await TrackPlayer.skip(nextTrackIndex);
-        await TrackPlayer.play();
-        // awaitTrackPlayer.
-      }
-    setTrackChangeCount(trackChangeCount + 1);
+    if (event.nextTrack !== null) {
+      const track = tracks[event.nextTrack];
+      setTrackData(track);
+    }
   });
 
-  // const meditationToTrackIndex = {
-  //   MeditationBaseKey
-  // }
-
-  const setTrack = async () => {
-    let index;
-    const queue = await TrackPlayer.getQueue();
-    console.log('set track queue', queue);
-
-    if (meditationBreathId) {
-      const meditationBreath = meditationBaseData[meditationBreathId];
-      console.log('HERE S >>>', meditationBreath)
-
-      index = _.findIndex(queue, (item) => {
-        return item.title === meditationBreath.name
-      });
-    } else {
-      index = _.findIndex(queue, (item) => {
-        return item.title === meditation.name
-      });
-    }
-    const track = queue[index];
-    setTrackData(track);
-    console.log('INDEX HERE >>>', index);
-    TrackPlayer.skip(index);
-  }
-
   useEffect(() => {
-    console.log('MEDITATION PLAYER useEffect >>>');
-    console.log('MEDITATION PLAYER meditation instance data', meditationInstanceData);
-    setTrack();
-    // addTracks();
+    addTracks();
     const countDownTimer = setCountDownTimer();
     const interval = setTrackStateInterval();
     shouldKeepAwake(true);
@@ -114,24 +62,16 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     return () => {
       clearInterval(countDownTimer);
       clearInterval(interval);
+      resetTrackPlayer();
     }
   }, []);
 
-  // const addTracks = async () => {
-  //   const tracks = makeTrackList();
-  //   // setTracks(tracks);
-  //   const queue = await TrackPlayer.getQueue();
-  //   await TrackPlayer.add(tracks)
-
-  //   // if (queue.length > 0) {
-  //     // await TrackPlayer.skipToNext();
-  //     // await TrackPlayer.remove(0);
-  //   // }
-  //   console.log(' ')
-  //   console.log('MEDITATION PLAYER: ', tracks);
-  //   console.log('MEDITATION PLAYER: Track player setup')
-  //   console.log(' ')
-  // }
+  const addTracks = async () => {
+    const tracks = makeTrackList();
+    setTracks(tracks);
+    await TrackPlayer.add(tracks)
+    console.log('MEDITATION PLAYER: ', tracks);
+  }
 
   const makeTrackList = () => {
     const tracks = [];
@@ -166,7 +106,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const getTrackState = async () => {
     const state = await TrackPlayer.getState();
-    setTrackState(state);
     console.log('player state', state);
   }
 
@@ -178,32 +117,18 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     }
   }
 
-  // const resetTrackPlayer = async () => {
-  //   await TrackPlayer.reset();
-  //   const queue = await TrackPlayer.getQueue();
-  //   console.log('MEDITATION PLAYER: Queue', queue);
-  // }
-
-  const stopTrackPlayer = async () => {
-    const queue = await TrackPlayer.getQueue();
-    console.log('QUEUE before', queue);
-    // const indexes = queue.map((t, i) => toNumber(i));
-    // console.log('MEDITATION PLAYER: indexes', indexes);
-    await TrackPlayer.pause();
-    // await TrackPlayer.reset();
-    // await TrackPlayer.remove(indexes);
-    const queue2 = await TrackPlayer.getQueue();
-    console.log('QUEUE after', queue2);
+  const resetTrackPlayer = async () => {
+    TrackPlayer.reset();
   }
 
   const onClosePress = () => {
-    stopTrackPlayer();
+    resetTrackPlayer();
     navigation.pop();
   }
 
   const onFinishPress = () => {
     shouldKeepAwake(false);
-    stopTrackPlayer();
+    resetTrackPlayer();
     navigation.replace('MeditationFinish');
   }
 
@@ -252,16 +177,11 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             }
           </Layout>
           <Layout style={styles.meditationName} level='4'>
-            <Text category='h6' style={styles.meditationNameText}>{currentTrackName}</Text>
+            <Text category='h6' style={styles.meditationNameText}>{trackData.title}</Text>
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar} level='4'>
           <Layout style={playerStyles.container} level='4'>
-            <Layout>
-              <Text category='s2'>{`Name: ${trackData.title }`}</Text>
-              <Text category='s2'>{`Url: ${trackData.url}`}</Text>
-              <Text category='s2'>{`State: ${trackState}`}</Text>
-            </Layout>
             <TouchableWithoutFeedback
               onPress={onRestartPress}
             >
@@ -413,7 +333,3 @@ const styles = StyleSheet.create({
 })
 
 export default MeditationPlayer;
-
-function useActiveTrack() {
-  throw new Error('Function not implemented.');
-}

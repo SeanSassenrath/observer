@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
+// import * as MediaLibrary from 'expo-media-library';
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
@@ -15,7 +16,7 @@ import { pickFiles } from '../utils/filePicker';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import TrackPlayer from 'react-native-track-player';
+// import TrackPlayer from 'react-native-track-player';
 import { convertMeditationToTrack } from '../utils/track';
 
 const HomeScreen = () => {
@@ -38,8 +39,41 @@ const HomeScreen = () => {
     favoriteMeditations = allMeditationIds.slice(0, 5);
   }
 
+  // const getMeditationFiles = async () => {
+  //   const mediaFiles = await MediaLibrary.getAssetsAsync({
+  //     // mediaType: MediaLibrary.MediaType.audio,
+  //   })
+
+  //   console.log('HOME - Media files', mediaFiles);
+  // }
+
+  // const getPermission = async () => {
+  //   const permission = await MediaLibrary.getPermissionsAsync();
+  //   console.log('HERE 2 ', permission);
+
+  //   if (!permission.granted && permission.canAskAgain) {
+  //     const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync();
+
+  //     if (status === 'granted') {
+  //       getMeditationFiles();
+  //     }
+
+  //     if (status === 'denied' && canAskAgain) {
+  //       // fire alert here
+  //       console.log('permission denied')
+  //     }
+
+  //     if (status === 'denied' && !canAskAgain) {
+  //       console.log('permission really denied')
+  //       // fire alert
+  //     }
+  //   }
+  // }
+
   useEffect(() => {
     setExistingMeditationFilePathDataFromAsyncStorage();
+    // getPermission();
+    // getMeditationFiles();
   }, [])
 
   const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
@@ -100,7 +134,7 @@ const HomeScreen = () => {
       const track = convertMeditationToTrack(meditation);
       tracks.push(track);
     }
-    TrackPlayer.add(tracks);
+    // TrackPlayer.add(tracks);
   }
 
   const onMeditationPress = (
