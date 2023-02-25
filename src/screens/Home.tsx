@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
-// import * as MediaLibrary from 'expo-media-library';
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
@@ -16,8 +15,6 @@ import { pickFiles } from '../utils/filePicker';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-// import TrackPlayer from 'react-native-track-player';
-import { convertMeditationToTrack } from '../utils/track';
 
 const HomeScreen = () => {
   const { user } = useContext(UserContext);
@@ -121,21 +118,10 @@ const HomeScreen = () => {
       const meditationBaseData = await makeMeditationBaseData();
       if (meditationBaseData) {
         setMeditationBaseData(meditationBaseData);
-        addTracksToQueue(meditationBaseData);
         tabNavigation.navigate('Library');
       }
     }
   };
-
-  const addTracksToQueue = (meditationBaseData: MeditationBaseMap) => {
-    const tracks = [];
-    for (const key in meditationBaseData) {
-      const meditation = meditationBaseData[key];
-      const track = convertMeditationToTrack(meditation);
-      tracks.push(track);
-    }
-    // TrackPlayer.add(tracks);
-  }
 
   const onMeditationPress = (
     meditationId: MeditationId,
