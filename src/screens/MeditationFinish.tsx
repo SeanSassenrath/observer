@@ -9,64 +9,145 @@ import _ from 'lodash';
 
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
-import { LibraryScreenNavigationProp } from '../types';
+import { LibraryScreenNavigationProp, MeditationInstance } from '../types';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
-import UserContext from '../contexts/userData';
+import UserContext, { User } from '../contexts/userData';
+import { getMeditationBreathCountFromUserData, getMeditationCountFromUserData } from '../utils/meditation';
+import { meditationBaseMap } from '../constants/meditation';
 
 const EMPTY_INPUT = '';
 
+const makeUpdatedRecentUserMeditationData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+) => {
+  const recentMeditationBaseIds = user
+    && user.meditationUserData
+    && user.meditationUserData.recentMeditationBaseIds
+    && user.meditationUserData.recentMeditationBaseIds.slice(0, 5)
+    || [];
+
+  return _.uniq([
+    meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
+  ])
+}
+
+const makeUpdatedBaseUserMeditationData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+) => {
+  const updatedRecentMeditationBaseIds = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
+  const meditationInstanceCount = getMeditationCountFromUserData(user, meditationInstanceData);
+  const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
+
+  return ({
+    'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
+    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.count`]: updatedMeditationInstanceCount,
+    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.name`]: meditationInstanceData.name,
+    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.id`]: meditationInstanceData.meditationBaseId,
+  })
+}
+
+const makeUpdatedBreathMeditationData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+) => {
+  const meditationBreathCount = getMeditationBreathCountFromUserData(user, meditationInstanceData);
+  const updatedMeditationBreathCount = meditationBreathCount ? meditationBreathCount + 1 : 1;
+  const meditationBreathId = meditationInstanceData.meditationBaseBreathId;
+  const meditationBreathData = meditationBreathId && meditationBaseMap[meditationBreathId]
+
+  if (meditationBreathData) {
+    return ({
+      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.count`]: updatedMeditationBreathCount,
+      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.name`]: meditationBreathData.name,
+      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.id`]: meditationInstanceData.meditationBaseBreathId,
+    })
+  }
+}
+
+const makeUpdatedUserMeditationData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+) => {
+  let updatedUserMeditationData = makeUpdatedBaseUserMeditationData(user, meditationInstanceData);
+
+  if (meditationInstanceData.meditationBaseBreathId) {
+    const updatedUserBreathMeditationData = makeUpdatedBreathMeditationData(user, meditationInstanceData);
+    if (updatedUserBreathMeditationData) {
+      updatedUserMeditationData = Object.assign(updatedUserMeditationData, updatedUserBreathMeditationData)
+    }
+  }
+
+  return updatedUserMeditationData;
+}
+
+const makeUpdatedUserMeditationContextData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+) => {
+  const updatedRecentMeditationBaseIds = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
+  const meditationInstanceCount = getMeditationCountFromUserData(user, meditationInstanceData);
+  const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
+
+  let meditationCounts = {
+    [meditationInstanceData.meditationBaseId]: {
+      count: updatedMeditationInstanceCount,
+      name: meditationInstanceData.name,
+      id: meditationInstanceData.meditationBaseId,
+    },
+  }
+
+  if (meditationInstanceData.meditationBaseBreathId) {
+    const meditationBreathCount = getMeditationBreathCountFromUserData(user, meditationInstanceData);
+    const updatedMeditationBreathCount = meditationBreathCount ? meditationBreathCount + 1 : 1;
+    const meditationBreathData = meditationBaseMap[meditationInstanceData.meditationBaseBreathId]
+
+    meditationCounts = {
+      [meditationInstanceData.meditationBaseBreathId]: {
+        count: updatedMeditationBreathCount,
+        name: meditationBreathData.name,
+        id: meditationInstanceData.meditationBaseBreathId,
+      },
+      ...meditationCounts,
+    }
+  }
+
+  return (
+    {
+      ...user,
+      meditationUserData: {
+        ...user.meditationUserData,
+        recentMeditationBaseIds: updatedRecentMeditationBaseIds,
+        meditationCounts: {
+          ...user.meditationUserData?.meditationCounts,
+          ...meditationCounts,
+        }
+      },
+    }
+  )
+}
+
 const MeditationFinishScreen = () => {
   const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
-  const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
+  const { meditationInstanceData } = useContext(MeditationInstanceDataContext);
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
 
   const updateUserMeditationData = () => {
-    const recentMeditationBaseIds = user
-      && user.meditationUserData
-      && user.meditationUserData.recentMeditationBaseIds
-      && user.meditationUserData.recentMeditationBaseIds.slice(0, 5)
-      || [];
+    const updatedUserMeditationData = makeUpdatedUserMeditationData(user, meditationInstanceData);
+    const updatedUserMeditationContextData = makeUpdatedUserMeditationContextData(user, meditationInstanceData);
 
-    const updatedRecentMeditationBaseIds = _.uniq([
-      meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
-    ])
-
-    const meditationInstanceCount = user
-      && user.meditationUserData
-      && user.meditationUserData.meditationCounts
-      && user.meditationUserData.meditationCounts[meditationInstanceData.meditationBaseId]
-      && user.meditationUserData.meditationCounts[meditationInstanceData.meditationBaseId].count;
-
-    const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
+    console.log('!! updatedUserMeditationData', updatedUserMeditationData)
+    console.log('!! updatedUserMeditationContextData', updatedUserMeditationContextData);
 
     firestore()
       .collection('users')
       .doc(user.uid)
-      .update({
-        'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
-        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.count`]: updatedMeditationInstanceCount,
-        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.name`]: meditationInstanceData.name,
-        [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.id`]: meditationInstanceData.meditationBaseId,
-      })
+      .update(updatedUserMeditationData)
       .then(() => {
-        setUser({
-          ...user,
-          meditationUserData: {
-            ...user.meditationUserData,
-            recentMeditationBaseIds: updatedRecentMeditationBaseIds,
-            meditationCounts: {
-              ...user.meditationUserData?.meditationCounts,
-              [meditationInstanceData.meditationBaseId]: {
-                count: updatedMeditationInstanceCount,
-                name: meditationInstanceData.name,
-                id: meditationInstanceData.meditationBaseId,
-              },
-            }
-          },
-        })
-
+        setUser(updatedUserMeditationContextData)
         console.log('MEDITATION FINISH: Added recent meditation base id to firebase');
       })
   }
