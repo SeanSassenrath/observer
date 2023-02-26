@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import PieChart from 'react-native-pie-chart';
-import { sortBy } from 'lodash';
+import { slice, sortBy } from 'lodash';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
@@ -36,13 +36,19 @@ export const TopMeditations = () => {
         </Layout>
         <Layout level='2'>
           {sortedMeditationInstanceCounts
-            ? topThreeMeditationInstanceCounts.map((instance) =>
+            ? topThreeMeditationInstanceCounts.map((instance, index) =>
               <Layout
                 level='2'
                 style={styles.topMeditationContainer}
                 key={instance.name}
               >
-                <Text category='h6' style={styles.topMeditationAmountStart}>{instance.count}</Text>
+                <Text category='h6'
+                style={{
+                  ...styles.topMeditationAmountStart,
+                  color: sliceColor[index]
+                }}>
+                  {instance.count}
+                </Text>
                 <Text category='s1' style={styles.topMeditationName}>{instance.name}</Text>
               </Layout>
             )
@@ -83,7 +89,7 @@ const themedStyles = StyleSheet.create({
   },
   topMeditationContainer: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginVertical: 8,
   },
   topMeditationName: {

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
 import firestore from '@react-native-firebase/firestore';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
@@ -16,6 +17,7 @@ const InsightScreen = () => {
   const [meditationHistory, setMeditationHistory] = useState([] as MeditationInstance[]);
   const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     firestore()
@@ -31,7 +33,7 @@ const InsightScreen = () => {
         const meditationHistoryFromFirebase = docs.map(doc => doc.data());
         setMeditationHistory(meditationHistoryFromFirebase as MeditationInstance[]);
       })
-  }, [])
+  }, [isFocused])
 
   const fetchMoreMeditationData = () => {
     if (hasNoMoreHistory) { return; }
@@ -84,7 +86,6 @@ const InsightScreen = () => {
             <Text category='s2' style={styles.listItemText}>{item.name}</Text>
             <Text category='s2' style={styles.listItemText}>{displayDate}</Text>
           </Layout>
-          <Layout style={styles.listItemIndicator} />
         </Layout>
       </Layout>
     )
@@ -150,12 +151,6 @@ const themedStyles = StyleSheet.create({
   },
   listItemText: {
     marginVertical: 2,
-  },
-  listItemIndicator: {
-    borderRadius: 50,
-    height: 20,
-    width: 20,
-    backgroundColor: 'color-success-400',
   },
   listItemDataContainer: {
     flexDirection: 'row',

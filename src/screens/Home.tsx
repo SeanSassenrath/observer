@@ -48,7 +48,6 @@ const HomeScreen = () => {
 
   const getPermission = async () => {
     const permission = await MediaLibrary.getPermissionsAsync();
-    console.log('HERE 2 ', permission);
 
     if (!permission.granted && permission.canAskAgain) {
       const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync();

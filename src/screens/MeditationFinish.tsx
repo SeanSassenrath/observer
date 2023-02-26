@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
-import { MeditationFinishScreenNavigationProp } from '../types';
+import { LibraryScreenNavigationProp } from '../types';
 import { MeditationFeedbackCard } from '../components/MeditationFeedbackCard';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import UserContext from '../contexts/userData';
@@ -17,7 +17,7 @@ import UserContext from '../contexts/userData';
 const EMPTY_INPUT = '';
 
 const MeditationFinishScreen = () => {
-  const navigation = useNavigation<MeditationFinishScreenNavigationProp>();
+  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
   const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
@@ -92,7 +92,7 @@ const MeditationFinishScreen = () => {
 
     updateUserMeditationData();
 
-    navigation.navigate('TabNavigation')
+    tabNavigation.navigate('Insight')
   }
 
   return (

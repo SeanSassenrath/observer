@@ -16,7 +16,6 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
-// import TrackPlayer, { Track } from 'react-native-track-player';
 
 import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
 import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
@@ -26,16 +25,14 @@ import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
-import { MeditationBaseKeys, MeditationKeys } from './src/constants/meditation';
+import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
 import toastConfig from './src/toastConfig';
 import { SetupService } from './src/services/setupService';
-import { QueueInitialTracksService } from './src/services/queueInitialTracksService';
 import _ from 'lodash';
-import { convertMeditationToTrack } from './src/utils/track';
 
 const App = () => {
   const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
@@ -94,22 +91,6 @@ const App = () => {
     }
   }
 
-  const makeTracks = () => {
-    // loop overall base ids
-    const baseMeditations = [
-      meditationBaseData[MeditationBaseKeys.BreathNewPotentialsV1],
-      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
-      meditationBaseData[MeditationBaseKeys.BreathReconditionV1],
-      meditationBaseData[MeditationBaseKeys.MedReconditionV1],
-      meditationBaseData[MeditationBaseKeys.MedPresentMomentV1],
-      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
-      meditationBaseData[MeditationBaseKeys.MedNewPotentialsV1],
-    ]
-
-    const tracks = baseMeditations.map(meditation => convertMeditationToTrack(meditation));
-    return tracks;
-  }
-
   const setMeditationBaseDataToContext = async () => {
     const meditationBaseData = await makeMeditationBaseData();
     if (meditationBaseData) {
@@ -124,14 +105,6 @@ const App = () => {
       const isSetup = await SetupService();
       if (unmounted) return;
       setIsPlayerReady(isSetup);
-      // const queue = await TrackPlayer.getQueue();
-      // if (unmounted) return;
-      // if (isSetup && queue.length <= 0) {
-      //   const tracks = makeTracks();
-      //   if (tracks.length > 0) {
-      //     await QueueInitialTracksService(tracks);
-      //   }
-      // }
     })();
 
     setMeditationBaseDataToContext();
