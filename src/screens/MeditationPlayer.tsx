@@ -47,7 +47,8 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const meditation = meditationBaseData[id]
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-    if (event.nextTrack !== null) {
+    console.log('Track data', event);
+    if (event.nextTrack !== undefined) {
       const track = tracks[event.nextTrack];
       setTrackData(track);
     }
@@ -156,6 +157,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
     .slice(14, 19);
+  const trackTitle = trackData && trackData.title;
 
   return (
     <Layout style={styles.container} level='4'>
@@ -177,7 +179,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             }
           </Layout>
           <Layout style={styles.meditationName} level='4'>
-            <Text category='h6' style={styles.meditationNameText}>{trackData.title}</Text>
+            <Text category='h6' style={styles.meditationNameText}>{trackTitle}</Text>
           </Layout>
         </Layout>
         <Layout style={styles.bottomBar} level='4'>

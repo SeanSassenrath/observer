@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components'; 
+import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import * as MediaLibrary from 'expo-media-library';
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
@@ -36,41 +37,45 @@ const HomeScreen = () => {
     favoriteMeditations = allMeditationIds.slice(0, 5);
   }
 
-  // const getMeditationFiles = async () => {
-  //   const mediaFiles = await MediaLibrary.getAssetsAsync({
-  //     // mediaType: MediaLibrary.MediaType.audio,
-  //   })
+  const getMeditationFiles = async () => {
+    const mediaFiles = await MediaLibrary.getAssetsAsync({
+      mediaType: MediaLibrary.MediaType.audio,
+    })
 
-  //   console.log('HOME - Media files', mediaFiles);
-  // }
+    // TODO: Scan for meditation files
+    console.log('HOME - Media files', mediaFiles);
+  }
 
-  // const getPermission = async () => {
-  //   const permission = await MediaLibrary.getPermissionsAsync();
-  //   console.log('HERE 2 ', permission);
+  const getPermission = async () => {
+    const permission = await MediaLibrary.getPermissionsAsync();
+    console.log('HERE 2 ', permission);
 
-  //   if (!permission.granted && permission.canAskAgain) {
-  //     const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync();
+    if (!permission.granted && permission.canAskAgain) {
+      const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync();
 
-  //     if (status === 'granted') {
-  //       getMeditationFiles();
-  //     }
+      if (status === 'granted') {
+        getMeditationFiles();
+      }
 
-  //     if (status === 'denied' && canAskAgain) {
-  //       // fire alert here
-  //       console.log('permission denied')
-  //     }
+      if (status === 'denied' && canAskAgain) {
+        // fire alert here
+        console.log('permission denied')
+      }
 
-  //     if (status === 'denied' && !canAskAgain) {
-  //       console.log('permission really denied')
-  //       // fire alert
-  //     }
-  //   }
-  // }
+      if (status === 'denied' && !canAskAgain) {
+        console.log('permission really denied')
+        // fire alert
+      }
+    }
+  }
 
   useEffect(() => {
     setExistingMeditationFilePathDataFromAsyncStorage();
-    // getPermission();
-    // getMeditationFiles();
+
+    if (Platform.OS === 'android') {
+      getPermission();
+      getMeditationFiles();
+    }
   }, [])
 
   const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
