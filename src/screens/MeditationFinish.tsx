@@ -10,7 +10,6 @@ import _ from 'lodash';
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
 import { LibraryScreenNavigationProp } from '../types';
-import { MeditationFeedbackCard } from '../components/MeditationFeedbackCard';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import UserContext from '../contexts/userData';
 
@@ -96,40 +95,33 @@ const MeditationFinishScreen = () => {
   }
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView style={styles.scrollContainer}>
       <Layout style={styles.rootContainer} level='4'>
-          {/* <SafeAreaView> */}
-              <Layout style={styles.contentContainer} level='4'>
-                <Text category='h5' style={styles.text}>Welcome back</Text>
-                <MeditationFeedbackCard />
-                <MultiLineInput
-                  onChangeText={setFirstInput}
-                  placeholder='What feelings did you embody?'
-                  value={firstInput}
-                  style={styles.input}
-                />
-                <MultiLineInput
-                  onChangeText={setSecondInput}
-                  placeholder='What do you want to focus on next time?'
-                  value={secondInput}
-                  style={styles.input}
-                />
-                <_Button
-                  onPress={onDonePress}
-                  style={styles.doneButton}
-                >
-                  DONE
-                </_Button>
-              </Layout>
-          {/* </SafeAreaView> */}
-        {/* <Layout level='4' style={styles.bottomBarContainer}>
-          <_Button
-            onPress={onDonePress}
-            style={styles.doneButton}
-          >
-            DONE
-          </_Button>
-        </Layout> */}
+        <Text category='h5' style={styles.text}>Welcome back</Text>
+        <Layout level='4'>
+          <Text category='s1' style={styles.smallText}>What feelings did you embody?</Text>
+          <MultiLineInput
+            onChangeText={setFirstInput}
+            placeholder='Joy, I could feel it through my whole body...'
+            value={firstInput}
+            style={styles.input}
+          />
+        </Layout>
+        <Layout level='4'>
+          <Text category='s1' style={styles.smallText}>What do you want to focus on next time?</Text>
+          <MultiLineInput
+            onChangeText={setSecondInput}
+            placeholder='Deeper connection, surrender...'
+            value={secondInput}
+            style={styles.input}
+          />
+        </Layout>
+        <_Button
+          onPress={onDonePress}
+          style={styles.doneButton}
+        >
+          DONE
+        </_Button>
       </Layout>
     </KeyboardAwareScrollView>
   )
@@ -141,23 +133,26 @@ const styles = StyleSheet.create({
     paddingBottom: 60,
   },
   rootContainer: {
-    flex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
     paddingHorizontal: 20,
     paddingVertical: 40,
+  },
+  buttonContainer: {
+    flex: 2,
+    backgroundColor: 'red',
   },
   doneButton: {
     marginTop: 20,
   },
   scrollContainer: {
     flex: 1,
+    backgroundColor: 'rgba(16, 20, 38, 1)',
+  },
+  smallText: {
+    marginBottom: 20,
   },
   text: {
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 80,
   },
   input: {
     marginBottom: 60,
