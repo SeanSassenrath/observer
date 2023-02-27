@@ -111,6 +111,18 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedBlessingCenter9V1]: file.fileCopyUri,
       }
+    case MeditationStringSizes.MedDailyMorningV1:
+      return {
+        [MeditationBaseKeys.MedDailyMorningV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedDailyEveningV1:
+      return {
+        [MeditationBaseKeys.MedDailyEveningV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedLoveLifeV1:
+      return {
+        [MeditationBaseKeys.MedLoveLifeYouLoveV1]: file.fileCopyUri,
+      }
     default:
       break;
   }

@@ -8,6 +8,7 @@ import { TopMeditations } from '../components/TopMeditations';
 import { MeditationInstance } from '../types';
 import UserContext from '../contexts/userData';
 import { DateTime } from 'luxon';
+import { meditationBaseMap } from '../constants/meditation';
 
 const EMPTY_STRING = '';
 
@@ -68,11 +69,19 @@ const InsightScreen = () => {
     }
   }
 
-  const renderListItem = ({ item, index }: any) => {
+  interface ListItem {
+    item: MeditationInstance,
+    index: number,
+  }
+
+  const renderListItem = ({ item, index }: ListItem) => {
     const level = index % 2 ? '2' : '1';
     const displayDate = getDisplayDate(item);
     const isFirstItem = index === 0;
     const isLastItem = (meditationHistory.length - 1) === index;
+    const meditationBaseBreathId = item && item.meditationBaseBreathId;
+    const breathWorkBase = meditationBaseBreathId && meditationBaseMap[meditationBaseBreathId];
+    const breathWorkName = breathWorkBase && breathWorkBase.name;
     const itemStyles = isFirstItem
       ? styles.firstItem
       : isLastItem
@@ -83,8 +92,12 @@ const InsightScreen = () => {
       <Layout style={itemStyles} level={level} key={index}>
         <Layout level={level} style={styles.listItemDataContainer}>
           <Layout level={level}>
-            <Text category='s2' style={styles.listItemText}>{item.name}</Text>
-            <Text category='s2' style={styles.listItemText}>{displayDate}</Text>
+            <Text category='s1' style={styles.listItemText}>{item.name}</Text>
+            { breathWorkName
+              ? <Text category='s1' style={styles.listItemBreathWorkText}>{breathWorkName}</Text>
+              : null
+            }
+            <Text category='s2' style={styles.listItemDate}>{displayDate}</Text>
           </Layout>
         </Layout>
       </Layout>
@@ -151,6 +164,12 @@ const themedStyles = StyleSheet.create({
   },
   listItemText: {
     marginVertical: 2,
+  },
+  listItemBreathWorkText: {
+    color: 'color-info-500',
+  },
+  listItemDate: {
+    marginTop: 10,
   },
   listItemDataContainer: {
     flexDirection: 'row',
