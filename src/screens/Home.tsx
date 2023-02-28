@@ -159,13 +159,6 @@ const HomeScreen = () => {
         <ScrollView style={styles.scrollContainer}>
           <HomeTopBar onVoidPress={onVoidPress} />
           <Inspiration />
-          <Layout level='4' style={styles.addMeditationsContainer}>
-            <Pressable onPress={onAddMeditationsPress}>
-              <Layout style={styles.addMeditationsButton}>
-                <Text category='s1' style={styles.addMeditationsText}>Add Meditations</Text>
-              </Layout>
-            </Pressable>
-          </Layout>
           <Layout level='4'>
             <MeditationList
               header='Recent Meditations'
@@ -187,23 +180,6 @@ const HomeScreen = () => {
 }
 
 const themedStyles = StyleSheet.create({
-  addMeditationsContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 40,
-  },
-  addMeditationsButton: {
-    backgroundColor: 'color-primary-600',
-    borderColor: 'color-primary-800',
-    borderWidth: 1,
-    borderRadius: 25,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addMeditationsText: {
-    opacity: 0.8,
-  },
   container: {
     flex: 1,
   },

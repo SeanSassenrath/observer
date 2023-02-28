@@ -179,19 +179,19 @@ const MeditationFinishScreen = () => {
       <Layout style={styles.rootContainer} level='4'>
         <Text category='h5' style={styles.text}>Welcome back</Text>
         <Layout level='4'>
-          <Text category='s1' style={styles.smallText}>What feelings did you embody?</Text>
+          <Text category='s1' style={styles.smallText}>What did you do well during your meditation?</Text>
           <MultiLineInput
             onChangeText={setFirstInput}
-            placeholder='Joy, I could feel it through my whole body...'
+            placeholder='Add your feedback here'
             value={firstInput}
             style={styles.input}
           />
         </Layout>
         <Layout level='4'>
-          <Text category='s1' style={styles.smallText}>What do you want to focus on next time?</Text>
+          <Text category='s1' style={styles.smallText}>What do you want to improve on next time?</Text>
           <MultiLineInput
             onChangeText={setSecondInput}
-            placeholder='Deeper connection, surrender...'
+            placeholder='Add your feedback here'
             value={secondInput}
             style={styles.input}
           />
