@@ -17,7 +17,7 @@ const EMPTY_SEARCH = '';
 const lightWhite = '#f3f3f3';
 
 const PlusIcon = (props: any) => (
-  <Icon {...props} style={themedStyles.plusIcon} name='plus-outline' />
+  <Icon {...props} style={themedStyles.plusIcon} fill={lightWhite} name='plus-outline' />
 );
 
 const LibraryScreen = () => {
@@ -140,8 +140,8 @@ const LibraryScreen = () => {
 
 const themedStyles = StyleSheet.create({
   addMeditationsButton: {
-    width: 75,
-    height: 75,
+    width: 80,
+    height: 80,
     borderRadius: 40,
     backgroundColor: 'color-primary-500',
     position: 'absolute',
