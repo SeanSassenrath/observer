@@ -148,6 +148,7 @@ const MeditationFinishScreen = () => {
       .update(updatedUserMeditationData)
       .then(() => {
         setUser(updatedUserMeditationContextData)
+        tabNavigation.navigate('Insight')
         console.log('MEDITATION FINISH: Added recent meditation base id to firebase');
       })
   }
@@ -171,8 +172,6 @@ const MeditationFinishScreen = () => {
       })
 
     updateUserMeditationData();
-
-    tabNavigation.navigate('Insight')
   }
 
   return (

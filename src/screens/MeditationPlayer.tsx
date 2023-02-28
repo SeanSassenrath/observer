@@ -51,6 +51,8 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     if (event.nextTrack !== undefined) {
       const track = tracks[event.nextTrack];
       setTrackData(track);
+    } else if (event.nextTrack === undefined) {
+      navigation.navigate('MeditationFinish');
     }
   });
 
