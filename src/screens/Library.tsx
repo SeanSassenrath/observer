@@ -128,25 +128,35 @@ const LibraryScreen = () => {
             {renderMeditationGroupSections()}
           </Layout>
         </ScrollView>
-        <Pressable onPress={onAddMeditationsPress}>
-          <Layout style={styles.addMeditationsButton}>
-            <PlusIcon />
-          </Layout>
-        </Pressable>
+        <Layout style={styles.addMeditationContainer}>
+          <Pressable onPress={onAddMeditationsPress}>
+            <Layout style={styles.addMeditationsButton}>
+              <PlusIcon />
+              <Text category='s1'>Add Meditations</Text>
+            </Layout>
+          </Pressable>
+        </Layout>
       </SafeAreaView>
     </Layout>
   )
 }
 
 const themedStyles = StyleSheet.create({
-  addMeditationsButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'color-primary-500',
+  addMeditationContainer: {
     position: 'absolute',
-    bottom: 25,
-    right: 20,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    marginBottom: 20,
+  },
+  addMeditationsButton: {
+    width: 190,
+    height: 50,
+    borderRadius: 100,
+    backgroundColor: 'color-primary-500',
     shadowOffset: {
       width: 0,
       height: 5,
@@ -155,6 +165,7 @@ const themedStyles = StyleSheet.create({
     shadowRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   addMeditationsText: {
     opacity: 0.8,
@@ -175,8 +186,9 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 60,
   },
   plusIcon: {
-    height: 35,
-    width: 35,
+    height: 25,
+    width: 25,
+    marginRight: 4,
   }
 })
 
