@@ -1,28 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Platform, Pressable, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { Modal, Layout, useStyleSheet, Avatar } from '@ui-kitten/components';
 import * as MediaLibrary from 'expo-media-library';
+import auth from '@react-native-firebase/auth';
+
 
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
 import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { Inspiration } from '../components/Inspiration';
-import UserContext from '../contexts/userData';
+import UserContext, { initialUserState } from '../contexts/userData';
 import { pickFiles } from '../utils/filePicker';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const HomeScreen = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
   const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
   const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const styles = useStyleSheet(themedStyles);
 
   const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
@@ -84,6 +87,17 @@ const HomeScreen = () => {
       const parsedFilePathData = JSON.parse(filePathData);
       setExistingMeditationFilePathData(parsedFilePathData);
     }
+  }
+
+  const onSignOut = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        console.log('User signed out!')
+        setIsModalVisible(false)
+        setUser(initialUserState)
+        stackNavigation.navigate('SignIn');
+      });
   }
 
   const onAddMeditationsPress = async () => {
@@ -157,7 +171,10 @@ const HomeScreen = () => {
     <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollContainer}>
-          <HomeTopBar onVoidPress={onVoidPress} />
+          <HomeTopBar
+            onAvatarPress={() => setIsModalVisible(true)}
+            onVoidPress={onVoidPress}
+          />
           <Inspiration />
           <Layout level='4'>
             <MeditationList
@@ -175,11 +192,46 @@ const HomeScreen = () => {
           </Layout>
         </ScrollView>
       </SafeAreaView>
+      <Modal
+        visible={isModalVisible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setIsModalVisible(false)}
+      >
+        <Layout level='3' style={styles.modalContainer}>
+          <Avatar size='large' source={{ uri: user.profile.photoURL }} />
+          <_Button
+            onPress={onSignOut}
+            style={styles.modalButton}
+          >
+            Sign Out
+          </_Button>
+          <_Button
+            onPress={() => setIsModalVisible(false)}
+            style={styles.modalButton}
+          >
+            Close
+          </_Button>
+        </Layout>
+      </Modal>
     </Layout>
   )
 }
 
 const themedStyles = StyleSheet.create({
+  modalContainer: {
+    height: 300,
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+  },
+  modalButton: {
+    marginTop: 40,
+    width: 200,
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   container: {
     flex: 1,
   },

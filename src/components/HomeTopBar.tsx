@@ -4,10 +4,14 @@ import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components
 import UserContext from '../contexts/userData';
 
 interface HomeTopBarProps {
+  onAvatarPress(): void,
   onVoidPress(): void,
 }
 
-export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
+export const HomeTopBar = ({
+  onAvatarPress,
+  onVoidPress
+}: HomeTopBarProps) => {
   const { user } = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
@@ -15,12 +19,12 @@ export const HomeTopBar = ({ onVoidPress }: HomeTopBarProps) => {
     <Layout style={styles.topBarContainer} level='4'>
       <Pressable onPress={onVoidPress}>
         <Layout style={styles.topBarVoidContainer}>
-          <Text category='s2' style={styles.topBarVoidText}>2k in the void</Text>
+          <Text category='s2' style={styles.topBarVoidText}>2 Observers in the void</Text>
         </Layout>
       </Pressable>
       <Layout style={styles.topBarActionItemsContainer} level='4'>
         { user.profile && user.profile.photoURL
-          ? <Pressable>
+          ? <Pressable onPress={onAvatarPress}>
               <Avatar source={{ uri: user.profile.photoURL }} />
             </Pressable>
           : null
