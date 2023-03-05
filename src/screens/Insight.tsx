@@ -5,6 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { TopMeditations } from '../components/TopMeditations';
+import { TimeInMeditationChart } from '../components/TimeInMeditationChart';
 import { MeditationInstance } from '../types';
 import UserContext from '../contexts/userData';
 import { DateTime } from 'luxon';
@@ -107,6 +108,9 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout level = '4'>
       <Layout level='4' style={styles.topSpacer}>
+        <TimeInMeditationChart
+          meditationHistory={meditationHistory}
+        />
         <TopMeditations />
       </Layout>
       <Layout level='4'>

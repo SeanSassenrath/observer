@@ -52,7 +52,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     console.log('Track data', event);
     if (event.nextTrack !== undefined) {
       const track = tracks[event.nextTrack];
-      const prevTrackMeditationTime = (position * 1000);
+      const prevTrackMeditationTime = position;
       setMeditationTime(prevTrackMeditationTime);
       setTrackData(track);
     } else if (event.nextTrack === undefined) {
@@ -144,7 +144,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     resetTrackPlayer();
     setMeditationInstanceData({
       ...meditationInstanceData,
-      timeMeditated: meditationTime + (position * 1000),
+      timeMeditated: meditationTime + position,
     })
     navigation.replace('MeditationFinish');
   }

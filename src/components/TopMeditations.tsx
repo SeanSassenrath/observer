@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import PieChart from 'react-native-pie-chart';
-import { slice, sortBy } from 'lodash';
+import { sortBy } from 'lodash';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
@@ -18,11 +18,11 @@ export const TopMeditations = () => {
   const topThreeMeditationInstanceCounts = reversedMeditationInstanceCounts.slice(0, 3);
   const series = topThreeMeditationInstanceCounts.map(instance => instance.count);
   const widthAndHeight = 200
-  const sliceColor = ['#DFA3F3', '#BB6FDD', '#9147BB']
+  const sliceColor = ['#9147BB', '#BB6FDD', '#DFA3F3']
 
   return (
     <Layout level='4'>
-      <Text category='h6' style={styles.header}>Top Meditations</Text>
+      <Text category='h6' style={styles.header}>Top 3 Meditations</Text>
       <Layout level='2' style={styles.container}>
         <Layout level='2' style={styles.chartContainer}>
           <PieChart
