@@ -56,6 +56,10 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
       setMeditationTime(prevTrackMeditationTime);
       setTrackData(track);
     } else if (event.nextTrack === undefined) {
+      setMeditationInstanceData({
+        ...meditationInstanceData,
+        timeMeditated: meditationTime + position,
+      })
       navigation.navigate('MeditationFinish');
     }
   });
