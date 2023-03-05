@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import TrackPlayer, { useProgress, useTrackPlayerEvents, Event, Track } from 'react-native-track-player';
+import TrackPlayer, { useProgress, useTrackPlayerEvents, Event, Track, State as TrackPlayerState } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
-import _, { toNumber } from 'lodash';
 import KeepAwake from 'react-native-keep-awake';
 import { Icon, Layout, Text } from '@ui-kitten/components';
 
@@ -11,6 +10,7 @@ import _Button from '../components/Button';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
 import { convertMeditationToTrack } from '../utils/track';
+import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -35,6 +35,7 @@ const RestartIcon = (props: any) => (
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { meditationBaseData } = useContext(MeditationBaseDataContext);
+  const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
@@ -42,14 +43,17 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const { position, duration } = useProgress();
   const [trackData, setTrackData] = useState({} as Track);
   const [tracks, setTracks] = useState([] as Track[]);
+  const [meditationTime, setMeditationTime] = useState(0);
 
   const { id, meditationBreathId } = route.params;
-  const meditation = meditationBaseData[id]
+  const meditation = meditationBaseData[id];
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     console.log('Track data', event);
     if (event.nextTrack !== undefined) {
       const track = tracks[event.nextTrack];
+      const prevTrackMeditationTime = (position * 1000);
+      setMeditationTime(prevTrackMeditationTime);
       setTrackData(track);
     } else if (event.nextTrack === undefined) {
       navigation.navigate('MeditationFinish');
@@ -73,7 +77,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     const tracks = makeTrackList();
     setTracks(tracks);
     await TrackPlayer.add(tracks)
-    console.log('MEDITATION PLAYER: ', tracks);
   }
 
   const makeTrackList = () => {
@@ -92,8 +95,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     const countDownTimer = setInterval(() => {
       timerRef.current -= 1;
       if (timerRef.current < 0) {
-        TrackPlayer.play();
-        setIsPlaying(true);
+        playTrackPlayer();
         clearInterval(countDownTimer);
       } else {
         setTime(timerRef.current);
@@ -109,6 +111,9 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const getTrackState = async () => {
     const state = await TrackPlayer.getState();
+    if (state === TrackPlayerState.Buffering) {
+      // TODO: need an alert here
+    }
     console.log('player state', state);
   }
 
@@ -120,7 +125,12 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     }
   }
 
-  const resetTrackPlayer = async () => {
+  const playTrackPlayer = async () => {
+    TrackPlayer.play();
+    setIsPlaying(true);
+  }
+
+  const resetTrackPlayer = () => {
     TrackPlayer.reset();
   }
 
@@ -132,19 +142,19 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const onFinishPress = () => {
     shouldKeepAwake(false);
     resetTrackPlayer();
+    setMeditationInstanceData({
+      ...meditationInstanceData,
+      timeMeditated: meditationTime + (position * 1000),
+    })
     navigation.replace('MeditationFinish');
   }
 
-  const onPlayPress = async () => {
-    TrackPlayer.play();
-    const test = await TrackPlayer.getState();
-    console.log('player state', test);
-    setIsPlaying(true);
+  const onPlayPress = () => {
+    playTrackPlayer();
   }
 
   const onPausePress = async () => {
     TrackPlayer.pause();
-    await TrackPlayer.getState();
     setIsPlaying(false);
   }
 
@@ -155,10 +165,10 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const isFinishButtonDisabled = time > 0;
   const timePassed = new Date(position * 1000)
     .toISOString()
-    .slice(14, 19);
+    .slice(12, 19);
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
-    .slice(14, 19);
+    .slice(12, 19);
   const trackTitle = trackData && trackData.title;
 
   return (

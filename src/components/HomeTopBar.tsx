@@ -19,7 +19,7 @@ export const HomeTopBar = ({
     <Layout style={styles.topBarContainer} level='4'>
       <Pressable onPress={onVoidPress}>
         <Layout style={styles.topBarVoidContainer}>
-          <Text category='s2' style={styles.topBarVoidText}>In the void: 2</Text>
+          <Text category='s2' style={styles.topBarVoidText}>2 beings in the void</Text>
         </Layout>
       </Pressable>
       <Layout style={styles.topBarActionItemsContainer} level='4'>
