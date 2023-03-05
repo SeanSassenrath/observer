@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import _ from 'lodash';
 import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { MeditationList } from '../components/MeditationList';
-import { meditationBaseMap } from '../constants/meditation';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
-import { makeMeditationGroups, MeditationGroupMap } from '../utils/meditation';
+import { makeMeditationGroups2, MeditationGroupsList } from '../utils/meditation';
 import { SearchBar } from '../components/SearchBar';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { onAddMeditations } from '../utils/addMeditations';
@@ -23,45 +21,15 @@ const PlusIcon = (props: any) => (
 const LibraryScreen = () => {
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
-  const [meditationGroups, setMeditationGroups] = useState({} as MeditationGroupMap)
+  const [meditationGroupsList, setMeditationGroupsList] = useState([] as MeditationGroupsList)
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
   const styles = useStyleSheet(themedStyles);
 
   useEffect(() => {
-    const meditationGroups = makeMeditationGroups(meditationBaseData);
-    setMeditationGroups(meditationGroups);
+    const meditationGroups = makeMeditationGroups2(meditationBaseData);
+    setMeditationGroupsList(meditationGroups);
   }, [meditationBaseData]);
-
-  // const onAddPress = async () => {
-  //   // const pickedFileData = await pickFilesFromDevice()
-  //   if (!pickedFileData) { return null; }
-
-  //   if (
-  //     pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
-  //     pickedFileData.unsupportedFileNames.length > 0
-  //   ) {
-  //     // setScreenState(ScreenState.Fail);
-  //   } else if (
-  //     pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-  //     pickedFileData.unsupportedFileNames.length > 0
-  //   ) {
-  //     setUnlockedMeditationIdsInAsyncStorage(
-  //       pickedFileData.updatedUnlockedMeditationIds,
-  //     )
-  //     setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-  //     // setScreenState(ScreenState.Mixed);
-  //   } else if (
-  //     pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-  //     pickedFileData.unsupportedFileNames.length <= 0
-  //   ) {
-  //     setUnlockedMeditationIdsInAsyncStorage(
-  //       pickedFileData.updatedUnlockedMeditationIds,
-  //     )
-  //     setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-  //     // setScreenState(ScreenState.Success);
-  //   }
-  // }
   
   const onMeditationPress = (meditationBaseId: MeditationId) => {
     if (meditationBaseId) {
@@ -73,30 +41,44 @@ const LibraryScreen = () => {
 
   const onClearPress = () => setSearchInput(EMPTY_SEARCH);
 
-  const filterBySearch = (searchInput: string, meditationBaseIds: MeditationId[]) => {
-    const filteredIdList = meditationBaseIds.filter((meditationBaseId) => {
-      const meditation = meditationBaseMap[meditationBaseId];
-      if (_.startsWith(meditation.name.toLowerCase(), searchInput.toLowerCase())) {
-        return meditationBaseId;
-      }
+  const filterBySearch2 = (searchInput: string, meditationGroupsList: MeditationGroupsList) => {
+    if (!searchInput) {
+      return meditationGroupsList;
+    }
+
+    const filteredMeditationGroupsList = meditationGroupsList.map((group, index) => {
+      const key = Object.keys(group)[0];
+      const meditations = group[key];
+      console.log('medtations >>', meditations);
+      const filteredMeditations = meditations.filter((meditation) => {
+        if (meditation.name.includes(searchInput)) {
+          return meditation;
+        }
+      })
+
+      return ({ [key]: filteredMeditations });
     })
-    return filteredIdList;
+
+    return filteredMeditationGroupsList || [];
   }
 
   const renderMeditationGroupSections = () => {
-    const meditationGroupsList = Object.entries(meditationGroups)
-    return meditationGroupsList.map(([key, meditationBaseIds]) => {
-      let _meditationBaseIds = meditationBaseIds;
-      _meditationBaseIds = filterBySearch(searchInput, meditationBaseIds);
-      const firstMeditationId = _.head(_meditationBaseIds)
-      if (!firstMeditationId || !_meditationBaseIds) { return null; }
-      const firstMeditation = meditationBaseMap[firstMeditationId];
+    const filteredMeditations = filterBySearch2(searchInput, meditationGroupsList);
 
+    return filteredMeditations.map((group) => {
+      const meditations = Object.values(group)[0];
+      if (meditations.length <= 0) {
+        return null;
+      }
+      const firstMeditation = meditations[0];
+      const meditationBaseIds = meditations.map((meditationBase) => meditationBase['meditationBaseId']);
+
+      //TODO Fix Meditation list to take meditations not meditation ids
       return (
         <MeditationList
           key={firstMeditation.groupName}
           header={firstMeditation.groupName}
-          meditationBaseIds={_meditationBaseIds}
+          meditationBaseIds={meditationBaseIds}
           onMeditationPress={onMeditationPress}
         />
       )

@@ -1,6 +1,7 @@
+import { sortBy } from "lodash";
 import { meditationBaseMap } from "../constants/meditation";
 import { User } from "../contexts/userData";
-import { Meditation, MeditationBaseMap, MeditationId, MeditationInstance } from "../types";
+import { Meditation, MeditationBase, MeditationBaseMap, MeditationId, MeditationInstance } from "../types";
 import { getMeditationFilePathDataInAsyncStorage } from "./asyncStorageMeditation";
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
@@ -8,6 +9,47 @@ export const getMeditation = (id: string, meditations: Meditation[]) =>
 
 export interface MeditationGroupMap {
   [key: string]: MeditationId[]
+}
+
+export interface MeditationGroupsMap {
+  [key: string]: MeditationBase[]
+}
+
+export type MeditationGroupsList = MeditationGroupsMap[];
+
+export const makeMeditationGroups2 = (meditationBaseMap: MeditationBaseMap): MeditationGroupsList => {
+  const meditationGroupList = {} as MeditationGroupsMap;
+
+  for (const key in meditationBaseMap) {
+    const meditationBase = meditationBaseMap[key];
+    const meditationGroupKey = meditationBaseMap[key].groupKey;
+
+    if (meditationGroupList[meditationGroupKey]) {
+      meditationGroupList[meditationGroupKey] = [...meditationGroupList[meditationGroupKey], meditationBase]
+    } else {
+      meditationGroupList[meditationGroupKey] = [meditationBase]
+    }
+  }
+
+  const sortedMeditationGroups = sortMeditationGroups(meditationGroupList);
+
+  return sortedMeditationGroups;
+}
+
+const sortMeditationGroups = (meditationGroupMap: MeditationGroupsMap) => {
+  const sortedKeys = Object.keys(meditationGroupMap).sort();
+  const sortedGroupByKeyList = sortedKeys.map((key: string) => ({[key]: meditationGroupMap[key]}))
+
+  const sortedGroupMeditationsList = sortedGroupByKeyList.map(
+    (group, index) => {
+      const key = sortedKeys[index];
+      const sortedMeditations = sortBy(group[key], ['name']);
+
+      return ({[key]: sortedMeditations})
+    }
+  )
+
+  return sortedGroupMeditationsList;
 }
 
 export const makeMeditationGroups = (meditationBaseMap: MeditationBaseMap) => {

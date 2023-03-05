@@ -100,6 +100,7 @@ export interface MeditationBase {
   color: string,
   formattedDuration: MeditationFormattedDuration,
   id: MeditationInstanceId,
+  groupIndex: number,
   groupKey: MeditationGroupKey,
   groupName: MeditationGroupName,
   meditationBaseId: MeditationId,

@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Button, ButtonProps } from '@ui-kitten/components';
 
 interface Props extends ButtonProps {
-  style: any,
+  style?: any,
 }
 
 const _Button = (props: Props) => {
