@@ -123,6 +123,30 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedLoveLifeYouLoveV1]: file.fileCopyUri,
       }
+    case MeditationStringSizes.MedWalkingConditioningBodyV1:
+      return {
+        [MeditationBaseKeys.MedWalkingConditioningBodyV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedWalkingNobleWalkV1:
+      return {
+        [MeditationBaseKeys.MedWalkingNobleWalkV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationV1:
+      return {
+        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedLoveLifeV1:
+      return {
+        [MeditationBaseKeys.MedWalkingUnlockingCodeV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedWalkingMeditation1V1:
+      return {
+        [MeditationBaseKeys.MedWalkingMeditation1V1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedWalkingMeditation2V1:
+      return {
+        [MeditationBaseKeys.MedWalkingMeditation2V1]: file.fileCopyUri,
+      }
     default:
       break;
   }

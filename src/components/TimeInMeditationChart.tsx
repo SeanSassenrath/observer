@@ -74,9 +74,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
   const meditationTimeData = makeMeditationTimeData(props.meditationHistory);
 
   const day0 = DateTime.now();
-  console.log('day0', day0.toLocaleString());
   const day1 = day0.minus({ days: 1 });
-  console.log('day1', day1.toLocaleString());
   const day2 = day0.minus({ days: 2 });
   const day3 = day0.minus({ days: 3 });
   const day4 = day0.minus({ days: 4 });
