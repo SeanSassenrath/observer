@@ -10,6 +10,7 @@ import { SearchBar } from '../components/SearchBar';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { onAddMeditations } from '../utils/addMeditations';
 import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
+import { meditationBaseMap } from '../constants/meditation';
 
 const EMPTY_SEARCH = '';
 const lightWhite = '#f3f3f3';
@@ -95,6 +96,27 @@ const LibraryScreen = () => {
     }
   }
 
+  const renderSupportedMeditations = () => {
+    const nameList = [];
+
+    for (const key in meditationBaseMap) {
+      const meditationName = meditationBaseMap[key].name;
+      nameList.push(meditationName);
+    }
+
+    return nameList.map((name) => {
+      return (
+        <Text
+          category='s1'
+          key={name}
+          style={styles.supportedName}
+        >
+          {name}
+        </Text>
+      )
+    })
+  }
+
   return (
     <Layout style={styles.rootContainer} level='4'>
       <SafeAreaView style={styles.rootContainer}>
@@ -108,6 +130,10 @@ const LibraryScreen = () => {
               />
             </Layout>
             {renderMeditationGroupSections()}
+          </Layout>
+          <Layout level='2' style={styles.supportedContainer}>
+            <Text category='h6' style={styles.supportedHeader}>Currently Supported Meditations</Text>
+            {renderSupportedMeditations()}
           </Layout>
         </ScrollView>
         <Layout style={styles.addMeditationContainer}>
@@ -165,12 +191,27 @@ const themedStyles = StyleSheet.create({
   },
   screenContainer: {
     paddingTop: 40,
-    paddingBottom: 60,
   },
   plusIcon: {
     height: 25,
     width: 25,
     marginRight: 4,
+  },
+  supportedContainer: {
+    // marginTop: 20,
+    marginBottom: 100,
+    marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 16,
+  },
+  supportedHeader: {
+    marginBottom: 30,
+    opacity: 0.8,
+    color: '#A1E66F'
+  },
+  supportedName: {
+    marginBottom: 18,
+    opacity: 0.8,
   }
 })
 
