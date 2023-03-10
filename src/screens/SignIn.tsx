@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -11,10 +11,12 @@ import auth from '@react-native-firebase/auth';
 
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '../types';
+import FtuxContext from '../contexts/ftuxData';
 
 const SignInScreen = () => {
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
+  const { hasSeenFtux } = useContext(FtuxContext);
 
   const signIn = async () => {
     let userInfo;
@@ -30,7 +32,11 @@ const SignInScreen = () => {
       }
 
       auth().signInWithCredential(googleCredential);
-      navigation.navigate('TabNavigation');
+      if (hasSeenFtux) {
+        navigation.navigate('TabNavigation');
+      } else {
+        navigation.navigate('AddFilesTutorial1');
+      }
       setIsSignInPending(false);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

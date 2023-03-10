@@ -7,7 +7,10 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import Button from '../components/Button';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import FtuxContext from '../contexts/ftuxData';
 import { onAddMeditations } from '../utils/addMeditations';
+import { setFtuxStateInAsyncStorage } from '../utils/ftux';
+import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 
 //@ts-ignore
 import videoFile from '../assets/app-tutorial-4-ios-select.mov';
@@ -15,6 +18,7 @@ import videoFile from '../assets/app-tutorial-4-ios-select.mov';
 const AddFilesTutorial3 = () => {
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
+  const { hasSeenFtux, setHasSeenFtux } = useContext(FtuxContext);
 
   const navigation = useNavigation();
 
@@ -25,15 +29,20 @@ const AddFilesTutorial3 = () => {
     )
     if (meditations) {
       setMeditationBaseData(meditations);
+      await setFtuxStateInAsyncStorage();
+      setHasSeenFtux(true);
       onSuccessNavigation();
     }
   }
 
   const onSuccessNavigation = () => {
+    //@ts-ignore
     navigation.navigate('TabNavigation', { screen: 'Library'});
   }
 
-  const onContinuePress = () => {
+  const onContinuePress = async () => {
+    await setFtuxStateInAsyncStorage();
+    setHasSeenFtux(true);
     navigation.navigate('TabNavigation');
   }
 
