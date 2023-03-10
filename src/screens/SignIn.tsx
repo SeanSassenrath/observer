@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 import {
 	Layout,
 	Text,
@@ -14,8 +15,6 @@ import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '.
 const SignInScreen = () => {
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
-
-  const onContinuePress = () => navigation.navigate('TabNavigation');
 
   const signIn = async () => {
     let userInfo;
@@ -54,62 +53,82 @@ const SignInScreen = () => {
     }
   };
 
-	return (
+  return (
     <Layout style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topContainer}>
-        </Layout>
-        <></>
-        <Layout style={styles.bottomContainer}>
-          <Layout style={styles.buttonContainer}>
-            <Button onPress={signIn} size='large' style={styles.button}>Sign In With Google</Button>
-          </Layout>
-          {/* <Layout style={styles.buttonContainer}>
-            <Button onPress={onContinuePress} size='large' style={styles.button}>Sign in With Apple</Button>
-          </Layout> */}
-          <Text category='p2' style={styles.disclaimer}>
+        <ImageBackground source={require('../assets/stars.png')} style={styles.container}>
+          <LinearGradient colors={['rgba(34, 43, 69, 0)', 'rgba(34, 43, 69, 1)']} style={styles.imgContainer}>
+            <Layout style={styles.imgContainer}>
+            </Layout>
+          </LinearGradient>
+          <Layout style={styles.bottomContainer}>
+            <Layout style={styles.textContainer}>
+              <Text category='h4' style={styles.textHeader}>Welcome</Text>
+              <Text category='s1' style={styles.textDescription}>
+                This experience was made with love for you.
+                Our hope is that this app will help you with your practice, give you insights into your meditations, and continue your learning.
+                We're excited and honored to be a part of your journey.
+              </Text>
+            </Layout>
+            <Layout style={styles.buttonContainer}>
+              <Button onPress={signIn} size='large' style={styles.button}>Sign In With Google</Button>
+            </Layout>
+            {/* <Text category='p2' style={styles.disclaimer}>
             Accounts are required to give you more information about your meditations.
             We will never sell your data to anyone.
-          </Text>
-          {isSignInPending
-            ? <Text>Signing you in now...</Text>
-            : null
-          }
-        </Layout>
+          </Text> */}
+            {isSignInPending
+              ? <Text>Signing you in now...</Text>
+              : null
+            }
+          </Layout>
+        </ImageBackground>
       </SafeAreaView>
     </Layout>
-	)
+  )
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
+  button: {
+    marginVertical: 20,
+    width: 350
+  },
+  buttonContainer: {
+    alignItems: 'center',
+  },
+  bottomContainer: {
+    flex: 1,
+    paddingBottom: 40,
+  },
+  container: {
+    flex: 1,
+  },
   disclaimer: {
     marginBottom: 30,
     marginTop: 20,
   },
-	topContainer: {
-		alignItems: 'center',
-    justifyContent: 'center',
-		flex: 7,
-		padding: 20,
-	},
-	bottomContainer: {
-    paddingBottom: 10,
-		flex: 2,
-	},
-	button: {
-    marginVertical: 20,
-		width: 250
-	},
-  buttonContainer: {
+  imgContainer: {
+    flex: 1,
     alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   rootContainer: {
     flex: 1,
     padding: 20,
   },
-});
+  textContainer: {
+    flex: 3,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  textHeader: {
+    marginBottom: 10,
+  },
+  textDescription: {
+    lineHeight: 23
+  },
+})
 
 export default SignInScreen;

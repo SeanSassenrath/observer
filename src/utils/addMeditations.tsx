@@ -7,7 +7,7 @@ import { makeMeditationBaseData } from './meditation';
 
 export const onAddMeditations = async (
   existingMediationFilePathData: MeditationFilePathData,
-  setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>
+  setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
 ) => {
   const pickedFileData = await pickFiles(existingMediationFilePathData);
   if (!pickedFileData) { return null; }
@@ -38,7 +38,7 @@ export const onAddMeditations = async (
       bottomOffset: 100,
       onPress: () => onAddMeditations(
         existingMediationFilePathData,
-        setExistingMeditationFilePathData
+        setExistingMeditationFilePathData,
       ),
       visibilityTime: 5000,
     });

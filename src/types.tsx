@@ -15,6 +15,10 @@ export type StackParamList = {
   MeditationFinish: undefined;
   MeditationPlayer: MeditationParams;
   TabNavigation: undefined;
+  AddFilesTutorial1: undefined;
+  AddFilesTutorial2: undefined;
+  AddFilesTutorial3: undefined;
+  AddFilesTutorial4: undefined;
 };
 
 interface MeditationParams {
@@ -25,9 +29,17 @@ interface MeditationParams {
 type InitialUploadProps = NativeStackScreenProps<StackParamList, 'InitialUpload'>;
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
 type WelcomeProps = NativeStackScreenProps<StackParamList, 'Welcome'>;
+type AddFilesTutorial1 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial1'>;
+type AddFilesTutorial2 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial2'>;
+type AddFilesTutorial3 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial3'>;
+type AddFilesTutorial4 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial3'>;
 
 export type InitialUploadScreenNavigationProp = InitialUploadProps['navigation'];
 export type SignInScreenNavigationProp = SignInProps['navigation'];
+export type AddFilesTutorial1NavigationProp = AddFilesTutorial1['navigation'];
+export type AddFilesTutorial2NavigationProp = AddFilesTutorial2['navigation'];
+export type AddFilesTutorial3NavigationProp = AddFilesTutorial3['navigation'];
+export type AddFilesTutorial4NavigationProp = AddFilesTutorial4['navigation'];
 export type WelcomeScreenNavigationProp = WelcomeProps['navigation'];
 
 export type MeditationProps = NativeStackScreenProps<StackParamList, 'Meditation'>;
