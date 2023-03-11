@@ -114,6 +114,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
             width={screenWidth}
             height={220}
             chartConfig={chartConfig}
+            fromZero
             style={{
               borderRadius: 16,
               marginHorizontal: 20,

@@ -41,7 +41,7 @@ const AddFilesTutorial1 = () => {
                 style={{
                   height: 450,
                 }}
-                // repeat={true}
+                repeat={true}
               />
             </Layout>
           </Layout>
