@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -12,6 +12,8 @@ import AddFilesTutorial1 from '../screens/AddFilesTutorial1';
 import AddFilesTutorial2 from '../screens/AddFilesTutorial2';
 import AddFilesTutorial3 from '../screens/AddFilesTutorial3';
 import AddFilesTutorial4 from '../screens/AddFilesTutorial4';
+import BetaCheck from '../screens/BetaCheck';
+import Loading from '../screens/Loading';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 import DebugScreen from '../screens/Debug';
@@ -21,14 +23,31 @@ const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
   const { user } = useContext(UserContext);
+  const getInitialRouteName = () => {
+    if (user.uid.length <= 0) {
+      return "SignIn";
+    } else {
+      return "Loading"
+    }
+    // if (user.hasBetaAccess === undefined) {
+    //   return "Loading";
+    // } else if (!user.hasBetaAccess) {
+    //   return "BetaCheck";
+    // } else if (user.uid.length <= 0) {
+    //   return "SignIn";
+    // } else {
+    //   return "TabNavigation";
+    // }
+  }
 
   return (
     <NavigationContainer theme={myTheme}>
       <Navigator
-        initialRouteName={(user && user.uid.length <= 0) ? "SignIn" : "TabNavigation"}
+        initialRouteName={getInitialRouteName()}
         screenOptions={{ headerShown: false }}
       >
         <Screen name="SignIn" component={SignInScreen} />
+        <Screen name="BetaCheck" component={BetaCheck} />
         <Screen name="AddFilesTutorial1" component={AddFilesTutorial1} />
         <Screen name="AddFilesTutorial2" component={AddFilesTutorial2} />
         <Screen name="AddFilesTutorial3" component={AddFilesTutorial3} />
@@ -39,6 +58,7 @@ const StackNavigator = () => {
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         <Screen name="Debug" component={DebugScreen} />
+        <Screen name="Loading" component={Loading} />
       </Navigator>
     </NavigationContainer>
   )

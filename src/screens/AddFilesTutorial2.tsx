@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    // backgroundColor: 'red',
   },
   contentContainer: {
     backgroundColor: 'transparent',
@@ -85,10 +86,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   linearGradientContainer: {
-    bottom: 0,
-    height: 150,
+    bottom: 30,
+    height: 50,
     position: 'absolute',
     width: '100%',
+    // backgroundColor: 'blue',
   },
   videoBackground: {
     backgroundColor: 'black',

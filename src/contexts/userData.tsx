@@ -14,6 +14,7 @@ interface UserProfile {
 export interface User {
   uid: string,
   profile: UserProfile,
+  hasBetaAccess?: boolean;
   meditationHistoryIds?: MeditationBaseId[],
   meditationUserData?: {
     recentMeditationBaseIds?: MeditationBaseId[],

@@ -23,6 +23,8 @@ export const getFtuxStateInAsyncStorage = async () => {
 export const removeFtuxStateFromAsyncStorage = async () => {
   try {
     await AsyncStorage.removeItem(ftuxStorageKey)
+    const storageKeys = await AsyncStorage.getAllKeys();
+    console.log('AsyncStorage after removing ftux', storageKeys)
   } catch (e) {
     console.log('error removing ftux data from storage', e)
   }

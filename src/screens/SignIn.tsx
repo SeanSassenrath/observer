@@ -12,6 +12,7 @@ import auth from '@react-native-firebase/auth';
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '../types';
 import FtuxContext from '../contexts/ftuxData';
+// import { fbFetchBetaUserList } from '../utils/fbBetaUserList';
 
 const SignInScreen = () => {
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
@@ -25,18 +26,26 @@ const SignInScreen = () => {
       await GoogleSignin.hasPlayServices();
       userInfo = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
+
       const { user } = userInfo;
+      if (!user) { return; }
 
-      if (!user) {
-        return;
-      }
+      await auth().signInWithCredential(googleCredential);
 
-      auth().signInWithCredential(googleCredential);
-      if (hasSeenFtux) {
-        navigation.navigate('TabNavigation');
-      } else {
-        navigation.navigate('AddFilesTutorial1');
-      }
+      navigation.navigate('BetaCheck');
+  
+      // const betaUserList = await fbFetchBetaUserList();
+      // if (!betaUserList) { return; }
+      // const { list } = betaUserList;
+      // const isUserInBeta = list.includes(user.email);
+
+      // if (!isUserInBeta) {
+      //   navigation.navigate('RequestInvite');
+      // } else if (!hasSeenFtux) {
+      //   navigation.navigate('AddFilesTutorial1');
+      // } else {
+      //   navigation.navigate('TabNavigation');
+      // }
       setIsSignInPending(false);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -83,10 +92,12 @@ const SignInScreen = () => {
             Accounts are required to give you more information about your meditations.
             We will never sell your data to anyone.
           </Text> */}
-            {isSignInPending
-              ? <Text>Signing you in now...</Text>
-              : null
-            }
+            <Layout>
+              {isSignInPending
+                ? <Text category='s1' status="info" style={styles.signInPending}>Signing you in now...</Text>
+                  : <Text> </Text>
+              }
+            </Layout>
           </Layout>
         </ImageBackground>
       </SafeAreaView>
@@ -123,6 +134,11 @@ const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     padding: 20,
+  },
+  signInPending: {
+    // justifyContent: 'center',
+    // backgroundColor: 'red',
+    textAlign: 'center',
   },
   textContainer: {
     flex: 3,

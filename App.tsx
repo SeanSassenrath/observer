@@ -27,6 +27,7 @@ import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
 import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User } from './src/contexts/userData';
+import FullUserLoadedContext from './src/contexts/fullUserLoaded';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
@@ -40,12 +41,14 @@ const App = () => {
   const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
   const [user, setUser] = useState(initialUserState as User);
+  const [fullUserLoaded, setFullUserLoaded] = useState(false);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
     uid: firebaseUser.uid,
+    hasBetaAccess: false,
     profile: {
       displayName: firebaseUser.displayName,
       email: firebaseUser.email,
@@ -71,6 +74,7 @@ const App = () => {
             const fullUserData = documentSnapshot.data();
             if (fullUserData) {
               setUser(fullUserData as User);
+              setFullUserLoaded(true);
             }
           } else {
             console.log('adding user')
@@ -79,6 +83,7 @@ const App = () => {
               .doc(firebaseUser.uid)
               .set(normalizeFirebaseUser(firebaseUser))
               .then(() => {
+                setFullUserLoaded(true);
                 console.log('user added')
                 // TODO: Add monitoring here
               })
@@ -174,17 +179,19 @@ const App = () => {
         // customMapping={mapping}
       >
         <UserContext.Provider value={{ user, setUser }}>
-          <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
-            <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
-              <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
-                <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
-                  <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                    <StackNavigator />
-                  </FtuxContext.Provider>
-                </RecentMeditationIdsContext.Provider>
-              </UnlockedMeditationIdsContext.Provider>
-            </MeditationInstanceDataContext.Provider>
-          </MeditationBaseDataContext.Provider>
+          <FullUserLoadedContext.Provider value={{ fullUserLoaded, setFullUserLoaded }}>
+            <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
+              <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
+                <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
+                  <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
+                    <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
+                      <StackNavigator />
+                    </FtuxContext.Provider>
+                  </RecentMeditationIdsContext.Provider>
+                </UnlockedMeditationIdsContext.Provider>
+              </MeditationInstanceDataContext.Provider>
+            </MeditationBaseDataContext.Provider>
+          </FullUserLoadedContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>
       <Toast config={toastConfig as any} />

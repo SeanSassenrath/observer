@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
 import { Layout, Text } from '@ui-kitten/components/ui';
 import { useNavigation } from '@react-navigation/native';
@@ -8,9 +8,22 @@ import Video from 'react-native-video';
 import videoFile from '../assets/app-tutorial-1-ios.mov';
 
 import Button from '../components/Button';
+import { fbSetUserBetaAccessState } from '../utils/fbBetaUserList';
+import UserContext from '../contexts/userData';
 
 const AddFilesTutorial1 = () => {
   const navigation = useNavigation();
+  const { user } = useContext(UserContext);
+
+  const setBetaAccessState = async () => {
+    await fbSetUserBetaAccessState(user);
+  }
+
+  useEffect(() => {
+    if (!user.hasBetaAccess) {
+      setBetaAccessState();
+    }
+  }, [])
 
   const onContinuePress = () => {
     navigation.navigate('AddFilesTutorial2');
