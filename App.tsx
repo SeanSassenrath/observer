@@ -14,7 +14,6 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
 
 import StackNavigator from './src/navigation/Stack';
@@ -36,6 +35,8 @@ import { fbAddUser, fbGetUser, fbUpdateUser } from './src/fb/user';
 import { checkStreakData, getUserStreakData, makeFbStreakUpdate, updateUserStreakData } from './src/utils/streaks';
 import { fbGetMeditationHistory } from './src/fb/meditationHistory';
 
+const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
+
 const App = () => {
   const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
@@ -43,7 +44,6 @@ const App = () => {
   const [user, setUser] = useState(initialUserState as User);
   const [fullUserLoaded, setFullUserLoaded] = useState(false);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
-  const [isReady, setIsReady] = React.useState(false);
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
@@ -78,7 +78,7 @@ const App = () => {
 
         if(userData) {
           const userStreakData = getUserStreakData(userData);
-          const meditationHistory = await fbGetMeditationHistory();
+          const meditationHistory = await fbGetMeditationHistory(userId);
 
           if (userStreakData && meditationHistory.lastDocument) {
             const lastMeditation = meditationHistory.lastDocument.data() as MeditationInstance;
@@ -121,6 +121,28 @@ const App = () => {
     }
   }
 
+  useEffect(() => {
+    let unmounted = false;
+
+    GoogleSignin.configure({ webClientId: googleWebClientId })
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+
+    setupPlayerService(unmounted);
+    setMeditationBaseDataToContext();
+    getFtux();
+
+    return () => {
+      unmounted = true;
+      subscriber;
+    }
+  }, [])
+
+  const setupPlayerService = async (unmounted: boolean) => {
+    const isSetup = await SetupService();
+    if (unmounted) return;
+    setIsPlayerReady(isSetup);
+  }
+
   const setMeditationBaseDataToContext = async () => {
     const meditationBaseData = await makeMeditationBaseData();
     if (meditationBaseData) {
@@ -128,45 +150,18 @@ const App = () => {
     }
   }
 
-  useEffect(() => {
-    let unmounted = false;
-
-    (async () => {
-      const isSetup = await SetupService();
-      if (unmounted) return;
-      setIsPlayerReady(isSetup);
-    })();
-
-    setMeditationBaseDataToContext();
-
-    GoogleSignin.configure({
-      webClientId: '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com'
-    })
-
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-
-    const getFtux = async () => {
-      try {
-        const hasSeenFtux = await getFtuxStateInAsyncStorage();
-        if (hasSeenFtux) {
-          setHasSeenFtux(hasSeenFtux)
-        }
-      } finally {
-        setIsReady(true);
+  const getFtux = async () => {
+    try {
+      const hasSeenFtux = await getFtuxStateInAsyncStorage();
+      if (hasSeenFtux) {
+        setHasSeenFtux(hasSeenFtux)
       }
+    } catch (e) {
+      console.log('Get FTUX error', e);
     }
+  }
 
-    if (!isReady) {
-      getFtux();
-    }
-
-    return () => {
-      unmounted = true;
-      subscriber;
-    }
-  }, [isReady])
-
-  if (!isReady || initializing) {
+  if (initializing) {
     return null;
   }
 
