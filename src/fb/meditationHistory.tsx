@@ -17,8 +17,6 @@ export const fbGetMeditationHistory = async (
       const docs = meditationInstances.docs;
       const meditationHistory = docs.map(doc => doc.data());
 
-      console.log('fb get meditation: docs', docs);
-
       return ({
         lastDocument: docs[docs.length - 1],
         meditationHistory: meditationHistory,

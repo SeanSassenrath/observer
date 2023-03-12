@@ -20,6 +20,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
+const oneSecond = 1000;
 
 const BackIcon = (props: any) => (
   <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
@@ -73,8 +74,17 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const meditation = meditationBaseMap[id];
 
   useEffect(() => {
-    console.log('MEDITATION meditation instance data', meditationInstanceData);
+    setInitialMeditationInstanceData();
   }, [])
+
+  const setInitialMeditationInstanceData = () => {
+    const now = new Date()
+    const meditationStartTime = now.getTime() / oneSecond;
+    setMeditationInstanceData({
+      ...meditationInstanceData,
+      meditationStartTime,
+    })
+  }
 
   const onBackPress = () => {
     navigation.pop();
