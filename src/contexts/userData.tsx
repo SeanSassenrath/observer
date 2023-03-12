@@ -13,10 +13,10 @@ interface UserProfile {
 
 export type UserUid = string;
 
-interface UserStreaks {
-  currentStreak?: number,
-  longestStreak?: number,
-  streakUpdated?: boolean,
+export interface UserStreaks {
+  current?: number,
+  longest?: number,
+  updated?: boolean,
 }
 
 export interface User {

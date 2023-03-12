@@ -26,11 +26,12 @@ import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
 import { MeditationKeys } from './src/constants/meditation';
-import UserContext, { initialUserState, User } from './src/contexts/userData';
+import UserContext, { initialUserState, User, UserStreaks } from './src/contexts/userData';
 import FullUserLoadedContext from './src/contexts/fullUserLoaded';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
+import StreakContext, { initialStreakData } from './src/contexts/streaks';
 import toastConfig from './src/toastConfig';
 import { SetupService } from './src/services/setupService';
 import _ from 'lodash';
@@ -41,6 +42,7 @@ const App = () => {
   const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
   const [user, setUser] = useState(initialUserState as User);
+  const [streaks, setStreaks] = useState(initialStreakData as UserStreaks);
   const [fullUserLoaded, setFullUserLoaded] = useState(false);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
@@ -180,17 +182,19 @@ const App = () => {
       >
         <UserContext.Provider value={{ user, setUser }}>
           <FullUserLoadedContext.Provider value={{ fullUserLoaded, setFullUserLoaded }}>
-            <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
-              <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
-                <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
-                  <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
-                    <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                      <StackNavigator />
-                    </FtuxContext.Provider>
-                  </RecentMeditationIdsContext.Provider>
-                </UnlockedMeditationIdsContext.Provider>
-              </MeditationInstanceDataContext.Provider>
-            </MeditationBaseDataContext.Provider>
+            <StreakContext.Provider value={{ streaks, setStreaks }}>
+              <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
+                <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
+                  <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
+                    <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
+                      <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
+                        <StackNavigator />
+                      </FtuxContext.Provider>
+                    </RecentMeditationIdsContext.Provider>
+                  </UnlockedMeditationIdsContext.Provider>
+                </MeditationInstanceDataContext.Provider>
+              </MeditationBaseDataContext.Provider>
+            </StreakContext.Provider>
           </FullUserLoadedContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>
