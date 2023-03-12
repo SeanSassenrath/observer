@@ -38,33 +38,40 @@ const RequestInvite = () => {
     checkForBetaStatusUpdate();
 
     return () => subscription.remove();
-  }, [])
+  }, [user.profile.email])
 
   const checkForBetaStatusUpdate = async () => {
     setIsCheckingBetaStatus(true);
     const isUserInBeta = await isUserInBetaCheck();
-    await showBetaStatusCheckIndictator();
 
-    if (isUserInBeta) {
-      setIsNotInBeta(false)
-      setIsNavigating(true);
-      await fbSetUserBetaAccessState(user);
-      await showAccessGrantedIndictator();
+    if (user && user.profile && user.profile.email) {
+      await showBetaStatusCheckIndictator();
 
-      if (hasSeenFtux) {
-        navigation.navigate('TabNavigation');
+      if (isUserInBeta) {
+        setIsNotInBeta(false)
+        setIsNavigating(true);
+        await fbSetUserBetaAccessState(user);
+        await showAccessGrantedIndictator();
+
+        if (hasSeenFtux) {
+          navigation.navigate('TabNavigation');
+        } else {
+          navigation.navigate('AddFilesTutorial1');
+        }
       } else {
-        navigation.navigate('AddFilesTutorial1');
+        setIsNotInBeta(true)
       }
-    } else {
-      setIsNotInBeta(true)
     }
   }
 
   const isUserInBetaCheck = async () => {
     const betaUserList = await fbFetchBetaUserList();
+    console.log('betaUserList', betaUserList);
     if (!betaUserList) { return; }
     const { list } = betaUserList;
+    console.log('list', list);
+    console.log('user.profile.email', user.profile.email);
+    console.log('here', list.includes(user.profile.email))
     return list.includes(user.profile.email);
   }
 
@@ -72,7 +79,7 @@ const RequestInvite = () => {
     resolve => (setTimeout(() => {
       setIsCheckingBetaStatus(false);
       resolve(null);
-    }, 2500)
+    }, 2000)
   ));
 
   const showAccessGrantedIndictator = () => new Promise(

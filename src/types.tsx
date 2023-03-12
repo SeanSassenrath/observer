@@ -154,6 +154,7 @@ export interface MeditationInstance {
   meditationBaseId: MeditationBaseId,
   meditationBaseBreathId?: MeditationBaseId,
   meditationBaseHeartId?: MeditationBaseId,
+  meditationStartTime?: number,
   name: MeditationName,
   intention?: string,
   timeMeditated?: number,

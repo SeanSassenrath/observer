@@ -82,7 +82,7 @@ const HomeScreen = () => {
 
   const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
     const filePathData = await getMeditationFilePathDataInAsyncStorage()
-    console.log('HOME: Existing file path data from Async Storage', filePathData);
+    // console.log('HOME: Existing file path data from Async Storage', filePathData);
     if (filePathData) {
       const parsedFilePathData = JSON.parse(filePathData);
       setExistingMeditationFilePathData(parsedFilePathData);

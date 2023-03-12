@@ -74,12 +74,12 @@ export const makeMeditationBaseData = async () => {
   if (filePathData) {
     let meditationBaseData = {} as MeditationBaseMap;
     const parsedFilePathData = JSON.parse(filePathData);
-    console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
+    // console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
     const filePathDataKeys = Object.keys(parsedFilePathData);
 
     filePathDataKeys.forEach(key => {
       const meditationFilePath = parsedFilePathData[key];
-      console.log('APP: meditation file path', meditationFilePath);
+      // console.log('APP: meditation file path', meditationFilePath);
       const meditationBase = {
         ...meditationBaseMap[key],
         url: meditationFilePath,
@@ -87,7 +87,7 @@ export const makeMeditationBaseData = async () => {
       meditationBaseData = { [key]: meditationBase, ...meditationBaseData }
     })
 
-    console.log('APP: Setting meditation base data to context', meditationBaseData);
+    // console.log('APP: Setting meditation base data to context', meditationBaseData);
 
     return meditationBaseData;
   }

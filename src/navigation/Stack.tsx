@@ -18,26 +18,24 @@ import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 import DebugScreen from '../screens/Debug';
 import UserContext from '../contexts/userData';
+import FtuxContext from '../contexts/ftuxData';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
   const { user } = useContext(UserContext);
+  const { hasSeenFtux } = useContext(FtuxContext);
+
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
       return "SignIn";
+    } else if (!user.hasBetaAccess) {
+      return "BetaCheck";
+    } else if (!hasSeenFtux) {
+      return "AddFilesTutorial1";
     } else {
-      return "Loading"
+      return "TabNavigation";
     }
-    // if (user.hasBetaAccess === undefined) {
-    //   return "Loading";
-    // } else if (!user.hasBetaAccess) {
-    //   return "BetaCheck";
-    // } else if (user.uid.length <= 0) {
-    //   return "SignIn";
-    // } else {
-    //   return "TabNavigation";
-    // }
   }
 
   return (

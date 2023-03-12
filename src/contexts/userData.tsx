@@ -16,7 +16,6 @@ export type UserUid = string;
 export interface UserStreaks {
   current?: number,
   longest?: number,
-  updated?: boolean,
 }
 
 export interface User {
@@ -24,7 +23,7 @@ export interface User {
   profile: UserProfile,
   hasBetaAccess?: boolean;
   meditationHistoryIds?: MeditationBaseId[],
-  meditationUserData?: {
+  meditationUserData: {
     recentMeditationBaseIds?: MeditationBaseId[],
     meditationCounts?: {
       [key: string]: { 
@@ -33,7 +32,7 @@ export interface User {
         id: string,
       },
     },
-    streaks?: UserStreaks,
+    streaks: UserStreaks,
     totalMeditationTime?: number,
   }
 }
@@ -59,7 +58,12 @@ export const initialUserState = {
     photoURL: '',
   },
   meditationHistoryIds: [],
-  meditationUserData: {}
+  meditationUserData: {
+    streaks: {
+      current: 0,
+      longest: 0,
+    }
+  }
 };
 
 export default UserContext;

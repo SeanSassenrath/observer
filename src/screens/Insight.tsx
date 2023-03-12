@@ -22,6 +22,8 @@ const InsightScreen = () => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    console.log('INSIGHT: user context', user);
+
     firestore()
       .collection('users')
       .doc(user.uid)

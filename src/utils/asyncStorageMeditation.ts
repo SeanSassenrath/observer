@@ -25,10 +25,10 @@ export const setMeditationFilePathDataInAsyncStorage = async (
 export const getMeditationFilePathDataInAsyncStorage = async () => {
   try {
     const meditationFilePathData = await AsyncStorage.getItem(storageKey);
-    console.log('ASYNC STORAGE: Getting file path data', meditationFilePathData);
+    // console.log('ASYNC STORAGE: Getting file path data', meditationFilePathData);
     return meditationFilePathData;
   } catch (e) {
-    console.log('ASYNC STORAGE ERROR: Getting file path data', e);
+    // console.log('ASYNC STORAGE ERROR: Getting file path data', e);
   }
 }
 

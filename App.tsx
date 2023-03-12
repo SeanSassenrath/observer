@@ -17,35 +17,34 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import Toast from 'react-native-toast-message';
 
-import UnlockedMeditationIdsContext, { getUnlockedMeditationIdsFromAsyncStorage } from './src/contexts/meditationData';
-import RecentMeditationIdsContext, { getRecentMeditationIdsFromAsyncStorage } from './src/contexts/recentMeditationData';
 import StackNavigator from './src/navigation/Stack';
 import { MeditationBaseMap, MeditationId, MeditationInstance } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
 import FtuxContext from './src/contexts/ftuxData';
-import { MeditationKeys } from './src/constants/meditation';
 import UserContext, { initialUserState, User, UserStreaks } from './src/contexts/userData';
 import FullUserLoadedContext from './src/contexts/fullUserLoaded';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
-import StreakContext, { initialStreakData } from './src/contexts/streaks';
 import toastConfig from './src/toastConfig';
 import { SetupService } from './src/services/setupService';
-import _ from 'lodash';
+import _, { isEqual } from 'lodash';
+import MeditationHistoryContext from './src/contexts/meditationHistory';
+import { fbAddUser, fbGetUser, fbUpdateUser } from './src/fb/user';
+import { checkStreakData, getUserStreakData, makeFbStreakUpdate, updateUserStreakData } from './src/utils/streaks';
+import { fbGetMeditationHistory } from './src/fb/meditationHistory';
 
 const App = () => {
-  const [unlockedMeditationIds, setUnlockedMeditationIds] = useState([] as MeditationId[]);
   const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
-  const [recentMeditationIds, setRecentMeditationIds] = useState([] as MeditationId[]);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
+  const [meditationHistory, setMeditationHistory] = useState({});
   const [user, setUser] = useState(initialUserState as User);
-  const [streaks, setStreaks] = useState(initialStreakData as UserStreaks);
   const [fullUserLoaded, setFullUserLoaded] = useState(false);
   const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [isReady, setIsReady] = React.useState(false);
+  const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
@@ -59,42 +58,66 @@ const App = () => {
       creationTime: firebaseUser.metadata.creationTime,
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
       photoURL: firebaseUser.photoURL,
+    },
+    meditationUserData: {
+      streaks: {
+        current: 0,
+        longest: 0,
+      }
     }
   })
 
-  const onAuthStateChanged = (firebaseUser: any) => {
+  const onAuthStateChanged = async (firebaseUser: any) => {
     if (firebaseUser && user && user.uid.length <= 0) {
+      const userId = firebaseUser.uid;
       const normalizedUser = normalizeFirebaseUser(firebaseUser)
-      setUser(normalizedUser);
+      const userDocument = await fbGetUser(userId);
 
-      firestore()
-        .collection('users')
-        .doc(firebaseUser.uid)
-        .get()
-        .then(documentSnapshot => {
-          if (documentSnapshot.exists) {
-            const fullUserData = documentSnapshot.data();
-            if (fullUserData) {
-              setUser(fullUserData as User);
+      if (userDocument && userDocument.exists) {
+        const userData = userDocument.data() as User;
+
+        if(userData) {
+          const userStreakData = getUserStreakData(userData);
+          const meditationHistory = await fbGetMeditationHistory();
+
+          if (userStreakData && meditationHistory.lastDocument) {
+            const lastMeditation = meditationHistory.lastDocument.data() as MeditationInstance;
+            const streakData = checkStreakData(
+              userStreakData,
+              lastMeditation,
+            )
+
+            if (isEqual(userStreakData, streakData)) {
+              setUser(userData);
               setFullUserLoaded(true);
+              if (initializing) setInitializing(false);
+            } else {
+              const updatedUser = updateUserStreakData(userData, streakData);
+              const fbUpdate = makeFbStreakUpdate(streakData);
+              setUser(updatedUser)
+              await fbUpdateUser(userId, fbUpdate);
+              if (initializing) setInitializing(false);
             }
           } else {
-            console.log('adding user')
-            firestore()
-              .collection('users')
-              .doc(firebaseUser.uid)
-              .set(normalizeFirebaseUser(firebaseUser))
-              .then(() => {
-                setFullUserLoaded(true);
-                console.log('user added')
-                // TODO: Add monitoring here
-              })
-              .catch((e) => {
-                console.log('user not added', e)
-                // TODO: Add monitoring here
-              })
+            setUser(userData);
+            setFullUserLoaded(true);
+            if (initializing) setInitializing(false);
           }
-        })
+        }
+      } else {
+        const userAdded = await fbAddUser(
+          userId,
+          normalizedUser,
+        );
+
+        if (userAdded) {
+          setUser(normalizedUser);
+          setFullUserLoaded(true);
+          if (initializing) setInitializing(false);
+        }
+      }
+    } else {
+      if (initializing) setInitializing(false);
     }
   }
 
@@ -122,27 +145,6 @@ const App = () => {
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
-    const setMeditationIds = async () => {
-      setUnlockedMeditationIds([MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath, MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater])
-    }
-
-    const syncAsyncUnlockedMeditationStorageToContext = async () => {
-      const unlockedMeditationIdsFromStorage = await getUnlockedMeditationIdsFromAsyncStorage();
-      if (unlockedMeditationIdsFromStorage) {
-        setUnlockedMeditationIds(unlockedMeditationIdsFromStorage);
-      }
-    }
-
-    const syncAsyncRecentMeditationStorageToContext = async () => {
-      const recentMeditationIdsFromStorage = await getRecentMeditationIdsFromAsyncStorage();
-      if (recentMeditationIdsFromStorage) {
-        console.log('HERE', recentMeditationIdsFromStorage)
-        setRecentMeditationIds(recentMeditationIdsFromStorage);
-      } else {
-        return null;
-      }
-    }
-
     const getFtux = async () => {
       try {
         const hasSeenFtux = await getFtuxStateInAsyncStorage();
@@ -157,9 +159,6 @@ const App = () => {
     if (!isReady) {
       getFtux();
     }
-    // syncAsyncRecentMeditationStorageToContext();
-    // syncAsyncUnlockedMeditationStorageToContext();
-    setMeditationIds();
 
     return () => {
       unmounted = true;
@@ -167,7 +166,7 @@ const App = () => {
     }
   }, [isReady])
 
-  if (!isReady) {
+  if (!isReady || initializing) {
     return null;
   }
 
@@ -182,19 +181,15 @@ const App = () => {
       >
         <UserContext.Provider value={{ user, setUser }}>
           <FullUserLoadedContext.Provider value={{ fullUserLoaded, setFullUserLoaded }}>
-            <StreakContext.Provider value={{ streaks, setStreaks }}>
+            <MeditationHistoryContext.Provider value={{ meditationHistory, setMeditationHistory}}>
               <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
                 <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
-                  <UnlockedMeditationIdsContext.Provider value={{ unlockedMeditationIds, setUnlockedMeditationIds }}>
-                    <RecentMeditationIdsContext.Provider value={({ recentMeditationIds, setRecentMeditationIds })}>
-                      <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                        <StackNavigator />
-                      </FtuxContext.Provider>
-                    </RecentMeditationIdsContext.Provider>
-                  </UnlockedMeditationIdsContext.Provider>
+                  <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
+                    <StackNavigator />
+                  </FtuxContext.Provider>
                 </MeditationInstanceDataContext.Provider>
               </MeditationBaseDataContext.Provider>
-            </StreakContext.Provider>
+            </MeditationHistoryContext.Provider>
           </FullUserLoadedContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>

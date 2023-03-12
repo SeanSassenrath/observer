@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { Button, Layout } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 
-import { removeRecentMeditationIdsFromAsyncStorage } from '../contexts/recentMeditationData';
 import { removeFtuxStateFromAsyncStorage } from '../utils/ftux';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -35,11 +34,6 @@ const DebugScreen = () => {
         onPress={removeMeditationFilePathDataInAsyncStorage}
       >
         Remove Meditation File Data
-      </Button>
-      <Button
-        onPress={removeRecentMeditationIdsFromAsyncStorage}
-      >
-        Remove Recent Ids
       </Button>
       <Button
         onPress={removeFtuxStateFromAsyncStorage}
