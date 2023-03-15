@@ -10,6 +10,8 @@ import { MeditationInstance } from '../types';
 import UserContext from '../contexts/userData';
 import { DateTime } from 'luxon';
 import { meditationBaseMap } from '../constants/meditation';
+import { Streaks } from '../components/Streaks';
+import { getUserStreakData } from '../utils/streaks';
 
 const EMPTY_STRING = '';
 
@@ -20,6 +22,7 @@ const InsightScreen = () => {
   const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
   const isFocused = useIsFocused();
+  const streakData = getUserStreakData(user);
 
   useEffect(() => {
     console.log('INSIGHT: user context', user);
@@ -110,6 +113,10 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout level = '4'>
       <Layout level='4' style={styles.topSpacer}>
+        <Streaks
+          current={streakData.current}
+          longest={streakData.longest}
+        />
         <TimeInMeditationChart
           meditationHistory={meditationHistory}
         />

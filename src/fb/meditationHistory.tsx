@@ -16,10 +16,31 @@ export const fbGetMeditationHistory = async (
     .then((meditationInstances) => {
       const docs = meditationInstances.docs;
       const meditationHistory = docs.map(doc => doc.data());
+      console.log('FB get meditation history success:', meditationHistory);
 
       return ({
         lastDocument: docs[docs.length - 1],
         meditationHistory: meditationHistory,
       })
+    })
+    .catch((e) => {
+      console.log('FB get meditation history failed:', e);
+    })
+}
+
+export const fbAddMeditationHistory = async (
+  userId: UserUid,
+  meditationInstance: MeditationInstance,
+) => {
+  return firestore()
+    .collection('users')
+    .doc(userId)
+    .collection('meditationHistory')
+    .add(meditationInstance)
+    .then(() => {
+      console.log('FB add meditation history success:', meditationInstance);
+    })
+    .catch((e) => {
+      console.log('FB add meditation history success:', e);
     })
 }

@@ -1,8 +1,11 @@
-import { sortBy } from "lodash";
+import { sortBy, uniq } from "lodash";
+
 import { meditationBaseMap } from "../constants/meditation";
+import { MeditationHistoryData } from "../contexts/meditationHistory";
 import { User } from "../contexts/userData";
-import { Meditation, MeditationBase, MeditationBaseMap, MeditationId, MeditationInstance } from "../types";
+import { Meditation, MeditationBase, MeditationBaseId, MeditationBaseMap, MeditationId, MeditationInstance } from "../types";
 import { getMeditationFilePathDataInAsyncStorage } from "./asyncStorageMeditation";
+import { UpdatedStreakData } from "./streaks";
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
@@ -92,6 +95,142 @@ export const makeMeditationBaseData = async () => {
     return meditationBaseData;
   }
 }
+
+export type UpdatedRecentUserMeditationData = MeditationBaseId[]
+
+export const makeUpdatedRecentUserMeditationData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+): UpdatedRecentUserMeditationData => {
+  const recentMeditationBaseIds = user
+    && user.meditationUserData
+    && user.meditationUserData.recentMeditationBaseIds
+    && user.meditationUserData.recentMeditationBaseIds.slice(0, 5)
+    || [];
+
+  return uniq([
+    meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
+  ])
+};
+
+export type UpdatedMeditationCountData = number;
+
+export const makeUpdatedMeditationCountData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+): UpdatedMeditationCountData => {
+  const meditationInstanceCount = getMeditationCountFromUserData(user, meditationInstanceData) || 0;
+  const updatedMeditationInstanceCount = meditationInstanceCount + 1;
+
+  return updatedMeditationInstanceCount;
+};
+
+export interface UpdatedBreathMeditationCountData {
+  meditationBaseBreathName: string,
+  updatedMeditationBreathCount: number,
+}
+
+export const makeUpdatedBreathMeditationCountData = (
+  user: User,
+  meditationInstanceData: MeditationInstance
+): UpdatedBreathMeditationCountData | undefined => {
+  const meditationBaseBreathId = meditationInstanceData.meditationBaseBreathId;
+
+  if (!meditationBaseBreathId) { return; }
+  const meditationBaseData = meditationBaseMap[meditationBaseBreathId];
+  const meditationBreathCount = getMeditationBreathCountFromUserData(user, meditationInstanceData);
+  const updatedMeditationBreathCount = meditationBreathCount ? meditationBreathCount + 1 : 1;
+  const meditationBaseBreathName = meditationBaseData.name;
+
+  return ({
+    meditationBaseBreathName,
+    updatedMeditationBreathCount,
+  })
+};
+
+export const makeUpdatedFbUserMeditationData = (
+  updatedMeditationInstanceCount: UpdatedMeditationCountData,
+  updatedBreathMeditationCountData: UpdatedBreathMeditationCountData | undefined,
+  updatedRecentUserMeditationData: UpdatedRecentUserMeditationData,
+  updatedStreaksData: UpdatedStreakData,
+  meditationInstanceData: MeditationInstance,
+) => {
+  const {
+    meditationBaseId,
+    meditationBaseBreathId,
+    name,
+  } = meditationInstanceData
+
+  const updatedUserMeditationData = {
+    'meditationUserData.recentMeditationBaseIds': updatedRecentUserMeditationData,
+    'meditationUserData.streaks.current': updatedStreaksData.current,
+    'meditationUserData.streaks.longest': updatedStreaksData.longest,
+    [`meditationUserData.meditationCounts.${meditationBaseId}.count`]: updatedMeditationInstanceCount,
+    [`meditationUserData.meditationCounts.${meditationBaseId}.name`]: name,
+    [`meditationUserData.meditationCounts.${meditationBaseId}.id`]: meditationBaseId,
+  }
+
+  if (updatedBreathMeditationCountData) {
+    Object.assign(updatedUserMeditationData, {
+      [`meditationUserData.meditationCounts.${meditationBaseBreathId}.count`]: updatedBreathMeditationCountData.updatedMeditationBreathCount,
+      [`meditationUserData.meditationCounts.${meditationBaseBreathId}.name`]: updatedBreathMeditationCountData.meditationBaseBreathName,
+      [`meditationUserData.meditationCounts.${meditationBaseBreathId}.id`]: meditationBaseBreathId,
+    })
+  }
+  
+  return updatedUserMeditationData;
+}
+
+export const makeUpdatedContextMeditationData = (
+  updatedMeditationInstanceCount: UpdatedMeditationCountData,
+  updatedBreathMeditationCountData: UpdatedBreathMeditationCountData | undefined,
+  updatedRecentUserMeditationData: UpdatedRecentUserMeditationData,
+  updatedStreaksData: UpdatedStreakData,
+  meditationInstanceData: MeditationInstance,
+  user: User,
+) => {
+  const {
+    meditationBaseId,
+    meditationBaseBreathId,
+    name,
+  } = meditationInstanceData
+
+  const meditationCounts = {
+    [meditationBaseId]: {
+      count: updatedMeditationInstanceCount,
+      name: name,
+      id: meditationBaseId,
+    },
+  }
+
+  if (meditationBaseBreathId && updatedBreathMeditationCountData) {
+    Object.assign(meditationCounts, {
+      [meditationBaseBreathId]: {
+        count: updatedBreathMeditationCountData.updatedMeditationBreathCount,
+        name: updatedBreathMeditationCountData.meditationBaseBreathName,
+        id: meditationBaseBreathId,
+      },
+    })
+  }
+
+  return ({
+    ...user,
+    meditaitonUserData: {
+      ...user.meditationUserData,
+      recentMeditationBaseIds: updatedRecentUserMeditationData,
+      meditationCounts: meditationCounts,
+      streaks: {
+        current: updatedStreaksData.current,
+        longest: updatedStreaksData.longest,
+      }
+    }
+  })
+}
+
+export const getLastMeditationFromMeditationHistory = (meditationHistory: MeditationHistoryData) =>
+  meditationHistory &&
+  meditationHistory.meditationInstances &&
+  meditationHistory.meditationInstances[meditationHistory.meditationInstances.length - 1];
 
 export const getMeditationCountFromUserData = (user: User, meditationInstanceData: MeditationInstance) =>
     user && user.meditationUserData

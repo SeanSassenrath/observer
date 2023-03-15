@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import { Layout, Text } from '@ui-kitten/components';
 import firestore from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -9,169 +8,81 @@ import _ from 'lodash';
 
 import _Button from '../components/Button';
 import { MultiLineInput } from '../components/MultiLineInput';
-import { LibraryScreenNavigationProp, MeditationInstance } from '../types';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import UserContext, { User } from '../contexts/userData';
-import { getMeditationBreathCountFromUserData, getMeditationCountFromUserData } from '../utils/meditation';
-import { meditationBaseMap } from '../constants/meditation';
+import {
+  getLastMeditationFromMeditationHistory,
+  makeUpdatedBreathMeditationCountData,
+  makeUpdatedContextMeditationData,
+  makeUpdatedFbUserMeditationData,
+  makeUpdatedMeditationCountData,
+  makeUpdatedRecentUserMeditationData,
+} from '../utils/meditation';
+import { makeUpdatedStreakData } from '../utils/streaks';
+import MeditationHistoryContext from '../contexts/meditationHistory';
+import { fbUpdateUser } from '../fb/user';
+import { fbAddMeditationHistory } from '../fb/meditationHistory';
 
 const EMPTY_INPUT = '';
 
-const makeUpdatedRecentUserMeditationData = (
-  user: User,
-  meditationInstanceData: MeditationInstance
-) => {
-  const recentMeditationBaseIds = user
-    && user.meditationUserData
-    && user.meditationUserData.recentMeditationBaseIds
-    && user.meditationUserData.recentMeditationBaseIds.slice(0, 5)
-    || [];
-
-  return _.uniq([
-    meditationInstanceData.meditationBaseId, ...recentMeditationBaseIds
-  ])
-}
-
-const makeUpdatedBaseUserMeditationData = (
-  user: User,
-  meditationInstanceData: MeditationInstance
-) => {
-  const updatedRecentMeditationBaseIds = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
-  const meditationInstanceCount = getMeditationCountFromUserData(user, meditationInstanceData);
-  const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
-
-  return ({
-    'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
-    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.count`]: updatedMeditationInstanceCount,
-    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.name`]: meditationInstanceData.name,
-    [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseId}.id`]: meditationInstanceData.meditationBaseId,
-  })
-}
-
-const makeUpdatedBreathMeditationData = (
-  user: User,
-  meditationInstanceData: MeditationInstance
-) => {
-  const meditationBreathCount = getMeditationBreathCountFromUserData(user, meditationInstanceData);
-  const updatedMeditationBreathCount = meditationBreathCount ? meditationBreathCount + 1 : 1;
-  const meditationBreathId = meditationInstanceData.meditationBaseBreathId;
-  const meditationBreathData = meditationBreathId && meditationBaseMap[meditationBreathId]
-
-  if (meditationBreathData) {
-    return ({
-      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.count`]: updatedMeditationBreathCount,
-      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.name`]: meditationBreathData.name,
-      [`meditationUserData.meditationCounts.${meditationInstanceData.meditationBaseBreathId}.id`]: meditationInstanceData.meditationBaseBreathId,
-    })
-  }
-}
-
-const makeUpdatedUserMeditationData = (
-  user: User,
-  meditationInstanceData: MeditationInstance
-) => {
-  let updatedUserMeditationData = makeUpdatedBaseUserMeditationData(user, meditationInstanceData);
-
-  if (meditationInstanceData.meditationBaseBreathId) {
-    const updatedUserBreathMeditationData = makeUpdatedBreathMeditationData(user, meditationInstanceData);
-    if (updatedUserBreathMeditationData) {
-      updatedUserMeditationData = Object.assign(updatedUserMeditationData, updatedUserBreathMeditationData)
-    }
-  }
-
-  return updatedUserMeditationData;
-}
-
-const makeUpdatedUserMeditationContextData = (
-  user: User,
-  meditationInstanceData: MeditationInstance
-) => {
-  const updatedRecentMeditationBaseIds = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
-  const meditationInstanceCount = getMeditationCountFromUserData(user, meditationInstanceData);
-  const updatedMeditationInstanceCount = meditationInstanceCount ? meditationInstanceCount + 1 : 1;
-
-  let meditationCounts = {
-    [meditationInstanceData.meditationBaseId]: {
-      count: updatedMeditationInstanceCount,
-      name: meditationInstanceData.name,
-      id: meditationInstanceData.meditationBaseId,
-    },
-  }
-
-  if (meditationInstanceData.meditationBaseBreathId) {
-    const meditationBreathCount = getMeditationBreathCountFromUserData(user, meditationInstanceData);
-    const updatedMeditationBreathCount = meditationBreathCount ? meditationBreathCount + 1 : 1;
-    const meditationBreathData = meditationBaseMap[meditationInstanceData.meditationBaseBreathId]
-
-    meditationCounts = {
-      [meditationInstanceData.meditationBaseBreathId]: {
-        count: updatedMeditationBreathCount,
-        name: meditationBreathData.name,
-        id: meditationInstanceData.meditationBaseBreathId,
-      },
-      ...meditationCounts,
-    }
-  }
-
-  return (
-    {
-      ...user,
-      meditationUserData: {
-        ...user.meditationUserData,
-        recentMeditationBaseIds: updatedRecentMeditationBaseIds,
-        meditationCounts: {
-          ...user.meditationUserData?.meditationCounts,
-          ...meditationCounts,
-        }
-      },
-    }
-  )
-}
-
 const MeditationFinishScreen = () => {
-  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
+  const navigation = useNavigation();
   const { meditationInstanceData } = useContext(MeditationInstanceDataContext);
+  const { meditationHistory } = useContext(MeditationHistoryContext);
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
 
-  const updateUserMeditationData = () => {
-    const updatedUserMeditationData = makeUpdatedUserMeditationData(user, meditationInstanceData);
-    const updatedUserMeditationContextData = makeUpdatedUserMeditationContextData(user, meditationInstanceData);
+  useEffect(() => {
+    updateUserMeditationData();
+    fbAddMeditationHistory(user.uid, meditationInstanceData);
+  }, [])
 
-    console.log('!! updatedUserMeditationData', updatedUserMeditationData)
-    console.log('!! updatedUserMeditationContextData', updatedUserMeditationContextData);
+  const updateUserMeditationData = async () => {
+    const updatedMeditationInstanceCount = makeUpdatedMeditationCountData(user, meditationInstanceData);
+    const updatedBreathMeditationCountData = makeUpdatedBreathMeditationCountData(user, meditationInstanceData);
+    const updatedRecentUserMeditationData = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
+    const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
+    const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
 
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .update(updatedUserMeditationData)
-      .then(() => {
-        setUser(updatedUserMeditationContextData)
-        tabNavigation.navigate('Insight')
-        console.log('MEDITATION FINISH: Added recent meditation base id to firebase');
-      })
+    const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
+      updatedMeditationInstanceCount,
+      updatedBreathMeditationCountData,
+      updatedRecentUserMeditationData,
+      updatedStreaksData,
+      meditationInstanceData,
+    );
+
+    const isFbUpdateSuccessful = await fbUpdateUser(
+      user.uid,
+      updatedFbUserMeditationData,
+    );
+
+    if (isFbUpdateSuccessful) {
+      const updatedContextMeditationData = makeUpdatedContextMeditationData(
+        updatedMeditationInstanceCount,
+        updatedBreathMeditationCountData,
+        updatedRecentUserMeditationData,
+        updatedStreaksData,
+        meditationInstanceData,
+        user,
+      );
+
+      setUser(updatedContextMeditationData);
+    }
   }
 
   const onDonePress = () => {
-    const meditationInstanceForFirebase = {
+    const updatedMeditationInstanceData = {
       ...meditationInstanceData,
       notes: firstInput,
       feedback: secondInput,
       creationTime: firestore.FieldValue.serverTimestamp(),
     }
 
-    console.log('MEDITATION FINISH: full meditation instance', meditationInstanceForFirebase)
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('meditationHistory')
-      .add(meditationInstanceForFirebase)
-      .then(() => {
-        console.log('MEDITATION FINISH: Added meditation instance to firebase');
-      })
-
-    updateUserMeditationData();
+    fbAddMeditationHistory(user.uid, updatedMeditationInstanceData);
+    //@ts-ignore
+    navigation.navigate('TabNavigation', { screen: 'Insight' });
   }
 
   return (

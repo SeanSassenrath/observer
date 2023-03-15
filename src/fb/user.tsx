@@ -42,8 +42,10 @@ export const fbUpdateUser = async (
     .update(update)
     .then(() => {
       console.log('FB update user success:', update);
+      return true;
     })
     .catch((e) => {
       console.log('FB update user failed:', update);
+      return false;
     })
 }

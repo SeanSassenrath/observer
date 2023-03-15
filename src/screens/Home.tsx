@@ -18,6 +18,8 @@ import { pickFiles } from '../utils/filePicker';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import { Streaks } from '../components/Streaks';
+import { getUserStreakData } from '../utils/streaks';
 
 const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
@@ -28,6 +30,8 @@ const HomeScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const styles = useStyleSheet(themedStyles);
 
+  const streakData = getUserStreakData(user);
+  
   const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
 
   let favoriteMeditations = [] as MeditationId[];
@@ -176,6 +180,10 @@ const HomeScreen = () => {
             onVoidPress={onVoidPress}
           />
           <Inspiration />
+          <Streaks
+            current={streakData.current}
+            longest={streakData.longest}
+          />
           <Layout level='4'>
             <MeditationList
               header='Recent Meditations'
