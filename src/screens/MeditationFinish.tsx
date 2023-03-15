@@ -22,6 +22,7 @@ import { makeUpdatedStreakData } from '../utils/streaks';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import { fbUpdateUser } from '../fb/user';
 import { fbAddMeditationHistory } from '../fb/meditationHistory';
+import { StreakUpdate } from '../components/StreakUpdate';
 
 const EMPTY_INPUT = '';
 
@@ -32,6 +33,9 @@ const MeditationFinishScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
+
+  const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
+  const updatedStreakData = makeUpdatedStreakData(user, lastMeditation);
 
   useEffect(() => {
     updateUserMeditationData();
@@ -53,23 +57,21 @@ const MeditationFinishScreen = () => {
       meditationInstanceData,
     );
 
-    const isFbUpdateSuccessful = await fbUpdateUser(
+    await fbUpdateUser(
       user.uid,
       updatedFbUserMeditationData,
     );
 
-    if (isFbUpdateSuccessful) {
-      const updatedContextMeditationData = makeUpdatedContextMeditationData(
-        updatedMeditationInstanceCount,
-        updatedBreathMeditationCountData,
-        updatedRecentUserMeditationData,
-        updatedStreaksData,
-        meditationInstanceData,
-        user,
-      );
+    const updatedContextMeditationData = makeUpdatedContextMeditationData(
+      updatedMeditationInstanceCount,
+      updatedBreathMeditationCountData,
+      updatedRecentUserMeditationData,
+      updatedStreaksData,
+      meditationInstanceData,
+      user,
+    );
 
-      setUser(updatedContextMeditationData);
-    }
+    setUser(updatedContextMeditationData);
   }
 
   const onDonePress = () => {
@@ -89,6 +91,14 @@ const MeditationFinishScreen = () => {
     <KeyboardAwareScrollView style={styles.scrollContainer}>
       <Layout style={styles.rootContainer} level='4'>
         <Text category='h5' style={styles.text}>Welcome back</Text>
+        {updatedStreakData.streakUpdated
+          ? <StreakUpdate
+              current={updatedStreakData.current}
+              longest={updatedStreakData.longest}
+              newLongestStreak={updatedStreakData.newLongestStreak}
+            />
+          : null
+        }
         <Layout level='4'>
           <Text category='s1' style={styles.smallText}>What did you do well during your meditation?</Text>
           <MultiLineInput
@@ -143,7 +153,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginTop: 20,
-    marginBottom: 80,
+    marginBottom: 40,
   },
   input: {
     marginBottom: 60,

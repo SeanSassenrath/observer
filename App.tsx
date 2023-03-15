@@ -79,6 +79,12 @@ const App = () => {
         if(userData) {
           const userStreakData = getUserStreakData(userData);
           const meditationHistory = await fbGetMeditationHistory(userId);
+          setMeditationHistory({
+            meditationInstances: meditationHistory.meditationInstances,
+            lastDocument: meditationHistory.lastDocument,
+          })
+
+          console.log('Sean meditationHistory', meditationHistory)
 
           if (userStreakData && meditationHistory.lastDocument) {
             const lastMeditation = meditationHistory.lastDocument.data() as MeditationInstance;

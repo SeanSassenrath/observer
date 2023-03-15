@@ -9,6 +9,11 @@ interface StreaksProps {
 
 export const Streaks = ({ current, longest }: StreaksProps) => {
   const styles = useStyleSheet(themedStyles);
+  const longestStreakContainerStyles = current === longest
+    ? styles.activeLongestStreakContainer
+    : styles.longestStreakContainer
+  const activeDay = current === 1 ? 'Day' : 'Days'
+  const longestDay = longest === 1 ? 'Day' : 'Days'
 
   return (
     <Layout level='4'>
@@ -16,13 +21,13 @@ export const Streaks = ({ current, longest }: StreaksProps) => {
       <Layout level='2' style={styles.container}>
         <Layout level='2' style={styles.currentStreakContainer}>
           <Layout level='2'>
-            <Text category='h6' style={styles.streakText}>{current || 0} Days</Text>
+            <Text category='h6' style={styles.streakText}>{current || 0} {activeDay}</Text>
             <Text category='s2' style={styles.activeStreakText}>Active Streak</Text>
           </Layout>
         </Layout>
         <Layout level='2'>
-          <Layout level='2' style={styles.longestStreakContainer}>
-            <Text category='h6' style={styles.streakText}>{longest || 0} Days</Text>
+          <Layout level='2' style={longestStreakContainerStyles}>
+            <Text category='h6' style={styles.streakText}>{longest || 0} {longestDay}</Text>
             <Text category='s2' style={styles.longestStreakText}>Longest Streak</Text>
           </Layout>
         </Layout>
@@ -34,8 +39,16 @@ export const Streaks = ({ current, longest }: StreaksProps) => {
 const themedStyles = StyleSheet.create({
   activeStreakText: {
     marginTop: 4,
-    color: 'color-primary-400',
+    color: 'color-primary-300',
     textAlign: 'center',
+  },
+  activeLongestStreakContainer: {
+    borderWidth: 2,
+    borderRadius: 16,
+    borderColor: 'color-success-400',
+    opacity: 0.9,
+    padding: 20,
+    width: 140,
   },
   container: {
     padding: 18,

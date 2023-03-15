@@ -2,10 +2,15 @@ import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firest
 import { UserUid } from '../contexts/userData';
 import { MeditationInstance } from '../types';
 
-export const fbGetMeditationHistory = async (
+interface FbMeditationHistory {
+  meditationInstances: MeditationInstance[],
+  lastDocument: FirebaseFirestoreTypes.DocumentData,
+}
+
+export const fbGetMeditationHistory = (
   userId: UserUid,
   lastDocument?: FirebaseFirestoreTypes.DocumentData,
-) => {
+): FbMeditationHistory | any => {
   return firestore()
     .collection('users')
     .doc(userId)
@@ -13,14 +18,14 @@ export const fbGetMeditationHistory = async (
     .orderBy('creationTime', 'desc')
     .limit(20)
     .get()
-    .then((meditationInstances) => {
-      const docs = meditationInstances.docs;
-      const meditationHistory = docs.map(doc => doc.data());
+    .then((meditationHistory) => {
+      const docs = meditationHistory.docs;
+      const meditationInstances = docs.map(doc => doc.data());
       console.log('FB get meditation history success:', meditationHistory);
 
       return ({
         lastDocument: docs[docs.length - 1],
-        meditationHistory: meditationHistory,
+        meditationInstances: meditationInstances,
       })
     })
     .catch((e) => {

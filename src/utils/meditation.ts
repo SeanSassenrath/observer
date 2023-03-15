@@ -215,7 +215,7 @@ export const makeUpdatedContextMeditationData = (
 
   return ({
     ...user,
-    meditaitonUserData: {
+    meditationUserData: {
       ...user.meditationUserData,
       recentMeditationBaseIds: updatedRecentUserMeditationData,
       meditationCounts: meditationCounts,

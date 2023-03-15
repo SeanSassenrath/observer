@@ -64,6 +64,9 @@ const updateStreakData = (
   const today = dt.weekdayShort;
   const yesterday = dt.minus({ days: 1 }).weekdayShort;
 
+  console.log('lastMeditation', lastMeditation)
+  console.log('lastMeditation.meditationStartTime', lastMeditation && lastMeditation.meditationStartTime)
+
   if (lastMeditation && lastMeditation.meditationStartTime) {
     const lastMeditationDt = DateTime.fromSeconds(lastMeditation.meditationStartTime);
     const lastMeditationWeekday = lastMeditationDt.weekdayShort;
@@ -77,6 +80,7 @@ const updateStreakData = (
         current: streakData.current,
         longest: streakData.longest,
         newLongestStreak: false,
+        streakUpdated: false,
       })
     } else if (lastMeditationWeekday === yesterday) {
       const currentStreak = streakData.current || 0;
@@ -89,11 +93,11 @@ const updateStreakData = (
         updatedLongestStreak = updatedCurrentStreak;
         newLongestStreak = true;
       }
-
       return ({
         current: updatedCurrentStreak,
         longest: updatedLongestStreak,
         newLongestStreak,
+        streakUpdated: true,
       })
     } else {
       const updatedCurrentStreak = 1;
@@ -104,17 +108,18 @@ const updateStreakData = (
         current: updatedCurrentStreak,
         longest: updatedLongestStreak,
         newLongestStreak,
+        streakUpdated: true,
       })
     }
   } else {
     const updatedCurrentStreak = 1;
     const updatedLongestStreak = streakData.longest || 1;
-    const newLongestStreak = streakData.longest === 0;
 
     return ({
       current: updatedCurrentStreak,
       longest: updatedLongestStreak,
-      newLongestStreak,
+      newLongestStreak: true,
+      streakUpdated: true,
     })
   }
 }
@@ -123,6 +128,7 @@ export interface UpdatedStreakData {
   current: number,
   longest: number,
   newLongestStreak: boolean,
+  streakUpdated: boolean;
 }
 
 export const makeUpdatedStreakData = (
