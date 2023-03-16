@@ -87,7 +87,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   }
 
   const onBackPress = () => {
-    navigation.pop();
+    navigation.goBack();
   }
 
   const onStartPress = () => {

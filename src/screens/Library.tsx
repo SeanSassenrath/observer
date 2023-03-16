@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { MeditationList } from '../components/MeditationList';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
@@ -11,13 +11,9 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { onAddMeditations } from '../utils/addMeditations';
 import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 import { meditationBaseMap } from '../constants/meditation';
+import { AddMeditationsPill } from '../components/AddMeditationsPill';
 
 const EMPTY_SEARCH = '';
-const lightWhite = '#f3f3f3';
-
-const PlusIcon = (props: any) => (
-  <Icon {...props} style={themedStyles.plusIcon} fill={lightWhite} name='plus-outline' />
-);
 
 const LibraryScreen = () => {
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
@@ -136,52 +132,13 @@ const LibraryScreen = () => {
             {renderSupportedMeditations()}
           </Layout>
         </ScrollView>
-        <Layout style={styles.addMeditationContainer}>
-          <Pressable onPress={onAddMeditationsPress}>
-            <Layout style={styles.addMeditationsButton}>
-              <PlusIcon />
-              <Text category='s1'>Add Meditations</Text>
-            </Layout>
-          </Pressable>
-        </Layout>
+        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress}/>
       </SafeAreaView>
     </Layout>
   )
 }
 
 const themedStyles = StyleSheet.create({
-  addMeditationContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    marginBottom: 20,
-  },
-  addMeditationsButton: {
-    width: 190,
-    height: 50,
-    borderRadius: 100,
-    backgroundColor: 'color-primary-500',
-    shadowOffset: {
-      width: 0,
-      height: 5,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  addMeditationsText: {
-    opacity: 0.8,
-  },
-  addIcon: {
-    height: 25,
-    width: 25,
-  },
   inputContainer: {
     marginHorizontal: 20,
     marginBottom: 40,

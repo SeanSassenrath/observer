@@ -10,9 +10,9 @@ interface StreaksProps {
 export const Streaks = ({ current, longest }: StreaksProps) => {
   const styles = useStyleSheet(themedStyles);
   const longestStreakContainerStyles = current === longest
-    ? styles.activeLongestStreakContainer
+    ? styles.currentLongestStreakContainer
     : styles.longestStreakContainer
-  const activeDay = current === 1 ? 'Day' : 'Days'
+  const currentDay = current === 1 ? 'Day' : 'Days'
   const longestDay = longest === 1 ? 'Day' : 'Days'
 
   return (
@@ -20,16 +20,12 @@ export const Streaks = ({ current, longest }: StreaksProps) => {
       <Text category='h6' style={styles.header}>Streaks</Text>
       <Layout level='2' style={styles.container}>
         <Layout level='2' style={styles.currentStreakContainer}>
-          <Layout level='2'>
-            <Text category='h6' style={styles.streakText}>{current || 0} {activeDay}</Text>
-            <Text category='s2' style={styles.activeStreakText}>Active Streak</Text>
-          </Layout>
+          <Text category='h6' style={styles.streakText}>{current || 0} {currentDay}</Text>
+          <Text category='s2' style={styles.currentStreakText}>Current Streak</Text>
         </Layout>
-        <Layout level='2'>
-          <Layout level='2' style={longestStreakContainerStyles}>
-            <Text category='h6' style={styles.streakText}>{longest || 0} {longestDay}</Text>
-            <Text category='s2' style={styles.longestStreakText}>Longest Streak</Text>
-          </Layout>
+        <Layout level='2' style={longestStreakContainerStyles}>
+          <Text category='h6' style={styles.streakText}>{longest || 0} {longestDay}</Text>
+          <Text category='s2' style={styles.longestStreakText}>Longest Streak</Text>
         </Layout>
       </Layout>
     </Layout>
@@ -37,34 +33,31 @@ export const Streaks = ({ current, longest }: StreaksProps) => {
 }
 
 const themedStyles = StyleSheet.create({
-  activeStreakText: {
+  currentStreakText: {
     marginTop: 4,
     color: 'color-primary-300',
     textAlign: 'center',
   },
-  activeLongestStreakContainer: {
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: 'color-success-400',
+  currentLongestStreakContainer: {
+    borderLeftWidth: 1,
+    borderColor: 'gray',
     opacity: 0.9,
     padding: 20,
-    width: 140,
+    flex: 1,
   },
   container: {
-    padding: 18,
+    paddingVertical: 18,
     marginHorizontal: 20,
     marginBottom: 40,
     borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   currentStreakContainer: {
-    borderWidth: 2,
-    borderRadius: 16,
-    borderColor: 'color-primary-400',
+    borderRightWidth: 1,
+    borderColor: 'gray',
     opacity: 0.9,
     padding: 20,
-    width: 140,
+    flex: 1,
   },
   header: {
     opacity: 0.8,
@@ -72,8 +65,7 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 16,
   },
   longestStreakContainer: {
-    borderWidth: 2,
-    borderRadius: 16,
+    borderRightWidth: 1,
     borderColor: 'color-success-400',
     opacity: 0.5,
     padding: 20,
@@ -81,7 +73,7 @@ const themedStyles = StyleSheet.create({
   },
   longestStreakText: {
     marginTop: 4,
-    color: 'color-success-400',
+    color: 'color-warning-300',
     textAlign: 'center',
   },
   streakText: {

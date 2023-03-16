@@ -68,6 +68,7 @@ const InsightScreen = () => {
 
   const getDisplayDate = (item: MeditationInstance) => {
     if (item.creationTime) {
+      if (item.creationTime.seconds === isNaN) { return EMPTY_STRING; }
       const date = DateTime.fromSeconds(item.creationTime.seconds);
       return date.toLocaleString(DateTime.DATETIME_SHORT);
     } else {
@@ -119,11 +120,15 @@ const InsightScreen = () => {
         />
         <TimeInMeditationChart
           meditationHistory={meditationHistory}
+          style={styles.timeInMeditationChart}
         />
         <TopMeditations />
       </Layout>
       <Layout level='4'>
-        <Text category='h6' style={styles.header}>Meditation History</Text>
+        { meditationHistory.length > 0
+          ? < Text category='h6' style={styles.header}>Meditation History</Text>
+          : null
+        }
       </Layout>
     </Layout>
   )
@@ -220,6 +225,9 @@ const themedStyles = StyleSheet.create({
     marginVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  timeInMeditationChart: {
+    marginTop: 20,
   },
   header: {
     opacity: 0.8,

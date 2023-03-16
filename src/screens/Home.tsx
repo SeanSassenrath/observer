@@ -20,11 +20,12 @@ import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { Streaks } from '../components/Streaks';
 import { getUserStreakData } from '../utils/streaks';
+import { AddMeditationsPill } from '../components/AddMeditationsPill';
+import { onAddMeditations } from '../utils/addMeditations';
 
 const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
-  const stackNavigation = useNavigation<MeditationScreenNavigationProp>();
-  const tabNavigation = useNavigation<LibraryScreenNavigationProp>();
+  const navigation = useNavigation();
   const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -78,10 +79,10 @@ const HomeScreen = () => {
   useEffect(() => {
     setExistingMeditationFilePathDataFromAsyncStorage();
 
-    if (Platform.OS === 'android') {
-      getPermission();
-      getMeditationFiles();
-    }
+    // if (Platform.OS === 'android') {
+    //   getPermission();
+    //   getMeditationFiles();
+    // }
   }, [])
 
   const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
@@ -100,50 +101,22 @@ const HomeScreen = () => {
         console.log('User signed out!')
         setIsModalVisible(false)
         setUser(initialUserState)
-        stackNavigation.navigate('SignIn');
+        navigation.navigate('SignIn');
       });
   }
 
   const onAddMeditationsPress = async () => {
-    const pickedFileData = await pickFiles(existingMediationFilePathData);
-    if (!pickedFileData) { return null; }
-    const numberOfMeditations = Object.keys(pickedFileData).length;
-
-    if (
-      !pickedFileData ||
-      numberOfMeditations <= 0
-    ) {
-      Toast.show({
-        type: 'error',
-        text1: 'Error adding meditations',
-        text2: 'Tap to re-try',
-        position: 'bottom',
-        bottomOffset: 100,
-        onPress: () => onAddMeditationsPress(),
-        visibilityTime: 5000,
-      });
-    } else {
-      Toast.show({
-        type: 'success',
-        text1: 'Meditations added',
-        text2: `New meditations were added to your library`,
-        position: 'bottom',
-        bottomOffset: 100,
-        onPress: () => onAddMeditationsPress(),
-        visibilityTime: 5000,
-      });
+    const meditations = await onAddMeditations(
+      existingMediationFilePathData,
+      setExistingMeditationFilePathData,
+    )
+    if (meditations) {
+      setMeditationBaseData(meditations);
+      //@ts-ignore
+      navigation.navigate('TabNavigation', { screen: 'Library'});
     }
+  }
 
-    if (!isEmpty(pickedFileData)) {
-      setMeditationFilePathDataInAsyncStorage(pickedFileData);
-      setExistingMeditationFilePathData(pickedFileData);
-      const meditationBaseData = await makeMeditationBaseData();
-      if (meditationBaseData) {
-        setMeditationBaseData(meditationBaseData);
-        tabNavigation.navigate('Library');
-      }
-    }
-  };
 
   const onMeditationPress = (
     meditationId: MeditationId,
@@ -160,7 +133,7 @@ const HomeScreen = () => {
           onPress: () => onAddMeditationsPress(),
         });
       } else {
-        stackNavigation.navigate('Meditation', {
+        navigation.navigate('Meditation', {
           id: meditationId,
         });
       }
@@ -168,7 +141,7 @@ const HomeScreen = () => {
   }
 
   const onVoidPress = () => {
-    stackNavigation.navigate('Debug');
+    navigation.navigate('Debug');
   }
 
   return (
@@ -192,13 +165,14 @@ const HomeScreen = () => {
               existingMediationFilePathData={existingMediationFilePathData}
             />
             <MeditationList
-              header='Favorites'
+              header='Top Meditations'
               meditationBaseIds={favoriteMeditations}
               onMeditationPress={onMeditationPress}
               existingMediationFilePathData={existingMediationFilePathData}
             />
           </Layout>
         </ScrollView>
+        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       </SafeAreaView>
       <Modal
         visible={isModalVisible}

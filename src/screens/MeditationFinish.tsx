@@ -90,7 +90,8 @@ const MeditationFinishScreen = () => {
   return (
     <KeyboardAwareScrollView style={styles.scrollContainer}>
       <Layout style={styles.rootContainer} level='4'>
-        <Text category='h5' style={styles.text}>Welcome back</Text>
+        <Text category='h5' style={styles.text}>Thinkbox</Text>
+        <Text category='h6' style={styles.description}>Welcome back, record your insights here.</Text>
         {updatedStreakData.streakUpdated
           ? <StreakUpdate
               current={updatedStreakData.current}
@@ -99,22 +100,20 @@ const MeditationFinishScreen = () => {
             />
           : null
         }
-        <Layout level='4'>
+        <Layout level='4' style={styles.inputContainer}>
           <Text category='s1' style={styles.smallText}>What did you do well during your meditation?</Text>
           <MultiLineInput
             onChangeText={setFirstInput}
             placeholder='Add your feedback here'
             value={firstInput}
-            style={styles.input}
           />
         </Layout>
-        <Layout level='4'>
+        <Layout level='4' style={styles.inputContainer}>
           <Text category='s1' style={styles.smallText}>What do you want to improve on next time?</Text>
           <MultiLineInput
             onChangeText={setSecondInput}
             placeholder='Add your feedback here'
             value={secondInput}
-            style={styles.input}
           />
         </Layout>
         <_Button
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   doneButton: {
-    marginTop: 20,
+    marginTop: 60,
   },
   scrollContainer: {
     flex: 1,
@@ -152,11 +151,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   text: {
-    marginTop: 20,
-    marginBottom: 40,
+    marginVertical: 20,
   },
-  input: {
-    marginBottom: 60,
+  inputContainer: {
+    marginTop: 60,
+  },
+  description: {
+    marginBottom: 20,
   }
 })
 

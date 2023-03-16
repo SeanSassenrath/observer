@@ -140,7 +140,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const onClosePress = () => {
     resetTrackPlayer();
-    navigation.pop();
+    navigation.goBack();
   }
 
   const onFinishPress = () => {
@@ -150,7 +150,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
       ...meditationInstanceData,
       timeMeditated: meditationTime + position,
     })
-    navigation.replace('MeditationFinish');
+    navigation.navigate('MeditationFinish');
   }
 
   const onPlayPress = () => {

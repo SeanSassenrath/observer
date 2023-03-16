@@ -20,7 +20,7 @@ const makeMeditationTimeData = (meditationHistory: MeditationInstance[]) => {
   const day5 = dt.minus({ days: 5 }).toLocaleString();
 
   meditationHistory.forEach((meditation: MeditationInstance) => {
-    if (!meditation) {
+    if (!meditation || !meditation.creationTime || !meditation.creationTime.seconds) {
       return;
     }
     const dt = DateTime.fromSeconds(meditation?.creationTime?.seconds);
@@ -65,7 +65,8 @@ const makeMeditationTimeData = (meditationHistory: MeditationInstance[]) => {
 }
 
 interface TimeInMeditationChartProps {
-  meditationHistory: MeditationInstance[]
+  meditationHistory: MeditationInstance[],
+  style: any,
 }
 
 export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
@@ -106,7 +107,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
   const screenWidth = Dimensions.get("window").width-40;
 
   return (
-    <Layout level='4'>
+    <Layout level='4' style={props.style}>
       <Text category='h6' style={styles.header}>Time in Meditation</Text>
         <Layout level='2' style={styles.chartContainer}>
           <LineChart

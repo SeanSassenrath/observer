@@ -25,34 +25,50 @@ export const TopMeditations = () => {
       <Text category='h6' style={styles.header}>Top 3 Meditations</Text>
       <Layout level='2' style={styles.container}>
         <Layout level='2' style={styles.chartContainer}>
-          <PieChart
-            widthAndHeight={widthAndHeight}
-            series={series}
-            sliceColor={sliceColor}
-            doughnut={true}
-            coverRadius={0.45}
-            coverFill={'rgb(27, 33, 54)'}
-          />
+          { series.length === 0
+            ? <PieChart
+                widthAndHeight={widthAndHeight}
+                series={[1]}
+                sliceColor={['white']}
+                doughnut={true}
+                coverRadius={0.45}
+                coverFill={'rgb(27, 33, 54)'}
+                style={{ opacity: 0.1 }}
+              />
+            : <PieChart
+                widthAndHeight={widthAndHeight}
+                series={series}
+                sliceColor={sliceColor}
+                doughnut={true}
+                coverRadius={0.45}
+                coverFill={'rgb(27, 33, 54)'}
+              />
+          }
         </Layout>
         <Layout level='2'>
-          {sortedMeditationInstanceCounts
-            ? topThreeMeditationInstanceCounts.map((instance, index) =>
+          {topThreeMeditationInstanceCounts.length <= 0
+            ? <Layout level='2' style={styles.topMeditationPlaceholder}>
+                <Text category='s1' style={styles.topMeditationPlaceholderText}>
+                  Meditate to see this update
+                </Text>
+              </Layout>
+            : topThreeMeditationInstanceCounts.map((instance, index) =>
               <Layout
                 level='2'
                 style={styles.topMeditationContainer}
                 key={instance.name}
               >
                 <Text category='h6'
-                style={{
-                  ...styles.topMeditationAmountStart,
-                  color: sliceColor[index]
-                }}>
+                  style={{
+                    ...styles.topMeditationAmountStart,
+                    color: sliceColor[index]
+                  }}>
                   {instance.count}
                 </Text>
                 <Text category='s1' style={styles.topMeditationName}>{instance.name}</Text>
               </Layout>
             )
-            : null}
+          }
         </Layout>
       </Layout>
     </Layout>
@@ -69,6 +85,7 @@ const themedStyles = StyleSheet.create({
   chartContainer: {
     alignItems: 'center',
     marginBottom: 18,
+    paddingVertical: 10,
   },
   header: {
     opacity: 0.8,
@@ -95,5 +112,11 @@ const themedStyles = StyleSheet.create({
   topMeditationName: {
     paddingRight: 6,
     flex: 1,
+  },
+  topMeditationPlaceholder: {
+    opacity: 0.6,
+  },
+  topMeditationPlaceholderText: {
+    textAlign: 'center',
   }
 })
