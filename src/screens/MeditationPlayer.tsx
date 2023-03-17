@@ -49,8 +49,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const meditation = meditationBaseData[id];
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-    console.log('Track data', event);
-    if (event.nextTrack !== undefined) {
+    if (event.nextTrack && event.nextTrack > 0) {
       const track = tracks[event.nextTrack];
       const prevTrackMeditationTime = position;
       setMeditationTime(prevTrackMeditationTime);
@@ -67,12 +66,15 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   useEffect(() => {
     addTracks();
     const countDownTimer = setCountDownTimer();
-    const interval = setTrackStateInterval();
+    // Investigate why this isn't getting cleared
+    // const trackStateInterval = setInterval(() => {
+    //   getTrackState();
+    // }, 5000);
     shouldKeepAwake(true);
 
     return () => {
       clearInterval(countDownTimer);
-      clearInterval(interval);
+      // clearInterval(trackStateInterval);
       resetTrackPlayer();
     }
   }, []);
@@ -109,10 +111,6 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     return countDownTimer;
   }
 
-  const setTrackStateInterval = () => setInterval(() => {
-    getTrackState();
-  }, 5000);
-
   const getTrackState = async () => {
     const state = await TrackPlayer.getState();
     if (state === TrackPlayerState.Buffering) {
@@ -144,13 +142,10 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   const onFinishPress = () => {
+    console.log('MEDITATION PLAYER: onFinishPress > position', position);
+
     shouldKeepAwake(false);
     resetTrackPlayer();
-    setMeditationInstanceData({
-      ...meditationInstanceData,
-      timeMeditated: meditationTime + position,
-    })
-    navigation.navigate('MeditationFinish');
   }
 
   const onPlayPress = () => {

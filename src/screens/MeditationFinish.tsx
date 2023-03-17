@@ -39,6 +39,7 @@ const MeditationFinishScreen = () => {
   const updatedStreakData = makeUpdatedStreakData(user, lastMeditation);
 
   useEffect(() => {
+    console.log('MEDITATION FINISH: meditationInstanceData', meditationInstanceData);
     updateUserMeditationData();
     addFbMeditationInstance();
   }, [])

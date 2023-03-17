@@ -26,7 +26,7 @@ import { onAddMeditations } from '../utils/addMeditations';
 const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const navigation = useNavigation();
-  const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
+  const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const styles = useStyleSheet(themedStyles);
@@ -144,6 +144,8 @@ const HomeScreen = () => {
     navigation.navigate('Debug');
   }
 
+  const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
+
   return (
     <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
@@ -172,7 +174,10 @@ const HomeScreen = () => {
             />
           </Layout>
         </ScrollView>
-        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+        { hasMeditationBaseData
+          ? null
+          : <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+        }
       </SafeAreaView>
       <Modal
         visible={isModalVisible}

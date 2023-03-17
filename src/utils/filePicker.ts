@@ -41,7 +41,6 @@ const makeFilePathDataList = (
 const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
-  console.log('sean >>', file);
 
   switch (fileSizeString) {
     case MeditationStringSizes.MedNewPotentialsV1:

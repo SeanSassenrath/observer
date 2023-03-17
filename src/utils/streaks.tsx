@@ -76,7 +76,7 @@ const updateStreakData = (
       streakData.current &&
       streakData.longest
     ) {
-      console.log('1');
+      // console.log('1');
       return ({
         current: streakData.current,
         longest: streakData.longest,

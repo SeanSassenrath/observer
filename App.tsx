@@ -84,8 +84,6 @@ const App = () => {
             lastDocument: meditationHistory.lastDocument,
           })
 
-          console.log('Sean meditationHistory', meditationHistory)
-
           if (userStreakData && meditationHistory.lastDocument) {
             const lastMeditation = meditationHistory.lastDocument.data() as MeditationInstance;
             const streakData = checkStreakData(
