@@ -42,10 +42,31 @@ export const fbAddMeditationHistory = async (
     .doc(userId)
     .collection('meditationHistory')
     .add(meditationInstance)
-    .then(() => {
+    .then((doc) => {
       console.log('FB add meditation history success:', meditationInstance);
+      return doc;
     })
     .catch((e) => {
       console.log('FB add meditation history success:', e);
+    })
+}
+
+export const fbUpdateMeditationHistory = async (
+  userId: UserUid,
+  meditationInstanceId: string,
+  updatedMeditationInstance: MeditationInstance,
+) => {
+  return firestore()
+    .collection('users')
+    .doc(userId)
+    .collection('meditationHistory')
+    .doc(meditationInstanceId)
+    .update(updatedMeditationInstance)
+    .then((doc) => {
+      console.log('FB update meditation history success:', updatedMeditationInstance);
+      return doc;
+    })
+    .catch((e) => {
+      console.log('FB update meditation history success:', e);
     })
 }

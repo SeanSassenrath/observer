@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Layout, Text } from '@ui-kitten/components';
-import firestore from '@react-native-firebase/firestore';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import _ from 'lodash';
 
@@ -21,7 +21,7 @@ import {
 import { makeUpdatedStreakData } from '../utils/streaks';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import { fbUpdateUser } from '../fb/user';
-import { fbAddMeditationHistory } from '../fb/meditationHistory';
+import { fbAddMeditationHistory, fbUpdateMeditationHistory } from '../fb/meditationHistory';
 import { StreakUpdate } from '../components/StreakUpdate';
 
 const EMPTY_INPUT = '';
@@ -33,13 +33,14 @@ const MeditationFinishScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
+  const [meditationInstanceDoc, setMeditationInstanceDoc] = useState({} as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>);
 
   const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
   const updatedStreakData = makeUpdatedStreakData(user, lastMeditation);
 
   useEffect(() => {
     updateUserMeditationData();
-    fbAddMeditationHistory(user.uid, meditationInstanceData);
+    addFbMeditationInstance();
   }, [])
 
   const updateUserMeditationData = async () => {
@@ -74,15 +75,34 @@ const MeditationFinishScreen = () => {
     setUser(updatedContextMeditationData);
   }
 
-  const onDonePress = () => {
+  const addFbMeditationInstance = async () => {
+    const doc = await fbAddMeditationHistory(user.uid, meditationInstanceData);
+    if (doc) {
+      setMeditationInstanceDoc(doc);
+    }
+  }
+
+  const updateFbMeditationInstance = async () => {
     const updatedMeditationInstanceData = {
       ...meditationInstanceData,
       notes: firstInput,
       feedback: secondInput,
       creationTime: firestore.FieldValue.serverTimestamp(),
     }
+    const meditationInstanceId = meditationInstanceDoc.id;
 
-    fbAddMeditationHistory(user.uid, updatedMeditationInstanceData);
+    if (meditationInstanceId) {
+      await fbUpdateMeditationHistory(
+        user.uid,
+        meditationInstanceId,
+        updatedMeditationInstanceData
+      );
+    }
+    // TODO: Add error toast here
+  }
+
+  const onDonePress = () => {
+    updateFbMeditationInstance()
     //@ts-ignore
     navigation.navigate('TabNavigation', { screen: 'Insight' });
   }

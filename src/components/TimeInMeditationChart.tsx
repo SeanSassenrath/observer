@@ -20,10 +20,10 @@ const makeMeditationTimeData = (meditationHistory: MeditationInstance[]) => {
   const day5 = dt.minus({ days: 5 }).toLocaleString();
 
   meditationHistory.forEach((meditation: MeditationInstance) => {
-    if (!meditation || !meditation.creationTime || !meditation.creationTime.seconds) {
+    if (!meditation || !meditation.meditationStartTime) {
       return;
     }
-    const dt = DateTime.fromSeconds(meditation?.creationTime?.seconds);
+    const dt = DateTime.fromSeconds(meditation.meditationStartTime);
     const meditationLocaleString = dt && dt.toLocaleString();
 
     if (

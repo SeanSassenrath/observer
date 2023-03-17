@@ -67,9 +67,8 @@ const InsightScreen = () => {
   }
 
   const getDisplayDate = (item: MeditationInstance) => {
-    if (item.creationTime) {
-      if (item.creationTime.seconds === isNaN) { return EMPTY_STRING; }
-      const date = DateTime.fromSeconds(item.creationTime.seconds);
+    if (item.meditationStartTime) {
+      const date = DateTime.fromSeconds(item.meditationStartTime);
       return date.toLocaleString(DateTime.DATETIME_SHORT);
     } else {
       return EMPTY_STRING;
