@@ -230,7 +230,7 @@ export const makeUpdatedContextMeditationData = (
 export const getLastMeditationFromMeditationHistory = (meditationHistory: MeditationHistoryData) =>
   meditationHistory &&
   meditationHistory.meditationInstances &&
-  meditationHistory.meditationInstances[meditationHistory.meditationInstances.length - 1];
+  meditationHistory.meditationInstances[0];
 
 export const getMeditationCountFromUserData = (user: User, meditationInstanceData: MeditationInstance) =>
     user && user.meditationUserData

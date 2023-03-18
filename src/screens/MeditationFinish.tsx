@@ -29,14 +29,11 @@ const EMPTY_INPUT = '';
 const MeditationFinishScreen = () => {
   const navigation = useNavigation();
   const { meditationInstanceData } = useContext(MeditationInstanceDataContext);
-  const { meditationHistory } = useContext(MeditationHistoryContext);
+  const { meditationHistory, setMeditationHistory } = useContext(MeditationHistoryContext);
   const { user, setUser } = useContext(UserContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
   const [meditationInstanceDoc, setMeditationInstanceDoc] = useState({} as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>);
-
-  // const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
-  // const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
 
   useEffect(() => {
     console.log('MEDITATION FINISH: meditationInstanceData', meditationInstanceData);
@@ -48,7 +45,9 @@ const MeditationFinishScreen = () => {
     const updatedMeditationInstanceCount = makeUpdatedMeditationCountData(user, meditationInstanceData);
     const updatedBreathMeditationCountData = makeUpdatedBreathMeditationCountData(user, meditationInstanceData);
     const updatedRecentUserMeditationData = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
+    console.log('MEDITATION FINISH: meditationHistory', meditationHistory);
     const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
+    console.log('MEDITATION FINISH: lastMeditation', lastMeditation);
     const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
 
     const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
@@ -64,9 +63,6 @@ const MeditationFinishScreen = () => {
       updatedFbUserMeditationData,
     );
 
-    console.log(' ')
-    console.log('MEDITATION FINISH: updatedStreaksData before ctx update', updatedStreaksData);
-
     const updatedContextMeditationData = makeUpdatedContextMeditationData(
       updatedMeditationInstanceCount,
       updatedBreathMeditationCountData,
@@ -75,9 +71,6 @@ const MeditationFinishScreen = () => {
       meditationInstanceData,
       user,
     );
-
-    console.log('MEDITATION FINISH: updatedContextMeditationData before ctx update', updatedContextMeditationData);
-    console.log(' ')
 
     setUser(updatedContextMeditationData);
   }
@@ -110,8 +103,15 @@ const MeditationFinishScreen = () => {
     // TODO: Add error toast here
   }
 
+  const updateMeditationHistoryContext = () => {
+    const currentMeditationHistory = meditationHistory.meditationInstances || [];
+    const updatedMeditationHistory = [meditationInstanceData].concat(currentMeditationHistory);
+    setMeditationHistory({ meditationInstances: updatedMeditationHistory })
+  }
+
   const onDonePress = () => {
-    updateFbMeditationInstance()
+    updateFbMeditationInstance();
+    updateMeditationHistoryContext();
     //@ts-ignore
     navigation.navigate('TabNavigation', { screen: 'Insight' });
   }
