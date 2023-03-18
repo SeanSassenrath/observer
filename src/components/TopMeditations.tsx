@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import PieChart from 'react-native-pie-chart';
 import { sortBy } from 'lodash';
 import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
-import UserContext from '../contexts/userData';
+import { MeditationCountsMap } from '../contexts/userData';
 
-export const TopMeditations = () => {
-  const { user } = useContext(UserContext)
+interface TopMeditationsProps {
+  meditationCounts: MeditationCountsMap | undefined,
+}
+
+export const TopMeditations = ({ meditationCounts }: TopMeditationsProps) => {
   const styles = useStyleSheet(themedStyles);
 
-  const meditationInstanceCounts = user
-    && user.meditationUserData
-    && user.meditationUserData.meditationCounts;
-  const sortedMeditationInstanceCounts = sortBy(meditationInstanceCounts, ['count']);
+  const sortedMeditationInstanceCounts = sortBy(meditationCounts, ['count']);
   const reversedMeditationInstanceCounts = sortedMeditationInstanceCounts.reverse();
   const topThreeMeditationInstanceCounts = reversedMeditationInstanceCounts.slice(0, 3);
   const series = topThreeMeditationInstanceCounts.map(instance => instance.count);

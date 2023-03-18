@@ -12,6 +12,7 @@ import { DateTime } from 'luxon';
 import { meditationBaseMap } from '../constants/meditation';
 import { Streaks } from '../components/Streaks';
 import { getUserStreakData } from '../utils/streaks';
+import { getMeditationCounts } from '../utils/meditation';
 
 const EMPTY_STRING = '';
 
@@ -75,6 +76,8 @@ const InsightScreen = () => {
     }
   }
 
+  const meditationCounts = getMeditationCounts(user);
+
   interface ListItem {
     item: MeditationInstance,
     index: number,
@@ -121,7 +124,9 @@ const InsightScreen = () => {
           meditationHistory={meditationHistory}
           style={styles.timeInMeditationChart}
         />
-        <TopMeditations />
+        <TopMeditations
+          meditationCounts={meditationCounts}
+        />
       </Layout>
       <Layout level='4'>
         { meditationHistory.length > 0

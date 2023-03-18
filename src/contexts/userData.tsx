@@ -18,6 +18,14 @@ export interface UserStreaks {
   longest?: number,
 }
 
+export interface MeditationCountsMap {
+  [key: string]: {
+    count: number,
+    name: string,
+    id: string,
+  }
+}
+
 export interface User {
   uid: UserUid,
   profile: UserProfile,
@@ -25,13 +33,7 @@ export interface User {
   meditationHistoryIds?: MeditationBaseId[],
   meditationUserData: {
     recentMeditationBaseIds?: MeditationBaseId[],
-    meditationCounts?: {
-      [key: string]: { 
-        count: number,
-        name: string,
-        id: string,
-      },
-    },
+    meditationCounts?: MeditationCountsMap,
     streaks: UserStreaks,
     totalMeditationTime?: number,
   }

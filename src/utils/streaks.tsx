@@ -86,8 +86,6 @@ const updateStreakData = (
       let updatedLongestStreak = longestStreak;
       let newLongestStreak = false;
       
-      console.log('Streaks Utils: streakData.current', streakData.current);
-
       if (updatedCurrentStreak > longestStreak) {
         updatedLongestStreak = updatedCurrentStreak;
         newLongestStreak = true;

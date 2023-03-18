@@ -218,7 +218,10 @@ export const makeUpdatedContextMeditationData = (
     meditationUserData: {
       ...user.meditationUserData,
       recentMeditationBaseIds: updatedRecentUserMeditationData,
-      meditationCounts: meditationCounts,
+      meditationCounts: {
+        ...user.meditationUserData.meditationCounts,
+        ...meditationCounts,
+      },
       streaks: {
         current: updatedStreaksData.current,
         longest: updatedStreaksData.longest,
@@ -226,6 +229,10 @@ export const makeUpdatedContextMeditationData = (
     }
   })
 }
+
+export const getMeditationCounts = (user: User) => user &&
+  user.meditationUserData &&
+  user.meditationUserData.meditationCounts;
 
 export const getLastMeditationFromMeditationHistory = (meditationHistory: MeditationHistoryData) =>
   meditationHistory &&

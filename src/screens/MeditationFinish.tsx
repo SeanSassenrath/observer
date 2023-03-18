@@ -18,7 +18,7 @@ import {
   makeUpdatedMeditationCountData,
   makeUpdatedRecentUserMeditationData,
 } from '../utils/meditation';
-import { getUserStreakData, makeUpdatedStreakData } from '../utils/streaks';
+import { getUserStreakData, makeUpdatedStreakData, UpdatedStreakData } from '../utils/streaks';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import { fbUpdateUser } from '../fb/user';
 import { fbAddMeditationHistory, fbUpdateMeditationHistory } from '../fb/meditationHistory';
@@ -34,9 +34,9 @@ const MeditationFinishScreen = () => {
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT)
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
   const [meditationInstanceDoc, setMeditationInstanceDoc] = useState({} as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>);
+  const [updatedStreaksData, setUpdatedStreaksData] = useState({} as UpdatedStreakData);
 
   useEffect(() => {
-    console.log('MEDITATION FINISH: meditationInstanceData', meditationInstanceData);
     updateUserMeditationData();
     addFbMeditationInstance();
   }, [])
@@ -45,10 +45,9 @@ const MeditationFinishScreen = () => {
     const updatedMeditationInstanceCount = makeUpdatedMeditationCountData(user, meditationInstanceData);
     const updatedBreathMeditationCountData = makeUpdatedBreathMeditationCountData(user, meditationInstanceData);
     const updatedRecentUserMeditationData = makeUpdatedRecentUserMeditationData(user, meditationInstanceData);
-    console.log('MEDITATION FINISH: meditationHistory', meditationHistory);
     const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
-    console.log('MEDITATION FINISH: lastMeditation', lastMeditation);
     const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
+    setUpdatedStreaksData(updatedStreaksData);
 
     const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
       updatedMeditationInstanceCount,
@@ -123,7 +122,7 @@ const MeditationFinishScreen = () => {
       <Layout style={styles.rootContainer} level='4'>
         <Text category='h5' style={styles.text}>Thinkbox</Text>
         <Text category='h6' style={styles.description}>Welcome back, record your insights here.</Text>
-        {streaks
+        {updatedStreaksData.streakUpdated
           ? <StreakUpdate
               current={streaks.current}
               longest={streaks.longest}
