@@ -26,6 +26,9 @@ export enum MeditationBaseKeys {
   MedWalkingUnlockingCodeV1 = 'm-walking-unlocking-code-v1',
   MedWalkingMeditation1V1 = 'm-walking-meditation-1-v1',
   MedWalkingMeditation2V1 = 'm-walking-meditation-2-v1',
+  MedTurningYourLoveInwardV1 = 'm-turing-love-inwards-v1',
+  MedChangingBeliefsAndPerceptionsV1 = 'm-changing-beliefs-perceptions-v1',
+  BreathChangingBeliefsAndPerceptionsV1 = 'b-changing-beliefs-perceptions-v1',
 }
 
 export enum MeditationStringSizes {
@@ -54,6 +57,9 @@ export enum MeditationStringSizes {
   MedWalkingUnlockingCodeV1 = '35271',
   MedWalkingMeditation1V1 = '10961',
   MedWalkingMeditation2V1 = '88295',
+  MedTurningYourLoveInwardV1 = '30255',
+  MedBeliefsAndPerceptionsV1 = '',
+  BreathBeliefsAndPerceptionsV1 = '',
 }
 
 export enum MeditationKeys {
@@ -95,6 +101,9 @@ export enum MeditationSizes {
   WalkingUnlockingCodeV1 = 35271555,
   WalkingMeditation1V1 = 109611413,
   WalkingMeditation2V1 = 88295823,
+  TurningLoveInwardV1 = 30255341,
+  BeliefsAndPerceptionsV1 = 0,
+  BeliefsAndPerceptionsBreathV1 = 0,
 }
 
 export enum MeditationGroupKey {
@@ -493,6 +502,51 @@ export const meditationBaseMap: MeditationBaseMap = {
     meditationBaseId: MeditationBaseKeys.MedWalkingMeditation2V1,
     name: 'Walking Meditation 2 - Walking with the Divine',
     size: MeditationSizes.WalkingMeditation2V1,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.MedTurningYourLoveInwardV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/wm-2.jpg'),
+    color: '#003E54',
+    formattedDuration: '20',
+    id: placeholder,
+    groupKey: MeditationGroupKey.Other,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: MeditationBaseKeys.MedTurningYourLoveInwardV1,
+    name: 'Turning Your Love Inward',
+    size: MeditationSizes.TurningLoveInwardV1,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.MedTurningYourLoveInwardV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/wm-2.jpg'),
+    color: '#003E54',
+    formattedDuration: '20',
+    id: placeholder,
+    groupKey: MeditationGroupKey.Other,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: MeditationBaseKeys.MedTurningYourLoveInwardV1,
+    name: 'Turning Your Love Inward',
+    size: MeditationSizes.TurningLoveInwardV1,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [MeditationBaseKeys.MedTurningYourLoveInwardV1]: {
+    artwork: '',
+    artist,
+    backgroundImage: require('../assets/wm-2.jpg'),
+    color: '#003E54',
+    formattedDuration: '20',
+    id: placeholder,
+    groupKey: MeditationGroupKey.Other,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: MeditationBaseKeys.MedTurningYourLoveInwardV1,
+    name: 'Turning Your Love Inward',
+    size: MeditationSizes.TurningLoveInwardV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
   },

@@ -64,9 +64,6 @@ const updateStreakData = (
   const today = dt.weekdayShort;
   const yesterday = dt.minus({ days: 1 }).weekdayShort;
 
-  console.log('lastMeditation', lastMeditation)
-  console.log('lastMeditation.meditationStartTime', lastMeditation && lastMeditation.meditationStartTime)
-
   if (lastMeditation && lastMeditation.meditationStartTime) {
     const lastMeditationDt = DateTime.fromSeconds(lastMeditation.meditationStartTime);
     const lastMeditationWeekday = lastMeditationDt.weekdayShort;
@@ -76,7 +73,6 @@ const updateStreakData = (
       streakData.current &&
       streakData.longest
     ) {
-      // console.log('1');
       return ({
         current: streakData.current,
         longest: streakData.longest,
@@ -89,12 +85,13 @@ const updateStreakData = (
       const updatedCurrentStreak = currentStreak + 1;
       let updatedLongestStreak = longestStreak;
       let newLongestStreak = false;
+      
+      console.log('Streaks Utils: streakData.current', streakData.current);
 
       if (updatedCurrentStreak > longestStreak) {
         updatedLongestStreak = updatedCurrentStreak;
         newLongestStreak = true;
       }
-      console.log('2');
       return ({
         current: updatedCurrentStreak,
         longest: updatedLongestStreak,
@@ -105,7 +102,6 @@ const updateStreakData = (
       const updatedCurrentStreak = 1;
       const updatedLongestStreak = streakData.longest || 1;
       const newLongestStreak = streakData.longest === 0;
-      console.log('3');
 
       return ({
         current: updatedCurrentStreak,
@@ -117,7 +113,6 @@ const updateStreakData = (
   } else {
     const updatedCurrentStreak = 1;
     const updatedLongestStreak = streakData.longest || 1;
-    console.log('4');
 
     return ({
       current: updatedCurrentStreak,

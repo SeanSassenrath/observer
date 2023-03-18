@@ -18,7 +18,7 @@ import {
   makeUpdatedMeditationCountData,
   makeUpdatedRecentUserMeditationData,
 } from '../utils/meditation';
-import { makeUpdatedStreakData } from '../utils/streaks';
+import { getUserStreakData, makeUpdatedStreakData } from '../utils/streaks';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import { fbUpdateUser } from '../fb/user';
 import { fbAddMeditationHistory, fbUpdateMeditationHistory } from '../fb/meditationHistory';
@@ -35,8 +35,8 @@ const MeditationFinishScreen = () => {
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT)
   const [meditationInstanceDoc, setMeditationInstanceDoc] = useState({} as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>);
 
-  const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
-  const updatedStreakData = makeUpdatedStreakData(user, lastMeditation);
+  // const lastMeditation = getLastMeditationFromMeditationHistory(meditationHistory);
+  // const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
 
   useEffect(() => {
     console.log('MEDITATION FINISH: meditationInstanceData', meditationInstanceData);
@@ -64,6 +64,9 @@ const MeditationFinishScreen = () => {
       updatedFbUserMeditationData,
     );
 
+    console.log(' ')
+    console.log('MEDITATION FINISH: updatedStreaksData before ctx update', updatedStreaksData);
+
     const updatedContextMeditationData = makeUpdatedContextMeditationData(
       updatedMeditationInstanceCount,
       updatedBreathMeditationCountData,
@@ -73,12 +76,18 @@ const MeditationFinishScreen = () => {
       user,
     );
 
+    console.log('MEDITATION FINISH: updatedContextMeditationData before ctx update', updatedContextMeditationData);
+    console.log(' ')
+
     setUser(updatedContextMeditationData);
   }
 
   const addFbMeditationInstance = async () => {
-    const doc = await fbAddMeditationHistory(user.uid, meditationInstanceData);
-    if (doc) {
+    const doc = await fbAddMeditationHistory(user.uid, {
+      ...meditationInstanceData,
+      creationTime: firestore.FieldValue.serverTimestamp(),
+    });
+    if (doc && !Object.keys(meditationInstanceDoc).length) {
       setMeditationInstanceDoc(doc);
     }
   }
@@ -88,7 +97,6 @@ const MeditationFinishScreen = () => {
       ...meditationInstanceData,
       notes: firstInput,
       feedback: secondInput,
-      creationTime: firestore.FieldValue.serverTimestamp(),
     }
     const meditationInstanceId = meditationInstanceDoc.id;
 
@@ -108,16 +116,17 @@ const MeditationFinishScreen = () => {
     navigation.navigate('TabNavigation', { screen: 'Insight' });
   }
 
+  const streaks = getUserStreakData(user);
+
   return (
     <KeyboardAwareScrollView style={styles.scrollContainer}>
       <Layout style={styles.rootContainer} level='4'>
         <Text category='h5' style={styles.text}>Thinkbox</Text>
         <Text category='h6' style={styles.description}>Welcome back, record your insights here.</Text>
-        {updatedStreakData.streakUpdated
+        {streaks
           ? <StreakUpdate
-              current={updatedStreakData.current}
-              longest={updatedStreakData.longest}
-              newLongestStreak={updatedStreakData.newLongestStreak}
+              current={streaks.current}
+              longest={streaks.longest}
             />
           : null
         }
