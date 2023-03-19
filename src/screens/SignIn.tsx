@@ -145,6 +145,9 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'center',
     flex: 7,
   },
+  textContainer: {
+    alignItems: 'center',
+  },
   textHeaderContainer: {
     marginBottom: 16,
   },
@@ -158,6 +161,8 @@ const themedStyles = StyleSheet.create({
   textDescription: {
     lineHeight: 23,
     textAlign: 'center',
+    maxWidth: 300,
+    opacity: 0.7,
   },
 })
 

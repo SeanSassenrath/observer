@@ -127,7 +127,7 @@ const RequestInvite = () => {
           status='success'
           style={styles.textHeader}
         >
-          Unlocking the beta now!
+          Unlocking the beta now...
         </Text>
       )
     }
@@ -152,7 +152,7 @@ const RequestInvite = () => {
         </>
       )
     } else if (isNavigating) {
-      return <Text category='s1' style={styles.textDescription}>Beta access confirmed! Thank you for being a beta tester!</Text>
+      return <Text category='s1' style={styles.textDescription}>Beta access confirmed. Thank you for being a beta tester!</Text>
     }
   }
 

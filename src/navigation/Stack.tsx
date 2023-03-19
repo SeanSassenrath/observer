@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import analytics from '@react-native-firebase/analytics';
 
 import { myTheme } from '../constants/navTheme';
 import InitialUploadScreen from '../screens/InitialUpload';
@@ -25,6 +26,8 @@ const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 const StackNavigator = () => {
   const { user } = useContext(UserContext);
   const { hasSeenFtux } = useContext(FtuxContext);
+  const routeNameRef: any = useRef({});
+  const navigationRef: any = useRef({});
 
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
@@ -39,7 +42,25 @@ const StackNavigator = () => {
   }
 
   return (
-    <NavigationContainer theme={myTheme}>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+      }}
+      onStateChange={async () => {
+        const previousRouteName = routeNameRef.current;
+        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+        if (previousRouteName !== currentRouteName) {
+          await analytics().logScreenView({
+            screen_name: currentRouteName,
+            screen_class: currentRouteName,
+          });
+        }
+        routeNameRef.current = currentRouteName;
+      }}
+      theme={myTheme}
+    >
       <Navigator
         initialRouteName={getInitialRouteName()}
         screenOptions={{ headerShown: false }}
