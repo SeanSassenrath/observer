@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Image, Platform, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import {
 	Layout,
 	Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
-import FtuxContext from '../contexts/ftuxData';
 
 const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
@@ -19,47 +19,47 @@ const SignInScreen = () => {
   const [isSignInPending, setIsSignInPending] = useState(false);
 
   const signIn = async () => {
+    crashlytics().log('User signed in.');
     let userInfo;
     try {
       setIsSignInPending(true);
       await GoogleSignin.hasPlayServices();
       userInfo = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-
       const { user } = userInfo;
-      if (!user) { return; }
+
+      if (!user) {
+        crashlytics().log('ERROR: Empty user object after sign up');
+        return;
+      }
+
+      crashlytics().setUserId(user.id),
 
       await auth().signInWithCredential(googleCredential);
 
       navigation.navigate('BetaCheck');
   
-      // const betaUserList = await fbFetchBetaUserList();
-      // if (!betaUserList) { return; }
-      // const { list } = betaUserList;
-      // const isUserInBeta = list.includes(user.email);
-
-      // if (!isUserInBeta) {
-      //   navigation.navigate('RequestInvite');
-      // } else if (!hasSeenFtux) {
-      //   navigation.navigate('AddFilesTutorial1');
-      // } else {
-      //   navigation.navigate('TabNavigation');
-      // }
       setIsSignInPending(false);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        crashlytics().recordError(error);
         // user cancelled the login flow
         // TODO: Add metric here for monitoring
         // TODO: Add error handling
       } else if (error.code === statusCodes.IN_PROGRESS) {
+        crashlytics().recordError(error);
+
         // operation (e.g. sign in) is in progress already
         // TODO: Add metric here for monitoring
         // TODO: Add error handling
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        crashlytics().recordError(error);
         // play services not available or outdated
         // TODO: Add metric here for monitoring
         // TODO: Add error handling
       } else {
+        crashlytics().recordError(error);
+
         // some other error happened
         // TODO: Add metric here for monitoring
         // TODO: Add error handling
