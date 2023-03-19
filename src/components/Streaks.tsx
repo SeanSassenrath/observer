@@ -65,11 +65,12 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 16,
   },
   longestStreakContainer: {
-    borderRightWidth: 1,
-    borderColor: 'color-success-400',
+    borderLeftWidth: 1,
+    borderColor: 'gray',
     opacity: 0.5,
     padding: 20,
     width: 140,
+    flex: 1,
   },
   longestStreakText: {
     marginTop: 4,

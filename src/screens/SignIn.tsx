@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
+import { Image, ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
 	Layout,
 	Text,
+  useStyleSheet,
 } from '@ui-kitten/components';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
@@ -15,6 +16,7 @@ import FtuxContext from '../contexts/ftuxData';
 // import { fbFetchBetaUserList } from '../utils/fbBetaUserList';
 
 const SignInScreen = () => {
+  const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
   const { hasSeenFtux } = useContext(FtuxContext);
@@ -69,84 +71,112 @@ const SignInScreen = () => {
   };
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <ImageBackground source={require('../assets/stars.png')} style={styles.container}>
-          <LinearGradient colors={['rgba(34, 43, 69, 0)', 'rgba(34, 43, 69, 1)']} style={styles.imgContainer}>
-            <Layout style={styles.imgContainer}>
+        <Layout style={styles.contentContainer}>
+          <Layout style={styles.headerContainer}>
+            <Image
+              source={require('../assets/app-icon-new-1200.png')}
+              style={imageStyles.headerImage}
+            />
+            <Layout>
+              <Text category='s2'>Unlimited</Text>
+              <Text category='s2'>Meditation</Text>
             </Layout>
-          </LinearGradient>
+          </Layout>
+          <Layout style={styles.signUpImageContainer}>
+              <Image
+                source={require('../assets/insights-image.png')}
+                style={imageStyles.signUpImage}
+              />
+          </Layout>
           <Layout style={styles.bottomContainer}>
             <Layout style={styles.textContainer}>
-              <Text category='h4' style={styles.textHeader}>Welcome</Text>
+              <Layout style={styles.textHeaderContainer}>
+                <Text category='h4'>Be Your Own Scientist.</Text>
+                <Text category='h4' style={styles.textHeaderPrimary}>Change your life.</Text>
+              </Layout>
               <Text category='s1' style={styles.textDescription}>
-                This experience was made with love for you.
-                Our hope is that this app will help you with your practice, give you insights into your meditations, and continue your learning.
-                We're excited and honored to be a part of your journey.
+                Meditation player, tracker, and “thinkbox” journal
+                for your Dr. Joe Dispenza practice.
               </Text>
             </Layout>
             <Layout style={styles.buttonContainer}>
-              <Button onPress={signIn} size='large' style={styles.button}>Sign In With Google</Button>
-            </Layout>
-            {/* <Text category='p2' style={styles.disclaimer}>
-            Accounts are required to give you more information about your meditations.
-            We will never sell your data to anyone.
-          </Text> */}
-            <Layout>
-              {isSignInPending
-                ? <Text category='s1' status="info" style={styles.signInPending}>Signing you in now...</Text>
-                  : <Text> </Text>
-              }
+              <Button onPress={signIn} size='large' style={styles.button}>Continue with Google</Button>
             </Layout>
           </Layout>
-        </ImageBackground>
+        </Layout>
       </SafeAreaView>
     </Layout>
   )
 }
 
-const styles = StyleSheet.create({
+const imageStyles = StyleSheet.create({
+  headerImage: {
+    width: 50,
+    height: 50,
+  },
+  signUpImage: {
+    resizeMode: 'contain',
+    flex: 1,
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+  
+  },
+})
+
+const themedStyles = StyleSheet.create({
   button: {
-    marginVertical: 20,
+    marginVertical: 10,
     width: 350
   },
   buttonContainer: {
     alignItems: 'center',
+    flex: 2
   },
   bottomContainer: {
-    flex: 1,
+    flex: 4,
     paddingBottom: 40,
   },
   container: {
     flex: 1,
   },
+  contentContainer: {
+    flex: 1,
+    padding: 20,
+  },
   disclaimer: {
     marginBottom: 30,
     marginTop: 20,
   },
-  imgContainer: {
-    flex: 1,
+  headerContainer: {
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  rootContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  signInPending: {
-    // justifyContent: 'center',
+    flexDirection: 'row',
     // backgroundColor: 'red',
-    textAlign: 'center',
+    flex: 0,
+  },
+  signUpImageContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 6,
+    marginVertical: 30,
   },
   textContainer: {
-    flex: 3,
-    alignContent: 'center',
-    justifyContent: 'center',
+    flex: 8,
+    // alignContent: 'center',
+    // justifyContent: 'center',
   },
-  textHeader: {
-    marginBottom: 10,
+  textHeaderContainer: {
+    marginBottom: 16,
+  },
+  textHeaderPrimary: {
+    color: 'color-primary-200',
+    marginTop: 4,
   },
   textDescription: {
     lineHeight: 23
