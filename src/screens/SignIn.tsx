@@ -1,25 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { Image, ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
+import { Image, Platform, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import {
 	Layout,
 	Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 
 import Button from '../components/Button';
-import { InitialUploadScreenNavigationProp, SignInScreenNavigationProp } from '../types';
+import { InitialUploadScreenNavigationProp } from '../types';
 import FtuxContext from '../contexts/ftuxData';
-// import { fbFetchBetaUserList } from '../utils/fbBetaUserList';
 
 const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
-  const { hasSeenFtux } = useContext(FtuxContext);
 
   const signIn = async () => {
     let userInfo;
@@ -71,38 +68,34 @@ const SignInScreen = () => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <Layout level='4' style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.contentContainer}>
-          <Layout style={styles.headerContainer}>
+        <Layout level='4' style={styles.contentContainer}>
+          <Layout level='4' style={styles.headerContainer}>
             <Image
               source={require('../assets/app-icon-new-1200.png')}
               style={imageStyles.headerImage}
             />
-            <Layout>
-              <Text category='s2'>Unlimited</Text>
-              <Text category='s2'>Meditation</Text>
-            </Layout>
           </Layout>
-          <Layout style={styles.signUpImageContainer}>
-              <Image
-                source={require('../assets/insights-image.png')}
-                style={imageStyles.signUpImage}
-              />
-          </Layout>
-          <Layout style={styles.bottomContainer}>
-            <Layout style={styles.textContainer}>
-              <Layout style={styles.textHeaderContainer}>
-                <Text category='h4'>Be Your Own Scientist.</Text>
-                <Text category='h4' style={styles.textHeaderPrimary}>Change your life.</Text>
+          <Layout level='4' style={styles.heroContainer}>
+            <Layout level='4' style={styles.textContainer}>
+              <Layout level='4' style={styles.textHeaderContainer}>
+                <Text category='h3' style={styles.textHeader}>Be Your Own Scientist.</Text>
+                <Text category='h3' style={styles.textHeaderPrimary}>Change your life.</Text>
               </Layout>
-              <Text category='s1' style={styles.textDescription}>
-                Meditation player, tracker, and “thinkbox” journal
+              <Text category='s2' style={styles.textDescription}>
+                Meditation player, tracker, & “thinkbox” journal
                 for your Dr. Joe Dispenza practice.
               </Text>
             </Layout>
-            <Layout style={styles.buttonContainer}>
-              <Button onPress={signIn} size='large' style={styles.button}>Continue with Google</Button>
+          </Layout>
+          <Layout level='4' style={styles.bottomContainer}>
+            <Layout level='4' style={styles.buttonsContainer}>
+              { Platform.OS === 'ios'
+                ? <Button onPress={signIn} size='large' style={styles.button}>Sign in with Apple</Button>
+                : null
+              }
+              <Button onPress={signIn} size='large' style={styles.button}>Sign in with Google</Button>
             </Layout>
           </Layout>
         </Layout>
@@ -113,35 +106,22 @@ const SignInScreen = () => {
 
 const imageStyles = StyleSheet.create({
   headerImage: {
-    width: 50,
-    height: 50,
-  },
-  signUpImage: {
-    resizeMode: 'contain',
-    flex: 1,
-    shadowColor: 'black',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-  
+    width: 60,
+    height: 60,
   },
 })
 
 const themedStyles = StyleSheet.create({
   button: {
-    marginVertical: 10,
-    width: 350
+    marginVertical: 16,
+    width: 300
   },
-  buttonContainer: {
+  buttonsContainer: {
+    flex: 5,
     alignItems: 'center',
-    flex: 2
   },
   bottomContainer: {
-    flex: 4,
-    paddingBottom: 40,
+    flex: 3,
   },
   container: {
     flex: 1,
@@ -157,29 +137,27 @@ const themedStyles = StyleSheet.create({
   headerContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    // backgroundColor: 'red',
-    flex: 0,
+    flex: 1,
+    justifyContent: 'center',
   },
-  signUpImageContainer: {
+  heroContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 6,
-    marginVertical: 30,
-  },
-  textContainer: {
-    flex: 8,
-    // alignContent: 'center',
-    // justifyContent: 'center',
+    flex: 7,
   },
   textHeaderContainer: {
     marginBottom: 16,
   },
+  textHeader: {
+    textAlign: 'center',
+  },
   textHeaderPrimary: {
-    color: 'color-primary-200',
     marginTop: 4,
+    textAlign: 'center',
   },
   textDescription: {
-    lineHeight: 23
+    lineHeight: 23,
+    textAlign: 'center',
   },
 })
 

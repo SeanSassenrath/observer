@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { AppState, ImageBackground, SafeAreaView, StyleSheet } from 'react-native';
+import { AppState, SafeAreaView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
 import {
   Layout,
+  Spinner,
   Text,
 } from '@ui-kitten/components';
-import Animated, { FadeInDown, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeInDown } from 'react-native-reanimated';
 
 
 import UserContext from '../contexts/userData';
@@ -88,12 +88,23 @@ const RequestInvite = () => {
     }, 2500)
     ));
 
+  const renderSpinner = () => {
+    if (isCheckingBetaStatus) {
+      return (
+        <Layout level='4' style={styles.spinnerContainer}>
+          <Spinner />
+        </Layout>
+      )
+    } else {
+      return null;
+    }
+  }
+
   const renderStatusHeader = () => {
     if (isCheckingBetaStatus) {
       return (
         <Text
           category='h5'
-          status='info'
           style={styles.textHeader}
         >
           Checking beta status...
@@ -125,7 +136,7 @@ const RequestInvite = () => {
   const renderStatusMessage = () => {
     if (isCheckingBetaStatus) {
       return (
-        <Text category='s1'>We're double checking if you have access to the beta, thank you for your patience!</Text>
+        <Text category='s1' style={styles.textDescription}>We're double checking if you have access to the beta, thank you for your patience!</Text>
       )
     } else if (isNotInBeta) {
       return (
@@ -146,48 +157,32 @@ const RequestInvite = () => {
   }
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout level='4' style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <ImageBackground source={require('../assets/stars.png')} style={styles.container}>
-          <LinearGradient colors={['rgba(34, 43, 69, 0)', 'rgba(34, 43, 69, 1)']} style={styles.imgContainer}>
-            <Layout style={styles.imgContainer}>
-            </Layout>
-          </LinearGradient>
-          <Layout style={styles.bottomContainer}>
-            <Layout style={styles.textContainer}>
-              <Animated.View
-                key={'uniqueKey'}
-                entering={FadeInDown.duration(400)}
-              >
-                {renderStatusHeader()}
-                {renderStatusMessage()}
-              </Animated.View>
-            </Layout>
-          </Layout>
-        </ImageBackground>
+        <Layout level='4' style={styles.contentContainer}>
+          <Animated.View
+            key={'uniqueKey'}
+            entering={FadeInDown.duration(400)}
+          >
+            {renderSpinner()}
+            {renderStatusHeader()}
+            {renderStatusMessage()}
+          </Animated.View>
+        </Layout>
       </SafeAreaView>
     </Layout>
   )
 }
 
 const styles = StyleSheet.create({
-  button: {
-    marginVertical: 20,
-    width: 350
-  },
-  buttonContainer: {
+  contentContainer: {
     alignItems: 'center',
-  },
-  bottomContainer: {
     flex: 1,
-    paddingBottom: 40,
+    justifyContent: 'center',
+    padding: 20,
   },
   container: {
     flex: 1,
-  },
-  disclaimer: {
-    marginBottom: 30,
-    marginTop: 20,
   },
   imgContainer: {
     flex: 1,
@@ -196,21 +191,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
   },
-  rootContainer: {
-    flex: 1,
-    padding: 20,
-  },
-  textContainer: {
-    flex: 3,
-    alignContent: 'flex-start',
-    justifyContent: 'flex-start',
+  spinnerContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 40,
   },
   textHeader: {
     marginBottom: 20,
+    textAlign: 'center',
   },
   textDescription: {
     lineHeight: 23,
     marginBottom: 20,
+    textAlign: 'center',
+    maxWidth: 300,
   },
 })
 
