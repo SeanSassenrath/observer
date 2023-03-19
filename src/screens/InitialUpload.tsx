@@ -1,140 +1,73 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { isEmpty } from 'lodash';
-import { Layout, Text } from '@ui-kitten/components/ui';
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Icon, Layout, Text } from "@ui-kitten/components/ui";
+import Button from "../components/Button";
 
-import Button from '../components/Button';
-import { InitialUploadScreenNavigationProp } from '../types';
-import FtuxContext from '../contexts/ftuxData';
-import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
-import { pickFiles } from '../utils/filePicker';
-import { setFtuxStateInAsyncStorage } from '../utils/ftux';
-import { setMeditationBaseDataToContext } from '../utils/meditation';
-import MeditationBaseDataContext from '../contexts/meditationBaseData';
-
-enum ScreenState {
-  'Inital',
-  'Success',
-  'Fail',
-  'Mixed',
+interface HelpIconProps {
+  fill: string,
+  style?: any,
 }
 
+const HelpIcon = (props: HelpIconProps) => (
+  <Icon {...props} name='question-mark-circle'/>
+)
+
 const InitialUploadScreen = () => {
-  const { setHasSeenFtux } = useContext(FtuxContext);
-  const { setMeditationBaseData } = useContext(MeditationBaseDataContext);
-  const navigation = useNavigation<InitialUploadScreenNavigationProp>();
-  const [screenState, setScreenState] = useState(ScreenState.Inital);
-  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
-
-  useEffect(() => {
-    setExistingMeditationFilePathDataFromAsyncStorage();
-  }, [])
-
-  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
-    const filePathData = await getMeditationFilePathDataInAsyncStorage()
-    console.log('INITIAL UPLOAD: Existing file path data from Async Storage', filePathData);
-    if (filePathData) {
-      const parsedFilePathData = JSON.parse(filePathData);
-      setExistingMeditationFilePathData(parsedFilePathData);
-    }
-  }
-
-  const onContinuePress = async () => {
-    // setFtuxStateInAsyncStorage();
-    // setHasSeenFtux(true);
-    navigation.navigate('TabNavigation');
-  }
-
-  const onUploadPress = async () => {
-    const pickedFileData = await pickFiles(existingMediationFilePathData);
-    console.log('INITIAL UPLOAD: Picked file data', pickedFileData)
-    if (!pickedFileData) { return null; }
-    console.log('INITIAL UPLOAD: Picked file data', pickedFileData)
-
-    if (!isEmpty(pickedFileData)) {
-      setMeditationFilePathDataInAsyncStorage(pickedFileData)
-      setMeditationBaseDataToContext(setMeditationBaseData);
-    }
-
-    // if (
-    //   pickedFileData.updatedUnlockedMeditationIds.length <= 0 &&
-    //   pickedFileData.unsupportedFileNames.length > 0
-    // ) {
-    //   setScreenState(ScreenState.Fail);
-    // } else if (
-    //   pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-    //   pickedFileData.unsupportedFileNames.length > 0
-    // ) {
-    //   setUnlockedMeditationIdsInAsyncStorage(
-    //     pickedFileData.updatedUnlockedMeditationIds,
-    //   )
-    //   setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-    //   setScreenState(ScreenState.Mixed);
-    // } else if (
-    //   pickedFileData.updatedUnlockedMeditationIds.length > 0 &&
-    //   pickedFileData.unsupportedFileNames.length <=0
-    // ) {
-    //   console.log('meditation ids, pickedFileData.updatedUnlockedMeditationIds')
-    //   setUnlockedMeditationIdsInAsyncStorage(
-    //     pickedFileData.updatedUnlockedMeditationIds,
-    //   )
-    //   setUnlockedMeditationIds(pickedFileData.updatedUnlockedMeditationIds)
-    //   setScreenState(ScreenState.Success);
-    // }
-  };
-
-  const getScreenStateContent = () => {
-    switch (screenState) {
-      case ScreenState.Inital:
-        return {
-          header: 'Upload Meditations',
-          body: 'Upload meditations placeholder text. Need to figure out what this will say.',
-          buttonText: 'Add Meditations',
-          onPress: onUploadPress,
-        };
-      case ScreenState.Fail:
-        return {
-          header: 'Oops. Let\'s Try Again.',
-          body: 'Failed upload placeholder text. Need to figure out what this will say.',
-          buttonText: 'Retry',
-          onPress: onUploadPress,
-        };
-      case ScreenState.Mixed:
-        return {
-          header: 'Partially Successful',
-          body: 'Partially successful placeholder text. Need to figure out what this will say.',
-          buttonText: 'Continue',
-          onPress: onContinuePress,
-        };
-      case ScreenState.Success:
-        return {
-          header: 'Success!',
-          body: 'Success placeholder text. Need to figure out what this will say.',
-          buttonText: 'Continue',
-          onPress: onContinuePress,
-        };
-    }
-  }
-
-  const screenStateContent = getScreenStateContent();
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout level="4" style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.contentContainer}>
-          <Text
-            category='h5'
-            style={styles.textHeader}
+        <Layout level="4" style={styles.contentContainer}>
+          <Layout level="4" style={styles.headerContainer}>
+            <HelpIcon
+              fill="#FFFFFF"
+              style={styles.helpIcon}
+            />
+          </Layout>
+          <Layout level="4" style={styles.heroContainer}>
+            <Text
+              category="h3"
+              style={styles.header}
+            >
+              Let's get started!
+            </Text>
+            {/* <Button onPress={() => { }} size='large' style={styles.buttonTest}>Add Meditations</Button> */}
+            <Text category="s1">Add meditations from your phone</Text>
+          </Layout>
+          <Layout
+            level='4'
+            style={styles.faqContainer}
           >
-            {screenStateContent.header}
-          </Text>
-          <Text category='s1'>{screenStateContent.body}</Text>
-        </Layout>
-        <Layout style={styles.bottomContainer}>
-          <Button onPress={screenStateContent.onPress} size='large'>
-            {screenStateContent.buttonText.toUpperCase()}
-          </Button>
+            <Layout
+              level='2'
+              style={styles.faqBackground}
+            >
+              <Text style={styles.faqHeader}>
+                FAQs
+              </Text>
+              <Text style={styles.faqItem}>
+                Why do meditations need to be on my phone?
+              </Text>
+              <Text style={styles.faqItem}>
+                How do I download meditations onto my phone from Dropbox or Google Drive?
+              </Text>
+              <Text style={styles.faqItem}>
+                What meditations are supported in this app?
+              </Text>
+            </Layout>
+          </Layout>
+          <Layout level="4" style={styles.bottomContainer}>
+            <Button onPress={() => {}} size='large' style={styles.button}>Add Meditations</Button>
+            <Button
+              onPress={() => {}}
+              size='large'
+              status="control"
+              appearance="ghost" 
+              style={styles.button}
+            >
+              Skip
+            </Button>
+          </Layout>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -143,51 +76,59 @@ const InitialUploadScreen = () => {
 
 const styles = StyleSheet.create({
   bottomContainer: {
-    flex: 1,
-    paddingBottom: 10,
+    flex: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  closeIcon: {
-    height: 20,
-    width: 20,
+  button: {
+    marginBottom: 16,
+    width: 300
   },
-  closeIconContainer: {
-    padding: 5,
+  buttonTest: {
+    marginTop: 16,
+    width: 300
   },
   container: {
     flex: 1,
   },
   contentContainer: {
-    flex: 9,
-    justifyContent: 'flex-end',
-    marginBottom: 50,
-  },
-  modal: {
-    borderRadius: 4,
-    height: 250,
-    width: 300,
-  },
-  modalBackdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContentContainer: {
-    borderRadius: 4,
-    padding: 20,
-  },
-  modalDescriptionText: {
-    marginVertical: 20,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  rootContainer: {
     flex: 1,
     paddingHorizontal: 20,
   },
-  textHeader: {
-    marginVertical: 16,
-  }
+  faqBackground: {
+    borderRadius: 16,
+    flex: 1,
+    padding: 20,
+  },
+  faqContainer: {
+    flex: 4,
+  },
+  faqHeader: {
+    fontWeight: 'bold',
+  },
+  faqItem: {
+    lineHeight: 26,
+    marginVertical: 12,
+    opacity: 0.9,
+    textDecorationLine: 'underline',
+  },
+  header: {
+    marginBottom: 10,
+  },
+  headerContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  helpIcon: {
+    height: 32,
+    opacity: 0.9,
+    width: 32,
+  },
+  heroContainer: {
+    alignItems: 'center',
+    flex: 3,
+    justifyContent: 'center',
+  },
 })
 
 export default InitialUploadScreen;
