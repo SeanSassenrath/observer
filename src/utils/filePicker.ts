@@ -135,7 +135,7 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedWalkingUnlockingCodeV1]: file.fileCopyUri,
       }
-    case MeditationStringSizes.MedWalkingMeditation1V1:
+    case MeditationStringSizes.MedWalkingUnlockingCodeV1:
       return {
         [MeditationBaseKeys.MedWalkingMeditation1V1]: file.fileCopyUri,
       }
