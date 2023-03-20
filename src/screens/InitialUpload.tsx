@@ -235,11 +235,10 @@ const styles = StyleSheet.create({
   },
   faqBackground: {
     borderRadius: 16,
-    flex: 1,
     padding: 20,
   },
   faqContainer: {
-    flex: 4,
+    flex: 5,
   },
   faqHeader: {
     fontWeight: 'bold',
