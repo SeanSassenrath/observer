@@ -9,6 +9,8 @@ import { meditationBaseMap } from "../constants/meditation";
 import { onAddMeditations } from "../utils/addMeditations";
 import { MeditationFilePathData } from "../utils/asyncStorageMeditation";
 import MeditationBaseDataContext from "../contexts/meditationBaseData";
+import { fbUpdateUser } from "../fb/user";
+import UserContext from "../contexts/userData";
 
 interface HelpIconProps {
   fill: string,
@@ -26,8 +28,9 @@ enum ModalContext {
 }
 
 const InitialUploadScreen = () => {
+  const { user } = useContext(UserContext);
   const navigation = useNavigation();
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalContext, setModalContext] = useState(ModalContext.Phone);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
@@ -45,6 +48,7 @@ const InitialUploadScreen = () => {
     )
     if (meditations) {
       setMeditationBaseData(meditations);
+      await fbUpdateUser(user.uid, { 'onboarding.hasSeenAddMeditationOnboarding': true });
       //@ts-ignore
       navigation.navigate('TabNavigation', { screen: 'Library' });
     }

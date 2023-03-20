@@ -8,7 +8,6 @@ import {
 } from '@ui-kitten/components';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
-
 import UserContext from '../contexts/userData';
 import FtuxContext from '../contexts/ftuxData';
 import { fbFetchBetaUserList, fbSetUserBetaAccessState } from '../utils/fbBetaUserList';
@@ -53,10 +52,14 @@ const RequestInvite = () => {
         await fbSetUserBetaAccessState(user);
         await showAccessGrantedIndictator();
 
-        if (hasSeenFtux) {
+        if (
+          user &&
+          user.onboarding &&
+          user.onboarding.hasSeenAddMeditationOnboarding
+        ) {
           navigation.navigate('TabNavigation');
         } else {
-          navigation.navigate('AddFilesTutorial1');
+          navigation.navigate('InitialUpload');
         }
       } else {
         setIsNotInBeta(true)

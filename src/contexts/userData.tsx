@@ -26,10 +26,18 @@ export interface MeditationCountsMap {
   }
 }
 
+interface Onboarding {
+  hasSeenAddMeditationOnboarding: boolean,
+  hasSeenLibraryOnboarding: boolean,
+  hasSeenHomeOnboarding: boolean,
+  hasSeenInsightsOnboarding: boolean,
+}
+
 export interface User {
   uid: UserUid,
   profile: UserProfile,
   hasBetaAccess?: boolean;
+  onboarding: Onboarding,
   meditationHistoryIds?: MeditationBaseId[],
   meditationUserData: {
     recentMeditationBaseIds?: MeditationBaseId[],
@@ -58,6 +66,12 @@ export const initialUserState = {
     creationTime: '',
     lastSignInTime: '',
     photoURL: '',
+  },
+  onboarding: {
+    hasSeenAddMeditationOnboarding: false,
+    hasSeenLibraryOnboarding: false,
+    hasSeenHomeOnboarding: false,
+    hasSeenInsightsOnboarding: false,
   },
   meditationHistoryIds: [],
   meditationUserData: {

@@ -30,8 +30,6 @@ const StackNavigator = () => {
   const navigationRef: any = useRef({});
 
   const getInitialRouteName = () => {
-    return "InitialUpload";
-  
     if (user.uid.length <= 0) {
       return "SignIn";
     } else if (!user.hasBetaAccess) {
