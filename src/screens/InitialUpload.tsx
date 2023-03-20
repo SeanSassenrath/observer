@@ -1,7 +1,14 @@
-import { StyleSheet } from "react-native";
+import { useContext, useState } from "react";
+import { FlatList, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Icon, Layout, Text } from "@ui-kitten/components/ui";
+import { Icon, Layout, Modal, Text } from "@ui-kitten/components/ui";
+import { useNavigation } from "@react-navigation/native";
+
 import Button from "../components/Button";
+import { meditationBaseMap } from "../constants/meditation";
+import { onAddMeditations } from "../utils/addMeditations";
+import { MeditationFilePathData } from "../utils/asyncStorageMeditation";
+import MeditationBaseDataContext from "../contexts/meditationBaseData";
 
 interface HelpIconProps {
   fill: string,
@@ -12,7 +19,99 @@ const HelpIcon = (props: HelpIconProps) => (
   <Icon {...props} name='question-mark-circle'/>
 )
 
+enum ModalContext {
+  Phone,
+  Download,
+  Supported,
+}
+
 const InitialUploadScreen = () => {
+  const navigation = useNavigation();
+  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [modalContext, setModalContext] = useState(ModalContext.Phone);
+  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
+
+
+  const onSkipPress = () => {
+    //@ts-ignore
+    navigation.navigate('TabNavigation', { screen: 'Home' });
+  }
+
+  const onAddMeditationsPress = async () => {
+    const meditations = await onAddMeditations(
+      existingMediationFilePathData,
+      setExistingMeditationFilePathData,
+    )
+    if (meditations) {
+      setMeditationBaseData(meditations);
+      //@ts-ignore
+      navigation.navigate('TabNavigation', { screen: 'Library' });
+    }
+  }
+
+  const onFaqItemPress = (modalContext: ModalContext) => {
+    setModalContext(modalContext);
+    setIsModalVisible(true);
+  }
+
+  const makeSupportedMeditationData = () => {
+    const nameList = [];
+
+    for (const key in meditationBaseMap) {
+      const meditationName = meditationBaseMap[key].name;
+      nameList.push(meditationName);
+    }
+
+    return nameList.sort();
+  }
+
+  const renderSupportedMeditationItem = ({ item }: any) => (
+    <Text category="s1" style={styles.supportedMeditationItem}>{item}</Text>
+  )
+
+  const renderModalContext = () => {
+    if (modalContext === ModalContext.Phone) {
+      return (
+        <>
+          <Text category="s1" style={styles.modalContextHeader}>
+            Meditations need to be stored on your phone for the following reasons:
+          </Text>
+          <Text category="s1" style={styles.modalContextText}>
+            1. Due to copyright it is required for you to own all meditations
+            used with this app.
+            We are simply a tool to help support your practice.
+          </Text>
+          <Text category="s1" style={styles.modalContextText}>
+            2. Meditations stored outside of your phone will break the player.
+          </Text>
+        </>
+      )
+    } else if (modalContext === ModalContext.Download) {
+      return (
+        <>
+        </>
+      )
+    } else if (modalContext === ModalContext.Supported) {
+      return (
+        <>
+          <Text category="s1" style={styles.modalContextHeader}>
+            At this moment we support the following meditations and breath work:
+          </Text>
+          <Layout style={styles.supportedMeditationsContainer}>
+            <FlatList
+              data={makeSupportedMeditationData()}
+              renderItem={renderSupportedMeditationItem}
+            />
+          </Layout>
+          <Text category="s1" style={styles.modalContextText}>
+            * If you are having trouble uploading meditations that are on this list,
+            please reach out to customer service and we will assist you as soon as possible.
+          </Text>
+        </>
+      )
+    }
+  }
 
   return (
     <Layout level="4" style={styles.container}>
@@ -45,21 +144,39 @@ const InitialUploadScreen = () => {
               <Text style={styles.faqHeader}>
                 FAQs
               </Text>
-              <Text style={styles.faqItem}>
-                Why do meditations need to be on my phone?
-              </Text>
-              <Text style={styles.faqItem}>
-                How do I download meditations onto my phone from Dropbox or Google Drive?
-              </Text>
-              <Text style={styles.faqItem}>
-                What meditations are supported in this app?
-              </Text>
+              <Pressable
+                onPress={() => onFaqItemPress(ModalContext.Phone)}
+              >
+                <Text style={styles.faqItem}>
+                  Why do meditations need to be on my phone?
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => onFaqItemPress(ModalContext.Download)}
+              >
+                <Text style={styles.faqItem}>
+                  How do I download meditations onto my phone from Dropbox or Google Drive?
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => onFaqItemPress(ModalContext.Supported)}
+              >
+                <Text style={styles.faqItem}>
+                  What meditations are supported in this app?
+                </Text>
+              </Pressable>
             </Layout>
           </Layout>
           <Layout level="4" style={styles.bottomContainer}>
-            <Button onPress={() => {}} size='large' style={styles.button}>Add Meditations</Button>
             <Button
-              onPress={() => {}}
+              onPress={onAddMeditationsPress}
+              size='large'
+              style={styles.button}
+            >
+              Add Meditations
+            </Button>
+            <Button
+              onPress={onSkipPress}
               size='large'
               status="control"
               appearance="ghost" 
@@ -70,6 +187,23 @@ const InitialUploadScreen = () => {
           </Layout>
         </Layout>
       </SafeAreaView>
+      <Modal
+        visible={isModalVisible}
+        backdropStyle={styles.modalBackdrop}
+        onBackdropPress={() => setIsModalVisible(false)}
+      >
+        <Layout level='3' style={styles.modalContainer}>
+          <Layout level='3'>
+            {renderModalContext()}
+          </Layout>
+          <Button
+            onPress={() => setIsModalVisible(false)}
+            style={styles.modalButton}
+          >
+            Close
+          </Button>
+        </Layout>
+      </Modal>
     </Layout>
   )
 }
@@ -129,6 +263,39 @@ const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
   },
+  modalBackdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalButton: {
+    marginTop: 20,
+  },
+  modalContainer: {
+    borderRadius: 16,
+    padding: 20,
+    width: 350,
+  },
+  modalContextHeader: {
+    lineHeight: 22,
+    marginBottom: 24,
+    opacity: 0.9,
+  },
+  modalContextText: {
+    lineHeight: 22,
+    marginBottom: 20,
+    opacity: 0.9,
+  },
+  supportedMeditationsContainer: {
+    borderRadius: 16, 
+    height: 300,
+    marginBottom: 30,
+    paddingVertical: 16,
+    paddingLeft: 16,
+    paddingRight: 6,
+  },
+  supportedMeditationItem: {
+    lineHeight: 22,
+    marginVertical: 8,
+  }
 })
 
 export default InitialUploadScreen;
