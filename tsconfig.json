@@ -6,6 +6,6 @@
 
     /* Completeness */
     "skipLibCheck": true ,
-    "types": ["node"],                                /* Skip type checking all .d.ts files. */
+    "types": ["node", "jest"],                                /* Skip type checking all .d.ts files. */
   }
 }

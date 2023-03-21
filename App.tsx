@@ -59,6 +59,12 @@ const App = () => {
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
       photoURL: firebaseUser.photoURL,
     },
+    onboarding: {
+      hasSeenAddMeditationOnboarding: false,
+      hasSeenHomeOnboarding: false,
+      hasSeenInsightsOnboarding: false,
+      hasSeenLibraryOnboarding: false,
+    },
     meditationUserData: {
       streaks: {
         current: 0,
