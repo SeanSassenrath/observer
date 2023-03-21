@@ -90,14 +90,13 @@ const App = () => {
             lastDocument: meditationHistory.lastDocument,
           })
 
-          if (userStreakData && meditationHistory.lastDocument) {
-            const lastMeditation = meditationHistory.lastDocument.data() as MeditationInstance;
+          if (userStreakData && meditationHistory.meditationInstances.length) {
+            const lastMeditation = meditationHistory.meditationInstances[0];
             const streakData = checkStreakData(
               userStreakData,
               lastMeditation,
             )
-
-            if (isEqual(userStreakData, streakData)) {
+            if (userStreakData.current === streakData.current) {
               setUser(userData);
               setFullUserLoaded(true);
               if (initializing) setInitializing(false);
