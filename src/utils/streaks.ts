@@ -68,6 +68,14 @@ const updateStreakData = (
     const lastMeditationDt = DateTime.fromSeconds(lastMeditation.meditationStartTime);
     const lastMeditationWeekday = lastMeditationDt.weekdayShort;
 
+    // console.log('lastMeditationWeekday', lastMeditationWeekday)
+    // console.log('today', today)
+    // console.log('isEqual', lastMeditationWeekday === today);
+    // console.log('is true?', !(lastMeditationWeekday === today &&
+    //   streakData.current &&
+    //   streakData.longest ))
+
+
     if (
       lastMeditationWeekday === today &&
       streakData.current &&
