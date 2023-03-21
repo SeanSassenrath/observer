@@ -84,8 +84,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
     labels: [day4.weekdayShort, day3.weekdayShort, day2.weekdayShort, day1.weekdayShort, day0.weekdayShort],
     datasets: [
       {
-        // data: meditationTimeData.reverse().map((seconds) => seconds / 60),
-        data: [47, 72, 72, 31, 24],
+        data: meditationTimeData.reverse().map((seconds) => seconds / 60),
         color: (opacity = 1) => `rgba(119,205,72, ${opacity})`,
         strokeWidth: 2
       }
