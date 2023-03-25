@@ -92,7 +92,6 @@ const App = () => {
   const onAuthStateChanged = async (firebaseUser: any) => {
     if (firebaseUser && user && user.uid.length <= 0) {
       const userId = firebaseUser.uid;
-      const normalizedUser = normalizeFirebaseUser(firebaseUser)
       const userDocument = await fbGetUser(userId);
 
       if (userDocument && userDocument.exists) {
@@ -130,6 +129,8 @@ const App = () => {
           }
         }
       } else {
+        const normalizedUser = normalizeFirebaseUser(firebaseUser)
+
         const userAdded = await fbAddUser(
           userId,
           normalizedUser,

@@ -9,10 +9,10 @@ import {
 } from '@ui-kitten/components';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
+import AppleSSOButton from '../components/AppleSSOButton';
 
 const softBlack = '#1B1C22';
 
@@ -20,38 +20,6 @@ const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
   const [isSignInPending, setIsSignInPending] = useState(false);
-
-  const onAppleButtonPress = async () => {
-    // 1). start a apple sign-in request
-    console.log('sending request for apple auth');
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
-    });
-
-    console.log('appleAuthRequestResponse', appleAuthRequestResponse);
-
-    // 2). if the request was successful, extract the token and nonce
-    const { identityToken, nonce } = appleAuthRequestResponse;
-
-    // can be null in some scenarios
-    if (identityToken) {
-      // 3). create a Firebase `AppleAuthProvider` credential
-      const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
-
-      // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
-      //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
-      //     to link the account to an existing user
-      const userCredential = await auth().signInWithCredential(appleCredential);
-
-      navigation.navigate('BetaCheck');
-
-      // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
-      console.warn(`Firebase authenticated via Apple, UID: ${userCredential.user.uid}`);
-    } else {
-      // handle this - retry?
-    }
-  }
 
   const onGooglePress = async () => {
     crashlytics().log('User signed in.');
@@ -127,26 +95,7 @@ const SignInScreen = () => {
           <Layout level='4' style={styles.bottomContainer}>
             <Layout level='4' style={styles.buttonsContainer}>
               { Platform.OS === 'ios'
-                ? <Button
-                    onPress={onAppleButtonPress}
-                    size='large'
-                    status='control'
-                    style={styles.button}
-                  >
-                    <>
-                      <Image
-                        source={require('../assets/apple-icon.png')}
-                        style={imageStyles.ssoLogo}
-                      />
-                      <Text
-                        status='basic'
-                        category='s1'
-                        style={styles.ssoText}
-                      >
-                        Sign in with Apple
-                      </Text>
-                    </>
-                  </Button>
+                ? <AppleSSOButton />
                 : null
               }
               <Button
