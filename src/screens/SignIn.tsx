@@ -1,74 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, Platform, SafeAreaView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import crashlytics from '@react-native-firebase/crashlytics';
 import {
 	Layout,
 	Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
 
-import Button from '../components/Button';
-import { InitialUploadScreenNavigationProp } from '../types';
 import AppleSSOButton from '../components/AppleSSOButton';
-
-const softBlack = '#1B1C22';
+import GoogleSSOButton from '../components/GoogleSSOButton';
 
 const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
-  const navigation = useNavigation<InitialUploadScreenNavigationProp>();
-  const [isSignInPending, setIsSignInPending] = useState(false);
-
-  const onGooglePress = async () => {
-    crashlytics().log('User signed in.');
-    let userInfo;
-    try {
-      setIsSignInPending(true);
-      await GoogleSignin.hasPlayServices();
-      userInfo = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-      const { user } = userInfo;
-
-      if (!user) {
-        crashlytics().log('ERROR: Empty user object after sign up');
-        return;
-      }
-
-      crashlytics().setUserId(user.id),
-
-      await auth().signInWithCredential(googleCredential);
-
-      navigation.navigate('BetaCheck');
-  
-      setIsSignInPending(false);
-    } catch (error: any) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        crashlytics().recordError(error);
-        // user cancelled the login flow
-        // TODO: Add metric here for monitoring
-        // TODO: Add error handling
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        crashlytics().recordError(error);
-
-        // operation (e.g. sign in) is in progress already
-        // TODO: Add metric here for monitoring
-        // TODO: Add error handling
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        crashlytics().recordError(error);
-        // play services not available or outdated
-        // TODO: Add metric here for monitoring
-        // TODO: Add error handling
-      } else {
-        crashlytics().recordError(error);
-
-        // some other error happened
-        // TODO: Add metric here for monitoring
-        // TODO: Add error handling
-      }
-    }
-  };
 
   return (
     <Layout level='4' style={styles.container}>
@@ -98,26 +40,7 @@ const SignInScreen = () => {
                 ? <AppleSSOButton />
                 : null
               }
-              <Button
-                onPress={onGooglePress}
-                size='large'
-                status='control'
-                style={styles.button}
-              >
-                <>
-                  <Image
-                    source={require('../assets/google-icon.png')}
-                    style={imageStyles.ssoLogoGoogle}
-                  />
-                  <Text
-                    status='basic'
-                    category='s1'
-                    style={styles.ssoText}
-                  >
-                    Sign in with Google
-                  </Text>
-                </>
-              </Button>
+              <GoogleSSOButton/>
             </Layout>
           </Layout>
         </Layout>
@@ -131,26 +54,9 @@ const imageStyles = StyleSheet.create({
     width: 60,
     height: 60,
   },
-  ssoLogo: {
-    height: 20,
-    width: 20,
-    marginTop: -2,
-  },
-  ssoLogoGoogle: {
-    height: 28,
-    width: 28,
-  }
 })
 
 const themedStyles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 16,
-    opacity: 0.95,
-    width: 300,
-    height: 20,
-  },
   buttonsContainer: {
     flex: 5,
     alignItems: 'center',
@@ -179,12 +85,6 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 7,
-  },
-  ssoText: {
-    color: softBlack,
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 10,
   },
   textContainer: {
     alignItems: 'center',
