@@ -9,10 +9,6 @@ import MeditationFinishScreen from '../screens/MeditationFinish';
 import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
-import AddFilesTutorial1 from '../screens/AddFilesTutorial1';
-import AddFilesTutorial2 from '../screens/AddFilesTutorial2';
-import AddFilesTutorial3 from '../screens/AddFilesTutorial3';
-import AddFilesTutorial4 from '../screens/AddFilesTutorial4';
 import BetaCheck from '../screens/BetaCheck';
 import Loading from '../screens/Loading';
 import TabNavigator from './Tab';
@@ -51,7 +47,10 @@ const StackNavigator = () => {
         const previousRouteName = routeNameRef.current;
         const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
-        if (previousRouteName !== currentRouteName) {
+        if (
+          previousRouteName !== currentRouteName &&
+          (currentRouteName !== 'RNSScreen' || currentRouteName !== 'UIViewController')
+        ) {
           await analytics().logScreenView({
             screen_name: currentRouteName,
             screen_class: currentRouteName,
@@ -67,10 +66,6 @@ const StackNavigator = () => {
       >
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaCheck" component={BetaCheck} />
-        <Screen name="AddFilesTutorial1" component={AddFilesTutorial1} />
-        <Screen name="AddFilesTutorial2" component={AddFilesTutorial2} />
-        <Screen name="AddFilesTutorial3" component={AddFilesTutorial3} />
-        <Screen name="AddFilesTutorial4" component={AddFilesTutorial4} />
         <Screen name="InitialUpload" component={InitialUploadScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
