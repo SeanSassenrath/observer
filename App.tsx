@@ -47,14 +47,30 @@ const App = () => {
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
+  const getFirstName = (firebaseUser: any) => {
+    if (firebaseUser.displayName) {
+      return firebaseUser.displayName.split(' ')[0];
+    } else if (firebaseUser.firstName) {
+      return firebaseUser.firstName;
+    }
+  }
+
+  const getLastName = (firebaseUser: any) => {
+    if (firebaseUser.displayName) {
+      return firebaseUser.displayName.split(' ')[1];
+    } else if (firebaseUser.lastName) {
+      return firebaseUser.lastName;
+    }
+  }
+
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
     uid: firebaseUser.uid,
     hasBetaAccess: false,
     profile: {
       displayName: firebaseUser.displayName,
       email: firebaseUser.email,
-      firstName: firebaseUser.displayName.split(' ')[0],
-      lastName: firebaseUser.displayName.split(' ')[1],
+      firstName: getFirstName(firebaseUser),
+      lastName: getLastName(firebaseUser),
       creationTime: firebaseUser.metadata.creationTime,
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
       photoURL: firebaseUser.photoURL,

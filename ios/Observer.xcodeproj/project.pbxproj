@@ -60,6 +60,7 @@
 		FF1EB313293D8852006141B8 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Light.ttf"; path = "../assets/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../assets/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		FF7B7D4B294FE79F00C67E03 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FFB679EF29CEB80F0040250F /* Observer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Observer.entitlements; path = Observer/Observer.entitlements; sourceTree = "<group>"; };
 		FFBBAA50291DD7D500E916AB /* Observer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Observer-Bridging-Header.h"; sourceTree = "<group>"; };
 		FFBBAA51291DD7D500E916AB /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,6 +105,7 @@
 		13B07FAE1A68108700A75B9A /* Observer */ = {
 			isa = PBXGroup;
 			children = (
+				FFB679EF29CEB80F0040250F /* Observer.entitlements */,
 				FF7B7D4B294FE79F00C67E03 /* GoogleService-Info.plist */,
 				FF1EB313293D8852006141B8 /* Roboto-Light.ttf */,
 				FF1EB316293D885E006141B8 /* Roboto-Regular.ttf */,
@@ -579,6 +581,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Observer/Observer.entitlements;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 63L9X6ZF6Y;
 				ENABLE_BITCODE = NO;
@@ -610,6 +613,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Observer/Observer.entitlements;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 63L9X6ZF6Y;
 				INFOPLIST_FILE = Observer/Info.plist;
