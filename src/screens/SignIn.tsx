@@ -13,6 +13,8 @@ import auth from '@react-native-firebase/auth';
 import Button from '../components/Button';
 import { InitialUploadScreenNavigationProp } from '../types';
 
+const softBlack = '#1B1C22';
+
 const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation<InitialUploadScreenNavigationProp>();
@@ -92,10 +94,48 @@ const SignInScreen = () => {
           <Layout level='4' style={styles.bottomContainer}>
             <Layout level='4' style={styles.buttonsContainer}>
               { Platform.OS === 'ios'
-                ? <Button onPress={signIn} size='large' style={styles.button}>Sign in with Apple</Button>
+                ? <Button
+                    onPress={signIn}
+                    size='large'
+                    status='control'
+                    style={styles.button}
+                  >
+                    <>
+                      <Image
+                        source={require('../assets/apple-icon.png')}
+                        style={imageStyles.ssoLogo}
+                      />
+                      <Text
+                        status='basic'
+                        category='s1'
+                        style={styles.ssoText}
+                      >
+                        Sign in with Apple
+                      </Text>
+                    </>
+                  </Button>
                 : null
               }
-              <Button onPress={signIn} size='large' style={styles.button}>Sign in with Google</Button>
+              <Button
+                onPress={signIn}
+                size='large'
+                status='control'
+                style={styles.button}
+              >
+                <>
+                  <Image
+                    source={require('../assets/google-icon.png')}
+                    style={imageStyles.ssoLogoGoogle}
+                  />
+                  <Text
+                    status='basic'
+                    category='s1'
+                    style={styles.ssoText}
+                  >
+                    Sign in with Google
+                  </Text>
+                </>
+              </Button>
             </Layout>
           </Layout>
         </Layout>
@@ -109,12 +149,25 @@ const imageStyles = StyleSheet.create({
     width: 60,
     height: 60,
   },
+  ssoLogo: {
+    height: 20,
+    width: 20,
+    marginTop: -2,
+  },
+  ssoLogoGoogle: {
+    height: 28,
+    width: 28,
+  }
 })
 
 const themedStyles = StyleSheet.create({
   button: {
+    alignItems: 'center',
+    justifyContent: 'center',
     marginVertical: 16,
-    width: 300
+    opacity: 0.95,
+    width: 300,
+    height: 20,
   },
   buttonsContainer: {
     flex: 5,
@@ -144,6 +197,12 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 7,
+  },
+  ssoText: {
+    color: softBlack,
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginLeft: 10,
   },
   textContainer: {
     alignItems: 'center',
