@@ -19,11 +19,12 @@ export const HomeTopBar = ({
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
-      <Pressable onPress={() => crashlytics().crash()}>
+      <Text category='s1'></Text>
+      {/* <Pressable onPress={() => crashlytics().crash()}>
         <Layout style={styles.topBarVoidContainer}>
           <Text category='s2' style={styles.topBarVoidText}>2 beings in the void</Text>
         </Layout>
-      </Pressable>
+      </Pressable> */}
       <Layout style={styles.topBarActionItemsContainer} level='4'>
         { user.profile && user.profile.photoURL
           ? <Pressable onPress={onAvatarPress}>

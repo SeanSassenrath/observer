@@ -9,7 +9,7 @@ export const Inspiration = () => {
   const styles = useStyleSheet(themedStyles);
 
   return (
-    <Layout level='1' style={styles.container}>
+    <Layout level='2' style={styles.container}>
       <Text category='h5' style={styles.header}>Hello, {user.profile.firstName}</Text>
       <Text category='s1' style={styles.prompt}>Where will you place your energy today?</Text>
     </Layout>
@@ -25,6 +25,7 @@ const themedStyles = StyleSheet.create({
   },
   header: {
     marginBottom: 10,
+    opacity: 0.9,
   },
   prompt: {
     opacity: 0.7,

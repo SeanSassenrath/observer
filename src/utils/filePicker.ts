@@ -4,25 +4,7 @@ import _ from "lodash";
 import { MeditationBaseKeys, MeditationStringSizes } from '../constants/meditation';
 import { MeditationFilePathData } from './asyncStorageMeditation';
 
-export const pickFiles = async (
-  existingMeditationFilePathData: MeditationFilePathData
-) => {
-  try {
-    console.log('DOCUMENT PICKER: Existing picked files', existingMeditationFilePathData);
-    const files = await DocumentPicker.pick({
-      allowMultiSelection: true,
-      copyTo: 'documentDirectory',
-    });
-    console.log('DOCUMENT PICKER: Picked files', files);
-    const filePathDataList = makeFilePathDataList(files, existingMeditationFilePathData);
-    console.log('DOCUMENT PICKER: File path data', filePathDataList);
-    return filePathDataList as MeditationFilePathData;
-  } catch (e) {
-    console.log('DOCUMENT PICKER: Error picking files', e);
-  }
-}
-
-const makeFilePathDataList = (
+export const makeFilePathDataList = (
   files: DocumentPickerResponse[],
   existingMeditationFilePathData: MeditationFilePathData,
 ) => {

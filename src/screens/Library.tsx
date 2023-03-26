@@ -46,7 +46,6 @@ const LibraryScreen = () => {
     const filteredMeditationGroupsList = meditationGroupsList.map((group, index) => {
       const key = Object.keys(group)[0];
       const meditations = group[key];
-      console.log('medtations >>', meditations);
       const filteredMeditations = meditations.filter((meditation) => {
         if (meditation.name.includes(searchInput)) {
           return meditation;

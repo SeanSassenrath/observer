@@ -1,26 +1,42 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, keyBy } from 'lodash';
 import Toast from 'react-native-toast-message';
+import analytics from '@react-native-firebase/analytics';
+import DocumentPicker from 'react-native-document-picker';
 
 import { MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from './asyncStorageMeditation';
-import { pickFiles } from './filePicker';
+import { makeFilePathDataList } from './filePicker';
 import { makeMeditationBaseData } from './meditation';
 
 export const onAddMeditations = async (
   existingMediationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
 ) => {
-  const pickedFileData = await pickFiles(existingMediationFilePathData);
-  if (!pickedFileData) { return null; }
-  const numberOfMeditations = Object.keys(pickedFileData).length;
+  await analytics().logEvent('add_meditations_start')
+
+  const pickedFiles = await DocumentPicker.pick({
+    allowMultiSelection: true,
+    copyTo: 'documentDirectory',
+  });
+
+  const filePathDataList = makeFilePathDataList(pickedFiles, existingMediationFilePathData);
+
+  if (!filePathDataList) { return null; }
+  const numberOfMeditations = Object.keys(filePathDataList).length;
 
   if (
-    !pickedFileData ||
+    !filePathDataList ||
     numberOfMeditations <= 0
   ) {
+    const errorPickedFiles = Object.fromEntries(
+      pickedFiles.map((file) => [file.name, file])
+    );
+
+    await analytics().logEvent('add_meditations_fail', errorPickedFiles)
+
     Toast.show({
       type: 'error',
-      text1: 'Error adding meditations',
-      text2: 'Tap to re-try',
+      text1: 'Something went wrong',
+      text2: 'Tap to retry',
       position: 'bottom',
       bottomOffset: 100,
       onPress: () => onAddMeditations(
@@ -44,9 +60,9 @@ export const onAddMeditations = async (
     });
   }
 
-  if (!isEmpty(pickedFileData)) {
-    setMeditationFilePathDataInAsyncStorage(pickedFileData);
-    setExistingMeditationFilePathData(pickedFileData);
+  if (!isEmpty(filePathDataList)) {
+    setMeditationFilePathDataInAsyncStorage(filePathDataList);
+    setExistingMeditationFilePathData(filePathDataList);
     const meditationBaseData = await makeMeditationBaseData();
     return meditationBaseData;
   }
