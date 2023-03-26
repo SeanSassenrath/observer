@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import crashlytics from '@react-native-firebase/crashlytics';
+
 import UserContext from '../contexts/userData';
 
 interface HomeTopBarProps {
@@ -17,7 +19,7 @@ export const HomeTopBar = ({
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
-      <Pressable onPress={onVoidPress}>
+      <Pressable onPress={() => crashlytics().crash()}>
         <Layout style={styles.topBarVoidContainer}>
           <Text category='s2' style={styles.topBarVoidText}>2 beings in the void</Text>
         </Layout>

@@ -121,7 +121,6 @@ const MeditationFinishScreen = () => {
     <KeyboardAwareScrollView style={styles.scrollContainer}>
       <Layout style={styles.rootContainer} level='4'>
         <Text category='h5' style={styles.text}>Thinkbox</Text>
-        <Text category='h6' style={styles.description}>Welcome back, record your insights here.</Text>
         {updatedStreaksData.streakUpdated
           ? <StreakUpdate
               current={streaks.current}
