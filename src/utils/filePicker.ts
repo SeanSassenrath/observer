@@ -125,6 +125,74 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedWalkingMeditation2V1]: file.fileCopyUri,
       }
+    case MeditationStringSizes.MedTurningYourLoveInwardV1:
+      return {
+        [MeditationBaseKeys.MedTurningYourLoveInwardV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedChangingBeliefsAndPerceptionsFullV1:
+      return {
+        [MeditationBaseKeys.MedChangingBeliefsAndPerceptionsFullV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedChangingBeliefsAndPerceptionsV1:
+      return {
+        [MeditationBaseKeys.MedChangingBeliefsAndPerceptionsV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.BreathChangingBeliefsAndPerceptionsV1:
+      return {
+        [MeditationBaseKeys.BreathChangingBeliefsAndPerceptionsV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedAlchemistV1:
+      return {
+        [MeditationBaseKeys.MedAlchemistV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedHeartBrainSyncV1:
+      return {
+        [MeditationBaseKeys.MedHeartBrainSyncV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedCourageousHeartV1:
+      return {
+        [MeditationBaseKeys.MedCourageousHeartV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedBreakingHabitsAddictionsV1:
+      return {
+        [MeditationBaseKeys.MedBreakingHabitsAddictionsV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedEmpoweringWithinV1:
+      return {
+        [MeditationBaseKeys.MedEmpoweringWithinV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedPinealGlandLongV1:
+      return {
+        [MeditationBaseKeys.MedPinealGlandLongV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedPinealGlandShortV1:
+      return {
+        [MeditationBaseKeys.MedPinealGlandShortV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingAbundanceV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingAbundanceV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingFlowV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingFlowV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingGratitudeV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingGratitudeV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingEmpowermentV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingEmpowermentV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingChangeV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingChangeV1]: file.fileCopyUri,
+      }
+    case MeditationStringSizes.MedGeneratingInspirationV1:
+      return {
+        [MeditationBaseKeys.MedGeneratingInspirationV1]: file.fileCopyUri,
+      }
     default:
       break;
   }
