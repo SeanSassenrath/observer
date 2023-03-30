@@ -10,18 +10,17 @@ import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
 import BetaCheck from '../screens/BetaCheck';
-import Loading from '../screens/Loading';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 import DebugScreen from '../screens/Debug';
 import UserContext from '../contexts/userData';
-import FtuxContext from '../contexts/ftuxData';
+import OnboardingStep1 from '../screens/OnboardingStep1';
+import OnboardingStep2 from '../screens/OnboardingStep2';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
   const { user } = useContext(UserContext);
-  const { hasSeenFtux } = useContext(FtuxContext);
   const routeNameRef: any = useRef({});
   const navigationRef: any = useRef({});
 
@@ -30,8 +29,8 @@ const StackNavigator = () => {
       return "SignIn";
     } else if (!user.hasBetaAccess) {
       return "BetaCheck";
-    } else if (!hasSeenFtux) {
-      return "AddFilesTutorial1";
+    } else if (!user.onboarding.hasSeenAddMeditationOnboarding) {
+      return "OnboardingStep1";
     } else {
       return "TabNavigation";
     }
@@ -72,7 +71,8 @@ const StackNavigator = () => {
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         <Screen name="Debug" component={DebugScreen} />
-        <Screen name="Loading" component={Loading} />
+        <Screen name="OnboardingStep1" component={OnboardingStep1} />
+        <Screen name="OnboardingStep2" component={OnboardingStep2} />
       </Navigator>
     </NavigationContainer>
   )

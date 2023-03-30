@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import { Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
-import crashlytics from '@react-native-firebase/crashlytics';
+import { Pressable, StyleSheet } from 'react-native';
+import { Avatar, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
 
@@ -19,12 +18,9 @@ export const HomeTopBar = ({
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
-      <Text category='s1'></Text>
-      {/* <Pressable onPress={() => crashlytics().crash()}>
-        <Layout style={styles.topBarVoidContainer}>
-          <Text category='s2' style={styles.topBarVoidText}>2 beings in the void</Text>
-        </Layout>
-      </Pressable> */}
+      <Layout style={styles.topBarVoidContainer}>
+        <Text category='s2' style={styles.topBarVoidText}>BETA</Text>
+      </Layout>
       <Layout style={styles.topBarActionItemsContainer} level='4'>
         { user.profile && user.profile.photoURL
           ? <Pressable onPress={onAvatarPress}>

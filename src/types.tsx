@@ -20,7 +20,8 @@ export type StackParamList = {
   AddFilesTutorial3: undefined;
   AddFilesTutorial4: undefined;
   BetaCheck: undefined;
-  Loading: undefined;
+  OnboardingStep1: undefined;
+  OnboardingStep2: undefined;
 };
 
 interface MeditationParams {
@@ -36,7 +37,8 @@ type AddFilesTutorial2 = NativeStackScreenProps<StackParamList, 'AddFilesTutoria
 type AddFilesTutorial3 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial3'>;
 type AddFilesTutorial4 = NativeStackScreenProps<StackParamList, 'AddFilesTutorial3'>;
 type BetaCheck = NativeStackScreenProps<StackParamList, 'BetaCheck'>;
-type Loading = NativeStackScreenProps<StackParamList, 'Loading'>;
+type OnboardingStep1 = NativeStackScreenProps<StackParamList, 'OnboardingStep1'>;
+type OnboardingStep2 = NativeStackScreenProps<StackParamList, 'OnboardingStep2'>;
 
 export type InitialUploadScreenNavigationProp = InitialUploadProps['navigation'];
 export type SignInScreenNavigationProp = SignInProps['navigation'];
@@ -45,8 +47,8 @@ export type AddFilesTutorial2NavigationProp = AddFilesTutorial2['navigation'];
 export type AddFilesTutorial3NavigationProp = AddFilesTutorial3['navigation'];
 export type AddFilesTutorial4NavigationProp = AddFilesTutorial4['navigation'];
 export type BetaCheckProp = BetaCheck['navigation'];
-export type LoadingProp = Loading['navigation'];
-export type WelcomeScreenNavigationProp = WelcomeProps['navigation'];
+export type OnboardingStep1Prop = OnboardingStep1['navigation'];
+export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 
 export type MeditationProps = NativeStackScreenProps<StackParamList, 'Meditation'>;
 export type MeditationScreenNavigationProp = MeditationProps['navigation'];
