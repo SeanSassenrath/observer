@@ -2,7 +2,6 @@ import { FlatList, StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components/ui";
 
 import { meditationBaseMap } from "../../constants/meditation";
-import LinearGradient from "react-native-linear-gradient";
 
 const SupportedMeditationsList = () => {
   const makeSupportedMeditationData = () => {
@@ -16,15 +15,15 @@ const SupportedMeditationsList = () => {
     return nameList.sort();
   }
 
-  const renderSupportedMeditationItem = ({ item }: any) => (
+  const renderSupportedMeditationItem = ({ item, index }: any) => (
     <Layout level="3" style={styles.supportedMeditationItemContainer}>
-      <Layout level="3" style={styles.separator}/>
+      {index === 0 ? null : <Layout level="3" style={styles.separator}/> }
       <Text category="s1" style={styles.supportedMeditationItem}>{item}</Text>
     </Layout>
   )
 
   return (
-    <Layout style={styles.supportedMeditationsContainer}>
+    <Layout level='2' style={styles.supportedMeditationsContainer}>
       <FlatList
         data={makeSupportedMeditationData()}
         renderItem={renderSupportedMeditationItem}
@@ -35,11 +34,13 @@ const SupportedMeditationsList = () => {
 
 const styles = StyleSheet.create({
   supportedMeditationsContainer: {
-    borderRadius: 16,
+    borderRadius: 4,
     height: 400,
     marginBottom: 30,
     width: 350,
     paddingHorizontal: 16,
+    borderWidth: 0.5,
+    borderColor: 'rgba(225, 225, 225, 0.1)'
   },
   supportedMeditationItem: {
     lineHeight: 22,

@@ -11,6 +11,7 @@ import MeditationBaseDataContext from "../contexts/meditationBaseData";
 import { fbUpdateUser } from "../fb/user";
 import UserContext from "../contexts/userData";
 import SupportedMeditationsList from "../components/SupportedMeditationsList";
+import { meditationBaseMap } from "../constants/meditation";
 
 const OnboardingStep2 = () => {
   const navigation = useNavigation();
@@ -31,6 +32,8 @@ const OnboardingStep2 = () => {
     }
   }
 
+  const numOfMeditations = Object.keys(meditationBaseMap).length;
+
   return (
     <Layout level="4" style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -40,13 +43,13 @@ const OnboardingStep2 = () => {
               category="h2"
               style={styles.header}
             >
-              Let's add some meditations
+              Add your meditations
             </Text>
             <Text
-              category="h6"
+              category="s1"
               style={styles.disclaimer}
             >
-              Supported Meditations
+              Listed below are the {numOfMeditations} meditations that we currently support.
             </Text>
             <SupportedMeditationsList />
           </Layout>
