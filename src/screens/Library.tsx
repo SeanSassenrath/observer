@@ -99,7 +99,7 @@ const LibraryScreen = () => {
       nameList.push(meditationName);
     }
 
-    return nameList.map((name) => {
+    return nameList.sort().map((name) => {
       return (
         <Text
           category='s1'
