@@ -17,10 +17,12 @@ const SignInScreen = () => {
       <SafeAreaView style={styles.container}>
         <Layout level='4' style={styles.contentContainer}>
           <Layout level='4' style={styles.headerContainer}>
-            <Image
-              source={require('../assets/app-icon-new-1200.png')}
-              style={imageStyles.headerImage}
-            />
+            <Layout level='4'style={styles.headerImageBackground}>
+              <Image
+                source={require('../assets/app-icon.png')}
+                style={imageStyles.headerImage}
+              />
+            </Layout>
           </Layout>
           <Layout level='4' style={styles.heroContainer}>
             <Layout level='4' style={styles.textContainer}>
@@ -80,6 +82,12 @@ const themedStyles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
+  },
+  headerImageBackground: {
+    backgroundColor: 'transparent',
+    shadowColor: 'rgba(160, 139, 247, 1)',
+    shadowOpacity: 1,
+    shadowRadius: 6,
   },
   heroContainer: {
     alignItems: 'center',
