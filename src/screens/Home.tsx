@@ -159,7 +159,7 @@ const HomeScreen = () => {
             current={streakData.current}
             longest={streakData.longest}
           />
-          <Layout level='4'>
+          <Layout level='4' style={styles.listsContainer}>
             <MeditationList
               header='Recent Meditations'
               meditationBaseIds={recentMeditationBaseIds}
@@ -174,10 +174,7 @@ const HomeScreen = () => {
             />
           </Layout>
         </ScrollView>
-        { hasMeditationBaseData
-          ? null
-          : <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
-        }
+        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       </SafeAreaView>
       <Modal
         visible={isModalVisible}
@@ -222,6 +219,9 @@ const themedStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  listsContainer: {
+    paddingBottom: 60,
+  },
   startCard: {
     backgroundColor: '#31384b',
     margin: 20,
@@ -235,7 +235,7 @@ const themedStyles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
 })
 

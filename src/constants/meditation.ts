@@ -168,7 +168,7 @@ export enum MeditationGroupName {
   'ChangeBeliefsAndPerceptions' = 'Changing Beliefs and Perceptions',
   'Daily' = 'Daily Meditations',
   'Foundational' = 'Foundational',
-  'Generating' = 'generating',
+  'Generating' = 'Generating',
   'TuningNewPotential' = 'Tuning Into New Potentials',
   'Recondition' = 'Reconditioning the Body to a New Mind',
   'Walking' = 'Walking',

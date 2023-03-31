@@ -5,7 +5,6 @@ import { Icon } from '@ui-kitten/components';
 import HomeScreen from '../screens/Home';
 import InsightScreen from '../screens/Insight';
 import LibraryScreen from '../screens/Library';
-import LearnScreen from '../screens/Learn';
 import { TabParamList } from '../types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -15,7 +14,7 @@ const getTabBarIcon = (routeName: string) => {
     case 'Home':
       return 'home-outline';
     case 'Insight':
-      return 'bar-chart-outline';
+      return 'pie-chart-outline';
     case 'Library':
       return 'book-open-outline';
     case 'Learn':
@@ -35,9 +34,8 @@ const TabNavigator = () => (
     }
   })}>
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Insight" component={InsightScreen} />
     <Tab.Screen name="Library" component={LibraryScreen} />
-    {/* <Tab.Screen name="Learn" component={LearnScreen} /> */}
+    <Tab.Screen name="Insight" component={InsightScreen} />
   </Tab.Navigator> 
 )
 

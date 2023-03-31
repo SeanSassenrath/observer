@@ -29,8 +29,6 @@ const StackNavigator = () => {
       return "SignIn";
     } else if (!user.hasBetaAccess) {
       return "BetaCheck";
-    } else if (!user.onboarding.hasSeenAddMeditationOnboarding) {
-      return "OnboardingStep1";
     } else {
       return "TabNavigation";
     }

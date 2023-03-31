@@ -13,10 +13,12 @@ import { convertMeditationToTrack } from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import Button from '../components/Button';
 import { onAddMeditations } from '../utils/addMeditations';
+import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
+const errorRed = '#E28E69';
 const countDownInSeconds = 5;
 
 const CloseIcon = (props: any) => (
@@ -33,6 +35,10 @@ const PauseIcon = (props: any) => (
 
 const RestartIcon = (props: any) => (
   <Icon {...props} style={iconStyles.restartIcon} fill={lightWhite} name='sync' />
+);
+
+const ErrorIcon = (props: any) => (
+  <Icon {...props} style={iconStyles.restartIcon} fill={errorRed} name='alert-circle-outline' />
 );
 
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
@@ -134,6 +140,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         state === TrackPlayerState.Playing &&
         !isPlaying
       ) {
+        setIsModalVisible(false);
         setIsPlaying(true)
       }
       console.log('player state', state);
@@ -208,23 +215,20 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const renderModalContext = () => {
     return (
       <>
-        <Text
-          category='h5'
-        >
-          Sorry!
-        </Text>
+        <Layout level='3' style={styles.modalHeader}>
+          <ErrorIcon />
+        </Layout>
         <Text
           category='s1'
           style={styles.modalDescription}
         >
-          It seems that we've lost connection with your meditation files.
-          We're looking into why this happened.
+          Your meditation files have entered the void.
           Please re-add them to start this meditation.
         </Text>
         <Button
           onPress={onAddMeditationsPress}
         >
-          Add Meditations
+          Re-add Meditations
         </Button>
       </>
     )
@@ -318,6 +322,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             appearance='ghost'
             onPress={() => setIsModalVisible(false)}
             style={styles.modalButton}
+            status="control"
           >
             Close
           </Button>
@@ -337,6 +342,10 @@ const iconStyles = StyleSheet.create({
     width: 70,
   },
   restartIcon: {
+    height: 30,
+    width: 30,
+  },
+  errorIcon: {
     height: 30,
     width: 30,
   },
@@ -432,6 +441,10 @@ const styles = StyleSheet.create({
   modalDescription: {
     lineHeight: 22,
     marginVertical: 26,
+    textAlign: 'center',
+  },
+  modalHeader: {
+    alignItems: 'center',
   },
   countdownText: {
     textAlign: 'center',
