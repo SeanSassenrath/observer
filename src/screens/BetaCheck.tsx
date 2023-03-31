@@ -59,7 +59,7 @@ const RequestInvite = () => {
         ) {
           navigation.navigate('TabNavigation');
         } else {
-          navigation.navigate('InitialUpload');
+          navigation.navigate('OnboardingStep1');
         }
       } else {
         setIsNotInBeta(true)
