@@ -9,12 +9,10 @@ import {
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import UserContext from '../contexts/userData';
-import FtuxContext from '../contexts/ftuxData';
 import { fbFetchBetaUserList, fbSetUserBetaAccessState } from '../utils/fbBetaUserList';
 
 const RequestInvite = () => {
   const { user } = useContext(UserContext);
-  const { hasSeenFtux } = useContext(FtuxContext);
   const [isNavigating, setIsNavigating] = useState(false);
   const [isCheckingBetaStatus, setIsCheckingBetaStatus] = useState(false);
   const [isNotInBeta, setIsNotInBeta] = useState(false);

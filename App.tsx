@@ -17,19 +17,16 @@ import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 
 import StackNavigator from './src/navigation/Stack';
-import { MeditationBaseMap, MeditationId, MeditationInstance } from './src/types';
+import { MeditationBaseMap, MeditationInstance } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
-import { getFtuxStateInAsyncStorage } from './src/utils/ftux';
-import FtuxContext from './src/contexts/ftuxData';
 import UserContext, { initialUserState, User, UserStreaks } from './src/contexts/userData';
-import FullUserLoadedContext from './src/contexts/fullUserLoaded';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
 import { makeMeditationBaseData } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
 import toastConfig from './src/toastConfig';
 import { SetupService } from './src/services/setupService';
-import _, { isEqual } from 'lodash';
+import _ from 'lodash';
 import MeditationHistoryContext from './src/contexts/meditationHistory';
 import { fbAddUser, fbGetUser, fbUpdateUser } from './src/fb/user';
 import { checkStreakData, getUserStreakData, makeFbStreakUpdate, updateUserStreakData } from './src/utils/streaks';
@@ -42,8 +39,6 @@ const App = () => {
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
   const [meditationHistory, setMeditationHistory] = useState({});
   const [user, setUser] = useState(initialUserState as User);
-  const [fullUserLoaded, setFullUserLoaded] = useState(false);
-  const [hasSeenFtux, setHasSeenFtux] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
 
@@ -113,7 +108,6 @@ const App = () => {
             )
             if (userStreakData.current === streakData.current) {
               setUser(userData);
-              setFullUserLoaded(true);
               if (initializing) setInitializing(false);
             } else {
               const updatedUser = updateUserStreakData(userData, streakData);
@@ -124,7 +118,6 @@ const App = () => {
             }
           } else {
             setUser(userData);
-            setFullUserLoaded(true);
             if (initializing) setInitializing(false);
           }
         }
@@ -138,7 +131,6 @@ const App = () => {
 
         if (userAdded) {
           setUser(normalizedUser);
-          setFullUserLoaded(true);
           if (initializing) setInitializing(false);
         }
       }
@@ -155,7 +147,6 @@ const App = () => {
 
     setupPlayerService(unmounted);
     setMeditationBaseDataToContext();
-    getFtux();
 
     return () => {
       unmounted = true;
@@ -176,17 +167,6 @@ const App = () => {
     }
   }
 
-  const getFtux = async () => {
-    try {
-      const hasSeenFtux = await getFtuxStateInAsyncStorage();
-      if (hasSeenFtux) {
-        setHasSeenFtux(hasSeenFtux)
-      }
-    } catch (e) {
-      console.log('Get FTUX error', e);
-    }
-  }
-
   if (initializing) {
     return null;
   }
@@ -201,17 +181,13 @@ const App = () => {
         // customMapping={mapping}
       >
         <UserContext.Provider value={{ user, setUser }}>
-          <FullUserLoadedContext.Provider value={{ fullUserLoaded, setFullUserLoaded }}>
-            <MeditationHistoryContext.Provider value={{ meditationHistory, setMeditationHistory}}>
-              <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
-                <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
-                  <FtuxContext.Provider value={({ hasSeenFtux, setHasSeenFtux })}>
-                    <StackNavigator />
-                  </FtuxContext.Provider>
-                </MeditationInstanceDataContext.Provider>
-              </MeditationBaseDataContext.Provider>
-            </MeditationHistoryContext.Provider>
-          </FullUserLoadedContext.Provider>
+          <MeditationHistoryContext.Provider value={{ meditationHistory, setMeditationHistory}}>
+            <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
+              <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
+                <StackNavigator />
+              </MeditationInstanceDataContext.Provider>
+            </MeditationBaseDataContext.Provider>
+          </MeditationHistoryContext.Provider>
         </UserContext.Provider>
       </ApplicationProvider>
       <Toast config={toastConfig as any} />

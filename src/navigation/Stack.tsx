@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
 
 import { myTheme } from '../constants/navTheme';
-import InitialUploadScreen from '../screens/InitialUpload';
 import MeditationFinishScreen from '../screens/MeditationFinish';
 import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
@@ -63,7 +62,6 @@ const StackNavigator = () => {
       >
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaCheck" component={BetaCheck} />
-        <Screen name="InitialUpload" component={InitialUploadScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
