@@ -1,0 +1,92 @@
+import analytics from '@react-native-firebase/analytics';
+import { MeditationBaseId, MeditationName } from '../types';
+
+export enum Source {
+  'MEDITATION_ADD' = 'meditation_add',
+  'MEDITATION_PLAYER' = 'meditation_player',
+  'THINKBOX' = 'thinkbox',
+}
+
+export enum Action {
+  'CLICK' = 'click',
+  'FAIL' = 'fail',
+  'SUBMIT' = 'submit',
+  'VIEW' = 'view',
+}
+
+export enum Noun {
+  'BUTTON' = 'button',
+  'ON_MOUNT' = 'on_mount',
+  'ON_PLAY' = 'on_play',
+}
+
+interface MeditationPlayerPayload {
+  meditationName: MeditationName,
+  meditationBaseId: MeditationBaseId,
+}
+
+interface ThinkBoxPayload {
+  meditationName: MeditationName,
+  meditationBaseId: MeditationBaseId,
+}
+
+interface MeditationAddPayload {
+  [key: string]: string | number,
+}
+
+type Payload = MeditationPlayerPayload |
+  MeditationAddPayload;
+
+interface Event {
+  source: Source,
+  action: Action,
+  noun: Noun,
+  payload?: Payload,
+}
+
+const sendEvent = async (event: Event) => {
+  await analytics().logEvent(event.source, {
+    action: event.action,
+    noun: event.noun,
+    payload: event.payload,
+  })
+}
+
+export const meditationPlayerSendEvent = (
+  action: Action,
+  noun: Noun,
+  payload: MeditationPlayerPayload,
+) => {
+  sendEvent({
+    source: Source.MEDITATION_PLAYER,
+    action,
+    noun,
+    payload,
+  })
+}
+
+export const thinkboxSendEvent = (
+  action: Action,
+  noun: Noun,
+  payload: ThinkBoxPayload,
+) => {
+  sendEvent({
+    source: Source.THINKBOX,
+    action,
+    noun,
+    payload,
+  })
+}
+
+export const meditationAddSendEvent = (
+  action: Action,
+  noun: Noun,
+  payload?: MeditationAddPayload,
+) => {
+  sendEvent({
+    source: Source.MEDITATION_ADD,
+    action,
+    noun,
+    payload,
+  })
+}

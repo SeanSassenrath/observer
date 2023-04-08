@@ -14,12 +14,13 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import Button from '../components/Button';
 import { onAddMeditations } from '../utils/addMeditations';
 import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
+import { meditationPlayerSendEvent, Action, Noun } from '../analytics';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
 const errorRed = '#E28E69';
-const countDownInSeconds = 5;
+const countDownInSeconds = 8;
 
 const CloseIcon = (props: any) => (
   <Icon {...props} style={iconStyles.closeIcon} fill={brightWhite} name='close-outline' />
@@ -74,6 +75,14 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   });
 
   useEffect(() => {
+    meditationPlayerSendEvent(
+      Action.VIEW,
+      Noun.ON_MOUNT,
+      {
+        meditationName: meditation.name,
+        meditationBaseId: meditation.meditationBaseId,
+      },
+    );
     addTracks();
     const countDownTimer = setCountDownTimer();
     const trackStateInterval = getTrackState();
@@ -107,8 +116,9 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const setCountDownTimer = () => {
     const countDownTimer = setInterval(() => {
       timerRef.current -= 1;
-      if (timerRef.current < 0) {
+      if (timerRef.current < 3) {
         playTrackPlayer();
+      } else if (timerRef.current < 0) {
         clearInterval(countDownTimer);
       } else {
         setTime(timerRef.current);
@@ -126,7 +136,14 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         state === TrackPlayerState.Connecting &&
         timerRef.current <= 0
       ) {
-        // TODO: Send analytics event
+        meditationPlayerSendEvent(
+          Action.FAIL,
+          Noun.ON_PLAY,
+          {
+            meditationName: meditation.name,
+            meditationBaseId: meditation.meditationBaseId,
+          },
+        );
         clearInterval(getTrackStateInterval);
         setIsModalVisible(true);
         //@ts-ignore
@@ -203,7 +220,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     TrackPlayer.seekTo(0);
   }
 
-  const isFinishButtonDisabled = time > 0;
+  const isFinishButtonDisabled = time > 3;
   const timePassed = new Date(position * 1000)
     .toISOString()
     .slice(12, 19);
@@ -248,8 +265,8 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         </Layout>
         <Layout style={styles.main} level='4'>
           <Layout style={styles.countdownTextContainer} level='4'>
-            {time > 0
-              ? <Text style={styles.countdownText}>{time}</Text>
+            {time > 3
+              ? <Text style={styles.countdownText}>{time - 3}</Text>
               : null
             }
           </Layout>

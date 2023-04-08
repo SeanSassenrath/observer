@@ -1,17 +1,24 @@
-import { isEmpty, keyBy } from 'lodash';
+import { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
-import analytics from '@react-native-firebase/analytics';
 import DocumentPicker from 'react-native-document-picker';
 
 import { MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from './asyncStorageMeditation';
 import { makeFilePathDataList } from './filePicker';
 import { makeMeditationBaseData } from './meditation';
+import { meditationAddSendEvent, Action, Noun } from '../analytics';
+
+interface ErrorFiles {
+  [key: string]: string | number;
+}
 
 export const onAddMeditations = async (
   existingMediationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
 ) => {
-  await analytics().logEvent('add_meditations_start')
+  meditationAddSendEvent(
+    Action.SUBMIT,
+    Noun.BUTTON,
+  );
 
   const pickedFiles = await DocumentPicker.pick({
     allowMultiSelection: true,
@@ -27,11 +34,20 @@ export const onAddMeditations = async (
     !filePathDataList ||
     numberOfMeditations <= 0
   ) {
-    const errorPickedFiles = Object.fromEntries(
-      pickedFiles.map((file) => [file.name, file])
-    );
+    const errorFiles = {} as ErrorFiles;
 
-    await analytics().logEvent('add_meditations_fail', errorPickedFiles)
+    pickedFiles.forEach((file, index) => {
+      if (file.name && file.size) {
+        errorFiles[`name-${index}`] = file.name
+        errorFiles[`name-${index}-size`] = file.size
+      }
+    })
+
+    meditationAddSendEvent(
+      Action.FAIL,
+      Noun.BUTTON,
+      errorFiles,
+    );
 
     Toast.show({
       type: 'error',

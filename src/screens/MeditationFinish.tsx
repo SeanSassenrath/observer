@@ -23,6 +23,7 @@ import MeditationHistoryContext from '../contexts/meditationHistory';
 import { fbUpdateUser } from '../fb/user';
 import { fbAddMeditationHistory, fbUpdateMeditationHistory } from '../fb/meditationHistory';
 import { StreakUpdate } from '../components/StreakUpdate';
+import { Action, Noun, thinkboxSendEvent } from '../analytics';
 
 const EMPTY_INPUT = '';
 
@@ -37,6 +38,14 @@ const MeditationFinishScreen = () => {
   const [updatedStreaksData, setUpdatedStreaksData] = useState({} as UpdatedStreakData);
 
   useEffect(() => {
+    thinkboxSendEvent(
+      Action.VIEW,
+      Noun.ON_MOUNT,
+      {
+        meditationName: meditationInstanceData.name,
+        meditationBaseId: meditationInstanceData.meditationBaseId,
+      },
+    );
     updateUserMeditationData();
     addFbMeditationInstance();
   }, [])

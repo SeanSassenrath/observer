@@ -26,8 +26,6 @@ const InsightScreen = () => {
   const streakData = getUserStreakData(user);
 
   useEffect(() => {
-    console.log('INSIGHT: user context', user);
-
     firestore()
       .collection('users')
       .doc(user.uid)
