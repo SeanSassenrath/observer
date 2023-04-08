@@ -143,12 +143,7 @@ const RequestInvite = () => {
       return (
         <>
           <Text category='s1' style={styles.textDescription}>
-            Hi {user.profile.firstName}, we are so grateful that you want to be a part of this experience! We're currently limiting the number of users while we are in beta
-            so we can ensure the best possible experience for everyone once it's ready.
-          </Text>
-          <Text category='s1' style={styles.textDescription}>
-            If you'd like to be a part of the beta,
-            please send an email to test@test.com and we will try to add you as soon as we can. We look forward to hearing from you!
+            Hi {user.profile.firstName}, we'll try and get you added to the beta as soon as possible!
           </Text>
         </>
       )
