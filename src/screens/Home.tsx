@@ -3,7 +3,7 @@ import { Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import _, { isEmpty } from 'lodash';
 import Toast from 'react-native-toast-message';
-import { Modal, Layout, useStyleSheet, Avatar } from '@ui-kitten/components';
+import { Modal, Layout, useStyleSheet, Avatar, Icon } from '@ui-kitten/components';
 import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
 
@@ -14,7 +14,6 @@ import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { Inspiration } from '../components/Inspiration';
 import UserContext, { initialUserState } from '../contexts/userData';
-import { pickFiles } from '../utils/filePicker';
 import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
 import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
@@ -22,6 +21,12 @@ import { Streaks } from '../components/Streaks';
 import { getUserStreakData } from '../utils/streaks';
 import { AddMeditationsPill } from '../components/AddMeditationsPill';
 import { onAddMeditations } from '../utils/addMeditations';
+import { EduPromptComponent } from '../components/EduPrompt/component';
+import { fbUpdateUser } from '../fb/user';
+
+const HomeIcon = (props: any) => (
+  <Icon {...props} name='home-outline' />
+);
 
 const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
@@ -144,6 +149,19 @@ const HomeScreen = () => {
     navigation.navigate('Debug');
   }
 
+  const onEduClosePress = async () => {
+    await fbUpdateUser(user.uid,
+      { 'onboarding.hasSeenHomeOnboarding': true }
+    )
+    setUser({
+      ...user,
+      onboarding: {
+        ...user.onboarding,
+        hasSeenHomeOnboarding: true,
+      }
+    })
+  }
+
   const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
 
   return (
@@ -176,6 +194,15 @@ const HomeScreen = () => {
         </ScrollView>
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       </SafeAreaView>
+      {!user.onboarding.hasSeenHomeOnboarding
+        ? <EduPromptComponent
+          description="Welcome to your home! Easily access recent meditations, see your streaks, and more."
+          onPress={onEduClosePress}
+          renderIcon={(props: any) => <HomeIcon {...props} />}
+          title="Your Home"
+        />
+        : null
+      }
       <Modal
         visible={isModalVisible}
         backdropStyle={styles.backdrop}

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { MeditationList } from '../components/MeditationList';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
@@ -12,10 +12,18 @@ import { onAddMeditations } from '../utils/addMeditations';
 import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 import { meditationBaseMap } from '../constants/meditation';
 import { AddMeditationsPill } from '../components/AddMeditationsPill';
+import { EduPromptComponent } from '../components/EduPrompt/component';
+import UserContext from '../contexts/userData';
+import { fbUpdateUser } from '../fb/user';
 
 const EMPTY_SEARCH = '';
 
+const LibraryIcon = (props: any) => (
+  <Icon {...props} name='book-open-outline' />
+);
+
 const LibraryScreen = () => {
+  const {user, setUser} = useContext(UserContext);
   const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [meditationGroupsList, setMeditationGroupsList] = useState([] as MeditationGroupsList)
@@ -91,6 +99,19 @@ const LibraryScreen = () => {
     }
   }
 
+  const onEduClosePress = async () => {
+    await fbUpdateUser(user.uid,
+      { 'onboarding.hasSeenLibraryOnboarding': true }
+    )
+    setUser({
+      ...user,
+      onboarding: {
+        ...user.onboarding,
+        hasSeenLibraryOnboarding: true,
+      }
+    })
+  }
+
   const renderSupportedMeditations = () => {
     const nameList = [];
 
@@ -133,6 +154,15 @@ const LibraryScreen = () => {
         </ScrollView>
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress}/>
       </SafeAreaView>
+      {!user.onboarding.hasSeenLibraryOnboarding
+        ? <EduPromptComponent
+            description="Meditations have been added to your Library! You can use the Library to find, start, and add meditations."
+            onPress={onEduClosePress}
+            renderIcon={(props: any) => <LibraryIcon {...props} />}
+            title="Your Library"
+          />
+        : null
+      }
     </Layout>
   )
 }
@@ -154,7 +184,6 @@ const themedStyles = StyleSheet.create({
     marginRight: 4,
   },
   supportedContainer: {
-    // marginTop: 20,
     marginBottom: 100,
     marginHorizontal: 20,
     padding: 20,

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 import firestore from '@react-native-firebase/firestore';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import { TopMeditations } from '../components/TopMeditations';
 import { TimeInMeditationChart } from '../components/TimeInMeditationChart';
@@ -13,12 +13,18 @@ import { meditationBaseMap } from '../constants/meditation';
 import { Streaks } from '../components/Streaks';
 import { getUserStreakData } from '../utils/streaks';
 import { getMeditationCounts } from '../utils/meditation';
+import { EduPromptComponent } from '../components/EduPrompt/component';
+import { fbUpdateUser } from '../fb/user';
 
 const EMPTY_STRING = '';
 
+const InsightIcon = (props: any) => (
+  <Icon {...props} name='pie-chart-outline' />
+);
+
 const InsightScreen = () => {
   const styles = useStyleSheet(themedStyles);
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [meditationHistory, setMeditationHistory] = useState([] as MeditationInstance[]);
   const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
@@ -75,6 +81,19 @@ const InsightScreen = () => {
   }
 
   const meditationCounts = getMeditationCounts(user);
+
+  const onEduClosePress = async () => {
+    await fbUpdateUser(user.uid,
+      { 'onboarding.hasSeenInsightsOnboarding': true }
+    )
+    setUser({
+      ...user,
+      onboarding: {
+        ...user.onboarding,
+        hasSeenInsightsOnboarding: true,
+      }
+    })
+  }
 
   interface ListItem {
     item: MeditationInstance,
@@ -154,6 +173,15 @@ const InsightScreen = () => {
           ListFooterComponent={renderFooter()}
         />
       </SafeAreaView>
+      {!user.onboarding.hasSeenInsightsOnboarding
+        ? <EduPromptComponent
+          description="Be your own scientist! View meditation data and learn from your practice."
+          onPress={onEduClosePress}
+          renderIcon={(props: any) => <InsightIcon {...props} />}
+          title="Your Insights"
+        />
+        : null
+      }
     </Layout>
   )
 }
