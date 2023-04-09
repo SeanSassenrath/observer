@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Platform, SafeAreaView, StyleSheet } from 'react-native';
+import { Image, Linking, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
 import {
 	Layout,
 	Text,
@@ -9,8 +9,14 @@ import {
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
 
+const privacyPolicyUrl = 'https://www.privacypolicies.com/live/0f561bf7-489c-4c02-830e-c8b276e128f9';
+
 const SignInScreen = () => {
   const styles = useStyleSheet(themedStyles);
+
+  const onPrivacyPolicyPress = async () => {
+    await Linking.openURL(privacyPolicyUrl);
+  }
 
   return (
     <Layout level='4' style={styles.container}>
@@ -45,6 +51,9 @@ const SignInScreen = () => {
               <GoogleSSOButton/>
             </Layout>
           </Layout>
+          <Pressable onPress={onPrivacyPolicyPress}>
+            <Text style={styles.privacyPolicy} category='s2'>Privacy Policy</Text>
+          </Pressable>
         </Layout>
       </SafeAreaView>
     </Layout>
@@ -93,6 +102,10 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 7,
+  },
+  privacyPolicy: {
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   textContainer: {
     alignItems: 'center',

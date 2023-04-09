@@ -1,19 +1,29 @@
-import { useContext, useState } from "react";
-import { FlatList, Platform, Pressable, StyleSheet } from "react-native";
+import { Linking, Platform, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Icon, Layout, Modal, Text } from "@ui-kitten/components/ui";
+import { Layout, Text } from "@ui-kitten/components/ui";
 import { useNavigation } from "@react-navigation/native";
 
 import Button from "../components/Button";
+
+const dropboxYoutubeLink = 'https://www.youtube.com/watch?v=XJ0Bh9RmObA';
+const googleDriveYoutubeLink = 'https://www.youtube.com/watch?v=GaO-aArPZJ8';
 
 const OnboardingStep1 = () => {
   const navigation = useNavigation();
 
   const onContinuePress = () => navigation.navigate('OnboardingStep2');
 
+  const onDropboxVideoPress = async () => {
+    await Linking.openURL(dropboxYoutubeLink);
+  }
+
+  const onGoogleDriveVideoPress = async () => {
+    await Linking.openURL(googleDriveYoutubeLink);
+  }
+
   const renderDisclaimer = Platform.OS === 'ios'
-    ? `For this app to work correctly, please ensure that meditations are stored on your phone, not on iCloud.`
-    : `For this app to work correctly, please ensure that meditations are stored on your phone, not on Google Drive.`
+    ? `For this app to work correctly, please ensure that meditations are stored directly on your phone.`
+    : `For this app to work correctly, please ensure that meditations are stored directly on your phone.`
 
   return (
     <Layout level="4" style={styles.container}>
@@ -37,14 +47,14 @@ const OnboardingStep1 = () => {
               style={styles.faqBackground}
             >
               <Pressable
-                onPress={() => { }}
+                onPress={onDropboxVideoPress}
               >
                 <Text style={styles.faqItem}>
                   Learn how to download meditations from Dropbox.
                 </Text>
               </Pressable>
               <Pressable
-                onPress={() => { }}
+                onPress={onGoogleDriveVideoPress}
               >
                 <Text style={styles.faqItem}>
                   Learn how to download meditations from Google Drive.
