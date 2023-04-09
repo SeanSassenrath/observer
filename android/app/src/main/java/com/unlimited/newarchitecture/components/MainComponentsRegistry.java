@@ -1,4 +1,4 @@
-package com.unlimited.meditations.newarchitecture.components;
+package com.unlimited.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;
