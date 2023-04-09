@@ -1,4 +1,4 @@
-package com.observer;
+package com.unlimited.meditations;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;

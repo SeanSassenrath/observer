@@ -14,6 +14,58 @@
       },
       "oauth_client": [
         {
+          "client_id": "859830619066-oe5nlu73ag45j0oqf2qoqij1ult8tmm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.observer",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTek9XwqoZOVyOb8cj4jUii9Al7dcP7qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "859830619066-2ckrufa1gm3qr9ibla5tfurcl1m5ashe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Observer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:859830619066:android:4fcbdea427b21d0de4eb83",
+        "android_client_info": {
+          "package_name": "com.unlimited.meditations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "859830619066-bl3cdtenvpqaglhtpavt2gcm7ko1glb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unlimited.meditations",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com",
           "client_type": 3
         }

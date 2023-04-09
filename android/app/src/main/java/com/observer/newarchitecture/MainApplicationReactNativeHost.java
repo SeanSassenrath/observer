@@ -1,4 +1,4 @@
-package com.observer.newarchitecture;
+package com.unlimited.meditations.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.observer.BuildConfig;
-import com.observer.newarchitecture.components.MainComponentsRegistry;
-import com.observer.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.unlimited.meditations.BuildConfig;
+import com.unlimited.meditations.newarchitecture.components.MainComponentsRegistry;
+import com.unlimited.meditations.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

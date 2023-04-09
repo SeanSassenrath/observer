@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>859830619066-2ckrufa1gm3qr9ibla5tfurcl1m5ashe.apps.googleusercontent.com</string>
+	<string>859830619066-cqlevj9krap1l8649uq9806lr2tdo5ra.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.859830619066-2ckrufa1gm3qr9ibla5tfurcl1m5ashe</string>
+	<string>com.googleusercontent.apps.859830619066-cqlevj9krap1l8649uq9806lr2tdo5ra</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>859830619066-oe5nlu73ag45j0oqf2qoqij1ult8tmm3.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBEr7BG0tSeFq4HHYbM1VS6O3vZaxC-7xU</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.Observer</string>
+	<string>com.unlimited.meditations</string>
 	<key>PROJECT_ID</key>
 	<string>observer-e8e74</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:859830619066:ios:0de072042319461ce4eb83</string>
+	<string>1:859830619066:ios:6d0280cbb2fe013be4eb83</string>
 </dict>
 </plist>
