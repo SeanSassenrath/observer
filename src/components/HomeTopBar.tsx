@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import { Avatar, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
+
+const brightWhite = '#fcfcfc';
 
 interface HomeTopBarProps {
   onAvatarPress(): void,
@@ -16,18 +18,24 @@ export const HomeTopBar = ({
   const { user } = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
+  const UserIcon = (props: any) => (
+    <Icon style={styles.userIcon} fill={brightWhite} name='person' />
+  );
+
   return (
     <Layout style={styles.topBarContainer} level='4'>
-      <Layout style={styles.topBarVoidContainer}>
-        <Text category='s2' style={styles.topBarVoidText}>BETA</Text>
-      </Layout>
+      {/* <Layout style={styles.topBarVoidContainer}> */}
+        {/* <Text category='s2' style={styles.topBarVoidText}>BETA</Text> */}
+      {/* </Layout> */}
       <Layout style={styles.topBarActionItemsContainer} level='4'>
-        { user.profile && user.profile.photoURL
-          ? <Pressable onPress={onAvatarPress}>
-              <Avatar source={{ uri: user.profile.photoURL }} />
-            </Pressable>
-          : null
-        }
+        <Pressable onPress={onAvatarPress}>
+            {user.profile && user.profile.photoURL
+              ? <Avatar source={{ uri: user.profile.photoURL }} />
+              : <Layout style={styles.userIconContainer}>
+                  <UserIcon />
+                </Layout>
+            }
+        </Pressable>
       </Layout>
     </Layout>
   )
@@ -40,7 +48,7 @@ const themedStyles = StyleSheet.create({
   },
   topBarContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     padding: 20,
     marginBottom: 20,
@@ -67,5 +75,16 @@ const themedStyles = StyleSheet.create({
   },
   topBarVoidText: {
     opacity: 0.8,
+  },
+  userIconContainer: {
+    alignItems: 'center',
+    borderRadius: 50,
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  userIcon: {
+    height: 25,
+    width: 25,
   }
 })

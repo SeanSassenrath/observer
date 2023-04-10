@@ -23,6 +23,7 @@ const OnboardingStep2 = () => {
     const meditations = await onAddMeditations(
       existingMediationFilePathData,
       setExistingMeditationFilePathData,
+      true,
     )
     if (meditations) {
       setMeditationBaseData(meditations);

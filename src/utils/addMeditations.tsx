@@ -14,6 +14,7 @@ interface ErrorFiles {
 export const onAddMeditations = async (
   existingMediationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
+  hideSuccessToast?: boolean,
 ) => {
   meditationAddSendEvent(
     Action.SUBMIT,
@@ -61,6 +62,8 @@ export const onAddMeditations = async (
       ),
       visibilityTime: 5000,
     });
+  } else if (hideSuccessToast) {
+    return null;
   } else {
     Toast.show({
       type: 'success',

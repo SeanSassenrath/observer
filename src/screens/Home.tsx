@@ -24,8 +24,14 @@ import { onAddMeditations } from '../utils/addMeditations';
 import { EduPromptComponent } from '../components/EduPrompt/component';
 import { fbUpdateUser } from '../fb/user';
 
+const brightWhite = '#fcfcfc';
+
 const HomeIcon = (props: any) => (
   <Icon {...props} name='home-outline' />
+);
+
+const UserIcon = (props: any) => (
+  <Icon style={themedStyles.userIcon} fill={brightWhite} name='person' />
 );
 
 const HomeScreen = () => {
@@ -209,7 +215,12 @@ const HomeScreen = () => {
         onBackdropPress={() => setIsModalVisible(false)}
       >
         <Layout level='3' style={styles.modalContainer}>
-          <Avatar size='large' source={{ uri: user.profile.photoURL }} />
+          {user.profile && user.profile.photoURL
+            ? <Avatar source={{ uri: user.profile.photoURL }} />
+            : <Layout style={styles.userIconContainer}>
+                <UserIcon />
+              </Layout>
+          }
           <_Button
             onPress={onSignOut}
             style={styles.modalButton}
@@ -264,6 +275,17 @@ const themedStyles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  userIconContainer: {
+    alignItems: 'center',
+    borderRadius: 50,
+    height: 34,
+    justifyContent: 'center',
+    width: 34,
+  },
+  userIcon: {
+    height: 25,
+    width: 25,
+  }
 })
 
 export default HomeScreen;

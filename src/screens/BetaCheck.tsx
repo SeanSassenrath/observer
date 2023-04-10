@@ -108,7 +108,7 @@ const RequestInvite = () => {
           category='h5'
           style={styles.textHeader}
         >
-          Checking beta status...
+          Checking access status...
         </Text>
       )
     } else if (isNotInBeta) {
@@ -118,7 +118,7 @@ const RequestInvite = () => {
           status='warning'
           style={styles.textHeader}
         >
-          Join us as a beta tester!
+          Broader access is coming soon!
         </Text>
       )
     } else if (isNavigating) {
@@ -128,7 +128,7 @@ const RequestInvite = () => {
           status='success'
           style={styles.textHeader}
         >
-          Unlocking the beta now...
+          Welcome to Unlimited!
         </Text>
       )
     }
@@ -137,18 +137,18 @@ const RequestInvite = () => {
   const renderStatusMessage = () => {
     if (isCheckingBetaStatus) {
       return (
-        <Text category='s1' style={styles.textDescription}>We're double checking if you have access to the beta, thank you for your patience!</Text>
+        <Text category='s1' style={styles.textDescription}>Checking access list now, thank you for your patience!</Text>
       )
     } else if (isNotInBeta) {
       return (
         <>
           <Text category='s1' style={styles.textDescription}>
-            Hi {user.profile.firstName}, we'll try and get you added to the beta as soon as possible!
+            Hi {user.profile.firstName}, we'll be in touch to provide you access as soon as possible!
           </Text>
         </>
       )
     } else if (isNavigating) {
-      return <Text category='s1' style={styles.textDescription}>Beta access confirmed. Thank you for being a beta tester!</Text>
+      return <Text category='s1' style={styles.textDescription}>Access confirmed. Thank you for joining!</Text>
     }
   }
 
