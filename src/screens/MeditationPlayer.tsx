@@ -116,7 +116,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const setCountDownTimer = () => {
     const countDownTimer = setInterval(() => {
       timerRef.current -= 1;
-      if (timerRef.current < 3) {
+      if (timerRef.current === 3) {
         playTrackPlayer();
       } else if (timerRef.current < 0) {
         clearInterval(countDownTimer);
@@ -158,7 +158,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         !isPlaying
       ) {
         setIsModalVisible(false);
-        setIsPlaying(true)
+        setIsPlaying(true);
       }
       console.log('player state', state);
     }, 1000)
