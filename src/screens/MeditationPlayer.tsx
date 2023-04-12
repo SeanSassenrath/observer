@@ -145,7 +145,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
           },
         );
         clearInterval(getTrackStateInterval);
-        setIsModalVisible(true);
+        // setIsModalVisible(true);
         //@ts-ignore
       } else if (
         state === TrackPlayerState.Paused ||
@@ -196,6 +196,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   }
 
   const onClosePress = () => {
+    shouldKeepAwake(false);
     resetTrackPlayer();
     navigation.goBack();
   }
