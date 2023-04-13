@@ -7,7 +7,6 @@ import { Modal, Layout, useStyleSheet, Avatar, Icon } from '@ui-kitten/component
 import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
 
-
 import _Button from '../components/Button';
 import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
 import { HomeTopBar } from '../components/HomeTopBar';
