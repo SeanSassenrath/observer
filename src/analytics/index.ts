@@ -2,6 +2,7 @@ import analytics from '@react-native-firebase/analytics';
 import { MeditationBaseId, MeditationName } from '../types';
 
 export enum Source {
+  'APP_INITIALIZATION' = 'app_initialization',
   'MEDITATION_ADD' = 'meditation_add',
   'MEDITATION_PLAYER' = 'meditation_player',
   'THINKBOX' = 'thinkbox',
@@ -48,7 +49,7 @@ const sendEvent = async (event: Event) => {
   await analytics().logEvent(event.source, {
     action: event.action,
     noun: event.noun,
-    payload: event.payload,
+    ...event.payload,
   })
 }
 
@@ -88,5 +89,16 @@ export const meditationAddSendEvent = (
     action,
     noun,
     payload,
+  })
+}
+
+export const appInitializationSendEvent = (
+  action: Action,
+  noun: Noun,
+) => {
+  sendEvent({
+    source: Source.APP_INITIALIZATION,
+    action,
+    noun,
   })
 }

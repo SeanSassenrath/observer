@@ -1,6 +1,5 @@
 
-import { Text, View } from 'react-native';
-import Toast, { ToastProps, BaseToast, ErrorToast } from 'react-native-toast-message';
+import { ToastProps, BaseToast, ErrorToast } from 'react-native-toast-message';
 
 interface CustomSuccessToastProps extends ToastProps {
   text1: string;

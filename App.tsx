@@ -31,6 +31,7 @@ import MeditationHistoryContext from './src/contexts/meditationHistory';
 import { fbAddUser, fbGetUser, fbUpdateUser } from './src/fb/user';
 import { checkStreakData, getUserStreakData, makeFbStreakUpdate, updateUserStreakData } from './src/utils/streaks';
 import { fbGetMeditationHistory } from './src/fb/meditationHistory';
+import { Action, appInitializationSendEvent, Noun } from './src/analytics';
 
 const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
 
@@ -41,6 +42,7 @@ const App = () => {
   const [user, setUser] = useState(initialUserState as User);
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
+  const [appRefreshCount, setAppRefreshCount] = useState(0);
 
   const getFirstName = (firebaseUser: any) => {
     if (firebaseUser.displayName) {
@@ -85,57 +87,72 @@ const App = () => {
   })
 
   const onAuthStateChanged = async (firebaseUser: any) => {
-    if (firebaseUser && user && user.uid.length <= 0) {
-      const userId = firebaseUser.uid;
-      const userDocument = await fbGetUser(userId);
+    try {
+      if (firebaseUser && user && user.uid.length <= 0) {
+        const userId = firebaseUser.uid;
+        const userDocument = await fbGetUser(userId);
 
-      if (userDocument && userDocument.exists) {
-        const userData = userDocument.data() as User;
+        if (userDocument && userDocument.exists) {
+          const userData = userDocument.data() as User;
 
-        if(userData) {
-          const userStreakData = getUserStreakData(userData);
-          const meditationHistory = await fbGetMeditationHistory(userId);
-          setMeditationHistory({
-            meditationInstances: meditationHistory.meditationInstances,
-            lastDocument: meditationHistory.lastDocument,
-          })
+          if (userData) {
+            const userStreakData = getUserStreakData(userData);
+            const meditationHistory = await fbGetMeditationHistory(userId);
+            setMeditationHistory({
+              meditationInstances: meditationHistory.meditationInstances,
+              lastDocument: meditationHistory.lastDocument,
+            })
 
-          if (userStreakData && meditationHistory.meditationInstances.length) {
-            const lastMeditation = meditationHistory.meditationInstances[0];
-            const streakData = checkStreakData(
-              userStreakData,
-              lastMeditation,
-            )
-            if (userStreakData.current === streakData.current) {
+            if (userStreakData && meditationHistory.meditationInstances.length) {
+              const lastMeditation = meditationHistory.meditationInstances[0];
+              const streakData = checkStreakData(
+                userStreakData,
+                lastMeditation,
+              )
+              if (userStreakData.current === streakData.current) {
+                setUser(userData);
+                if (initializing) setInitializing(false);
+              } else {
+                const updatedUser = updateUserStreakData(userData, streakData);
+                const fbUpdate = makeFbStreakUpdate(streakData);
+                setUser(updatedUser)
+                await fbUpdateUser(userId, fbUpdate);
+                if (initializing) setInitializing(false);
+              }
+            } else {
               setUser(userData);
               if (initializing) setInitializing(false);
-            } else {
-              const updatedUser = updateUserStreakData(userData, streakData);
-              const fbUpdate = makeFbStreakUpdate(streakData);
-              setUser(updatedUser)
-              await fbUpdateUser(userId, fbUpdate);
-              if (initializing) setInitializing(false);
             }
-          } else {
-            setUser(userData);
+          }
+        } else {
+          const normalizedUser = normalizeFirebaseUser(firebaseUser)
+
+          const userAdded = await fbAddUser(
+            userId,
+            normalizedUser,
+          );
+
+          if (userAdded) {
+            setUser(normalizedUser);
             if (initializing) setInitializing(false);
           }
         }
       } else {
-        const normalizedUser = normalizeFirebaseUser(firebaseUser)
-
-        const userAdded = await fbAddUser(
-          userId,
-          normalizedUser,
-        );
-
-        if (userAdded) {
-          setUser(normalizedUser);
-          if (initializing) setInitializing(false);
-        }
+        if (initializing) setInitializing(false);
       }
-    } else {
-      if (initializing) setInitializing(false);
+    }
+    catch (e) {
+      appInitializationSendEvent(Action.FAIL, Noun.ON_MOUNT)
+      setInitializing(false);
+      Toast.show({
+        autoHide: false,
+        type: 'error',
+        text1: `We're having trouble connecting...`,
+        text2: 'Tap to re-try',
+        position: 'bottom',
+        bottomOffset: 100,
+        onPress: () => setAppRefreshCount(appRefreshCount + 1),
+      });
     }
   }
 
@@ -152,7 +169,7 @@ const App = () => {
       unmounted = true;
       subscriber;
     }
-  }, [])
+  }, [appRefreshCount])
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();
