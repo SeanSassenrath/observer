@@ -8,6 +8,7 @@ import {
   Layout,
   Text,
   Toggle,
+  useStyleSheet,
 } from '@ui-kitten/components';
 
 import _Button from '../components/Button';
@@ -23,11 +24,11 @@ const EMPTY_STRING = '';
 const oneSecond = 1000;
 
 const BackIcon = (props: any) => (
-  <Icon {...props} style={styles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
+  <Icon {...props} style={themedStyles.closeIcon} fill={brightWhite} name='arrow-back-outline' />
 );
 
 const WarningIcon = (props: any) => (
-  <Icon {...props} style={styles.actionIcon} fill='#b2b2b2' name='bell-off-outline' />
+  <Icon {...props} style={themedStyles.actionIcon} fill='#E28E69' name='bell-off-outline' />
 );
 
 interface Option1Props {
@@ -39,13 +40,13 @@ interface Option1Props {
 }
 
 const LayoutOption1 = (props: Option1Props) => (
-  <Layout style={styles.option1Container} level='4'>
-    <Layout style={styles.option1ActionsContainer} level='4'>
+  <Layout style={themedStyles.option1Container} level='4'>
+    <Layout style={themedStyles.option1ActionsContainer} level='4'>
       { props.hasBreathMeditation
         ? <Toggle
             checked={props.toggledState}
             onChange={props.setToggledState}
-            style={styles.toggle}
+            style={themedStyles.toggle}
             status='primary'
           >
             Add breathwork to this meditation
@@ -70,6 +71,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
   const { id } = route.params;
+  const styles = useStyleSheet(themedStyles);
 
   const meditation = meditationBaseMap[id];
 
@@ -161,6 +163,15 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
               toggledState={toggledState}
               value={inputValue}
             />  
+            {/* <Layout style={styles.meditationInfo} level='4'>
+              <WarningIcon />
+              <Text
+                category='s1'
+                style={styles.meditationInfoText}
+              >
+                Don't forget to turn on Do Not Disturb!
+              </Text>
+            </Layout> */}
           </Layout>  
           {/* <MeditationList
             header='Add heart sync'
@@ -186,7 +197,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
               category='s1'
               style={styles.meditationInfoText}
             >
-              Don't forget to turn on "Do Not Disturb"
+              Don't forget to turn on Do Not Disturb!
             </Text>
           </Layout>
            <_Button onPress={onStartPress} size='large'>Start</_Button>
@@ -196,7 +207,7 @@ const MeditationScreen = ({ route }: MeditationStackScreenProps<'Meditation'>) =
   )
 }
 
-const styles = StyleSheet.create({
+const themedStyles = StyleSheet.create({
   additionalWork: {
     paddingVertical: 40,
   },
@@ -216,7 +227,6 @@ const styles = StyleSheet.create({
   bottomBar: {
     padding: 20,
     justifyContent: 'flex-end',
-    borderTopWidth: 2,
   },
   closeIcon: {
     height: 32,
@@ -251,10 +261,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    opacity: 0.8,
   },
   meditationInfoText: {
-    color: '#b2b2b2',
+    color: 'color-danger-300',
     marginLeft: 10,
   },
   topBar: {
