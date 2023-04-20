@@ -148,9 +148,8 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         // setIsModalVisible(true);
         //@ts-ignore
       } else if (
-        state === TrackPlayerState.Paused ||
-        state === TrackPlayerState.Stopped ||
-        state === TrackPlayerState.None
+        state !== TrackPlayerState.Playing &&
+        isPlaying
       ) {
         setIsPlaying(false);
       } else if (
