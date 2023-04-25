@@ -53,6 +53,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const timerRef = React.useRef(time);
   const { position, duration } = useProgress();
   const [trackData, setTrackData] = useState({} as Track);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
 
@@ -61,10 +62,9 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
     if (event.nextTrack && event.nextTrack > 0) {
-      const track = tracks[event.nextTrack];
       const prevTrackMeditationTime = position;
       setMeditationTime(prevTrackMeditationTime);
-      setTrackData(track);
+      setCurrentTrackIndex(event.nextTrack);
     } else if (event.nextTrack === undefined) {
       setMeditationInstanceData({
         ...meditationInstanceData,
@@ -227,7 +227,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
     .slice(12, 19);
-  const trackTitle = trackData && trackData.title;
+  const trackTitle = tracks[currentTrackIndex]&& tracks[currentTrackIndex].title;
 
   const renderModalContext = () => {
     return (
