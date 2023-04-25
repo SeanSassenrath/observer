@@ -45,7 +45,7 @@ const ErrorIcon = (props: any) => (
 const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
-  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const [existingMeditationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
@@ -175,7 +175,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
-      existingMediationFilePathData,
+      existingMeditationFilePathData,
       setExistingMeditationFilePathData,
     )
     if (meditations) {

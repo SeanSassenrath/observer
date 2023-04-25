@@ -56,8 +56,14 @@ const RequestInvite = () => {
           user.onboarding.hasSeenAddMeditationOnboarding
         ) {
           navigation.navigate('TabNavigation');
-        } else {
+        } else if (
+          user &&
+          user.betaAgreement &&
+          user.betaAgreement.hasAccepted
+        ) {
           navigation.navigate('OnboardingStep1');
+        } else {
+          navigation.navigate('BetaAgreement');
         }
       } else {
         setIsNotInBeta(true)

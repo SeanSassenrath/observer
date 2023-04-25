@@ -8,13 +8,11 @@ import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
 
 import _Button from '../components/Button';
-import { MeditationScreenNavigationProp, MeditationId, LibraryScreenNavigationProp, HomeScreenNavigationProp, MeditationBaseMap } from '../types';
+import { MeditationId } from '../types';
 import { HomeTopBar } from '../components/HomeTopBar';
 import { MeditationList } from '../components/MeditationList';
 import { Inspiration } from '../components/Inspiration';
 import UserContext, { initialUserState } from '../contexts/userData';
-import { getMeditationFilePathDataInAsyncStorage, MeditationFilePathData, setMeditationFilePathDataInAsyncStorage } from '../utils/asyncStorageMeditation';
-import { makeMeditationBaseData } from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { Streaks } from '../components/Streaks';
 import { getUserStreakData } from '../utils/streaks';
@@ -22,6 +20,7 @@ import { AddMeditationsPill } from '../components/AddMeditationsPill';
 import { onAddMeditations } from '../utils/addMeditations';
 import { EduPromptComponent } from '../components/EduPrompt/component';
 import { fbUpdateUser } from '../fb/user';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 
 const brightWhite = '#fcfcfc';
 
@@ -35,10 +34,10 @@ const UserIcon = (props: any) => (
 
 const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
-  const navigation = useNavigation();
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
-  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
   const streakData = getUserStreakData(user);
@@ -87,7 +86,7 @@ const HomeScreen = () => {
   }
 
   useEffect(() => {
-    setExistingMeditationFilePathDataFromAsyncStorage();
+    // setExistingMeditationFilePathDataFromAsyncStorage();
 
     // if (Platform.OS === 'android') {
     //   getPermission();
@@ -95,14 +94,14 @@ const HomeScreen = () => {
     // }
   }, [])
 
-  const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
-    const filePathData = await getMeditationFilePathDataInAsyncStorage()
-    // console.log('HOME: Existing file path data from Async Storage', filePathData);
-    if (filePathData) {
-      const parsedFilePathData = JSON.parse(filePathData);
-      setExistingMeditationFilePathData(parsedFilePathData);
-    }
-  }
+  // const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
+  //   const filePathData = await getMeditationFilePathDataInAsyncStorage()
+  //   // console.log('HOME: Existing file path data from Async Storage', filePathData);
+  //   if (filePathData) {
+  //     const parsedFilePathData = JSON.parse(filePathData);
+  //     setExistingMeditationFilePathData(parsedFilePathData);
+  //   }
+  // }
 
   const onSignOut = () => {
     auth()
@@ -117,8 +116,8 @@ const HomeScreen = () => {
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
-      existingMediationFilePathData,
-      setExistingMeditationFilePathData,
+      meditationFilePaths,
+      setMeditationFilePaths,
     )
     if (meditations) {
       setMeditationBaseData(meditations);
@@ -187,13 +186,13 @@ const HomeScreen = () => {
               header='Recent Meditations'
               meditationBaseIds={recentMeditationBaseIds}
               onMeditationPress={onMeditationPress}
-              existingMediationFilePathData={existingMediationFilePathData}
+              existingMeditationFilePathData={meditationFilePaths}
             />
             <MeditationList
               header='Top Meditations'
               meditationBaseIds={favoriteMeditations}
               onMeditationPress={onMeditationPress}
-              existingMediationFilePathData={existingMediationFilePathData}
+              existingMeditationFilePathData={meditationFilePaths}
             />
           </Layout>
         </ScrollView>

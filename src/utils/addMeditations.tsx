@@ -12,10 +12,12 @@ interface ErrorFiles {
 }
 
 export const onAddMeditations = async (
-  existingMediationFilePathData: MeditationFilePathData,
+  existingMeditationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
   hideSuccessToast?: boolean,
 ) => {
+  console.log('ADD MEDITATIONS TSX - existing file path data', existingMeditationFilePathData);
+
   meditationAddSendEvent(
     Action.SUBMIT,
     Noun.BUTTON,
@@ -26,7 +28,7 @@ export const onAddMeditations = async (
     copyTo: 'documentDirectory',
   });
 
-  const filePathDataList = makeFilePathDataList(pickedFiles, existingMediationFilePathData);
+  const filePathDataList = makeFilePathDataList(pickedFiles, existingMeditationFilePathData);
 
   if (!filePathDataList) { return null; }
   const numberOfMeditations = Object.keys(filePathDataList).length;
@@ -57,26 +59,26 @@ export const onAddMeditations = async (
       position: 'bottom',
       bottomOffset: 100,
       onPress: () => onAddMeditations(
-        existingMediationFilePathData,
+        existingMeditationFilePathData,
         setExistingMeditationFilePathData,
       ),
       visibilityTime: 5000,
     });
-  } else if (hideSuccessToast) {
-    return null;
   } else {
-    Toast.show({
-      type: 'success',
-      text1: 'Meditations added',
-      text2: `New meditations were added to your library`,
-      position: 'bottom',
-      bottomOffset: 100,
-      onPress: () => onAddMeditations(
-        existingMediationFilePathData,
-        setExistingMeditationFilePathData,
-      ),
-      visibilityTime: 5000,
-    });
+    if (!hideSuccessToast) {
+      Toast.show({
+        type: 'success',
+        text1: 'Meditations added',
+        text2: `New meditations were added to your library`,
+        position: 'bottom',
+        bottomOffset: 100,
+        onPress: () => onAddMeditations(
+          existingMeditationFilePathData,
+          setExistingMeditationFilePathData,
+        ),
+        visibilityTime: 5000,
+      });
+    }
   }
 
   if (!isEmpty(filePathDataList)) {

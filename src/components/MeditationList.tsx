@@ -13,7 +13,7 @@ interface MeditationListProps {
   onMeditationPress(id: MeditationId, isDisabled?: boolean): void;
   isMini?: boolean;
   selectedCardId?: string;
-  existingMediationFilePathData?: MeditationFilePathData;
+  existingMeditationFilePathData?: MeditationFilePathData;
 }
 
 interface EmptyListProps {
@@ -36,7 +36,7 @@ export const MeditationList = ({
   onMeditationPress,
   isMini,
   selectedCardId,
-  existingMediationFilePathData,
+  existingMeditationFilePathData,
 }: MeditationListProps) => (
   <Layout style={isMini ? styles.containerMini : styles.container} key={header} level='4'>
     <Text category='h6' style={styles.header}>{header}</Text>
@@ -44,8 +44,8 @@ export const MeditationList = ({
       {meditationBaseIds?.length
         ? meditationBaseIds.map((id, i) => {
           const meditation = meditationBaseMap[id];
-          const isDisabled = existingMediationFilePathData
-            ? !existingMediationFilePathData[id]
+          const isDisabled = existingMeditationFilePathData
+            ? !existingMeditationFilePathData[id]
             : false;
 
           return (

@@ -15,6 +15,7 @@ import DebugScreen from '../screens/Debug';
 import UserContext from '../contexts/userData';
 import OnboardingStep1 from '../screens/OnboardingStep1';
 import OnboardingStep2 from '../screens/OnboardingStep2';
+import BetaAgreement from '../screens/BetaAgreement';
 
 const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
 
@@ -28,6 +29,8 @@ const StackNavigator = () => {
       return "SignIn";
     } else if (!user.hasBetaAccess) {
       return "BetaCheck";
+    } else if (!user.betaAgreement) {
+      return "BetaAgreement"
     } else {
       return "TabNavigation";
     }
@@ -61,6 +64,7 @@ const StackNavigator = () => {
         screenOptions={{ headerShown: false }}
       >
         <Screen name="SignIn" component={SignInScreen} />
+        <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="BetaCheck" component={BetaCheck} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />

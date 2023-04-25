@@ -15,6 +15,7 @@ import { AddMeditationsPill } from '../components/AddMeditationsPill';
 import { EduPromptComponent } from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
 import { fbUpdateUser } from '../fb/user';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 
 const EMPTY_SEARCH = '';
 
@@ -23,8 +24,8 @@ const LibraryIcon = (props: any) => (
 );
 
 const LibraryScreen = () => {
-  const {user, setUser} = useContext(UserContext);
-  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const { user, setUser } = useContext(UserContext);
+  const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const [meditationGroupsList, setMeditationGroupsList] = useState([] as MeditationGroupsList)
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH)
@@ -91,8 +92,8 @@ const LibraryScreen = () => {
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
-      existingMediationFilePathData,
-      setExistingMeditationFilePathData,
+      meditationFilePaths,
+      setMeditationFilePaths,
     )
     if (meditations) {
       setMeditationBaseData(meditations);

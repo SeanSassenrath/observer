@@ -6,25 +6,28 @@ import { useNavigation } from "@react-navigation/native";
 
 import Button from "../components/Button";
 import { onAddMeditations } from "../utils/addMeditations";
-import { MeditationFilePathData } from "../utils/asyncStorageMeditation";
 import MeditationBaseDataContext from "../contexts/meditationBaseData";
 import { fbUpdateUser } from "../fb/user";
 import UserContext from "../contexts/userData";
 import SupportedMeditationsList from "../components/SupportedMeditationsList";
 import { meditationBaseMap } from "../constants/meditation";
+import MeditationFilePathsContext from "../contexts/meditationFilePaths";
 
 const OnboardingStep2 = () => {
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
-  const [existingMediationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+  const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext)
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
+
+  console.log('ONBOARDING STEP 2 - meditation file paths', meditationFilePaths);
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
-      existingMediationFilePathData,
-      setExistingMeditationFilePathData,
+      meditationFilePaths,
+      setMeditationFilePaths,
       true,
     )
+    console.log("HERE >>>", meditations);
     if (meditations) {
       setMeditationBaseData(meditations);
       await fbUpdateUser(user.uid, { 'onboarding.hasSeenAddMeditationOnboarding': true });

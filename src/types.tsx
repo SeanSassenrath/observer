@@ -19,6 +19,7 @@ export type StackParamList = {
   AddFilesTutorial2: undefined;
   AddFilesTutorial3: undefined;
   AddFilesTutorial4: undefined;
+  BetaAgreement: undefined;
   BetaCheck: undefined;
   OnboardingStep1: undefined;
   OnboardingStep2: undefined;
@@ -31,10 +32,12 @@ interface MeditationParams {
 
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
 type BetaCheck = NativeStackScreenProps<StackParamList, 'BetaCheck'>;
+type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
 type OnboardingStep1 = NativeStackScreenProps<StackParamList, 'OnboardingStep1'>;
 type OnboardingStep2 = NativeStackScreenProps<StackParamList, 'OnboardingStep2'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
+export type BetaAgreementProp = BetaAgreement['navigation'];
 export type BetaCheckProp = BetaCheck['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
@@ -82,6 +85,7 @@ export type MeditationId = string;
 export type MeditationBaseId = string;
 type MeditationInstanceId = string;
 export type MeditationName = string;
+export type MeditationUrl = string;
 
 export interface Meditation {
   artwork: any,
@@ -96,7 +100,7 @@ export interface Meditation {
   meditationBreathId?: MeditationId,
   name: MeditationName,
   size: MeditationSizes,
-  url: any,
+  url: MeditationUrl,
 }
 
 export interface MeditationBase {
@@ -149,4 +153,8 @@ export interface MeditationInstance {
   notes?: string,
   feedback?: string,
   type: MeditationTypes,
+}
+
+export type MeditationFilePath = {
+  [key: string]: MeditationUrl
 }

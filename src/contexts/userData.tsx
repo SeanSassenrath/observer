@@ -26,6 +26,11 @@ export interface MeditationCountsMap {
   }
 }
 
+interface BetaAgreement {
+  hasAccepted: boolean;
+  date: string;
+};
+
 interface Onboarding {
   hasSeenAddMeditationOnboarding: boolean,
   hasSeenLibraryOnboarding: boolean,
@@ -37,6 +42,7 @@ export interface User {
   uid: UserUid,
   profile: UserProfile,
   hasBetaAccess?: boolean;
+  betaAgreement?: BetaAgreement;
   onboarding: Onboarding,
   meditationHistoryIds?: MeditationBaseId[],
   meditationUserData: {

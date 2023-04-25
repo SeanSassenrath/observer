@@ -17,7 +17,7 @@ import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 
 import StackNavigator from './src/navigation/Stack';
-import { MeditationBaseMap, MeditationInstance } from './src/types';
+import { MeditationBaseMap, MeditationFilePath, MeditationInstance } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import UserContext, { initialUserState, User, UserStreaks } from './src/contexts/userData';
@@ -32,6 +32,8 @@ import { fbAddUser, fbGetUser, fbUpdateUser } from './src/fb/user';
 import { checkStreakData, getUserStreakData, makeFbStreakUpdate, updateUserStreakData } from './src/utils/streaks';
 import { fbGetMeditationHistory } from './src/fb/meditationHistory';
 import { Action, appInitializationSendEvent, Noun } from './src/analytics';
+import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
+import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
 
 const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
 
@@ -39,6 +41,7 @@ const App = () => {
   const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
   const [meditationHistory, setMeditationHistory] = useState({});
+  const [meditationFilePaths, setMeditationFilePaths] = useState({} as MeditationFilePath);
   const [user, setUser] = useState(initialUserState as User);
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
@@ -164,6 +167,7 @@ const App = () => {
 
     setupPlayerService(unmounted);
     setMeditationBaseDataToContext();
+    setMeditationFilePathsFromContext();
 
     return () => {
       unmounted = true;
@@ -184,6 +188,14 @@ const App = () => {
     }
   }
 
+  const setMeditationFilePathsFromContext = async () => {
+    const meditationFilePathsJSON = await getMeditationFilePathDataInAsyncStorage();
+    if (meditationFilePathsJSON) {
+      const meditationFilePaths = JSON.parse(meditationFilePathsJSON);
+      setMeditationFilePaths(meditationFilePaths);
+    }
+  }
+
   if (initializing) {
     return null;
   }
@@ -201,7 +213,9 @@ const App = () => {
           <MeditationHistoryContext.Provider value={{ meditationHistory, setMeditationHistory}}>
             <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
               <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
-                <StackNavigator />
+                <MeditationFilePathsContext.Provider value={{ meditationFilePaths, setMeditationFilePaths }}>
+                  <StackNavigator />
+                </MeditationFilePathsContext.Provider>
               </MeditationInstanceDataContext.Provider>
             </MeditationBaseDataContext.Provider>
           </MeditationHistoryContext.Provider>
