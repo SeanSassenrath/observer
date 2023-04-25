@@ -255,10 +255,13 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topBar} level='4'>
+          <Text category='h6' style={styles.topBarTitle}>
+            Playbox
+          </Text>
           <TouchableWithoutFeedback
             onPress={onClosePress}
           >
-            <Layout style={styles.closeIconContainer} level='4'>
+            <Layout level='4'>
               <CloseIcon />
             </Layout>
           </TouchableWithoutFeedback>
@@ -432,7 +435,8 @@ const styles = StyleSheet.create({
     color: 'red',
   },
   meditationNameText: {
-    color: '#fcfcfc'
+    color: '#fcfcfc',
+    textAlign: 'center',
   },
   modalBackdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -470,11 +474,13 @@ const styles = StyleSheet.create({
   },
   topBar: {
     alignItems: 'center',
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     flex: 1,
-  },
-  closeIconContainer: {
+    justifyContent: 'space-between',
     padding: 20,
+  },
+  topBarTitle: {
+    opacity: 0.8,
   },
 })
 

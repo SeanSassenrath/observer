@@ -138,18 +138,18 @@ const MeditationFinishScreen = () => {
           : null
         }
         <Layout level='4' style={styles.inputContainer}>
-          <Text category='s1' style={styles.smallText}>What did you do well during your meditation?</Text>
+          <Text category='s1' style={styles.smallText}>What did you do really well in your last meditation?</Text>
           <MultiLineInput
             onChangeText={setFirstInput}
-            placeholder='Add your feedback here'
+            placeholder='Add what you did well here'
             value={firstInput}
           />
         </Layout>
         <Layout level='4' style={styles.inputContainer}>
-          <Text category='s1' style={styles.smallText}>What do you want to improve on next time?</Text>
+          <Text category='s1' style={styles.smallText}>If you had another opportunity, what would you do differently?</Text>
           <MultiLineInput
             onChangeText={setSecondInput}
-            placeholder='Add your feedback here'
+            placeholder='Add what you would do differently here'
             value={secondInput}
           />
         </Layout>
@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(16, 20, 38, 1)',
   },
   smallText: {
+    lineHeight: 26,
     marginBottom: 20,
   },
   text: {

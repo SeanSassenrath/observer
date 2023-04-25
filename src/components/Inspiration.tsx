@@ -28,6 +28,7 @@ const themedStyles = StyleSheet.create({
     opacity: 0.9,
   },
   prompt: {
+    lineHeight: 24,
     opacity: 0.7,
   },
 })
