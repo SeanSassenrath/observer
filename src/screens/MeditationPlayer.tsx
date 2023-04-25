@@ -254,7 +254,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   return (
     <Layout style={styles.container} level='4'>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topBar} level='4'>
+        <Layout style={styles.topBarContainer} level='4'>
           <Text category='h6' style={styles.topBarTitle}>
             Playbox
           </Text>
@@ -266,9 +266,9 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             </Layout>
           </TouchableWithoutFeedback>
         </Layout>
-        <Layout style={styles.main} level='4'>
+        <Layout style={styles.mainContainer} level='4'>
           <Layout style={styles.countdownTextContainer} level='4'>
-            {time > 3
+            {time > 2
               ? <Text style={styles.countdownText}>{time - 3}</Text>
               : null
             }
@@ -277,7 +277,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
             <Text category='h6' style={styles.meditationNameText}>{trackTitle}</Text>
           </Layout>
         </Layout>
-        <Layout style={styles.bottomBar} level='4'>
+        <Layout style={styles.bottomBarContainer} level='4'>
           <Layout style={playerStyles.container} level='4'>
             <TouchableWithoutFeedback
               onPress={onRestartPress}
@@ -407,7 +407,7 @@ const playerStyles = StyleSheet.create({
 })
 
 const styles = StyleSheet.create({
-  bottomBar: {
+  bottomBarContainer: {
     flex: 4,
     padding: 20
   },
@@ -420,13 +420,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  main: {
-    flex: 6,
+  mainContainer: {
+    flex: 5,
     paddingHorizontal: 20,
   },
   countdownTextContainer: {
     flex: 6,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   meditationName: {
     flex: 3,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     fontSize: 80,
     color: lightestWhite,
   },
-  topBar: {
+  topBarContainer: {
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
