@@ -138,7 +138,7 @@ const MeditationFinishScreen = () => {
           : null
         }
         <Layout level='4' style={styles.inputContainer}>
-          <Text category='s1' style={styles.smallText}>What did you do really well in your last meditation?</Text>
+          <Text category='s1' style={styles.smallText}>What did you do well in your last meditation?</Text>
           <MultiLineInput
             onChangeText={setFirstInput}
             placeholder='Add what you did well here'

@@ -34,6 +34,7 @@ import { fbGetMeditationHistory } from './src/fb/meditationHistory';
 import { Action, appInitializationSendEvent, Noun } from './src/analytics';
 import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
+import Splash from './src/screens/Splash';
 
 const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
 
@@ -197,7 +198,7 @@ const App = () => {
   }
 
   if (initializing) {
-    return null;
+    return <Splash />;
   }
 
   return (
