@@ -16,8 +16,6 @@ export const onAddMeditations = async (
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
   hideSuccessToast?: boolean,
 ) => {
-  console.log('ADD MEDITATIONS TSX - existing file path data', existingMeditationFilePathData);
-
   meditationAddSendEvent(
     Action.SUBMIT,
     Noun.BUTTON,

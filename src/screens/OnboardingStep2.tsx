@@ -19,15 +19,12 @@ const OnboardingStep2 = () => {
   const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext)
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
 
-  console.log('ONBOARDING STEP 2 - meditation file paths', meditationFilePaths);
-
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
       true,
     )
-    console.log("HERE >>>", meditations);
     if (meditations) {
       setMeditationBaseData(meditations);
       await fbUpdateUser(user.uid, { 'onboarding.hasSeenAddMeditationOnboarding': true });
