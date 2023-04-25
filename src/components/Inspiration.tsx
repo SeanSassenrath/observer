@@ -11,7 +11,7 @@ export const Inspiration = () => {
   return (
     <Layout level='2' style={styles.container}>
       <Text category='h5' style={styles.header}>Hello, {user.profile.firstName}</Text>
-      <Text category='s1' style={styles.prompt}>Where will you place your energy today?</Text>
+      <Text category='s1' style={styles.prompt}>Remember, where you place your attention is where you place your energy.</Text>
     </Layout>
   )
 }

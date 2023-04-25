@@ -24,9 +24,9 @@ export const HomeTopBar = ({
 
   return (
     <Layout style={styles.topBarContainer} level='4'>
-      {/* <Layout style={styles.topBarVoidContainer}> */}
-        {/* <Text category='s2' style={styles.topBarVoidText}>BETA</Text> */}
-      {/* </Layout> */}
+      <Layout style={styles.topBarVoidContainer}>
+        <Text category='s2' style={styles.topBarVoidText}>BETA</Text>
+      </Layout>
       <Layout style={styles.topBarActionItemsContainer} level='4'>
         <Pressable onPress={onAvatarPress}>
             {user.profile && user.profile.photoURL
@@ -48,7 +48,7 @@ const themedStyles = StyleSheet.create({
   },
   topBarContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
     marginBottom: 20,
