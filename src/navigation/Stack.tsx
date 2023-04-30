@@ -8,7 +8,6 @@ import MeditationFinishScreen from '../screens/MeditationFinish';
 import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
-import BetaCheck from '../screens/BetaCheck';
 import TabNavigator from './Tab';
 import { StackParamList } from '../types';
 import DebugScreen from '../screens/Debug';
@@ -27,8 +26,6 @@ const StackNavigator = () => {
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
       return "SignIn";
-    } else if (!user.hasBetaAccess) {
-      return "BetaCheck";
     } else if (!user.betaAgreement) {
       return "BetaAgreement"
     } else {
@@ -65,7 +62,6 @@ const StackNavigator = () => {
       >
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
-        <Screen name="BetaCheck" component={BetaCheck} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />

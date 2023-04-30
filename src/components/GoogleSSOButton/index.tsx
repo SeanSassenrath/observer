@@ -26,7 +26,7 @@ const GoogleSSOButton = () => {
 
       await auth().signInWithCredential(googleCredential);
 
-      navigation.navigate('BetaCheck');
+      navigation.navigate('BetaAgreement');
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         crashlytics().recordError(error);

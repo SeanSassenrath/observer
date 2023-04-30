@@ -20,7 +20,6 @@ export type StackParamList = {
   AddFilesTutorial3: undefined;
   AddFilesTutorial4: undefined;
   BetaAgreement: undefined;
-  BetaCheck: undefined;
   OnboardingStep1: undefined;
   OnboardingStep2: undefined;
 };
@@ -31,14 +30,12 @@ interface MeditationParams {
 }
 
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
-type BetaCheck = NativeStackScreenProps<StackParamList, 'BetaCheck'>;
 type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
 type OnboardingStep1 = NativeStackScreenProps<StackParamList, 'OnboardingStep1'>;
 type OnboardingStep2 = NativeStackScreenProps<StackParamList, 'OnboardingStep2'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
-export type BetaCheckProp = BetaCheck['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 

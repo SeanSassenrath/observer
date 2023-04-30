@@ -30,7 +30,7 @@ const AppleSSOButton = () => {
       //     to link the account to an existing user
       const userCredential = await auth().signInWithCredential(appleCredential);
 
-      navigation.navigate('BetaCheck');
+      navigation.navigate('BetaAgreement');
 
       // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
       console.warn(`Firebase authenticated via Apple, UID: ${userCredential.user.uid}`);
