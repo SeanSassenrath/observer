@@ -44,11 +44,11 @@ const SignInScreen = () => {
           </Layout>
           <Layout level='4' style={styles.bottomContainer}>
             <Layout level='4' style={styles.buttonsContainer}>
-              { Platform.OS === 'ios'
+              <GoogleSSOButton/>
+              {Platform.OS === 'ios'
                 ? <AppleSSOButton />
                 : null
               }
-              <GoogleSSOButton/>
             </Layout>
           </Layout>
           <Pressable onPress={onPrivacyPolicyPress}>

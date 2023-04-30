@@ -66,6 +66,12 @@ const App = () => {
     }
   }
 
+  const getPhotoUrl = (firebaseUser: any) => {
+    if (firebaseUser.providerData && firebaseUser.providerData[0]) {
+      return firebaseUser.providerData[0].photoURL;
+    }
+  }
+
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
     uid: firebaseUser.uid,
     hasBetaAccess: false,
@@ -76,7 +82,7 @@ const App = () => {
       lastName: getLastName(firebaseUser) || EMPTY_STRING,
       creationTime: firebaseUser.metadata.creationTime,
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
-      photoURL: firebaseUser.photoURL,
+      photoURL: getPhotoUrl(firebaseUser) || EMPTY_STRING,
     },
     onboarding: {
       hasSeenAddMeditationOnboarding: false,

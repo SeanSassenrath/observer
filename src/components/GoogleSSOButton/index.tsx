@@ -24,7 +24,7 @@ const GoogleSSOButton = () => {
 
       crashlytics().setUserId(user.id),
 
-        await auth().signInWithCredential(googleCredential);
+      await auth().signInWithCredential(googleCredential);
 
       navigation.navigate('BetaCheck');
     } catch (error: any) {
