@@ -54,7 +54,7 @@ const themedStyles = StyleSheet.create({
   },
   currentStreakContainer: {
     borderRightWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'rgb(17, 20, 37)',
     opacity: 0.9,
     padding: 20,
     flex: 1,
@@ -66,7 +66,7 @@ const themedStyles = StyleSheet.create({
   },
   longestStreakContainer: {
     borderLeftWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'rgb(17, 20, 37)',
     opacity: 0.5,
     padding: 20,
     width: 140,

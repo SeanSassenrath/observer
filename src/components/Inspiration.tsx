@@ -30,5 +30,6 @@ const themedStyles = StyleSheet.create({
   prompt: {
     lineHeight: 24,
     opacity: 0.7,
+    fontStyle: 'italic',
   },
 })
