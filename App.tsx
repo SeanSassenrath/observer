@@ -38,6 +38,8 @@ import Splash from './src/screens/Splash';
 
 const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
 
+const EMPTY_STRING = '';
+
 const App = () => {
   const [meditationBaseData, setMeditationBaseData] = useState({} as MeditationBaseMap);
   const [meditationInstanceData, setMeditationInstanceData] = useState({} as MeditationInstance);
@@ -68,10 +70,10 @@ const App = () => {
     uid: firebaseUser.uid,
     hasBetaAccess: false,
     profile: {
-      displayName: firebaseUser.displayName,
-      email: firebaseUser.email,
-      firstName: getFirstName(firebaseUser),
-      lastName: getLastName(firebaseUser),
+      displayName: firebaseUser.displayName || EMPTY_STRING,
+      email: firebaseUser.email || EMPTY_STRING,
+      firstName: getFirstName(firebaseUser) || EMPTY_STRING,
+      lastName: getLastName(firebaseUser) || EMPTY_STRING,
       creationTime: firebaseUser.metadata.creationTime,
       lastSignInTime: firebaseUser.metadata.lastSignInTime,
       photoURL: firebaseUser.photoURL,
@@ -148,15 +150,15 @@ const App = () => {
     catch (e) {
       appInitializationSendEvent(Action.FAIL, Noun.ON_MOUNT)
       setInitializing(false);
-      Toast.show({
-        autoHide: false,
-        type: 'error',
-        text1: `We're having trouble connecting...`,
-        text2: 'Tap to re-try',
-        position: 'bottom',
-        bottomOffset: 100,
-        onPress: () => setAppRefreshCount(appRefreshCount + 1),
-      });
+      // Toast.show({
+      //   autoHide: false,
+      //   type: 'error',
+      //   text1: `We're having trouble connecting...`,
+      //   text2: 'Tap to re-try',
+      //   position: 'bottom',
+      //   bottomOffset: 100,
+      //   onPress: () => setAppRefreshCount(appRefreshCount + 1),
+      // });
     }
   }
 

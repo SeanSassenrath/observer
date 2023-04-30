@@ -73,12 +73,8 @@ const RequestInvite = () => {
 
   const isUserInBetaCheck = async () => {
     const betaUserList = await fbFetchBetaUserList();
-    console.log('betaUserList', betaUserList);
     if (!betaUserList) { return; }
     const { list } = betaUserList;
-    console.log('list', list);
-    console.log('user.profile.email', user.profile.email);
-    console.log('here', list.includes(user.profile.email))
     return list.includes(user.profile.email);
   }
 

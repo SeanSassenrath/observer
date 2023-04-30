@@ -29,6 +29,7 @@ export const fbAddUser = async (
     })
     .catch((e) => {
       console.log('FB add user failed', e);
+      return false;
     })
 }
 
