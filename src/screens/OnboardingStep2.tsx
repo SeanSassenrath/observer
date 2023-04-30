@@ -72,7 +72,7 @@ const OnboardingStep2 = () => {
               onPress={onSkipPress}
               size="large"
               status="basic"
-              style={styles.button}
+              style={styles.skipButton}
             >
               Skip
             </Button>
@@ -85,12 +85,15 @@ const OnboardingStep2 = () => {
 
 const styles = StyleSheet.create({
   bottomContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
   button: {
     marginBottom: 16,
+    width: 300
+  },
+  skipButton: {
     width: 300
   },
   buttonTest: {
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
   },
   heroContainer: {
     alignItems: 'center',
-    flex: 9,
+    flex: 8,
     justifyContent: 'center',
   },
   supportedMeditationsContainer: {

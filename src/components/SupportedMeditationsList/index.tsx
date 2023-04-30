@@ -35,7 +35,7 @@ const SupportedMeditationsList = () => {
 const styles = StyleSheet.create({
   supportedMeditationsContainer: {
     borderRadius: 4,
-    height: 400,
+    flex: 1,
     marginBottom: 30,
     width: 350,
     paddingHorizontal: 16,
