@@ -33,6 +33,11 @@ const OnboardingStep2 = () => {
     }
   }
 
+  const onSkipPress = async () => {
+    //@ts-ignore
+    navigation.navigate('TabNavigation', { screen: 'Home' });
+  }
+
   const numOfMeditations = Object.keys(meditationBaseMap).length;
 
   return (
@@ -61,6 +66,15 @@ const OnboardingStep2 = () => {
               style={styles.button}
             >
               Add Meditations
+            </Button>
+            <Button
+              appearance="ghost"
+              onPress={onSkipPress}
+              size="large"
+              status="basic"
+              style={styles.button}
+            >
+              Skip
             </Button>
           </Layout>
         </Layout>
