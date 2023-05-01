@@ -1,13 +1,14 @@
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { useNavigation } from '@react-navigation/native';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 import GoogleSSOButtonComponent from './component';
 
-const GoogleSSOButton = () => {
-  const navigation = useNavigation();
+interface Props {
+  setIsSigningIn(b: boolean): void;
+}
 
+const GoogleSSOButton = (props: Props) => {
   const onPress = async () => {
     crashlytics().log('User signed in.');
     let userInfo;
@@ -26,7 +27,7 @@ const GoogleSSOButton = () => {
 
       await auth().signInWithCredential(googleCredential);
 
-      navigation.navigate('BetaAgreement');
+      props.setIsSigningIn(true);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         crashlytics().recordError(error);

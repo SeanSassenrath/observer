@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Linking, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import {
 	Layout,
+	Modal,
+	Spinner,
 	Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
+import UserContext from '../contexts/userData';
 
 const privacyPolicyUrl = 'https://www.privacypolicies.com/live/0f561bf7-489c-4c02-830e-c8b276e128f9';
 
 const SignInScreen = () => {
+  const { user } = useContext(UserContext);
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
+
+  useEffect(() => {
+    redirectUser();
+  }, [user.uid]);
+
+  const redirectUser = () => {
+    if (!user.uid) {
+      return;
+    } else {
+      return setTimeout(() => {
+        setIsSigningIn(false);
+
+        if (!user.betaAgreement) {
+          navigation.navigate('BetaAgreement');
+        } else {
+          //@ts-ignore
+          navigation.navigate('TabNavigation', { screen: 'Home' });
+        }
+      }, 1000);
+    }
+  }
 
   const onPrivacyPolicyPress = async () => {
     await Linking.openURL(privacyPolicyUrl);
@@ -44,9 +72,9 @@ const SignInScreen = () => {
           </Layout>
           <Layout level='4' style={styles.bottomContainer}>
             <Layout level='4' style={styles.buttonsContainer}>
-              <GoogleSSOButton/>
+              <GoogleSSOButton setIsSigningIn={setIsSigningIn}/>
               {Platform.OS === 'ios'
-                ? <AppleSSOButton />
+                ? <AppleSSOButton setIsSigningIn={setIsSigningIn} />
                 : null
               }
             </Layout>
@@ -56,6 +84,15 @@ const SignInScreen = () => {
           </Pressable>
         </Layout>
       </SafeAreaView>
+      <Modal
+        visible={isSigningIn}
+        backdropStyle={styles.backdrop}
+      >
+        <Layout level='3' style={styles.modalContainer}>
+          <Spinner />
+          <Text category='h6' style={styles.modalText}>Signing you in...</Text>
+        </Layout>
+      </Modal>
     </Layout>
   )
 }
@@ -68,6 +105,9 @@ const imageStyles = StyleSheet.create({
 })
 
 const themedStyles = StyleSheet.create({
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   buttonsContainer: {
     flex: 5,
     alignItems: 'center',
@@ -102,6 +142,16 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 7,
+  },
+  modalContainer: {
+    width: 240,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+    padding: 40,
+  },
+  modalText: {
+    marginTop: 20,
   },
   privacyPolicy: {
     textAlign: 'center',

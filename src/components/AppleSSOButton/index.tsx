@@ -1,12 +1,13 @@
 import auth from '@react-native-firebase/auth';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import { useNavigation } from '@react-navigation/native';
 
 import AppleSSOButtonComponent from './component';
 
-const AppleSSOButton = () => {
-  const navigation = useNavigation();
+interface Props {
+  setIsSigningIn(b: boolean): void;
+}
 
+const AppleSSOButton = (props: Props) => {
   const onPress = async () => {
     // 1). start a apple sign-in request
     console.log('sending request for apple auth');
@@ -30,8 +31,7 @@ const AppleSSOButton = () => {
       //     to link the account to an existing user
       const userCredential = await auth().signInWithCredential(appleCredential);
 
-      navigation.navigate('BetaAgreement');
-
+      props.setIsSigningIn(true);
       // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
       console.warn(`Firebase authenticated via Apple, UID: ${userCredential.user.uid}`);
     } else {
