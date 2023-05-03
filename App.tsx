@@ -17,7 +17,7 @@ import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 
 import StackNavigator from './src/navigation/Stack';
-import { MeditationBaseMap, MeditationFilePath, MeditationInstance } from './src/types';
+import { MeditationBaseMap, MeditationFilePath, MeditationInstance, UnsupportedFileData } from './src/types';
 import { default as mapping } from './mapping.json'; // <-- Import app mapping
 import { default as theme } from './theme.json';
 import UserContext, { initialUserState, User, UserStreaks } from './src/contexts/userData';
@@ -35,6 +35,7 @@ import { Action, appInitializationSendEvent, Noun } from './src/analytics';
 import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import { getMeditationFilePathDataInAsyncStorage } from './src/utils/asyncStorageMeditation';
 import Splash from './src/screens/Splash';
+import UnsupportedFilesContext from './src/contexts/unsupportedFiles';
 
 const googleWebClientId = '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
 
@@ -48,7 +49,7 @@ const App = () => {
   const [user, setUser] = useState(initialUserState as User);
   const [initializing, setInitializing] = useState(true);
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
-  const [appRefreshCount, setAppRefreshCount] = useState(0);
+  const [unsupportedFiles, setUnsupportedFiles] = useState([] as UnsupportedFileData[]);
 
   const getFirstName = (firebaseUser: any) => {
     if (firebaseUser.displayName) {
@@ -156,15 +157,6 @@ const App = () => {
     catch (e) {
       appInitializationSendEvent(Action.FAIL, Noun.ON_MOUNT)
       setInitializing(false);
-      // Toast.show({
-      //   autoHide: false,
-      //   type: 'error',
-      //   text1: `We're having trouble connecting...`,
-      //   text2: 'Tap to re-try',
-      //   position: 'bottom',
-      //   bottomOffset: 100,
-      //   onPress: () => setAppRefreshCount(appRefreshCount + 1),
-      // });
     }
   }
 
@@ -182,7 +174,7 @@ const App = () => {
       unmounted = true;
       subscriber;
     }
-  }, [appRefreshCount])
+  }, [])
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();
@@ -223,7 +215,9 @@ const App = () => {
             <MeditationBaseDataContext.Provider value={{ meditationBaseData, setMeditationBaseData }}>
               <MeditationInstanceDataContext.Provider value={{ meditationInstanceData, setMeditationInstanceData }}>
                 <MeditationFilePathsContext.Provider value={{ meditationFilePaths, setMeditationFilePaths }}>
-                  <StackNavigator />
+                  <UnsupportedFilesContext.Provider value={{ unsupportedFiles, setUnsupportedFiles}}>
+                    <StackNavigator />
+                  </UnsupportedFilesContext.Provider>
                 </MeditationFilePathsContext.Provider>
               </MeditationInstanceDataContext.Provider>
             </MeditationBaseDataContext.Provider>

@@ -23,10 +23,6 @@ export const makeFilePathDataList = (
     }
   })
 
-  if (unsupportedFiles.length > 0) {
-    fbAddUnsupportedFiles(unsupportedFiles);
-  }
-
   return ({ filePathDataList, unsupportedFiles });
 }
 

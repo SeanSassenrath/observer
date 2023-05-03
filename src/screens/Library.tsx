@@ -16,6 +16,8 @@ import { EduPromptComponent } from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
 import { fbUpdateUser } from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
 
 const EMPTY_SEARCH = '';
 
@@ -27,6 +29,7 @@ const LibraryScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
+  const { unsupportedFiles, setUnsupportedFiles } = useContext(UnsupportedFilesContext);
   const [meditationGroupsList, setMeditationGroupsList] = useState([] as MeditationGroupsList)
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH)
   const navigation = useNavigation<MeditationScreenNavigationProp>();
@@ -94,6 +97,7 @@ const LibraryScreen = () => {
     const meditations = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
+      setUnsupportedFiles,
     )
     if (meditations) {
       setMeditationBaseData(meditations);
@@ -162,6 +166,10 @@ const LibraryScreen = () => {
             renderIcon={(props: any) => <LibraryIcon {...props} />}
             title="Your Library"
           />
+        : null
+      }
+      {unsupportedFiles.length > 0
+        ? <UnsupportedFilesModal />
         : null
       }
     </Layout>

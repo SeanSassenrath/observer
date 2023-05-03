@@ -12,17 +12,21 @@ import UserContext from "../contexts/userData";
 import SupportedMeditationsList from "../components/SupportedMeditationsList";
 import { meditationBaseMap } from "../constants/meditation";
 import MeditationFilePathsContext from "../contexts/meditationFilePaths";
+import UnsupportedFilesContext from "../contexts/unsupportedFiles";
+import UnsupportedFilesModal from "../components/UnsupportedFilesModal";
 
 const OnboardingStep2 = () => {
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
   const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext)
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
+  const { unsupportedFiles, setUnsupportedFiles } = useContext(UnsupportedFilesContext);
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
+      setUnsupportedFiles,
       true,
     )
     if (meditations) {
@@ -79,6 +83,10 @@ const OnboardingStep2 = () => {
           </Layout>
         </Layout>
       </SafeAreaView>
+      {unsupportedFiles.length > 0
+        ? <UnsupportedFilesModal />
+        : null
+      }
     </Layout>
   )
 }

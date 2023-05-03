@@ -21,6 +21,8 @@ import { onAddMeditations } from '../utils/addMeditations';
 import { EduPromptComponent } from '../components/EduPrompt/component';
 import { fbUpdateUser } from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
 
 const brightWhite = '#fcfcfc';
 
@@ -36,6 +38,7 @@ const HomeScreen = () => {
   const { user, setUser } = useContext(UserContext);
   const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
   const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext);
+  const { unsupportedFiles, setUnsupportedFiles } = useContext(UnsupportedFilesContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
@@ -118,6 +121,7 @@ const HomeScreen = () => {
     const meditations = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
+      setUnsupportedFiles,
     )
     if (meditations) {
       setMeditationBaseData(meditations);
@@ -233,6 +237,10 @@ const HomeScreen = () => {
           </_Button>
         </Layout>
       </Modal>
+      { unsupportedFiles.length > 0 
+        ? <UnsupportedFilesModal />
+        : null
+      }
     </Layout>
   )
 }
