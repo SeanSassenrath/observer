@@ -26,34 +26,18 @@ export const onAddMeditations = async (
     copyTo: 'documentDirectory',
   });
 
-  const filePathDataList = makeFilePathDataList(pickedFiles, existingMeditationFilePathData);
+  const {filePathDataList, unsupportedFiles} = makeFilePathDataList(pickedFiles, existingMeditationFilePathData);
 
-  if (!filePathDataList) { return null; }
-  const numberOfMeditations = Object.keys(filePathDataList).length;
 
   if (
-    !filePathDataList ||
-    numberOfMeditations <= 0
+    filePathDataList.length > 0 &&
+    !hideSuccessToast &&
+    !unsupportedFiles
   ) {
-    const errorFiles = {} as ErrorFiles;
-
-    pickedFiles.forEach((file, index) => {
-      if (file.name && file.size) {
-        errorFiles[`name-${index}`] = file.name
-        errorFiles[`name-${index}-size`] = file.size
-      }
-    })
-
-    meditationAddSendEvent(
-      Action.FAIL,
-      Noun.BUTTON,
-      errorFiles,
-    );
-
     Toast.show({
-      type: 'error',
-      text1: 'Something went wrong',
-      text2: 'Tap to retry',
+      type: 'success',
+      text1: 'Meditations added',
+      text2: `New meditations were added to your library`,
       position: 'bottom',
       bottomOffset: 100,
       onPress: () => onAddMeditations(
@@ -62,21 +46,6 @@ export const onAddMeditations = async (
       ),
       visibilityTime: 5000,
     });
-  } else {
-    if (!hideSuccessToast) {
-      Toast.show({
-        type: 'success',
-        text1: 'Meditations added',
-        text2: `New meditations were added to your library`,
-        position: 'bottom',
-        bottomOffset: 100,
-        onPress: () => onAddMeditations(
-          existingMeditationFilePathData,
-          setExistingMeditationFilePathData,
-        ),
-        visibilityTime: 5000,
-      });
-    }
   }
 
   if (!isEmpty(filePathDataList)) {

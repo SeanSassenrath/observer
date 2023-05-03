@@ -155,3 +155,9 @@ export interface MeditationInstance {
 export type MeditationFilePath = {
   [key: string]: MeditationUrl
 }
+
+export interface UnsupportedFileData {
+  name: string | null;
+  size: number | null;
+  type: string | null;
+}

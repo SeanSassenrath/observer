@@ -4,21 +4,30 @@ import _ from "lodash";
 
 import { MeditationBaseKeys, MeditationStringSizes } from '../constants/meditation';
 import { MeditationFilePathData } from './asyncStorageMeditation';
+import { fbAddUnsupportedFiles } from '../fb/unsupportedFiles';
+import { UnsupportedFileData } from '../types';
 
 export const makeFilePathDataList = (
   files: DocumentPickerResponse[],
   existingMeditationFilePathData: MeditationFilePathData,
 ) => {
-  let filePathDataMap = { ...existingMeditationFilePathData } as any;
+  let filePathDataList = { ...existingMeditationFilePathData } as any;
+  let unsupportedFiles: UnsupportedFileData[] = [];
 
   files.forEach(file => {
     const filePathData = makeFilePathData(file);
     if (filePathData) {
-      filePathDataMap = { ...filePathDataMap, ...filePathData };
+      filePathDataList = { ...filePathDataList, ...filePathData };
+    } else {
+      unsupportedFiles.push({name: file.name, type: file.type, size: file.size});
     }
   })
 
-  return filePathDataMap;
+  if (unsupportedFiles.length > 0) {
+    fbAddUnsupportedFiles(unsupportedFiles);
+  }
+
+  return ({ filePathDataList, unsupportedFiles });
 }
 
 const makeFilePathData = (file: DocumentPickerResponse) => {
