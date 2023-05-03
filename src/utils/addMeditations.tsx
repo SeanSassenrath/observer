@@ -30,7 +30,6 @@ export const onAddMeditations = async (
   if (unsupportedFiles.length > 0) {
     fbAddUnsupportedFiles(unsupportedFiles);
     setUnsupportedFiles(unsupportedFiles);
-    return;
   }
 
   if (
