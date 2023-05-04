@@ -35,9 +35,17 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedNewPotentialsV1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedNewPotentialsV2:
+      return {
+        [MeditationBaseKeys.MedNewPotentialsV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.BreathNewPotentialsV1:
       return {
         [MeditationBaseKeys.BreathNewPotentialsV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathNewPotentialsV2:
+      return {
+        [MeditationBaseKeys.BreathNewPotentialsV2]: makeRelativeFilePath(file.fileCopyUri),
       }
     case MeditationStringSizes.MedBreakingHabitSpaceV1:
       return {
@@ -94,6 +102,14 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case MeditationStringSizes.MedBlessingCenter9V1:
       return {
         [MeditationBaseKeys.MedBlessingCenter9V1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedBlessingCenter9V2:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter9V2]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedBlessingCenter10V1:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter10V1]: makeRelativeFilePath(file.fileCopyUri),
       }
     case MeditationStringSizes.MedDailyMorningV1:
       return {
@@ -175,6 +191,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedPinealGlandShortV1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedPinealGlandShortV2:
+      return {
+        [MeditationBaseKeys.MedPinealGlandShortV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedGeneratingAbundanceV1:
       return {
         [MeditationBaseKeys.MedGeneratingAbundanceV1]: makeRelativeFilePath(file.fileCopyUri),
@@ -198,6 +218,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case MeditationStringSizes.MedGeneratingInspirationV1:
       return {
         [MeditationBaseKeys.MedGeneratingInspirationV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedSyncToAbundanceV1:
+      return {
+        [MeditationBaseKeys.MedSyncToAbundanceV1]: makeRelativeFilePath(file.fileCopyUri),
       }
     default:
       break;
