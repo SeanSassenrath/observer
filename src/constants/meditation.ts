@@ -226,7 +226,7 @@ export enum MeditationSizes {
   BeliefsAndPerceptionsV2 = 43092728,
   BeliefsAndPerceptionsBreathV1 = 18036880,
   BeliefsAndPerceptionsBreathV2 = 11743205,
-  AlchemistV1 = 14699,
+  AlchemistV1 = 146990579,
   AlchemistV2 = 59139319,
   HeartBrainSyncV1 = 81972165,
   HeartBrainSyncV2 = 32977827,
