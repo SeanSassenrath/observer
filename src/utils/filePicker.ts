@@ -311,6 +311,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedSyncEnergyToLoveV2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedSyncEnergyToLoveV3:
+      return {
+        [MeditationBaseKeys.MedSyncEnergyToLoveV3]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedSyncEnergyToAbundance:
       return {
         [MeditationBaseKeys.MedSyncEnergyToAbundance]: makeRelativeFilePath(file.fileCopyUri),
