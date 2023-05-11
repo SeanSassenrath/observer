@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import DocumentPicker, { DocumentPickerResponse } from 'react-native-document-picker';
 import _ from "lodash";
 
-import { MeditationBaseKeys, MeditationStringSizes } from '../constants/meditation';
+import { MeditationBaseKeys, MeditationSizes, MeditationStringSizes } from '../constants/meditation';
 import { MeditationFilePathData } from './asyncStorageMeditation';
 import { fbAddUnsupportedFiles } from '../fb/unsupportedFiles';
 import { UnsupportedFileData } from '../types';
@@ -30,6 +30,18 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
 
+  // For meditations too close in size
+  if (fileSize === MeditationSizes.GeneratingChange) {
+    return { 
+      [MeditationBaseKeys.MedGeneratingChangeV1]: makeRelativeFilePath(file.fileCopyUri)
+    }
+  } else if (fileSize === MeditationSizes.GeneratingFlow) {
+    return {
+      [MeditationBaseKeys.MedGeneratingFlowV1]: makeRelativeFilePath(file.fileCopyUri)
+    }
+  }
+
+  // For meditations that have large size differences
   switch (fileSizeString) {
     case MeditationStringSizes.MedNewPotentialsV1:
       return {
@@ -255,10 +267,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedGeneratingAbundanceV1]: makeRelativeFilePath(file.fileCopyUri),
       }
-    case MeditationStringSizes.MedGeneratingFlowV1:
-      return {
-        [MeditationBaseKeys.MedGeneratingFlowV1]: makeRelativeFilePath(file.fileCopyUri),
-      }
     case MeditationStringSizes.MedGeneratingGratitudeV1:
       return {
         [MeditationBaseKeys.MedGeneratingGratitudeV1]: makeRelativeFilePath(file.fileCopyUri),
@@ -270,10 +278,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case MeditationStringSizes.MedGeneratingEmpowermentV2:
       return {
         [MeditationBaseKeys.MedGeneratingEmpowermentV2]: makeRelativeFilePath(file.fileCopyUri),
-      }
-    case MeditationStringSizes.MedGeneratingChangeV1:
-      return {
-        [MeditationBaseKeys.MedGeneratingChangeV1]: makeRelativeFilePath(file.fileCopyUri),
       }
     case MeditationStringSizes.MedGeneratingInspirationV1:
       return {

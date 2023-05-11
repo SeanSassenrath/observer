@@ -277,19 +277,6 @@ export enum MeditationGroupKey {
   'Other' = 'other'
 }
 
-// export enum MeditationGroupName {
-//   'AdvancedMeditations' = 'Advanced Meditations',
-//   'BlessingEnergyCenter' = 'Blessing of the Energy Centers',
-//   'BreakingHabit' = 'Breaking the Habit of Being Yourself',
-//   'ChangeBeliefsAndPerceptions' = 'Changing Beliefs and Perceptions',
-//   'Daily' = 'Daily Meditations',
-//   'Foundational' = 'Foundational',
-//   'Generating' = 'Generating',
-//   'TuningNewPotential' = 'Tuning Into New Potentials',
-//   'Recondition' = 'Reconditioning the Body to a New Mind',
-//   'Walking' = 'Walking',
-// }
-
 export enum MeditationGroupName {
   'BlessingEnergyCenter' = 'Blessing of the Energy Centers',
   'BreakingHabit' = 'Breaking the Habit of Being Yourself',
@@ -1417,9 +1404,6 @@ export const meditationBaseMap: MeditationBaseMap = {
   //   url: placeholder,
   // },
 }
-
-export const newPotentialGroupIds = [MeditationKeys.NewPotentials, MeditationKeys.NewPotentialsBreath]
-export const breakingHabitGroupIds = [MeditationKeys.BreakingTheHabit, MeditationKeys.BreakingTheHabitWater];
 
 export const breathMeditationTypeBaseIds = [
   MeditationBaseKeys.BreathNewPotentialsV1,
