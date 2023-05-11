@@ -59,7 +59,7 @@ const OnboardingStep2 = () => {
               category="s1"
               style={styles.disclaimer}
             >
-              Listed below are the {numOfMeditations} meditations that we currently support.
+              Listed below are the meditations that we currently support.
             </Text>
             <SupportedMeditationsList />
           </Layout>
