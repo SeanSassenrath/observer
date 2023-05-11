@@ -18,6 +18,7 @@ import { fbUpdateUser } from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
+import { sortBy, uniq } from 'lodash';
 
 const EMPTY_SEARCH = '';
 
@@ -119,13 +120,20 @@ const LibraryScreen = () => {
 
   const renderSupportedMeditations = () => {
     const nameList = [];
+    const names = {} as any;
 
     for (const key in meditationBaseMap) {
       const meditationName = meditationBaseMap[key].name;
-      nameList.push({ meditationName, key });
+
+      if (!names[meditationName]) {
+        names[meditationName] = true;
+        nameList.push({ meditationName, key });
+      }
     }
 
-    return nameList.sort().map(({ meditationName, key }) => {
+    const sortedNameList = sortBy(nameList, 'meditationName');
+
+    return sortedNameList.map(({ meditationName, key }) => {
       return (
         <Text
           category='s1'
