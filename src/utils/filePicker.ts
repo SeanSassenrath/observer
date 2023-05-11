@@ -323,6 +323,38 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedPlaceboV1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.BreathInspireAspirationV1:
+      return {
+        [MeditationBaseKeys.BreathInspireAspirationV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireCleansingV1:
+      return {
+        [MeditationBaseKeys.BreathInspireCleansingV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireEmergingHeartV1:
+      return {
+        [MeditationBaseKeys.BreathInspireEmergingHeartV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireInfernoV1:
+      return {
+        [MeditationBaseKeys.BreathInspireInfernoV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireKingfisherV1:
+      return {
+        [MeditationBaseKeys.BreathInspireKingfisherV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireRefugeV1:
+      return {
+        [MeditationBaseKeys.BreathInspireRefugeV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireShamanGoddessV1:
+      return {
+        [MeditationBaseKeys.BreathInspireShamanGoddessV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireSuenosSelvaV1:
+      return {
+        [MeditationBaseKeys.BreathInspireSuenosSelvaV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
     default:
       break;
   }
