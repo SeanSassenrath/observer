@@ -122,17 +122,17 @@ const LibraryScreen = () => {
 
     for (const key in meditationBaseMap) {
       const meditationName = meditationBaseMap[key].name;
-      nameList.push(meditationName);
+      nameList.push({ meditationName, key });
     }
 
-    return nameList.sort().map((name) => {
+    return nameList.sort().map(({ meditationName, key }) => {
       return (
         <Text
           category='s1'
-          key={name}
+          key={key}
           style={styles.supportedName}
         >
-          {name}
+          {meditationName}
         </Text>
       )
     })

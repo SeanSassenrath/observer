@@ -33,9 +33,9 @@ export const onAddMeditations = async (
   }
 
   if (
-    filePathDataList.length > 0 &&
+    !isEmpty(filePathDataList) &&
     !hideSuccessToast &&
-    !unsupportedFiles
+    unsupportedFiles.length <= 0
   ) {
     Toast.show({
       type: 'success',
