@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import { sortBy } from 'lodash';
 
 import { MeditationList } from '../components/MeditationList';
 import { MeditationScreenNavigationProp, MeditationId } from '../types';
@@ -9,7 +10,6 @@ import { makeMeditationGroups2, MeditationGroupsList } from '../utils/meditation
 import { SearchBar } from '../components/SearchBar';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import { onAddMeditations } from '../utils/addMeditations';
-import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
 import { meditationBaseMap } from '../constants/meditation';
 import { AddMeditationsPill } from '../components/AddMeditationsPill';
 import { EduPromptComponent } from '../components/EduPrompt/component';
@@ -18,7 +18,6 @@ import { fbUpdateUser } from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
-import { sortBy, uniq } from 'lodash';
 
 const EMPTY_SEARCH = '';
 

@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet } from "react-native";
 import { Layout, Text } from "@ui-kitten/components/ui";
+import { uniq } from "lodash";
 
 import { meditationBaseMap } from "../../constants/meditation";
 
@@ -9,10 +10,11 @@ const SupportedMeditationsList = () => {
 
     for (const key in meditationBaseMap) {
       const meditationName = meditationBaseMap[key].name;
+
       nameList.push(meditationName);
     }
 
-    return nameList.sort();
+    return uniq(nameList).sort();
   }
 
   const renderSupportedMeditationItem = ({ item, index }: any) => (
