@@ -98,6 +98,7 @@ const LibraryScreen = () => {
       meditationFilePaths,
       setMeditationFilePaths,
       setUnsupportedFiles,
+      user,
     )
     if (meditations) {
       setMeditationBaseData(meditations);

@@ -173,17 +173,17 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     }
   }
 
-  const onAddMeditationsPress = async () => {
-    const meditations = await onAddMeditations(
-      existingMeditationFilePathData,
-      setExistingMeditationFilePathData,
-    )
-    if (meditations) {
-      setMeditationBaseData(meditations);
-      setIsModalVisible(false);
-      navigation.goBack();
-    }
-  }
+  // const onAddMeditationsPress = async () => {
+  //   const meditations = await onAddMeditations(
+  //     existingMeditationFilePathData,
+  //     setExistingMeditationFilePathData,
+  //   )
+  //   if (meditations) {
+  //     setMeditationBaseData(meditations);
+  //     setIsModalVisible(false);
+  //     navigation.goBack();
+  //   }
+  // }
 
   const playTrackPlayer = async () => {
     TrackPlayer.play();
@@ -229,27 +229,27 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     .slice(12, 19);
   const trackTitle = tracks[currentTrackIndex]&& tracks[currentTrackIndex].title;
 
-  const renderModalContext = () => {
-    return (
-      <>
-        <Layout level='3' style={styles.modalHeader}>
-          <ErrorIcon />
-        </Layout>
-        <Text
-          category='s1'
-          style={styles.modalDescription}
-        >
-          Your meditation files have entered the void.
-          Please re-add them to start this meditation.
-        </Text>
-        <Button
-          onPress={onAddMeditationsPress}
-        >
-          Re-add Meditations
-        </Button>
-      </>
-    )
-  }
+  // const renderModalContext = () => {
+  //   return (
+  //     <>
+  //       <Layout level='3' style={styles.modalHeader}>
+  //         <ErrorIcon />
+  //       </Layout>
+  //       <Text
+  //         category='s1'
+  //         style={styles.modalDescription}
+  //       >
+  //         Your meditation files have entered the void.
+  //         Please re-add them to start this meditation.
+  //       </Text>
+  //       <Button
+  //         onPress={onAddMeditationsPress}
+  //       >
+  //         Re-add Meditations
+  //       </Button>
+  //     </>
+  //   )
+  // }
 
   return (
     <Layout style={styles.container} level='4'>
@@ -335,9 +335,9 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
         onBackdropPress={() => setIsModalVisible(false)}
       >
         <Layout level='3' style={styles.modalContainer}>
-          <Layout level='3'>
+          {/* <Layout level='3'>
             {renderModalContext()}
-          </Layout>
+          </Layout> */}
           <Button
             appearance='ghost'
             onPress={() => setIsModalVisible(false)}

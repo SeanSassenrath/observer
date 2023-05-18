@@ -1,12 +1,17 @@
 import firestore from '@react-native-firebase/firestore';
 import { UnsupportedFileData } from '../types';
+import { User } from '../contexts/userData';
 
 export const fbAddUnsupportedFiles = async (
+  user: User,
   files: UnsupportedFileData[],
 ) => {
   return firestore()
     .collection('unsupportedFiles')
-    .add({ files })
+    .add({
+      user: user.profile,
+      files,
+    })
     .then(() => {
       console.log('FB add unsupported files success');
       return true;

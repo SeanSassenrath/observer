@@ -122,6 +122,7 @@ const HomeScreen = () => {
       meditationFilePaths,
       setMeditationFilePaths,
       setUnsupportedFiles,
+      user,
     )
     if (meditations) {
       setMeditationBaseData(meditations);

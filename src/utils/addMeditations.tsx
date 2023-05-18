@@ -8,11 +8,13 @@ import { makeMeditationBaseData } from './meditation';
 import { meditationAddSendEvent, Action, Noun } from '../analytics';
 import { UnsupportedFileData } from '../types';
 import { fbAddUnsupportedFiles } from '../fb/unsupportedFiles';
+import { User } from '../contexts/userData';
 
 export const onAddMeditations = async (
   existingMeditationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<React.SetStateAction<MeditationFilePathData>>,
   setUnsupportedFiles: (a: UnsupportedFileData[]) => void,
+  user: User,
   hideSuccessToast?: boolean,
 ) => {
   meditationAddSendEvent(
@@ -28,7 +30,7 @@ export const onAddMeditations = async (
   const {filePathDataList, unsupportedFiles} = makeFilePathDataList(pickedFiles, existingMeditationFilePathData);
 
   if (unsupportedFiles.length > 0) {
-    fbAddUnsupportedFiles(unsupportedFiles);
+    fbAddUnsupportedFiles(user, unsupportedFiles);
     setUnsupportedFiles(unsupportedFiles);
   }
 
@@ -47,6 +49,7 @@ export const onAddMeditations = async (
         existingMeditationFilePathData,
         setExistingMeditationFilePathData,
         setUnsupportedFiles,
+        user,
       ),
       visibilityTime: 5000,
     });

@@ -27,6 +27,7 @@ const OnboardingStep2 = () => {
       meditationFilePaths,
       setMeditationFilePaths,
       setUnsupportedFiles,
+      user,
       true,
     )
     if (meditations) {
