@@ -75,6 +75,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedPresentMomentV2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedPresentMomentV3:
+      return {
+        [MeditationBaseKeys.MedPresentMomentV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedRecondition:
       return {
         [MeditationBaseKeys.MedReconditionV1]: makeRelativeFilePath(file.fileCopyUri),
@@ -127,6 +131,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedBlessingCenter8V2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedBlessingCenter8V3:
+      return {
+        [MeditationBaseKeys.MedBlessingCenter8V2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedBlessingCenter9V1:
       return {
         [MeditationBaseKeys.MedBlessingCenter9V1]: makeRelativeFilePath(file.fileCopyUri),
@@ -151,6 +159,14 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedDailyMorningV1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedDailyMorningV2:
+      return {
+        [MeditationBaseKeys.MedDailyMorningV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedDailyMorningUv:
+      return {
+        [MeditationBaseKeys.MedDailyMorningUv]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedDailyEveningV1:
       return {
         [MeditationBaseKeys.MedDailyEveningV1]: makeRelativeFilePath(file.fileCopyUri),
@@ -159,11 +175,31 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedDailyEveningV2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedDailyEveningUv:
+      return {
+        [MeditationBaseKeys.MedDailyEveningUv]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedLoveLifeV1:
       return {
         [MeditationBaseKeys.MedLoveLifeYouLoveV1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedLoveLifeV2:
+      return {
+        [MeditationBaseKeys.MedLoveLifeYouLoveV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingBodyElectricV1:
+      return {
+        [MeditationBaseKeys.MedWalkingBodyElectricV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedWalkingConditioningBodyV1:
+      return {
+        [MeditationBaseKeys.MedWalkingConditioningBodyV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingConditioningBodyMp3:
+      return {
+        [MeditationBaseKeys.MedWalkingConditioningBodyV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingConditioningBodyMp3V2:
       return {
         [MeditationBaseKeys.MedWalkingConditioningBodyV1]: makeRelativeFilePath(file.fileCopyUri),
       }
@@ -179,6 +215,14 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationMp4:
+      return {
+        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationMp3:
+      return {
+        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedWalkingUnlockingCodeV1:
       return {
         [MeditationBaseKeys.MedWalkingUnlockingCodeV1]: makeRelativeFilePath(file.fileCopyUri),
@@ -187,13 +231,33 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [MeditationBaseKeys.MedWalkingUnlockingCodeV2]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedWalkingUnlockingCodeMp3:
+      return {
+        [MeditationBaseKeys.MedWalkingUnlockingCodeV2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedWalkingMeditation1V1:
       return {
         [MeditationBaseKeys.MedWalkingMeditation1V1]: makeRelativeFilePath(file.fileCopyUri),
       }
+    case MeditationStringSizes.MedWalkingMeditation1V2:
+      return {
+        [MeditationBaseKeys.MedWalkingMeditation1V2]: makeRelativeFilePath(file.fileCopyUri),
+      }
     case MeditationStringSizes.MedWalkingMeditation2V1:
       return {
         [MeditationBaseKeys.MedWalkingMeditation2V1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingMeditation2V2:
+      return {
+        [MeditationBaseKeys.MedWalkingMeditation2V2]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingHeartFullMindV1:
+      return {
+        [MeditationBaseKeys.MedWalkingHeartFullMindV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.MedWalkingHeartFullMindV2:
+      return {
+        [MeditationBaseKeys.MedWalkingHeartFullMindV1]: makeRelativeFilePath(file.fileCopyUri),
       }
     case MeditationStringSizes.MedTurningYourLoveInwardV1:
       return {
@@ -298,6 +362,10 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case MeditationStringSizes.BreathInspireTribalV1:
       return {
         [MeditationBaseKeys.BreathInspireTribalTranceV1]: makeRelativeFilePath(file.fileCopyUri),
+      }
+    case MeditationStringSizes.BreathInspireBreathingLifeV1:
+      return {
+        [MeditationBaseKeys.BreathInspireBreathingLifeV1]: makeRelativeFilePath(file.fileCopyUri),
       }
     case MeditationStringSizes.MedSyncEnergyToHealth:
       return {
