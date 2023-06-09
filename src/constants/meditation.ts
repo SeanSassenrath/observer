@@ -1,4 +1,4 @@
-import { MeditationBaseMap, MeditationMap, MeditationTypes } from "../types";
+import {MeditationBaseMap, MeditationTypes} from '../types';
 
 export enum MeditationBaseKeys {
   MedNewPotentialsV1 = 'm-new-potentials-v1',
@@ -105,9 +105,9 @@ export enum MeditationStringSizes {
   MedDailyMorningV1 = '34907',
   MedDailyMorningV2 = '23187',
   MedDailyMorningUv = '57534',
-  MedDailyEveningV1 = '34099', 
-  MedDailyEveningV2 = '22604', 
-  MedDailyEveningUv = '56234', 
+  MedDailyEveningV1 = '34099',
+  MedDailyEveningV2 = '22604',
+  MedDailyEveningUv = '56234',
   MedRecondition = '55295',
   BreathRecondition = '95032',
   MedBlessingCenter1V1 = '61719',
@@ -310,7 +310,7 @@ export enum MeditationGroupKey {
   'Recondition' = 'recondition',
   'TuningNewPotential' = 'tuningNewPotential',
   'Walking' = 'walking',
-  'Other' = 'other'
+  'Other' = 'other',
 }
 
 export enum MeditationGroupName {
@@ -322,7 +322,7 @@ export enum MeditationGroupName {
   'Foundational' = 'Foundational - Progressive',
   'Walking' = 'Walking',
   'Synchronize' = 'Synchronize Series',
-  'Other' = 'Other'
+  'Other' = 'Other',
 }
 
 const artist = 'Dr. Joe Dispenza';
@@ -1664,9 +1664,9 @@ export const meditationBaseMap: MeditationBaseMap = {
     type: MeditationTypes.Breath,
     url: placeholder,
   },
-}
+};
 
 export const breathMeditationTypeBaseIds = [
   MeditationBaseKeys.BreathNewPotentialsV1,
   MeditationBaseKeys.BreathReconditionV1,
-]
+];
