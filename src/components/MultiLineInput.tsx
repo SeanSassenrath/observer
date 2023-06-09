@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, StyleSheetProperties } from 'react-native';
-import { Input } from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
+import {Input} from '@ui-kitten/components';
 
 interface MultiLineInputProps {
   placeholder: string;
   onChangeText(newVal: string): void;
   value: string;
   style?: any;
+  textStyle?: any;
 }
 
 export const MultiLineInput = (props: MultiLineInputProps) => (
@@ -14,11 +15,11 @@ export const MultiLineInput = (props: MultiLineInputProps) => (
     multiline
     onChangeText={newVal => props.onChangeText(newVal)}
     placeholder={props.placeholder}
-    style={{ ...props.style, ...styles.inputStyle }}
-    textStyle={styles.textStyle}
+    style={{...styles.inputStyle, ...props.style}}
+    textStyle={{...styles.textStyle, ...props.textStyle}}
     value={props.value}
   />
-)
+);
 
 const styles = StyleSheet.create({
   inputStyle: {
@@ -29,5 +30,5 @@ const styles = StyleSheet.create({
   textStyle: {
     minHeight: 120,
     fontSize: 16,
-  }
-})
+  },
+});

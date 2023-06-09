@@ -24,12 +24,12 @@ const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
 const oneSecond = 1000;
 
-const BackIcon = (props: any) => (
+const CloseIcon = (props: any) => (
   <Icon
     {...props}
     style={themedStyles.closeIcon}
     fill={brightWhite}
-    name="arrow-back-outline"
+    name="close-outline"
   />
 );
 
@@ -42,35 +42,6 @@ const WarningIcon = (props: any) => (
   />
 );
 
-interface Option1Props {
-  hasBreathMeditation: boolean;
-  onChangeText(newVal: string): void;
-  setToggledState(): void;
-  toggledState: boolean;
-  value: string;
-}
-
-const LayoutOption1 = (props: Option1Props) => (
-  <Layout style={themedStyles.option1Container} level="4">
-    <Layout style={themedStyles.option1ActionsContainer} level="4">
-      {props.hasBreathMeditation ? (
-        <Toggle
-          checked={props.toggledState}
-          onChange={props.setToggledState}
-          style={themedStyles.toggle}
-          status="primary">
-          Add breathwork to this meditation
-        </Toggle>
-      ) : null}
-      <MultiLineInput
-        onChangeText={props.onChangeText}
-        placeholder="Set an intention for your meditation"
-        value={props.value}
-      />
-    </Layout>
-  </Layout>
-);
-
 const MeditationScreen = ({
   route,
 }: MeditationStackScreenProps<'Meditation'>) => {
@@ -79,7 +50,6 @@ const MeditationScreen = ({
     MeditationInstanceDataContext,
   );
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
-  const [toggledState, setToggledState] = useState(false);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
@@ -119,10 +89,6 @@ const MeditationScreen = ({
       id,
       meditationBreathId,
     });
-  };
-
-  const onTogglePress = () => {
-    setToggledState(!toggledState);
   };
 
   const onBreathMeditationPress = (
@@ -172,46 +138,54 @@ const MeditationScreen = ({
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
           <Layout style={styles.topBar} level="4">
-            <TouchableWithoutFeedback onPress={onBackPress}>
+            <Text category="h6" style={styles.topBarText}>
+              {meditation.name}
+            </Text>
+            <TouchableWithoutFeedback
+              style={styles.topBarIcon}
+              onPress={onBackPress}>
               <Layout style={styles.closeIconContainer}>
-                <BackIcon />
+                <CloseIcon />
               </Layout>
             </TouchableWithoutFeedback>
           </Layout>
           <Layout style={styles.mainSection} level="4">
-            <Text category="h6">{meditation.name}</Text>
-            <LayoutOption1
-              hasBreathMeditation={false}
+            <Text category="s1" style={styles.thinkBoxLabel}>
+              Last Meditation Thinkbox
+            </Text>
+            <MultiLineInput
               onChangeText={setInputValue}
-              setToggledState={onTogglePress}
-              toggledState={toggledState}
+              placeholder="Set an intention for your meditation"
               value={inputValue}
+              style={styles.thinkBoxStyles}
+              textStyle={styles.thinkBoxTextStyles}
             />
-            {/* <Layout style={styles.meditationInfo} level='4'>
-              <WarningIcon />
-              <Text
-                category='s1'
-                style={styles.meditationInfoText}
-              >
-                Don't forget to turn on Do Not Disturb!
-              </Text>
-            </Layout> */}
-          </Layout>
-          {/* <MeditationList
+            <Text category="s1" style={styles.thinkBoxLabel}>
+              Current Meditation Intention
+            </Text>
+            <MultiLineInput
+              onChangeText={setInputValue}
+              placeholder="Set an intention for your meditation"
+              value={inputValue}
+              style={styles.thinkBoxStyles}
+              textStyle={styles.thinkBoxTextStyles}
+            />
+            {/* <MeditationList
             header='Add heart sync'
             meditationBaseIds={[]}
             onMeditationPress={() => { }}
             isMini
           /> */}
-          {breathMeditationsList.length > 0 ? (
-            <MeditationList
-              header="Add breath work"
-              meditationBaseIds={breathMeditationsList}
-              onMeditationPress={onBreathMeditationPress}
-              selectedCardId={selectedBreathCardId}
-              isMini
-            />
-          ) : null}
+            {breathMeditationsList.length > 0 ? (
+              <MeditationList
+                header="Add breath work"
+                meditationBaseIds={breathMeditationsList}
+                onMeditationPress={onBreathMeditationPress}
+                selectedCardId={selectedBreathCardId}
+                isMini
+              />
+            ) : null}
+          </Layout>
         </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level="4">
           <Layout style={styles.meditationInfo} level="4">
@@ -265,6 +239,17 @@ const themedStyles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  thinkBoxStyles: {
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  thinkBoxTextStyles: {
+    minHeight: 100,
+  },
+  thinkBoxLabel: {
+    paddingHorizontal: 20,
+    marginBottom: 14,
+  },
   header: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -274,7 +259,6 @@ const themedStyles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   mainSection: {
-    padding: 20,
     justifyContent: 'flex-end',
   },
   meditationInfo: {
@@ -289,7 +273,10 @@ const themedStyles = StyleSheet.create({
     marginLeft: 10,
   },
   topBar: {
+    alignItems: 'center',
     flexDirection: 'row',
+    paddingLeft: 20,
+    marginBottom: 20,
   },
   topBarText: {
     flex: 9,
