@@ -322,13 +322,322 @@ export enum MeditationGroupName {
   'Foundational' = 'Foundational - Progressive',
   'Walking' = 'Walking',
   'Synchronize' = 'Synchronize Series',
+  'Unlocked' = 'Unlocked Series',
   'Other' = 'Other',
 }
 
 const artist = 'Dr. Joe Dispenza';
 const placeholder = '';
 
+/* Daily Series */
+
+export enum DailySeriesBaseKeys {
+  MedMorningUpdated = 'm-morning-updated',
+  MedEveningUpdated = 'm-evening-updated',
+}
+
+export enum DailySeriesSizes {
+  MedMorningUpdated = 33578871,
+  MedEveningUpdated = 29178857,
+}
+
+export enum DailySeriesStringSizes {
+  MedMorningUpdated = '33578',
+  MedEveningUpdated = '29178',
+}
+
+const dailySeriesMap = {
+  [DailySeriesBaseKeys.MedMorningUpdated]: {
+    artist,
+    backgroundImage: require('../assets/daily.jpg'),
+    formattedDuration: '15',
+    id: placeholder,
+    groupName: MeditationGroupName.Generating,
+    meditationBaseId: DailySeriesBaseKeys.MedMorningUpdated,
+    name: 'Daily Morning - Updated',
+    size: DailySeriesSizes.MedMorningUpdated,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [DailySeriesBaseKeys.MedEveningUpdated]: {
+    artist,
+    backgroundImage: require('../assets/daily.jpg'),
+    formattedDuration: '15',
+    id: placeholder,
+    groupName: MeditationGroupName.Generating,
+    meditationBaseId: DailySeriesBaseKeys.MedEveningUpdated,
+    name: 'Daily Evening - Updated',
+    size: DailySeriesSizes.MedEveningUpdated,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Generating Series */
+
+export enum GeneratingSeriesBaseKeys {
+  MedGeneratingJoy = 'm-generating-joy-v1',
+}
+
+export enum GeneratingSeriesSizes {
+  MedGeneratingJoy = 14593178,
+  MedGeneratingJoy2 = 36212123,
+}
+
+export enum GeneratingSeriesStringSizes {
+  MedGeneratingJoy = '14593',
+  MedGeneratingJoy2 = '36212',
+}
+
+const generatingSeriesMap = {
+  [GeneratingSeriesBaseKeys.MedGeneratingJoy]: {
+    artist,
+    backgroundImage: require('../assets/generate-joy.jpg'),
+    formattedDuration: '15',
+    id: placeholder,
+    groupName: MeditationGroupName.Generating,
+    meditationBaseId: GeneratingSeriesBaseKeys.MedGeneratingJoy,
+    name: 'Generating Joy',
+    size: GeneratingSeriesSizes.MedGeneratingJoy,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Other */
+
+export enum OtherBaseKeys {
+  MedAlchemist = 'm-alchemist-v1',
+  MedAlchemist2 = 'm-alchemist-v2',
+  MedAlchemist3 = 'm-alchemist-v3',
+  MedChangingBoxes = 'm-changing-boxes',
+  MedGoLove = 'm-go-love',
+}
+
+export enum OtherSizes {
+  MedAlchemist = 146990579,
+  MedAlchemist2 = 59139319,
+  MedAlchemist3 = 106944456,
+  MedChangingBoxes = 75996112,
+  MedGoLove = 12546994,
+}
+
+export enum OtherStringSizes {
+  MedAlchemist = '14699',
+  MedAlchemist2 = '59139',
+  MedAlchemist3 = '10694',
+  MedChangingBoxes = '75996',
+  MedGoLove = '12546',
+}
+
+const otherMap = {
+  [OtherBaseKeys.MedAlchemist]: {
+    artist,
+    backgroundImage: require('../assets/alchemist.jpg'),
+    formattedDuration: '61',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedAlchemist,
+    name: 'The Alchemist',
+    size: OtherSizes.MedAlchemist,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedAlchemist2]: {
+    artist,
+    backgroundImage: require('../assets/alchemist.jpg'),
+    formattedDuration: '61',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedAlchemist2,
+    name: 'The Alchemist',
+    size: OtherSizes.MedAlchemist2,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedAlchemist3]: {
+    artist,
+    backgroundImage: require('../assets/alchemist.jpg'),
+    formattedDuration: '61',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedAlchemist3,
+    name: 'The Alchemist',
+    size: OtherSizes.MedAlchemist3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedChangingBoxes]: {
+    artist,
+    backgroundImage: require('../assets/changing-boxes.jpg'),
+    formattedDuration: '63',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedChangingBoxes,
+    name: 'Changing Boxes',
+    size: OtherSizes.MedChangingBoxes,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedGoLove]: {
+    artist,
+    backgroundImage: require('../assets/go-love.jpg'),
+    formattedDuration: '16',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedGoLove,
+    name: 'Go Love 20',
+    size: OtherSizes.MedGoLove,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Unlocked Series */
+
+export enum UnlockedSeriesBaseKeys {
+  MedUnlockedS1P3 = 'm-unlocked-s1-p3',
+  MedUnlockedS2P3 = 'm-unlocked-s2-p3',
+  MedUnlockedS3P3 = 'm-unlocked-s3-p3',
+  MedUnlockedS4P3 = 'm-unlocked-s4-p3',
+}
+
+export enum UnlockedSeriesSizes {
+  MedUnlockedS1P3 = 82333740,
+  MedUnlockedS2P3 = 106831373,
+  MedUnlockedS3P3 = 121464787,
+  MedUnlockedS4P3 = 107361827,
+}
+
+export enum UnlockedSeriesStringSizes {
+  MedUnlockedS1P3 = '82333',
+  MedUnlockedS2P3 = '10683',
+  MedUnlockedS3P3 = '12146',
+  MedUnlockedS4P3 = '10736',
+}
+
+const unlockedSeriesMap = {
+  [UnlockedSeriesBaseKeys.MedUnlockedS1P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS1P3,
+    name: 'Session 1 - Part 3',
+    size: UnlockedSeriesSizes.MedUnlockedS1P3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedSeriesBaseKeys.MedUnlockedS2P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS2P3,
+    name: 'Session 2 - Part 3',
+    size: UnlockedSeriesSizes.MedUnlockedS2P3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedSeriesBaseKeys.MedUnlockedS3P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS3P3,
+    name: 'Session 3 - Part 3',
+    size: UnlockedSeriesSizes.MedUnlockedS3P3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedSeriesBaseKeys.MedUnlockedS4P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS4P3,
+    name: 'Session 4 - Part 3',
+    size: UnlockedSeriesSizes.MedUnlockedS4P3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Walking Meditations */
+export enum WalkingMeditationBaseKeys {
+  MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation-v1',
+  MedWalkingPrayerEvocationInvocation2 = 'm-walking-prayer-evocation-invocation-v2',
+  MedWalkingPrayerEvocationInvocation3 = 'm-walking-prayer-evocation-invocation-v3',
+}
+
+export enum WalkingMeditationSizes {
+  MedWalkingPrayerEvocationInvocation = 72485220,
+  MedWalkingPrayerEvocationInvocation2 = 72817185,
+  MedWalkingPrayerEvocationInvocation3 = 108458482,
+}
+
+export enum WalkingMeditationStringSizes {
+  MedWalkingPrayerEvocationInvocation = '72485',
+  MedWalkingPrayerEvocationInvocation2 = '72817',
+  MedWalkingPrayerEvocationInvocation3 = '10845',
+  MedWalkingPrayerEvocationInvocation4 = '10985',
+  MedWalkingPrayerEvocationInvocation5 = '18080',
+}
+
+const walkingMeditationMap = {
+  [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation]: {
+    artist,
+    backgroundImage: require('../assets/wm-prayer-evo-invo.jpg'),
+    formattedDuration: '75',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId:
+      WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation,
+    name: 'Walking Meditation 06 - Prayer of Evocation & Invocation',
+    size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation2]: {
+    artist,
+    backgroundImage: require('../assets/wm-prayer-evo-invo.jpg'),
+    formattedDuration: '75',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId:
+      WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation2,
+    name: 'Walking Meditation 06 - Prayer of Evocation & Invocation',
+    size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation2,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]: {
+    artist,
+    backgroundImage: require('../assets/wm-prayer-evo-invo.jpg'),
+    formattedDuration: '75',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId:
+      WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3,
+    name: 'Walking Meditation 06 - Prayer of Evocation & Invocation',
+    size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Meditation Base Map */
+
 export const meditationBaseMap: MeditationBaseMap = {
+  ...dailySeriesMap,
+  ...generatingSeriesMap,
+  ...otherMap,
+  ...unlockedSeriesMap,
+  ...walkingMeditationMap,
   [MeditationBaseKeys.MedNewPotentialsV1]: {
     artwork: '',
     artist,

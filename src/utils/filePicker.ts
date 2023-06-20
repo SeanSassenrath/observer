@@ -2,9 +2,21 @@ import {Platform} from 'react-native';
 import {DocumentPickerResponse} from 'react-native-document-picker';
 
 import {
+  DailySeriesBaseKeys,
+  DailySeriesSizes,
+  DailySeriesStringSizes,
+  GeneratingSeriesBaseKeys,
+  GeneratingSeriesStringSizes,
   MeditationBaseKeys,
   MeditationSizes,
   MeditationStringSizes,
+  OtherBaseKeys,
+  OtherStringSizes,
+  UnlockedSeriesBaseKeys,
+  UnlockedSeriesStringSizes,
+  WalkingMeditationBaseKeys,
+  WalkingMeditationSizes,
+  WalkingMeditationStringSizes,
 } from '../constants/meditation';
 import {MeditationFilePathData} from './asyncStorageMeditation';
 import {UnsupportedFileData} from '../types';
@@ -299,26 +311,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
           file.fileCopyUri,
         ),
       };
-    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationV1:
-      return {
-        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV1]:
-          makeRelativeFilePath(file.fileCopyUri),
-      };
-    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationV2:
-      return {
-        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]:
-          makeRelativeFilePath(file.fileCopyUri),
-      };
-    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationMp4:
-      return {
-        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]:
-          makeRelativeFilePath(file.fileCopyUri),
-      };
-    case MeditationStringSizes.MedWalkingPrayerEvocationInvocationMp3:
-      return {
-        [MeditationBaseKeys.MedWalkingPrayerEvocationInvocationV2]:
-          makeRelativeFilePath(file.fileCopyUri),
-      };
     case MeditationStringSizes.MedWalkingUnlockingCodeV1:
       return {
         [MeditationBaseKeys.MedWalkingUnlockingCodeV1]: makeRelativeFilePath(
@@ -410,18 +402,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         [MeditationBaseKeys.BreathChangingBeliefsAndPerceptionsV2]:
           makeRelativeFilePath(file.fileCopyUri),
       };
-    case MeditationStringSizes.MedAlchemistV1:
-      return {
-        [MeditationBaseKeys.MedAlchemistV1]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    case MeditationStringSizes.MedAlchemistV2:
-      return {
-        [MeditationBaseKeys.MedAlchemistV2]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
     case MeditationStringSizes.MedHeartBrainSyncV1:
       return {
         [MeditationBaseKeys.MedHeartBrainSyncV1]: makeRelativeFilePath(
@@ -499,9 +479,15 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
           file.fileCopyUri,
         ),
       };
-    case MeditationStringSizes.MedGeneratingJoyV1:
+    case GeneratingSeriesStringSizes.MedGeneratingJoy:
       return {
-        [MeditationBaseKeys.MedGeneratingJoyV1]: makeRelativeFilePath(
+        [GeneratingSeriesBaseKeys.MedGeneratingJoy]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case GeneratingSeriesStringSizes.MedGeneratingJoy2:
+      return {
+        [GeneratingSeriesBaseKeys.MedGeneratingJoy]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };
@@ -619,6 +605,98 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
           file.fileCopyUri,
         ),
       };
+
+    /* Daily */
+    case DailySeriesStringSizes.MedMorningUpdated:
+      return {
+        [DailySeriesBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case DailySeriesStringSizes.MedEveningUpdated:
+      return {
+        [DailySeriesBaseKeys.MedEveningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+
+    /* Other */
+    case OtherStringSizes.MedAlchemist:
+      return {
+        [OtherBaseKeys.MedAlchemist]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedAlchemist2:
+      return {
+        [OtherBaseKeys.MedAlchemist2]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedAlchemist3:
+      return {
+        [OtherBaseKeys.MedAlchemist3]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedChangingBoxes:
+      return {
+        [OtherBaseKeys.MedChangingBoxes]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case OtherStringSizes.MedGoLove:
+      return {
+        [OtherBaseKeys.MedGoLove]: makeRelativeFilePath(file.fileCopyUri),
+      };
+
+    /* Unlocked Series */
+    case UnlockedSeriesStringSizes.MedUnlockedS1P3:
+      return {
+        [UnlockedSeriesBaseKeys.MedUnlockedS1P3]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case UnlockedSeriesStringSizes.MedUnlockedS2P3:
+      return {
+        [UnlockedSeriesBaseKeys.MedUnlockedS2P3]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case UnlockedSeriesStringSizes.MedUnlockedS3P3:
+      return {
+        [UnlockedSeriesBaseKeys.MedUnlockedS3P3]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case UnlockedSeriesStringSizes.MedUnlockedS4P3:
+      return {
+        [UnlockedSeriesBaseKeys.MedUnlockedS4P3]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+
+    /* Walking Meditations */
+    case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation2:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation2]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation3:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation4:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation5:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+
     default:
       break;
   }
