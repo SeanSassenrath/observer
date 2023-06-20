@@ -377,16 +377,19 @@ const dailySeriesMap = {
 
 export enum GeneratingSeriesBaseKeys {
   MedGeneratingJoy = 'm-generating-joy-v1',
+  MedGeneratingGratitude2 = 'm-generating-gratitude-v2',
 }
 
 export enum GeneratingSeriesSizes {
   MedGeneratingJoy = 14593178,
   MedGeneratingJoy2 = 36212123,
+  MedGeneratingGratitude2 = 26366030,
 }
 
 export enum GeneratingSeriesStringSizes {
   MedGeneratingJoy = '14593',
   MedGeneratingJoy2 = '36212',
+  MedGeneratingGratitude2 = '26366',
 }
 
 const generatingSeriesMap = {
@@ -402,6 +405,18 @@ const generatingSeriesMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
+  [GeneratingSeriesBaseKeys.MedGeneratingGratitude2]: {
+    artist,
+    backgroundImage: require('../assets/gratitude.jpg'),
+    formattedDuration: '15',
+    id: placeholder,
+    groupName: MeditationGroupName.Generating,
+    meditationBaseId: GeneratingSeriesBaseKeys.MedGeneratingGratitude2,
+    name: 'Generating Gratitude',
+    size: GeneratingSeriesSizes.MedGeneratingGratitude2,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
 };
 
 /* Other */
@@ -412,6 +427,9 @@ export enum OtherBaseKeys {
   MedAlchemist3 = 'm-alchemist-v3',
   MedChangingBoxes = 'm-changing-boxes',
   MedGoLove = 'm-go-love',
+  MedGoLove2 = 'm-go-love-2',
+  MedGoLove3 = 'm-go-love-3',
+  MedHigherLoveCouples = 'm-higher-love-couples',
 }
 
 export enum OtherSizes {
@@ -420,6 +438,9 @@ export enum OtherSizes {
   MedAlchemist3 = 106944456,
   MedChangingBoxes = 75996112,
   MedGoLove = 12546994,
+  MedGoLove2 = 30196275,
+  MedGoLove3 = 22640150,
+  MedHigherLoveCouples = 78649067,
 }
 
 export enum OtherStringSizes {
@@ -428,6 +449,9 @@ export enum OtherStringSizes {
   MedAlchemist3 = '10694',
   MedChangingBoxes = '75996',
   MedGoLove = '12546',
+  MedGoLove2 = '30196',
+  MedGoLove3 = '22640',
+  MedHigherLoveCouples = '78649067',
 }
 
 const otherMap = {
@@ -488,6 +512,101 @@ const otherMap = {
     meditationBaseId: OtherBaseKeys.MedGoLove,
     name: 'Go Love 20',
     size: OtherSizes.MedGoLove,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedGoLove2]: {
+    artist,
+    backgroundImage: require('../assets/go-love.jpg'),
+    formattedDuration: '16',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedGoLove2,
+    name: 'Go Love 20',
+    size: OtherSizes.MedGoLove2,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedGoLove3]: {
+    artist,
+    backgroundImage: require('../assets/go-love.jpg'),
+    formattedDuration: '16',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedGoLove3,
+    name: 'Go Love 20',
+    size: OtherSizes.MedGoLove3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedHigherLoveCouples]: {
+    artist,
+    backgroundImage: require('../assets/higher-love-couples.jpg'),
+    formattedDuration: '33',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedHigherLoveCouples,
+    name: 'Go Love 20',
+    size: OtherSizes.MedHigherLoveCouples,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
+
+/* Synchronizing Series */
+
+export enum SynchronizingSeriesBaseKeys {
+  MedSyncAbundance = 'm-sync-abundance',
+  MedSyncEnergyToNewLife2 = 'm-sync-energy-to-new-life-2',
+  MedSyncEnergyToLoveV4 = 'm-sync-energy-to-love-v4',
+}
+
+export enum SynchronizingSeriesSizes {
+  MedSyncAbundance = 98396012,
+  MedSyncEnergyToNewLife2 = 75116576,
+  MedSyncEnergyToLoveV4 = 104750945,
+}
+
+export enum SynchronizingSeriesStringSizes {
+  MedSyncAbundance = '98396',
+  MedSyncEnergyToNewLife2 = '75116',
+  MedSyncEnergyToLoveV4 = '10475',
+}
+
+const synchronizingSeriesMap = {
+  [SynchronizingSeriesBaseKeys.MedSyncAbundance]: {
+    artist,
+    backgroundImage: require('../assets/sync-to-abundance.jpg'),
+    formattedDuration: '74',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizingSeriesBaseKeys.MedSyncAbundance,
+    name: 'Synchronizing Your Energy: To Abundance',
+    size: SynchronizingSeriesSizes.MedSyncAbundance,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizingSeriesBaseKeys.MedSyncEnergyToNewLife2]: {
+    artist,
+    backgroundImage: require('../assets/sync-new-life.jpg'),
+    formattedDuration: '85',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizingSeriesBaseKeys.MedSyncEnergyToNewLife2,
+    name: 'Synchronizing Your Energy To New Life',
+    size: SynchronizingSeriesSizes.MedSyncEnergyToNewLife2,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizingSeriesBaseKeys.MedSyncEnergyToLoveV4]: {
+    artist,
+    backgroundImage: require('../assets/sync-energy-to-love.jpg'),
+    formattedDuration: '82',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizingSeriesBaseKeys.MedSyncEnergyToLoveV4,
+    name: 'Synchronizing Your Energy To Love',
+    size: SynchronizingSeriesSizes.MedSyncEnergyToLoveV4,
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -569,18 +688,21 @@ const unlockedSeriesMap = {
 
 /* Walking Meditations */
 export enum WalkingMeditationBaseKeys {
+  MedWalkingSteppingIntoYourFutureUpdated = 'm-walking-stepping-into-your-future-updated',
   MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation-v1',
   MedWalkingPrayerEvocationInvocation2 = 'm-walking-prayer-evocation-invocation-v2',
   MedWalkingPrayerEvocationInvocation3 = 'm-walking-prayer-evocation-invocation-v3',
 }
 
 export enum WalkingMeditationSizes {
+  MedWalkingSteppingIntoYourFutureUpdated = 182182565,
   MedWalkingPrayerEvocationInvocation = 72485220,
   MedWalkingPrayerEvocationInvocation2 = 72817185,
   MedWalkingPrayerEvocationInvocation3 = 108458482,
 }
 
 export enum WalkingMeditationStringSizes {
+  MedWalkingSteppingIntoYourFutureUpdated = '18218',
   MedWalkingPrayerEvocationInvocation = '72485',
   MedWalkingPrayerEvocationInvocation2 = '72817',
   MedWalkingPrayerEvocationInvocation3 = '10845',
@@ -589,6 +711,19 @@ export enum WalkingMeditationStringSizes {
 }
 
 const walkingMeditationMap = {
+  [WalkingMeditationBaseKeys.MedWalkingSteppingIntoYourFutureUpdated]: {
+    artist,
+    backgroundImage: require('../assets/wm-1.jpg'),
+    formattedDuration: '76',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId:
+      WalkingMeditationBaseKeys.MedWalkingSteppingIntoYourFutureUpdated,
+    name: 'Walking Meditation 01 - Stepping Into Your Future - Updated',
+    size: WalkingMeditationSizes.MedWalkingSteppingIntoYourFutureUpdated,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
   [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation]: {
     artist,
     backgroundImage: require('../assets/wm-prayer-evo-invo.jpg'),
@@ -636,6 +771,7 @@ export const meditationBaseMap: MeditationBaseMap = {
   ...dailySeriesMap,
   ...generatingSeriesMap,
   ...otherMap,
+  ...synchronizingSeriesMap,
   ...unlockedSeriesMap,
   ...walkingMeditationMap,
   [MeditationBaseKeys.MedNewPotentialsV1]: {

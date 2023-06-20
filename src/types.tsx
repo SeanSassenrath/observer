@@ -10,6 +10,7 @@ import {
   MeditationGroupName,
   MeditationSizes,
   OtherSizes,
+  SynchronizingSeriesSizes,
   UnlockedSeriesSizes,
   WalkingMeditationSizes,
 } from './constants/meditation';
@@ -142,6 +143,7 @@ export interface MeditationBase {
     | MeditationSizes
     | GeneratingSeriesSizes
     | OtherSizes
+    | SynchronizingSeriesSizes
     | UnlockedSeriesSizes
     | WalkingMeditationSizes;
   type: MeditationTypes;

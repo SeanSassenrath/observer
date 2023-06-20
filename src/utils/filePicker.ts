@@ -3,7 +3,6 @@ import {DocumentPickerResponse} from 'react-native-document-picker';
 
 import {
   DailySeriesBaseKeys,
-  DailySeriesSizes,
   DailySeriesStringSizes,
   GeneratingSeriesBaseKeys,
   GeneratingSeriesStringSizes,
@@ -12,10 +11,11 @@ import {
   MeditationStringSizes,
   OtherBaseKeys,
   OtherStringSizes,
+  SynchronizingSeriesBaseKeys,
+  SynchronizingSeriesStringSizes,
   UnlockedSeriesBaseKeys,
   UnlockedSeriesStringSizes,
   WalkingMeditationBaseKeys,
-  WalkingMeditationSizes,
   WalkingMeditationStringSizes,
 } from '../constants/meditation';
 import {MeditationFilePathData} from './asyncStorageMeditation';
@@ -620,6 +620,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
 
+    /* Generating Series */
+    case GeneratingSeriesStringSizes.MedGeneratingGratitude2:
+      return {
+        [GeneratingSeriesBaseKeys.MedGeneratingGratitude2]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+
     /* Other */
     case OtherStringSizes.MedAlchemist:
       return {
@@ -642,6 +649,38 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case OtherStringSizes.MedGoLove:
       return {
         [OtherBaseKeys.MedGoLove]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedGoLove2:
+      return {
+        [OtherBaseKeys.MedGoLove2]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedGoLove3:
+      return {
+        [OtherBaseKeys.MedGoLove3]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    case OtherStringSizes.MedHigherLoveCouples:
+      return {
+        [OtherBaseKeys.MedHigherLoveCouples]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+
+    /* Synchronizing Series */
+    case SynchronizingSeriesStringSizes.MedSyncAbundance:
+      return {
+        [SynchronizingSeriesBaseKeys.MedSyncAbundance]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    case SynchronizingSeriesStringSizes.MedSyncEnergyToNewLife2:
+      return {
+        [SynchronizingSeriesBaseKeys.MedSyncEnergyToNewLife2]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case SynchronizingSeriesStringSizes.MedSyncEnergyToLoveV4:
+      return {
+        [SynchronizingSeriesBaseKeys.MedSyncEnergyToLoveV4]:
+          makeRelativeFilePath(file.fileCopyUri),
       };
 
     /* Unlocked Series */
@@ -671,6 +710,11 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
 
     /* Walking Meditations */
+    case WalkingMeditationStringSizes.MedWalkingSteppingIntoYourFutureUpdated:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingSteppingIntoYourFutureUpdated]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     case WalkingMeditationStringSizes.MedWalkingPrayerEvocationInvocation:
       return {
         [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation]:
