@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Icon, Layout, Text, Toggle, useStyleSheet} from '@ui-kitten/components';
+import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import {
@@ -151,16 +151,6 @@ const MeditationScreen = ({
           </Layout>
           <Layout style={styles.mainSection} level="4">
             <Text category="s1" style={styles.thinkBoxLabel}>
-              Last Meditation Thinkbox
-            </Text>
-            <MultiLineInput
-              onChangeText={setInputValue}
-              placeholder="Set an intention for your meditation"
-              value={inputValue}
-              style={styles.thinkBoxStyles}
-              textStyle={styles.thinkBoxTextStyles}
-            />
-            <Text category="s1" style={styles.thinkBoxLabel}>
               Current Meditation Intention
             </Text>
             <MultiLineInput
@@ -276,7 +266,7 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingLeft: 20,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   topBarText: {
     flex: 9,
