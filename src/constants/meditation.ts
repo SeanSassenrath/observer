@@ -426,6 +426,7 @@ export enum OtherBaseKeys {
   MedAlchemist2 = 'm-alchemist-v2',
   MedAlchemist3 = 'm-alchemist-v3',
   MedChangingBoxes = 'm-changing-boxes',
+  MedChangingBoxes2 = 'm-changing-boxes-v2',
   MedGoLove = 'm-go-love',
   MedGoLove2 = 'm-go-love-2',
   MedGoLove3 = 'm-go-love-3',
@@ -437,6 +438,7 @@ export enum OtherSizes {
   MedAlchemist2 = 59139319,
   MedAlchemist3 = 106944456,
   MedChangingBoxes = 75996112,
+  MedChangingBoxes2 = 85420892,
   MedGoLove = 12546994,
   MedGoLove2 = 30196275,
   MedGoLove3 = 22640150,
@@ -448,10 +450,11 @@ export enum OtherStringSizes {
   MedAlchemist2 = '59139',
   MedAlchemist3 = '10694',
   MedChangingBoxes = '75996',
+  MedChangingBoxes2 = '85420',
   MedGoLove = '12546',
   MedGoLove2 = '30196',
   MedGoLove3 = '22640',
-  MedHigherLoveCouples = '78649067',
+  MedHigherLoveCouples = '78649',
 }
 
 const otherMap = {
@@ -500,6 +503,18 @@ const otherMap = {
     meditationBaseId: OtherBaseKeys.MedChangingBoxes,
     name: 'Changing Boxes',
     size: OtherSizes.MedChangingBoxes,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedChangingBoxes2]: {
+    artist,
+    backgroundImage: require('../assets/changing-boxes.jpg'),
+    formattedDuration: '63',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedChangingBoxes2,
+    name: 'Changing Boxes',
+    size: OtherSizes.MedChangingBoxes2,
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -692,6 +707,8 @@ export enum WalkingMeditationBaseKeys {
   MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation-v1',
   MedWalkingPrayerEvocationInvocation2 = 'm-walking-prayer-evocation-invocation-v2',
   MedWalkingPrayerEvocationInvocation3 = 'm-walking-prayer-evocation-invocation-v3',
+  MedWalkingRadiantLight = 'm-walking-radiant-light',
+  MedWalkingRunning = 'm-walking-running',
 }
 
 export enum WalkingMeditationSizes {
@@ -699,6 +716,8 @@ export enum WalkingMeditationSizes {
   MedWalkingPrayerEvocationInvocation = 72485220,
   MedWalkingPrayerEvocationInvocation2 = 72817185,
   MedWalkingPrayerEvocationInvocation3 = 108458482,
+  MedWalkingRadiantLight = 123753113,
+  MedWalkingRunning = 241626156,
 }
 
 export enum WalkingMeditationStringSizes {
@@ -708,6 +727,8 @@ export enum WalkingMeditationStringSizes {
   MedWalkingPrayerEvocationInvocation3 = '10845',
   MedWalkingPrayerEvocationInvocation4 = '10985',
   MedWalkingPrayerEvocationInvocation5 = '18080',
+  MedWalkingRadiantLight = '12375',
+  MedWalkingRunning = '24162',
 }
 
 const walkingMeditationMap = {
@@ -760,6 +781,30 @@ const walkingMeditationMap = {
       WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3,
     name: 'Walking Meditation 06 - Prayer of Evocation & Invocation',
     size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation3,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [WalkingMeditationBaseKeys.MedWalkingRadiantLight]: {
+    artist,
+    backgroundImage: require('../assets/wm-generic.jpg'),
+    formattedDuration: '68',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId: WalkingMeditationBaseKeys.MedWalkingRadiantLight,
+    name: 'Walking Meditation 12 - Walking In Radiant Light',
+    size: WalkingMeditationSizes.MedWalkingRadiantLight,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [WalkingMeditationBaseKeys.MedWalkingRunning]: {
+    artist,
+    backgroundImage: require('../assets/wm-generic.jpg'),
+    formattedDuration: '45',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId: WalkingMeditationBaseKeys.MedWalkingRunning,
+    name: 'Walking Meditation - Running',
+    size: WalkingMeditationSizes.MedWalkingRunning,
     type: MeditationTypes.Meditation,
     url: placeholder,
   },

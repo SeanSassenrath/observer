@@ -646,6 +646,12 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
           file.fileCopyUri,
         ),
       };
+    case OtherStringSizes.MedChangingBoxes2:
+      return {
+        [OtherBaseKeys.MedChangingBoxes2]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     case OtherStringSizes.MedGoLove:
       return {
         [OtherBaseKeys.MedGoLove]: makeRelativeFilePath(file.fileCopyUri),
@@ -739,6 +745,17 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       return {
         [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]:
           makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingRadiantLight:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingRadiantLight]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
+    case WalkingMeditationStringSizes.MedWalkingRunning:
+      return {
+        [WalkingMeditationBaseKeys.MedWalkingRunning]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
       };
 
     default:
