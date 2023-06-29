@@ -69,20 +69,15 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
 
   const meditationTimeData = makeMeditationTimeData(props.meditationHistory);
 
-  const day0 = DateTime.now();
-  const day1 = day0.minus({days: 1});
-  const day2 = day0.minus({days: 2});
-  const day3 = day0.minus({days: 3});
-  const day4 = day0.minus({days: 4});
+  const now = DateTime.now();
+  const day0 = now.toLocaleString({weekday: 'short'});
+  const day1 = now.minus({days: 1}).toLocaleString({weekday: 'short'});
+  const day2 = now.minus({days: 2}).toLocaleString({weekday: 'short'});
+  const day3 = now.minus({days: 3}).toLocaleString({weekday: 'short'});
+  const day4 = now.minus({days: 4}).toLocaleString({weekday: 'short'});
 
   const data = {
-    labels: [
-      day4.weekdayShort,
-      day3.weekdayShort,
-      day2.weekdayShort,
-      day1.weekdayShort,
-      day0.weekdayShort,
-    ],
+    labels: [day4, day3, day2, day1, day0],
     datasets: [
       {
         data: meditationTimeData.reverse().map(seconds => seconds / 60),
@@ -119,15 +114,19 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
           height={220}
           chartConfig={chartConfig}
           fromZero
-          style={{
-            borderRadius: 16,
-            marginHorizontal: 20,
-          }}
+          style={LineChartStyles.default}
         />
       </Layout>
     </Layout>
   );
 };
+
+const LineChartStyles = StyleSheet.create({
+  default: {
+    borderRadius: 16,
+    marginHorizontal: 20,
+  },
+});
 
 const themedStyles = StyleSheet.create({
   chartContainer: {
