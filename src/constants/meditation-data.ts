@@ -191,3 +191,62 @@ export const botecMap = {
     url: placeholder,
   },
 };
+
+/* Breaking The Habit */
+
+export enum BreakingHabitBaseKeys {
+  MedBreakingHabitSpace = 'm-breaking-habit-space',
+  MedBreakingHabitWater = 'm-breaking-habit-water',
+  MedBreakingHabitPlacebo = 'm-breaking-habit-placebo',
+}
+
+export enum BreakingHabitSizes {
+  MedBreakingHabitSpace = 149360649,
+  MedBreakingHabitWater = 140710975,
+  MedBreakingHabitPlacebo = 58249006,
+}
+
+export enum BreakingHabitStringSizes {
+  MedBreakingHabitSpace = '14936',
+  MedBreakingHabitWater = '14071',
+  MedBreakingHabitPlacebo = '58249',
+}
+
+export const breakingHabitMap = {
+  [BreakingHabitBaseKeys.MedBreakingHabitSpace]: {
+    artist,
+    backgroundImage: require('../assets/breaking_habit.jpg'),
+    formattedDuration: '74',
+    id: placeholder,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitSpace,
+    name: 'Breaking The Habit Of Being Yourself',
+    size: BreakingHabitSizes.MedBreakingHabitSpace,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [BreakingHabitBaseKeys.MedBreakingHabitWater]: {
+    artist,
+    backgroundImage: require('../assets/breaking_habit.jpg'),
+    formattedDuration: '70',
+    id: placeholder,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitWater,
+    name: 'Breaking The Habit Of Being Yourself - Water',
+    size: BreakingHabitSizes.MedBreakingHabitWater,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [BreakingHabitBaseKeys.MedBreakingHabitPlacebo]: {
+    artist,
+    backgroundImage: require('../assets/placebo.jpg'),
+    formattedDuration: '69',
+    id: placeholder,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitPlacebo,
+    name: 'You are the Placebo',
+    size: BreakingHabitSizes.MedBreakingHabitPlacebo,
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
