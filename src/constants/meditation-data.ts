@@ -641,3 +641,107 @@ export const breathMap = {
     url: placeholder,
   },
 };
+
+/* Foundational */
+
+export enum FoundationalBaseKeys {
+  MedNewPotentials = 'm-new-potentials',
+  MedNewPotentialsUpdated = 'm-new-potentials-updated',
+  MedPresentMoment = 'm-present-moment',
+  MedRecondition = 'm-recondition',
+  MedChangingBeliefsAndPerceptions = 'm-changing-beliefs-and-perceptions',
+  MedChangingBeliefsAndPerceptionsFull = 'm-changing-beliefs-and-perceptions-full',
+}
+
+export enum FoundationalSizes {
+  MedNewPotentials = 56004113,
+  MedNewPotentialsUpdated = 109548649,
+  MedPresentMoment = 68710984,
+  MedPresentMoment2 = 45584079,
+  MedPresentMoment3 = 0,
+  MedRecondition = 55295394,
+  MedChangingBeliefsAndPerceptions = 64867301,
+  MedChangingBeliefsAndPerceptions2 = 43092728,
+  MedChangingBeliefsAndPerceptionsFull = 82233420,
+}
+
+export enum FoundationalStringSizes {
+  MedNewPotentials = '96748',
+  MedNewPotentialsUpdated = '17014',
+  MedPresentMoment = '68710',
+  MedPresentMoment2 = '45584',
+  MedPresentMoment3 = '45619',
+  MedRecondition = '55295',
+  MedChangingBeliefsAndPerceptions = '64867',
+  MedChangingBeliefsAndPerceptions2 = '43092',
+  MedChangingBeliefsAndPerceptionsFull = '82233',
+}
+
+export const foundationalMap = {
+  [FoundationalBaseKeys.MedNewPotentials]: {
+    artist,
+    backgroundImage: require('../assets/new_potential.jpg'),
+    formattedDuration: '45',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedNewPotentials,
+    name: 'Tuning Into New Potentials',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [FoundationalBaseKeys.MedNewPotentialsUpdated]: {
+    artist,
+    backgroundImage: require('../assets/new_potential.jpg'),
+    formattedDuration: '45',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedNewPotentialsUpdated,
+    name: 'Tuning Into New Potentials - Updated',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [FoundationalBaseKeys.MedPresentMoment]: {
+    artist,
+    backgroundImage: require('../assets/present_moment.jpg'),
+    formattedDuration: '47',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedPresentMoment,
+    name: 'Generous Present Moment',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [FoundationalBaseKeys.MedRecondition]: {
+    artist,
+    backgroundImage: require('../assets/recondition.jpg'),
+    formattedDuration: '46',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedRecondition,
+    name: 'Generous Present Moment',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [FoundationalBaseKeys.MedChangingBeliefsAndPerceptions]: {
+    artist,
+    backgroundImage: require('../assets/changing-beliefs-and-perceptions.jpg'),
+    formattedDuration: '44',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedChangingBeliefsAndPerceptions,
+    name: 'Changing Beliefs and Perceptions - Meditation',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [FoundationalBaseKeys.MedChangingBeliefsAndPerceptionsFull]: {
+    artist,
+    backgroundImage: require('../assets/changing-beliefs-and-perceptions.jpg'),
+    formattedDuration: '57',
+    id: placeholder,
+    groupName: MeditationGroupName.Foundational,
+    meditationBaseId: FoundationalBaseKeys.MedChangingBeliefsAndPerceptionsFull,
+    name: 'Changing Beliefs and Perceptions - Breath and Meditation',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
