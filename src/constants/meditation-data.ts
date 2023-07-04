@@ -350,7 +350,7 @@ export enum GeneratingStringSizes {
   MedGeneratingJoy = '14593',
 }
 
-export const generatingtMap = {
+export const generatingMap = {
   [GeneratingBaseKeys.MedGeneratingAbundance]: {
     artist,
     backgroundImage: require('../assets/abundance.jpg'),
