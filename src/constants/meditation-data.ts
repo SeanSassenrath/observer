@@ -1058,3 +1058,73 @@ export const synchronizeMap = {
     url: placeholder,
   },
 };
+
+/* Unlocked */
+
+export enum UnlockedBaseKeys {
+  MedUnlockedS1P3 = 'm-unlocked-s1-p3',
+  MedUnlockedS2P3 = 'm-unlocked-s2-p3',
+  MedUnlockedS3P3 = 'm-unlocked-s3-p3',
+  MedUnlockedS4P3 = 'm-unlocked-s4-p3',
+}
+
+export enum UnlockedSizes {
+  MedUnlockedS1P3 = 82333740,
+  MedUnlockedS2P3 = 106831373,
+  MedUnlockedS3P3 = 121464787,
+  MedUnlockedS4P3 = 107361827,
+}
+
+export enum UnlockedStringSizes {
+  MedUnlockedS1P3 = '82333',
+  MedUnlockedS2P3 = '10683',
+  MedUnlockedS3P3 = '12146',
+  MedUnlockedS4P3 = '10736',
+}
+
+export const unlockedMap = {
+  [UnlockedBaseKeys.MedUnlockedS1P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedBaseKeys.MedUnlockedS1P3,
+    name: 'Session 1 - Part 3',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedBaseKeys.MedUnlockedS2P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedBaseKeys.MedUnlockedS2P3,
+    name: 'Session 2 - Part 3',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedBaseKeys.MedUnlockedS3P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedBaseKeys.MedUnlockedS3P3,
+    name: 'Session 3 - Part 3',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [UnlockedBaseKeys.MedUnlockedS4P3]: {
+    artist,
+    backgroundImage: require('../assets/unlocked.jpg'),
+    formattedDuration: '',
+    id: placeholder,
+    groupName: MeditationGroupName.Unlocked,
+    meditationBaseId: UnlockedBaseKeys.MedUnlockedS4P3,
+    name: 'Session 4 - Part 3',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
