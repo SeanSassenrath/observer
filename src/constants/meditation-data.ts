@@ -965,3 +965,96 @@ export const walkingtMap = {
     url: placeholder,
   },
 };
+
+/* Syncronize */
+
+export enum SynchronizeBaseKeys {
+  MedSyncHealth = 'm-sync-health',
+  MedSyncAbundance = 'm-sync-abundance',
+  MedSyncEnergyToNewLife = 'm-sync-energy-to-new-life',
+  MedSyncEnergyToLove = 'm-sync-energy-to-love',
+}
+
+export enum SynchronizeSizes {
+  MedSyncHealth = 71508532,
+  MedSyncAbundance = 98396012,
+  MedSyncAbundance2 = 99503017,
+  MedSyncAbundance3 = 66027719,
+  MedSyncEnergyToNewLife = 75116576,
+  MedSyncEnergyToNewLife2 = 79596550,
+  MedSyncEnergyToLove = 104750945,
+  MedSyncEnergyToLove2 = 96788471,
+  MedSyncEnergyToLove3 = 69555367,
+  MedSyncEnergyToLove4 = 13261422,
+}
+
+export enum SynchronizeStringSizes {
+  MedSyncHealth = '71508',
+  MedSyncAbundance = '98396',
+  MedSyncAbundance2 = '99503',
+  MedSyncAbundance3 = '66027',
+  MedSyncEnergyToNewLife = '75116',
+  MedSyncEnergyToNewLife2 = '79596',
+  MedSyncEnergyToLove = '10475',
+  MedSyncEnergyToLove2 = '96788',
+  MedSyncEnergyToLove3 = '69555',
+  MedSyncEnergyToLove4 = '13261',
+}
+
+export const synchronizeMap = {
+  [SynchronizeBaseKeys.MedSyncHealth]: {
+    artist,
+    backgroundImage: require('../assets/sync-energy-to-health.jpg'),
+    formattedDuration: '79',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizeBaseKeys.MedSyncHealth,
+    name: 'Synchronizing Your Energy To Health',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizeBaseKeys.MedSyncEnergyToNewLife]: {
+    artist,
+    backgroundImage: require('../assets/sync-new-life.jpg'),
+    formattedDuration: '85',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizeBaseKeys.MedSyncEnergyToNewLife,
+    name: 'Synchronizing Your Energy To New Life',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizeBaseKeys.MedSyncAbundance]: {
+    artist,
+    backgroundImage: require('../assets/sync-to-abundance.jpg'),
+    formattedDuration: '74',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizeBaseKeys.MedSyncAbundance,
+    name: 'Synchronizing Your Energy To Abundance',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizeBaseKeys.MedSyncEnergyToNewLife]: {
+    artist,
+    backgroundImage: require('../assets/sync-new-life.jpg'),
+    formattedDuration: '85',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizeBaseKeys.MedSyncEnergyToNewLife,
+    name: 'Synchronizing Your Energy To New Life',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [SynchronizeBaseKeys.MedSyncEnergyToLove]: {
+    artist,
+    backgroundImage: require('../assets/sync-energy-to-love.jpg'),
+    formattedDuration: '82',
+    id: placeholder,
+    groupName: MeditationGroupName.Synchronize,
+    meditationBaseId: SynchronizeBaseKeys.MedSyncEnergyToLove,
+    name: 'Synchronizing Your Energy To Love',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+};
