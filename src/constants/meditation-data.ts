@@ -758,9 +758,7 @@ export enum WalkingBaseKeys {
   MedWalkingConditioningBody = 'm-walking-conditioning-body',
   MedWalkingNobleWalk = 'm-walking-noble-walk',
   MedWalkingUnlockingCode = 'm-walking-unlocking-code',
-  MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation-v1',
-  MedWalkingPrayerEvocationInvocation2 = 'm-walking-prayer-evocation-invocation-v2',
-  MedWalkingPrayerEvocationInvocation3 = 'm-walking-prayer-evocation-invocation-v3',
+  MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation',
   MedWalkingRadiantLight = 'm-walking-radiant-light',
   MedWalkingRunning = 'm-walking-running',
 }
