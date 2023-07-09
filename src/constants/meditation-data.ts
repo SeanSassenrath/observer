@@ -1,4 +1,4 @@
-import {MeditationTypes} from '../types';
+import {MeditationBaseMap, MeditationTypes} from '../types';
 
 const artist = 'Dr. Joe Dispenza';
 const placeholder = '';
@@ -155,7 +155,6 @@ export const botecMap = {
     groupName: MeditationGroupName.BlessingEnergyCenter,
     meditationBaseId: BotecBaseKeys.MedBotec8,
     name: 'Blessing of the Energy Centers 08',
-    size: BotecSizes.MedBotec8,
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -810,7 +809,7 @@ export enum WalkingStringSizes {
   MedWalkingRunning = '24162',
 }
 
-export const walkingtMap = {
+export const walkingMap = {
   [WalkingBaseKeys.MedWalkingSteppingIntoYourFuture]: {
     artist,
     backgroundImage: require('../assets/wm-1.jpg'),
@@ -1194,7 +1193,7 @@ export enum OtherStringSizes {
   MedFallingIntoLoveBody = '24779',
 }
 
-export const OtherMap = {
+export const otherMap = {
   [OtherBaseKeys.MedAlchemist]: {
     artist,
     backgroundImage: require('../assets/alchemist.jpg'),
@@ -1339,4 +1338,17 @@ export const OtherMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
+};
+
+export const meditationBaseMap: MeditationBaseMap = {
+  ...botecMap,
+  ...breakingHabitMap,
+  ...breathMap,
+  ...dailyMeditationsMap,
+  ...foundationalMap,
+  ...generatingMap,
+  ...otherMap,
+  ...synchronizeMap,
+  ...unlockedMap,
+  ...walkingMap,
 };

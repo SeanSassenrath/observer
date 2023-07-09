@@ -112,7 +112,7 @@ export type MeditationName = string;
 export type MeditationUrl = string;
 
 export interface Meditation {
-  artwork: any;
+  artwork?: any;
   artist: MeditationArtist;
   backgroundImage?: any;
   color: string;
@@ -123,7 +123,7 @@ export interface Meditation {
   meditationId: MeditationId;
   meditationBreathId?: MeditationId;
   name: MeditationName;
-  size: MeditationSizes;
+  size?: MeditationSizes;
   url: MeditationUrl;
 }
 
@@ -138,7 +138,7 @@ export interface MeditationBase {
   groupName: MeditationGroupName;
   meditationBaseId: MeditationId;
   name: MeditationName;
-  size:
+  size?:
     | DailySeriesSizes
     | MeditationSizes
     | GeneratingSeriesSizes
