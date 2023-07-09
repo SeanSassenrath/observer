@@ -1,4 +1,15 @@
 import {MeditationBaseMap, MeditationTypes} from '../types';
+import {
+  BotecBaseKeys,
+  BreakingHabitBaseKeys,
+  BreathBaseKeys,
+  DailyMeditationBaseKeys,
+  FoundationalBaseKeys,
+  GeneratingBaseKeys,
+  SynchronizeBaseKeys,
+  WalkingBaseKeys,
+  OtherBaseKeys as _OtherBaseKeys,
+} from './meditation-data';
 
 export enum MeditationBaseKeys {
   MedNewPotentialsV1 = 'm-new-potentials-v1',
@@ -329,50 +340,6 @@ export enum MeditationGroupName {
 const artist = 'Dr. Joe Dispenza';
 const placeholder = '';
 
-/* Daily Series */
-
-export enum DailySeriesBaseKeys {
-  MedMorningUpdated = 'm-morning-updated',
-  MedEveningUpdated = 'm-evening-updated',
-}
-
-export enum DailySeriesSizes {
-  MedMorningUpdated = 33578871,
-  MedEveningUpdated = 29178857,
-}
-
-export enum DailySeriesStringSizes {
-  MedMorningUpdated = '33578',
-  MedEveningUpdated = '29178',
-}
-
-const dailySeriesMap = {
-  [DailySeriesBaseKeys.MedMorningUpdated]: {
-    artist,
-    backgroundImage: require('../assets/daily.jpg'),
-    formattedDuration: '15',
-    id: placeholder,
-    groupName: MeditationGroupName.Generating,
-    meditationBaseId: DailySeriesBaseKeys.MedMorningUpdated,
-    name: 'Daily Morning - Updated',
-    size: DailySeriesSizes.MedMorningUpdated,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-  [DailySeriesBaseKeys.MedEveningUpdated]: {
-    artist,
-    backgroundImage: require('../assets/daily.jpg'),
-    formattedDuration: '15',
-    id: placeholder,
-    groupName: MeditationGroupName.Generating,
-    meditationBaseId: DailySeriesBaseKeys.MedEveningUpdated,
-    name: 'Daily Evening - Updated',
-    size: DailySeriesSizes.MedEveningUpdated,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-};
-
 /* Generating Series */
 
 export enum GeneratingSeriesBaseKeys {
@@ -404,6 +371,7 @@ const generatingSeriesMap = {
     size: GeneratingSeriesSizes.MedGeneratingJoy,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingJoy,
   },
   [GeneratingSeriesBaseKeys.MedGeneratingGratitude2]: {
     artist,
@@ -416,6 +384,7 @@ const generatingSeriesMap = {
     size: GeneratingSeriesSizes.MedGeneratingGratitude2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingGratitude,
   },
 };
 
@@ -430,7 +399,6 @@ export enum OtherBaseKeys {
   MedGoLove = 'm-go-love',
   MedGoLove2 = 'm-go-love-2',
   MedGoLove3 = 'm-go-love-3',
-  MedHigherLoveCouples = 'm-higher-love-couples',
 }
 
 export enum OtherSizes {
@@ -469,6 +437,7 @@ const otherMap = {
     size: OtherSizes.MedAlchemist,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedAlchemist,
   },
   [OtherBaseKeys.MedAlchemist2]: {
     artist,
@@ -481,6 +450,7 @@ const otherMap = {
     size: OtherSizes.MedAlchemist2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedAlchemist,
   },
   [OtherBaseKeys.MedAlchemist3]: {
     artist,
@@ -493,6 +463,7 @@ const otherMap = {
     size: OtherSizes.MedAlchemist3,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedAlchemist,
   },
   [OtherBaseKeys.MedChangingBoxes]: {
     artist,
@@ -505,6 +476,7 @@ const otherMap = {
     size: OtherSizes.MedChangingBoxes,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedChangingBoxes,
   },
   [OtherBaseKeys.MedChangingBoxes2]: {
     artist,
@@ -517,6 +489,7 @@ const otherMap = {
     size: OtherSizes.MedChangingBoxes2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedChangingBoxes,
   },
   [OtherBaseKeys.MedGoLove]: {
     artist,
@@ -529,6 +502,7 @@ const otherMap = {
     size: OtherSizes.MedGoLove,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedGoLove,
   },
   [OtherBaseKeys.MedGoLove2]: {
     artist,
@@ -541,6 +515,7 @@ const otherMap = {
     size: OtherSizes.MedGoLove2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedGoLove,
   },
   [OtherBaseKeys.MedGoLove3]: {
     artist,
@@ -553,54 +528,28 @@ const otherMap = {
     size: OtherSizes.MedGoLove3,
     type: MeditationTypes.Meditation,
     url: placeholder,
-  },
-  [OtherBaseKeys.MedHigherLoveCouples]: {
-    artist,
-    backgroundImage: require('../assets/higher-love-couples.jpg'),
-    formattedDuration: '33',
-    id: placeholder,
-    groupName: MeditationGroupName.Other,
-    meditationBaseId: OtherBaseKeys.MedHigherLoveCouples,
-    name: 'Higher Love for Couples',
-    size: OtherSizes.MedHigherLoveCouples,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
+    updatedId: _OtherBaseKeys.MedGoLove,
   },
 };
 
 /* Synchronizing Series */
 
 export enum SynchronizingSeriesBaseKeys {
-  MedSyncAbundance = 'm-sync-abundance',
   MedSyncEnergyToNewLife2 = 'm-sync-energy-to-new-life-2',
   MedSyncEnergyToLoveV4 = 'm-sync-energy-to-love-v4',
 }
 
 export enum SynchronizingSeriesSizes {
-  MedSyncAbundance = 98396012,
   MedSyncEnergyToNewLife2 = 75116576,
   MedSyncEnergyToLoveV4 = 104750945,
 }
 
 export enum SynchronizingSeriesStringSizes {
-  MedSyncAbundance = '98396',
   MedSyncEnergyToNewLife2 = '75116',
   MedSyncEnergyToLoveV4 = '10475',
 }
 
 const synchronizingSeriesMap = {
-  [SynchronizingSeriesBaseKeys.MedSyncAbundance]: {
-    artist,
-    backgroundImage: require('../assets/sync-to-abundance.jpg'),
-    formattedDuration: '74',
-    id: placeholder,
-    groupName: MeditationGroupName.Synchronize,
-    meditationBaseId: SynchronizingSeriesBaseKeys.MedSyncAbundance,
-    name: 'Synchronizing Your Energy: To Abundance',
-    size: SynchronizingSeriesSizes.MedSyncAbundance,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
   [SynchronizingSeriesBaseKeys.MedSyncEnergyToNewLife2]: {
     artist,
     backgroundImage: require('../assets/sync-new-life.jpg'),
@@ -612,6 +561,7 @@ const synchronizingSeriesMap = {
     size: SynchronizingSeriesSizes.MedSyncEnergyToNewLife2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToNewLife,
   },
   [SynchronizingSeriesBaseKeys.MedSyncEnergyToLoveV4]: {
     artist,
@@ -624,80 +574,7 @@ const synchronizingSeriesMap = {
     size: SynchronizingSeriesSizes.MedSyncEnergyToLoveV4,
     type: MeditationTypes.Meditation,
     url: placeholder,
-  },
-};
-
-/* Unlocked Series */
-
-export enum UnlockedSeriesBaseKeys {
-  MedUnlockedS1P3 = 'm-unlocked-s1-p3',
-  MedUnlockedS2P3 = 'm-unlocked-s2-p3',
-  MedUnlockedS3P3 = 'm-unlocked-s3-p3',
-  MedUnlockedS4P3 = 'm-unlocked-s4-p3',
-}
-
-export enum UnlockedSeriesSizes {
-  MedUnlockedS1P3 = 82333740,
-  MedUnlockedS2P3 = 106831373,
-  MedUnlockedS3P3 = 121464787,
-  MedUnlockedS4P3 = 107361827,
-}
-
-export enum UnlockedSeriesStringSizes {
-  MedUnlockedS1P3 = '82333',
-  MedUnlockedS2P3 = '10683',
-  MedUnlockedS3P3 = '12146',
-  MedUnlockedS4P3 = '10736',
-}
-
-const unlockedSeriesMap = {
-  [UnlockedSeriesBaseKeys.MedUnlockedS1P3]: {
-    artist,
-    backgroundImage: require('../assets/unlocked.jpg'),
-    formattedDuration: '',
-    id: placeholder,
-    groupName: MeditationGroupName.Unlocked,
-    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS1P3,
-    name: 'Session 1 - Part 3',
-    size: UnlockedSeriesSizes.MedUnlockedS1P3,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-  [UnlockedSeriesBaseKeys.MedUnlockedS2P3]: {
-    artist,
-    backgroundImage: require('../assets/unlocked.jpg'),
-    formattedDuration: '',
-    id: placeholder,
-    groupName: MeditationGroupName.Unlocked,
-    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS2P3,
-    name: 'Session 2 - Part 3',
-    size: UnlockedSeriesSizes.MedUnlockedS2P3,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-  [UnlockedSeriesBaseKeys.MedUnlockedS3P3]: {
-    artist,
-    backgroundImage: require('../assets/unlocked.jpg'),
-    formattedDuration: '',
-    id: placeholder,
-    groupName: MeditationGroupName.Unlocked,
-    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS3P3,
-    name: 'Session 3 - Part 3',
-    size: UnlockedSeriesSizes.MedUnlockedS3P3,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-  [UnlockedSeriesBaseKeys.MedUnlockedS4P3]: {
-    artist,
-    backgroundImage: require('../assets/unlocked.jpg'),
-    formattedDuration: '',
-    id: placeholder,
-    groupName: MeditationGroupName.Unlocked,
-    meditationBaseId: UnlockedSeriesBaseKeys.MedUnlockedS4P3,
-    name: 'Session 4 - Part 3',
-    size: UnlockedSeriesSizes.MedUnlockedS4P3,
-    type: MeditationTypes.Meditation,
-    url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToLove,
   },
 };
 
@@ -744,6 +621,7 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingSteppingIntoYourFutureUpdated,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingSteppingIntoYourFuture,
   },
   [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation]: {
     artist,
@@ -757,6 +635,7 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingPrayerEvocationInvocation,
   },
   [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation2]: {
     artist,
@@ -770,6 +649,7 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingPrayerEvocationInvocation,
   },
   [WalkingMeditationBaseKeys.MedWalkingPrayerEvocationInvocation3]: {
     artist,
@@ -783,6 +663,7 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingPrayerEvocationInvocation3,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingPrayerEvocationInvocation,
   },
   [WalkingMeditationBaseKeys.MedWalkingRadiantLight]: {
     artist,
@@ -795,8 +676,9 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingRadiantLight,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingPrayerEvocationInvocation,
   },
-  [WalkingMeditationBaseKeys.MedWalkingRunning]: {
+  [WalkingMeditationBaseKeys.MedWalkingRadiantLight]: {
     artist,
     backgroundImage: require('../assets/wm-generic.jpg'),
     formattedDuration: '45',
@@ -807,6 +689,7 @@ const walkingMeditationMap = {
     size: WalkingMeditationSizes.MedWalkingRunning,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingRunning,
   },
 };
 
@@ -827,6 +710,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.NewPotentialsV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedNewPotentials,
   },
   [MeditationBaseKeys.MedNewPotentialsV2]: {
     artwork: '',
@@ -842,6 +726,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.NewPotentialsV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedNewPotentialsUpdated,
   },
   [MeditationBaseKeys.BreathNewPotentialsV1]: {
     artwork: '',
@@ -857,6 +742,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.NewPotentialsBreathV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathNewPotentials,
   },
   [MeditationBaseKeys.BreathNewPotentialsV2]: {
     artwork: '',
@@ -872,6 +758,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.NewPotentialsBreathV2,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathNewPotentialsUpdated,
   },
   [MeditationBaseKeys.MedBreakingHabitSpaceV1]: {
     artwork: '',
@@ -887,6 +774,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BreakingTheHabit,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BreakingHabitBaseKeys.MedBreakingHabitSpace,
   },
   [MeditationBaseKeys.MedBreakingHabitWaterV1]: {
     artwork: '',
@@ -902,6 +790,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BreakingTheHabitWater,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BreakingHabitBaseKeys.MedBreakingHabitWater,
   },
   [MeditationBaseKeys.MedPresentMomentV1]: {
     artwork: '',
@@ -917,6 +806,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PresentMomentV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedPresentMoment,
   },
   [MeditationBaseKeys.MedPresentMomentV2]: {
     artwork: '',
@@ -932,6 +822,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PresentMomentV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedPresentMoment,
   },
   [MeditationBaseKeys.MedReconditionV1]: {
     artwork: '',
@@ -947,6 +838,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.Recondition,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedRecondition,
   },
   [MeditationBaseKeys.BreathReconditionV1]: {
     artwork: '',
@@ -962,6 +854,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.ReconditionBreath,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathReconditioning,
   },
   [MeditationBaseKeys.MedBlessingCenter1V1]: {
     artwork: '',
@@ -977,6 +870,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter1V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec1,
   },
   [MeditationBaseKeys.MedBlessingCenter2V1]: {
     artwork: '',
@@ -992,6 +886,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter2V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec2,
   },
   [MeditationBaseKeys.MedBlessingCenter3V1]: {
     artwork: '',
@@ -1007,6 +902,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter3V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec3,
   },
   [MeditationBaseKeys.MedBlessingCenter4V1]: {
     artwork: '',
@@ -1022,6 +918,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter4V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec4,
   },
   [MeditationBaseKeys.MedBlessingCenter5V1]: {
     artwork: '',
@@ -1037,6 +934,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter5V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec5,
   },
   [MeditationBaseKeys.MedBlessingCenter6V1]: {
     artwork: '',
@@ -1052,6 +950,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter6V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec6,
   },
   [MeditationBaseKeys.MedBlessingCenter6V2]: {
     artwork: '',
@@ -1067,6 +966,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter6V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec6,
   },
   [MeditationBaseKeys.MedBlessingCenter7V1]: {
     artwork: '',
@@ -1082,6 +982,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter7V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec7,
   },
   [MeditationBaseKeys.MedBlessingCenter7V2]: {
     artwork: '',
@@ -1097,6 +998,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter7V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec7,
   },
   [MeditationBaseKeys.MedBlessingCenter8V1]: {
     artwork: '',
@@ -1112,6 +1014,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter8V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec8,
   },
   [MeditationBaseKeys.MedBlessingCenter8V2]: {
     artwork: '',
@@ -1127,6 +1030,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter8V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec8,
   },
   [MeditationBaseKeys.MedBlessingCenter9V1]: {
     artwork: '',
@@ -1142,6 +1046,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter9V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec9,
   },
   [MeditationBaseKeys.MedBlessingCenter9V2]: {
     artwork: '',
@@ -1157,6 +1062,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter9V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec9,
   },
   [MeditationBaseKeys.MedBlessingCenter9V3]: {
     artwork: '',
@@ -1172,6 +1078,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter9V3,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec9,
   },
   [MeditationBaseKeys.MedBlessingCenter10V1]: {
     artwork: '',
@@ -1187,6 +1094,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter10V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec10,
   },
   [MeditationBaseKeys.MedBlessingCenter10V2]: {
     artwork: '',
@@ -1202,6 +1110,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BlessingEnergyCenter10V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BotecBaseKeys.MedBotec10,
   },
   [MeditationBaseKeys.MedDailyMorningV1]: {
     artwork: '',
@@ -1217,6 +1126,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyMorningV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedMorning,
   },
   [MeditationBaseKeys.MedDailyMorningV2]: {
     artwork: '',
@@ -1232,6 +1142,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyMorningV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedMorning,
   },
   [MeditationBaseKeys.MedDailyMorningUv]: {
     artwork: '',
@@ -1247,6 +1158,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyMorningUv,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedMorningUpdated,
   },
   [MeditationBaseKeys.MedDailyEveningV1]: {
     artwork: '',
@@ -1262,6 +1174,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyEveningV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedEvening,
   },
   [MeditationBaseKeys.MedDailyEveningV2]: {
     artwork: '',
@@ -1277,6 +1190,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyEveningV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedEvening,
   },
   [MeditationBaseKeys.MedDailyEveningUv]: {
     artwork: '',
@@ -1292,6 +1206,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.DailyEveningUv,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: DailyMeditationBaseKeys.MedEveningUpdated,
   },
   [MeditationBaseKeys.MedLoveLifeYouLoveV1]: {
     artwork: '',
@@ -1307,6 +1222,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.LoveLifeYouLoveV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedLoveLifeYouLove,
   },
   [MeditationBaseKeys.MedWalkingMeditation1V1]: {
     artwork: '',
@@ -1322,6 +1238,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingMeditation1V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingSteppingIntoYourFutureUpdated,
   },
   [MeditationBaseKeys.MedWalkingMeditation1V2]: {
     artwork: '',
@@ -1337,6 +1254,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingMeditation1V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingWithTheDevine,
   },
   [MeditationBaseKeys.MedWalkingMeditation2V1]: {
     artwork: '',
@@ -1352,6 +1270,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingMeditation2V1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingWithTheDevine,
   },
   [MeditationBaseKeys.MedWalkingMeditation2V2]: {
     artwork: '',
@@ -1367,6 +1286,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingMeditation2V2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingWithTheDevineUpdated,
   },
   [MeditationBaseKeys.MedWalkingHeartFullMindV1]: {
     artwork: '',
@@ -1382,6 +1302,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingHeartFullMindV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingWithHeartFullMind,
   },
   [MeditationBaseKeys.MedWalkingBodyElectricV1]: {
     artwork: '',
@@ -1397,6 +1318,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingBodyElectricV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingBodyElectric,
   },
   [MeditationBaseKeys.MedWalkingConditioningBodyV1]: {
     artwork: '',
@@ -1412,6 +1334,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingConditioningBodyV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingConditioningBody,
   },
   [MeditationBaseKeys.MedWalkingNobleWalkV1]: {
     artwork: '',
@@ -1427,6 +1350,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingNobleWalkV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingNobleWalk,
   },
   [MeditationBaseKeys.MedWalkingUnlockingCodeV1]: {
     artwork: '',
@@ -1442,6 +1366,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingUnlockingCodeV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingUnlockingCode,
   },
   [MeditationBaseKeys.MedWalkingUnlockingCodeV2]: {
     artwork: '',
@@ -1457,6 +1382,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.WalkingUnlockingCodeV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: WalkingBaseKeys.MedWalkingUnlockingCode,
   },
   [MeditationBaseKeys.MedTurningYourLoveInwardV1]: {
     artwork: '',
@@ -1472,6 +1398,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.TurningLoveInwardV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedTurningYourLoveInward,
   },
   [MeditationBaseKeys.MedTurningYourLoveInwardV2]: {
     artwork: '',
@@ -1487,6 +1414,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.TurningLoveInwardV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedTurningYourLoveInward,
   },
   [MeditationBaseKeys.MedChangingBeliefsAndPerceptionsFullV1]: {
     artwork: '',
@@ -1502,6 +1430,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BeliefsAndPerceptionsFullV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedChangingBeliefsAndPerceptionsFull,
   },
   [MeditationBaseKeys.MedChangingBeliefsAndPerceptionsV1]: {
     artwork: '',
@@ -1517,6 +1446,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BeliefsAndPerceptionsV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedChangingBeliefsAndPerceptions,
   },
   [MeditationBaseKeys.MedChangingBeliefsAndPerceptionsV2]: {
     artwork: '',
@@ -1532,6 +1462,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BeliefsAndPerceptionsV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: FoundationalBaseKeys.MedChangingBeliefsAndPerceptions,
   },
   [MeditationBaseKeys.BreathChangingBeliefsAndPerceptionsV1]: {
     artwork: '',
@@ -1547,6 +1478,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BeliefsAndPerceptionsBreathV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathChangingBeliefsAndPerceptions,
   },
   [MeditationBaseKeys.BreathChangingBeliefsAndPerceptionsV2]: {
     artwork: '',
@@ -1562,6 +1494,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BeliefsAndPerceptionsBreathV2,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathChangingBeliefsAndPerceptions,
   },
   [MeditationBaseKeys.MedHeartBrainSyncV1]: {
     artwork: '',
@@ -1577,6 +1510,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.HeartBrainSyncV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedHeartBrainSync,
   },
   [MeditationBaseKeys.MedHeartBrainSyncV2]: {
     artwork: '',
@@ -1592,6 +1526,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.HeartBrainSyncV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedHeartBrainSync,
   },
   [MeditationBaseKeys.MedCourageousHeartV1]: {
     artwork: '',
@@ -1607,6 +1542,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.CourageousHeartV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedCourageousHeart,
   },
   [MeditationBaseKeys.MedBreakingHabitsAddictionsV1]: {
     artwork: '',
@@ -1622,6 +1558,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.BreakingHabitsAddictionsV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedBreakingHabitsAddictions,
   },
   [MeditationBaseKeys.MedEmpoweringWithinV1]: {
     artwork: '',
@@ -1637,6 +1574,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.EmpowerWithinV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedEmpoweringWithin,
   },
   [MeditationBaseKeys.MedPinealGlandLongV1]: {
     artwork: '',
@@ -1652,6 +1590,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PinealGlandLongV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedPinealGlandLong,
   },
   [MeditationBaseKeys.MedPinealGlandShortV1]: {
     artwork: '',
@@ -1667,6 +1606,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PinealGlandShortV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedPinealGlandShort,
   },
   [MeditationBaseKeys.MedPinealGlandShortV2]: {
     artwork: '',
@@ -1682,6 +1622,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PinealGlandShortV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedPinealGlandShort,
   },
   [MeditationBaseKeys.MedGeneratingAbundanceV1]: {
     artwork: '',
@@ -1697,6 +1638,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingAbundance,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingAbundance,
   },
   [MeditationBaseKeys.MedGeneratingFlowV1]: {
     artwork: '',
@@ -1712,6 +1654,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingFlow,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingFlow,
   },
   [MeditationBaseKeys.MedGeneratingGratitudeV1]: {
     artwork: '',
@@ -1727,6 +1670,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingGratitude,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingGratitude,
   },
   [MeditationBaseKeys.MedGeneratingEmpowermentV1]: {
     artwork: '',
@@ -1742,6 +1686,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingEmpowermentV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingEmpowerment,
   },
   [MeditationBaseKeys.MedGeneratingEmpowermentV2]: {
     artwork: '',
@@ -1757,6 +1702,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingEmpowermentV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingChange,
   },
   [MeditationBaseKeys.MedGeneratingChangeV1]: {
     artwork: '',
@@ -1772,6 +1718,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingChange,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingInspiration,
   },
   [MeditationBaseKeys.MedGeneratingInspirationV1]: {
     artwork: '',
@@ -1787,6 +1734,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.GeneratingInspiration,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: GeneratingBaseKeys.MedGeneratingJoy,
   },
   [MeditationBaseKeys.MedSyncToAbundanceV1]: {
     artwork: '',
@@ -1802,6 +1750,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncToAbundanceV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncAbundance,
   },
   [MeditationBaseKeys.MedFallingIntoLoveBody]: {
     artwork: '',
@@ -1817,6 +1766,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.FallingIntoLoveBody,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: _OtherBaseKeys.MedFallingIntoLoveBody,
   },
   [MeditationBaseKeys.BreathInspireTribalTranceV1]: {
     artwork: '',
@@ -1832,6 +1782,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireTribalV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireTribalTrance,
   },
   [MeditationBaseKeys.MedSyncEnergyToHealth]: {
     artwork: '',
@@ -1847,6 +1798,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToHealth,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncHealth,
   },
   [MeditationBaseKeys.MedSyncEnergyToLoveV1]: {
     artwork: '',
@@ -1862,6 +1814,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToLoveV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToLove,
   },
   [MeditationBaseKeys.MedSyncEnergyToLoveV2]: {
     artwork: '',
@@ -1877,6 +1830,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToLoveV2,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToLove,
   },
   [MeditationBaseKeys.MedSyncEnergyToLoveV3]: {
     artwork: '',
@@ -1892,6 +1846,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToLoveV3,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToLove,
   },
   [MeditationBaseKeys.MedSyncEnergyToAbundance]: {
     artwork: '',
@@ -1907,6 +1862,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToAbundance,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncAbundance,
   },
   [MeditationBaseKeys.MedSyncEnergyToNewLife]: {
     artwork: '',
@@ -1922,6 +1878,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.SyncEnergyToNewLife,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: SynchronizeBaseKeys.MedSyncEnergyToNewLife,
   },
   [MeditationBaseKeys.MedPlaceboV1]: {
     artwork: '',
@@ -1937,6 +1894,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.PlaceboV1,
     type: MeditationTypes.Meditation,
     url: placeholder,
+    updatedId: BreakingHabitBaseKeys.MedBreakingHabitPlacebo,
   },
   [MeditationBaseKeys.BreathInspireEmergingHeartV1]: {
     artwork: '',
@@ -1952,6 +1910,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireEmergingHeartV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireEmergingHeart,
   },
   [MeditationBaseKeys.BreathInspireSuenosSelvaV1]: {
     artwork: '',
@@ -1967,6 +1926,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireSuenosSelvaV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireSuenosSelva,
   },
   [MeditationBaseKeys.BreathInspireInfernoV1]: {
     artwork: '',
@@ -1982,6 +1942,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireInfernoV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireInferno,
   },
   [MeditationBaseKeys.BreathInspireRefugeV1]: {
     artwork: '',
@@ -1997,6 +1958,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireRefugeV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireRefuge,
   },
   [MeditationBaseKeys.BreathInspireKingfisherV1]: {
     artwork: '',
@@ -2012,6 +1974,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireKingfisherV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireKingFisher,
   },
   [MeditationBaseKeys.BreathInspireShamanGoddessV1]: {
     artwork: '',
@@ -2027,6 +1990,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireShamanGoddessV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireShamanGoddess,
   },
   [MeditationBaseKeys.BreathInspireCleansingV1]: {
     artwork: '',
@@ -2042,6 +2006,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireCleansingV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireCleansing,
   },
   [MeditationBaseKeys.BreathInspireAspirationV1]: {
     artwork: '',
@@ -2057,6 +2022,7 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireAspirationV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireAspiration,
   },
   [MeditationBaseKeys.BreathInspireBreathingLifeV1]: {
     artwork: '',
@@ -2072,12 +2038,11 @@ export const meditationBaseMap: MeditationBaseMap = {
     size: MeditationSizes.InspireLifeV1,
     type: MeditationTypes.Breath,
     url: placeholder,
+    updatedId: BreathBaseKeys.BreathInspireBreathingLife,
   },
-  ...dailySeriesMap,
   ...generatingSeriesMap,
   ...otherMap,
   ...synchronizingSeriesMap,
-  ...unlockedSeriesMap,
   ...walkingMeditationMap,
 };
 

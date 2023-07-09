@@ -148,6 +148,7 @@ export interface MeditationBase {
     | WalkingMeditationSizes;
   type: MeditationTypes;
   url: any;
+  updatedId?: string;
 }
 
 export enum MeditationTypes {
