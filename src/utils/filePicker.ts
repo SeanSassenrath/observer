@@ -7,17 +7,22 @@ import {
   BotecBaseKeys,
   BotecStringSizes,
   BreakingHabitBaseKeys,
+  BreakingHabitSizes,
   BreakingHabitStringSizes,
   BreathBaseKeys,
+  BreathSizes,
   BreathStringSizes,
   DailyMeditationBaseKeys,
+  DailyMeditationSizes,
   DailyMeditationStringSizes,
   FoundationalBaseKeys,
+  FoundationalSizes,
   FoundationalStringSizes,
   GeneratingBaseKeys,
   GeneratingSizes,
   GeneratingStringSizes,
   OtherBaseKeys,
+  OtherSizes,
   OtherStringSizes,
   SynchronizeBaseKeys,
   SynchronizeStringSizes,
@@ -54,8 +59,69 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
 
+  console.log(' -- ');
+  console.log(' ');
+  console.log('fileSize', fileSize);
+  console.log('fileSizeString', fileSizeString);
+  console.log(' ');
+  console.log(' -- ');
+
   // For meditations too close in size
-  if (fileSize === GeneratingSizes.MedGeneratingChange) {
+  if (fileSize === BreathSizes.BreathNewPotentials) {
+    return {
+      [BreathBaseKeys.BreathNewPotentials]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === BreathSizes.BreathReconditioning) {
+    return {
+      [BreathBaseKeys.BreathReconditioning]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
+    return {
+      [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
+    return {
+      [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === DailyMeditationSizes.MedMorning) {
+    return {
+      [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === DailyMeditationSizes.MedEvening) {
+    return {
+      [DailyMeditationBaseKeys.MedEvening]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === FoundationalSizes.MedNewPotentials) {
+    return {
+      [FoundationalBaseKeys.MedNewPotentials]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === FoundationalSizes.MedPresentMoment) {
+    return {
+      [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === FoundationalSizes.MedRecondition) {
+    return {
+      [FoundationalBaseKeys.MedRecondition]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === GeneratingSizes.MedGeneratingChange) {
     return {
       [GeneratingBaseKeys.MedGeneratingChange]: makeRelativeFilePath(
         file.fileCopyUri,
@@ -64,6 +130,12 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
   } else if (fileSize === GeneratingSizes.MedGeneratingFlow) {
     return {
       [GeneratingBaseKeys.MedGeneratingFlow]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === OtherSizes.MedLoveLifeYouLove) {
+    return {
+      [OtherBaseKeys.MedLoveLifeYouLove]: makeRelativeFilePath(
         file.fileCopyUri,
       ),
     };
@@ -156,20 +228,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Breaking The Habit */
 
-    case BreakingHabitStringSizes.MedBreakingHabitSpace: {
-      return {
-        [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case BreakingHabitStringSizes.MedBreakingHabitWater: {
-      return {
-        [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case BreakingHabitStringSizes.MedBreakingHabitPlacebo: {
       return {
         [BreakingHabitBaseKeys.MedBreakingHabitPlacebo]: makeRelativeFilePath(
@@ -180,13 +238,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Daily Meditations */
 
-    case DailyMeditationStringSizes.MedMorning: {
-      return {
-        [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case DailyMeditationStringSizes.MedMorning2: {
       return {
         [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
@@ -204,13 +255,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case DailyMeditationStringSizes.MedMorningUpdated2: {
       return {
         [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case DailyMeditationStringSizes.MedEvening: {
-      return {
-        [DailyMeditationBaseKeys.MedEvening]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };
@@ -246,13 +290,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
-    case GeneratingStringSizes.MedGeneratingFlow: {
-      return {
-        [GeneratingBaseKeys.MedGeneratingFlow]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case GeneratingStringSizes.MedGeneratingGratitude: {
       return {
         [GeneratingBaseKeys.MedGeneratingGratitude]: makeRelativeFilePath(
@@ -274,13 +311,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
-    case GeneratingStringSizes.MedGeneratingChange: {
-      return {
-        [GeneratingBaseKeys.MedGeneratingChange]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case GeneratingStringSizes.MedGeneratingInspiration: {
       return {
         [GeneratingBaseKeys.MedGeneratingInspiration]: makeRelativeFilePath(
@@ -298,23 +328,9 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Breath Work Tacks */
 
-    case BreathStringSizes.BreathNewPotentials: {
-      return {
-        [BreathBaseKeys.BreathNewPotentials]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case BreathStringSizes.BreathNewPotentialsUpdated: {
       return {
         [BreathBaseKeys.BreathNewPotentialsUpdated]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case BreathStringSizes.BreathReconditioning: {
-      return {
-        [BreathBaseKeys.BreathReconditioning]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };
@@ -404,13 +420,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Foundational */
 
-    case FoundationalStringSizes.MedNewPotentials: {
-      return {
-        [FoundationalBaseKeys.MedNewPotentials]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case FoundationalStringSizes.MedNewPotentials2: {
       return {
         [FoundationalBaseKeys.MedNewPotentials]: makeRelativeFilePath(
@@ -425,13 +434,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
-    case FoundationalStringSizes.MedPresentMoment: {
-      return {
-        [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
     case FoundationalStringSizes.MedPresentMoment2: {
       return {
         [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
@@ -442,13 +444,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case FoundationalStringSizes.MedPresentMoment3: {
       return {
         [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case FoundationalStringSizes.MedRecondition: {
-      return {
-        [FoundationalBaseKeys.MedRecondition]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };
@@ -755,13 +750,6 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case OtherStringSizes.MedHigherLoveCouples: {
       return {
         [OtherBaseKeys.MedHigherLoveCouples]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case OtherStringSizes.MedLoveLifeYouLove: {
-      return {
-        [OtherBaseKeys.MedLoveLifeYouLove]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };
