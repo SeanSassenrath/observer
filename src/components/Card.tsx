@@ -1,47 +1,40 @@
 import React from 'react';
-import { ImageBackground, Pressable, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import {ImageBackground, Pressable, StyleSheet} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components';
 
 import {
   MeditationFormattedDuration,
   MeditationId,
-  MeditationName
+  MeditationName,
 } from '../types';
 
 interface CardProps {
-  backgroundImage?: any,
-  color: string,
-  isFirstCard?: boolean,
-  formattedDuration: MeditationFormattedDuration, 
-  meditationId: MeditationId,
-  level?: string,
-  name: MeditationName,
-  onPress(id: MeditationId): void,
-  isMini?: boolean,
-  isSelected?: boolean,
+  backgroundImage?: any;
+  isFirstCard?: boolean;
+  formattedDuration: MeditationFormattedDuration;
+  meditationId: MeditationId;
+  level?: string;
+  name: MeditationName;
+  onPress(id: MeditationId): void;
+  isMini?: boolean;
+  isSelected?: boolean;
   isDisabled?: boolean;
 }
 
 export const CardV1 = (props: CardProps) => (
   <Pressable
     key={props.meditationId}
-    onPress={() => props.onPress(props.meditationId)}
-  >
-    <Layout
-      level={props.level}
-      style={styles.card}
-    >
+    onPress={() => props.onPress(props.meditationId)}>
+    <Layout level={props.level} style={styles.card}>
       <Layout level={props.level} style={styles.nameContainer}>
-        <Text category='s1'>{props.name}</Text>
+        <Text category="s1">{props.name}</Text>
       </Layout>
       <Layout level={props.level} style={styles.formattedDurationContainer}>
-        <Text category='s2'>
-          {`${props.formattedDuration}m`}
-        </Text>
+        <Text category="s2">{`${props.formattedDuration}m`}</Text>
       </Layout>
     </Layout>
   </Pressable>
-)
+);
 
 const styles = StyleSheet.create({
   card: {
@@ -61,26 +54,21 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     flex: 8,
     justifyContent: 'flex-end',
-  }
-})
+  },
+});
 
 export const CardV3 = (props: CardProps) => (
   <Pressable onPress={() => props.onPress(props.meditationId)}>
-    <Layout
-      level={props.level}
-      style={{ backgroundColor: props.color, ...stylesV2.card }}
-    >
+    <Layout level={props.level} style={{...stylesV2.card}}>
       <Layout level={props.level} style={stylesV2.formattedDurationContainer}>
-        <Text category='s2'>
-          {`${props.formattedDuration}m`}
-        </Text>
+        <Text category="s2">{`${props.formattedDuration}m`}</Text>
       </Layout>
       <Layout level={props.level} style={stylesV2.nameContainer}>
-        <Text category='s1'>{props.name}</Text>
+        <Text category="s1">{props.name}</Text>
       </Layout>
     </Layout>
   </Pressable>
-)
+);
 
 const stylesV2 = StyleSheet.create({
   card: {
@@ -102,8 +90,8 @@ const stylesV2 = StyleSheet.create({
     justifyContent: 'flex-end',
     flex: 1,
     padding: 18,
-  }
-})
+  },
+});
 
 interface CardStyleProps {
   isMini?: boolean;
@@ -127,7 +115,7 @@ const getCardStyles = (props: CardStyleProps) => {
       return stylesV4.card;
     }
   }
-}
+};
 
 const getCardNameStyles = (props: CardStyleProps) => {
   if (props.isDisabled) {
@@ -135,25 +123,24 @@ const getCardNameStyles = (props: CardStyleProps) => {
   } else {
     return stylesV4.nameContainer;
   }
-}
+};
 
 export const CardV4 = (props: CardProps) => (
   <Pressable
     key={props.meditationId}
-    onPress={() => props.onPress(props.meditationId)}
-  >
-    <ImageBackground source={props.backgroundImage} style={getCardStyles(props)}>
+    onPress={() => props.onPress(props.meditationId)}>
+    <ImageBackground
+      source={props.backgroundImage}
+      style={getCardStyles(props)}>
       <Layout level={props.level} style={stylesV4.formattedDurationContainer}>
-        <Text category='s2'>
-          {`${props.formattedDuration}m`}
-        </Text>
+        <Text category="s2">{`${props.formattedDuration}m`}</Text>
       </Layout>
     </ImageBackground>
-    <Layout level='4' style={getCardNameStyles(props)}>
-      <Text category='s1'>{props.name}</Text>
+    <Layout level="4" style={getCardNameStyles(props)}>
+      <Text category="s1">{props.name}</Text>
     </Layout>
   </Pressable>
-)
+);
 
 const stylesV4 = StyleSheet.create({
   card: {
@@ -191,7 +178,7 @@ const stylesV4 = StyleSheet.create({
     width: 140,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: '#CBF6A1'
+    borderColor: '#CBF6A1',
   },
   miniDisabledCard: {
     borderRadius: 10,
@@ -223,19 +210,20 @@ const stylesV4 = StyleSheet.create({
     paddingBottom: 6,
     width: 200,
     opacity: 0.4,
-  }
-})
+  },
+});
 
 interface EmptyCardProps {
-  isMini?: boolean,
+  isMini?: boolean;
 }
 
 export const EmptyCard = (props: EmptyCardProps) => (
   <Layout
-    level='1'
-    style={props.isMini ? emptyCardStyles.emptyCardMini : emptyCardStyles.emptyCard}
-  >
-  </Layout>
+    level="1"
+    style={
+      props.isMini ? emptyCardStyles.emptyCardMini : emptyCardStyles.emptyCard
+    }
+  />
 );
 
 const emptyCardStyles = StyleSheet.create({
@@ -268,5 +256,5 @@ const emptyCardStyles = StyleSheet.create({
   nameContainer: {
     justifyContent: 'flex-end',
     flex: 1,
-  }
-})
+  },
+});

@@ -9,12 +9,8 @@ import {
   MeditationBaseId,
   MeditationScreenNavigationProp,
   MeditationStackScreenProps,
-  MeditationTypes,
 } from '../types';
-import {
-  breathMeditationTypeBaseIds,
-  meditationBaseMap,
-} from '../constants/meditation';
+import {breathMap, meditationBaseMap} from '../constants/meditation-data';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import {MeditationList} from '../components/MeditationList';
@@ -116,17 +112,15 @@ const MeditationScreen = ({
   }
 
   const makeBreathMeditationsList = () => {
-    let breathMeditationList = [] as MeditationBaseId[];
+    const breathBaseIds = Object.keys(breathMap);
+    const userBreathBaseIds = Object.keys(meditationBaseData);
+    const breathMeditationList = [] as MeditationBaseId[];
 
-    if (meditation.type !== MeditationTypes.Breath) {
-      breathMeditationTypeBaseIds.forEach(meditationId => {
-        if (meditationBaseData[meditationId]) {
-          breathMeditationList.push(
-            meditationBaseData[meditationId].meditationBaseId,
-          );
-        }
-      });
-    }
+    breathBaseIds.forEach(key => {
+      if (userBreathBaseIds.hasOwnProperty(key)) {
+        breathMeditationList.push(key);
+      }
+    });
 
     return breathMeditationList;
   };

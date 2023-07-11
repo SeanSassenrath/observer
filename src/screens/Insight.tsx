@@ -9,7 +9,7 @@ import {TimeInMeditationChart} from '../components/TimeInMeditationChart';
 import {MeditationInstance} from '../types';
 import UserContext from '../contexts/userData';
 import {DateTime} from 'luxon';
-import {meditationBaseMap} from '../constants/meditation';
+import {meditationBaseMap} from '../constants/meditation-data';
 import {Streaks} from '../components/Streaks';
 import {getUserStreakData} from '../utils/streaks';
 import {getMeditationCounts} from '../utils/meditation';

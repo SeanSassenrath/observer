@@ -695,7 +695,7 @@ const walkingMeditationMap = {
 
 /* Meditation Base Map */
 
-export const meditationBaseMap: MeditationBaseMap = {
+export const oldMeditationBaseMap: MeditationBaseMap = {
   [MeditationBaseKeys.MedNewPotentialsV1]: {
     artwork: '',
     artist,

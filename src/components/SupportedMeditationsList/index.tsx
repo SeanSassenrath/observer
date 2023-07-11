@@ -1,8 +1,8 @@
-import { FlatList, StyleSheet } from "react-native";
-import { Layout, Text } from "@ui-kitten/components/ui";
-import { uniq } from "lodash";
+import {FlatList, StyleSheet} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components/ui';
+import {uniq} from 'lodash';
 
-import { meditationBaseMap } from "../../constants/meditation";
+import {meditationBaseMap} from '../../constants/meditation-data';
 
 const SupportedMeditationsList = () => {
   const makeSupportedMeditationData = () => {
@@ -15,24 +15,26 @@ const SupportedMeditationsList = () => {
     }
 
     return uniq(nameList).sort();
-  }
+  };
 
-  const renderSupportedMeditationItem = ({ item, index }: any) => (
+  const renderSupportedMeditationItem = ({item, index}: any) => (
     <Layout level="3" style={styles.supportedMeditationItemContainer}>
-      {index === 0 ? null : <Layout level="3" style={styles.separator}/> }
-      <Text category="s1" style={styles.supportedMeditationItem}>{item}</Text>
+      {index === 0 ? null : <Layout level="3" style={styles.separator} />}
+      <Text category="s1" style={styles.supportedMeditationItem}>
+        {item}
+      </Text>
     </Layout>
-  )
+  );
 
   return (
-    <Layout level='2' style={styles.supportedMeditationsContainer}>
+    <Layout level="2" style={styles.supportedMeditationsContainer}>
       <FlatList
         data={makeSupportedMeditationData()}
         renderItem={renderSupportedMeditationItem}
       />
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   supportedMeditationsContainer: {
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     width: 350,
     paddingHorizontal: 16,
     borderWidth: 0.5,
-    borderColor: 'rgba(225, 225, 225, 0.1)'
+    borderColor: 'rgba(225, 225, 225, 0.1)',
   },
   supportedMeditationItem: {
     lineHeight: 22,
@@ -54,8 +56,8 @@ const styles = StyleSheet.create({
   separator: {
     borderWidth: 0.5,
     borderColor: 'gray',
-    opacity: 0.4
-  }
-})
+    opacity: 0.4,
+  },
+});
 
 export default SupportedMeditationsList;

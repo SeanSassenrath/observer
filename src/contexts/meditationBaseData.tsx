@@ -1,10 +1,12 @@
-import React, { createContext } from 'react';
+import React, {createContext} from 'react';
 
-import { MeditationBaseMap } from '../types';
+import {MeditationBaseMap} from '../types';
 
 interface MeditationBaseDataContext {
-  meditationBaseData: MeditationBaseMap,
-  setMeditationBaseData: React.Dispatch<React.SetStateAction<MeditationBaseMap>>,
+  meditationBaseData: MeditationBaseMap;
+  setMeditationBaseData: React.Dispatch<
+    React.SetStateAction<MeditationBaseMap>
+  >;
 }
 
 const meditationBaseData = {} as MeditationBaseDataContext;

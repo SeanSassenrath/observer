@@ -1,52 +1,110 @@
 import {uniq} from 'lodash';
 
-import {meditationBaseMap} from '../constants/meditation';
+import {oldMeditationBaseMap} from '../constants/meditation';
+import {meditationBaseMap} from '../constants/meditation-data';
 import {MeditationHistoryData} from '../contexts/meditationHistory';
 import {User} from '../contexts/userData';
 import {
   Meditation,
-  MeditationBase,
   MeditationBaseId,
   MeditationBaseMap,
   MeditationId,
   MeditationInstance,
 } from '../types';
-import {getMeditationFilePathDataInAsyncStorage} from './asyncStorageMeditation';
+import {
+  MeditationFilePathData,
+  getMeditationFilePathDataInAsyncStorage,
+  setMeditationFilePathDataInAsyncStorage,
+} from './asyncStorageMeditation';
 import {UpdatedStreakData} from './streaks';
 
 export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
 
-export interface MeditationGroupMap {
-  [key: string]: MeditationId[];
-}
+export const checkMeditationBaseId = (meditationBaseId: MeditationBaseId) => {
+  if (meditationBaseMap.hasOwnProperty(meditationBaseId)) {
+    return meditationBaseId;
+  } else if (oldMeditationBaseMap.hasOwnProperty(meditationBaseId)) {
+    return oldMeditationBaseMap[meditationBaseId].updatedId;
+  }
+};
 
-export interface MeditationGroupsMap {
-  [key: string]: MeditationBase[];
-}
+export const checkMeditationBaseIds = (
+  meditationBaseIds: MeditationBaseId[],
+) => {
+  const updatedMeditationBaseIds = [] as MeditationBaseId[];
 
-export type MeditationGroupsList = MeditationGroupsMap[];
+  meditationBaseIds.forEach(id => {
+    const checkedMeditationBaseId = checkMeditationBaseId(id);
+    if (checkedMeditationBaseId) {
+      updatedMeditationBaseIds.push(checkedMeditationBaseId);
+    }
+  });
+
+  return updatedMeditationBaseIds;
+};
+
+export const getRecentMeditationBaseIds = (user: User) => {
+  const recentMeditationIds =
+    user &&
+    user.meditationUserData &&
+    user.meditationUserData.recentMeditationBaseIds;
+
+  if (recentMeditationIds) {
+    return checkMeditationBaseIds(recentMeditationIds);
+  } else {
+    return [];
+  }
+};
+
+export const updateAsyncStorageMeditationData = async () => {
+  const filePathData = await getMeditationFilePathDataInAsyncStorage();
+
+  if (filePathData) {
+    const parsedFilePathData = JSON.parse(filePathData);
+    const filePathDataKeys = Object.keys(parsedFilePathData);
+    const oldMeditationIds = [] as MeditationId[];
+    const updatedMeditationData = {} as MeditationFilePathData;
+
+    filePathDataKeys.forEach(key => {
+      const meditationFilePath = parsedFilePathData[key];
+
+      if (oldMeditationBaseMap.hasOwnProperty(key)) {
+        oldMeditationIds.push(key);
+        const oldMeditationData = oldMeditationBaseMap[key];
+        const updatedMeditationId = oldMeditationData.updatedId;
+        if (updatedMeditationId) {
+          updatedMeditationData[updatedMeditationId] = meditationFilePath;
+        }
+      } else if (meditationBaseMap.hasOwnProperty(key)) {
+        updatedMeditationData[key] = meditationFilePath;
+      }
+    });
+
+    if (oldMeditationIds.length > 0) {
+      await setMeditationFilePathDataInAsyncStorage(updatedMeditationData);
+    }
+  }
+};
 
 export const makeMeditationBaseData = async () => {
   const filePathData = await getMeditationFilePathDataInAsyncStorage();
 
+  console.log('File Data Path >>>', filePathData);
+
   if (filePathData) {
     let meditationBaseData = {} as MeditationBaseMap;
     const parsedFilePathData = JSON.parse(filePathData);
-    // console.log('APP: parsed file path data from Async Storage', parsedFilePathData);
     const filePathDataKeys = Object.keys(parsedFilePathData);
 
     filePathDataKeys.forEach(key => {
       const meditationFilePath = parsedFilePathData[key];
-      // console.log('APP: meditation file path', meditationFilePath);
       const meditationBase = {
         ...meditationBaseMap[key],
         url: meditationFilePath,
       };
       meditationBaseData = {[key]: meditationBase, ...meditationBaseData};
     });
-
-    // console.log('APP: Setting meditation base data to context', meditationBaseData);
 
     return meditationBaseData;
   }

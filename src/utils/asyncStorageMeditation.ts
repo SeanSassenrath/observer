@@ -10,17 +10,20 @@ export const setMeditationFilePathDataInAsyncStorage = async (
   meditationFilePathData: MeditationFilePathData,
 ) => {
   try {
-    console.log('ASYNC STORAGE: meditationFilePathData', meditationFilePathData);
-    const stringifiedData = JSON.stringify({ ...meditationFilePathData });
+    console.log(
+      'ASYNC STORAGE: meditationFilePathData',
+      meditationFilePathData,
+    );
+    const stringifiedData = JSON.stringify({...meditationFilePathData});
     console.log('ASYNC STORAGE: Setting file path data', stringifiedData);
     if (stringifiedData !== null && stringifiedData !== undefined) {
-      await AsyncStorage.setItem(storageKey, stringifiedData)
+      await AsyncStorage.setItem(storageKey, stringifiedData);
     }
   } catch (e) {
     // TODO: Add monitoring here
     console.log('ASYNC STORAGE ERROR: Setting file path data', e);
   }
-}
+};
 
 export const getMeditationFilePathDataInAsyncStorage = async () => {
   try {
@@ -30,13 +33,13 @@ export const getMeditationFilePathDataInAsyncStorage = async () => {
   } catch (e) {
     // console.log('ASYNC STORAGE ERROR: Getting file path data', e);
   }
-}
+};
 
 export const removeMeditationFilePathDataInAsyncStorage = async () => {
   try {
     await AsyncStorage.removeItem(storageKey);
     console.log('ASYNC STORAGE: Removing file path data');
   } catch (e) {
-    console.log('ASYNC STORAGE ERROR: Removing file path data', e)
+    console.log('ASYNC STORAGE ERROR: Removing file path data', e);
   }
-}
+};

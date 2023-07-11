@@ -28,7 +28,10 @@ import {default as mapping} from './mapping.json'; // <-- Import app mapping
 import {default as theme} from './theme.json';
 import UserContext, {initialUserState, User} from './src/contexts/userData';
 import MeditationBaseDataContext from './src/contexts/meditationBaseData';
-import {makeMeditationBaseData} from './src/utils/meditation';
+import {
+  makeMeditationBaseData,
+  updateAsyncStorageMeditationData as _updateAsyncStorageMeditationData,
+} from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
 import toastConfig from './src/toastConfig';
 import {SetupService} from './src/services/setupService';
@@ -196,6 +199,7 @@ const App = () => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
 
     setupPlayerService(unmounted);
+    updateAsyncStorageMeditationData();
     setMeditationBaseDataToContext();
     setMeditationFilePathsFromContext();
 
@@ -203,6 +207,7 @@ const App = () => {
       unmounted = true;
       subscriber;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setupPlayerService = async (unmounted: boolean) => {
@@ -211,6 +216,10 @@ const App = () => {
       return;
     }
     setIsPlayerReady(isSetup);
+  };
+
+  const updateAsyncStorageMeditationData = async () => {
+    await _updateAsyncStorageMeditationData();
   };
 
   const setMeditationBaseDataToContext = async () => {

@@ -1,101 +1,118 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Platform, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import _, { isEmpty } from 'lodash';
+import React, {useContext, useEffect, useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _ from 'lodash';
 import Toast from 'react-native-toast-message';
-import { Modal, Layout, useStyleSheet, Avatar, Icon } from '@ui-kitten/components';
-import * as MediaLibrary from 'expo-media-library';
+import {
+  Modal,
+  Layout,
+  useStyleSheet,
+  Avatar,
+  Icon,
+} from '@ui-kitten/components';
+// import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
 
 import _Button from '../components/Button';
-import { MeditationId } from '../types';
-import { HomeTopBar } from '../components/HomeTopBar';
-import { MeditationList } from '../components/MeditationList';
-import { Inspiration } from '../components/Inspiration';
-import UserContext, { initialUserState } from '../contexts/userData';
+import {MeditationId} from '../types';
+import {HomeTopBar} from '../components/HomeTopBar';
+import {MeditationList} from '../components/MeditationList';
+import {Inspiration} from '../components/Inspiration';
+import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import { Streaks } from '../components/Streaks';
-import { getUserStreakData } from '../utils/streaks';
-import { AddMeditationsPill } from '../components/AddMeditationsPill';
-import { onAddMeditations } from '../utils/addMeditations';
-import { EduPromptComponent } from '../components/EduPrompt/component';
-import { fbUpdateUser } from '../fb/user';
+import {Streaks} from '../components/Streaks';
+import {getUserStreakData} from '../utils/streaks';
+import {AddMeditationsPill} from '../components/AddMeditationsPill';
+import {onAddMeditations} from '../utils/addMeditations';
+import {EduPromptComponent} from '../components/EduPrompt/component';
+import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
+import {
+  checkMeditationBaseIds,
+  getRecentMeditationBaseIds,
+} from '../utils/meditation';
 
 const brightWhite = '#fcfcfc';
 
-const HomeIcon = (props: any) => (
-  <Icon {...props} name='home-outline' />
-);
+const HomeIcon = (props: any) => <Icon {...props} name="home-outline" />;
 
-const UserIcon = (props: any) => (
-  <Icon style={themedStyles.userIcon} fill={brightWhite} name='person' />
+const UserIcon = () => (
+  <Icon style={themedStyles.userIcon} fill={brightWhite} name="person" />
 );
 
 const HomeScreen = () => {
-  const { user, setUser } = useContext(UserContext);
-  const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
-  const { meditationFilePaths, setMeditationFilePaths } = useContext(MeditationFilePathsContext);
-  const { unsupportedFiles, setUnsupportedFiles } = useContext(UnsupportedFilesContext);
+  const {user, setUser} = useContext(UserContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
+  const {unsupportedFiles, setUnsupportedFiles} = useContext(
+    UnsupportedFilesContext,
+  );
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
   const streakData = getUserStreakData(user);
-  
-  const recentMeditationBaseIds = user && user.meditationUserData && user.meditationUserData.recentMeditationBaseIds || [];
+
+  const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
 
   let favoriteMeditations = [] as MeditationId[];
-  const meditationInstanceCounts = user
-    && user.meditationUserData
-    && user.meditationUserData.meditationCounts;
+  const meditationInstanceCounts =
+    user && user.meditationUserData && user.meditationUserData.meditationCounts;
 
   if (meditationInstanceCounts) {
     const allMeditationIds = Object.keys(meditationInstanceCounts);
-    favoriteMeditations = allMeditationIds.slice(0, 5);
+    const checkedMeditationBaseIds = checkMeditationBaseIds(allMeditationIds);
+    favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
+    console.log('favoriteMeditations', favoriteMeditations);
   }
 
-  const getMeditationFiles = async () => {
-    const mediaFiles = await MediaLibrary.getAssetsAsync({
-      mediaType: MediaLibrary.MediaType.audio,
-    })
+  // const getMeditationFiles = async () => {
+  //   const mediaFiles = await MediaLibrary.getAssetsAsync({
+  //     mediaType: MediaLibrary.MediaType.audio,
+  //   });
 
-    // TODO: Scan for meditation files
-    console.log('HOME - Media files', mediaFiles);
-  }
+  //   // TODO: Scan for meditation files
+  //   console.log('HOME - Media files', mediaFiles);
+  // };
 
-  const getPermission = async () => {
-    const permission = await MediaLibrary.getPermissionsAsync();
+  // const getPermission = async () => {
+  //   const permission = await MediaLibrary.getPermissionsAsync();
 
-    if (!permission.granted && permission.canAskAgain) {
-      const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync();
+  //   if (!permission.granted && permission.canAskAgain) {
+  //     const {status, canAskAgain} =
+  //       await MediaLibrary.requestPermissionsAsync();
 
-      if (status === 'granted') {
-        getMeditationFiles();
-      }
+  //     if (status === 'granted') {
+  //       getMeditationFiles();
+  //     }
 
-      if (status === 'denied' && canAskAgain) {
-        // fire alert here
-        console.log('permission denied')
-      }
+  //     if (status === 'denied' && canAskAgain) {
+  //       // fire alert here
+  //       console.log('permission denied');
+  //     }
 
-      if (status === 'denied' && !canAskAgain) {
-        console.log('permission really denied')
-        // fire alert
-      }
-    }
-  }
+  //     if (status === 'denied' && !canAskAgain) {
+  //       console.log('permission really denied');
+  //       // fire alert
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     // setExistingMeditationFilePathDataFromAsyncStorage();
-
     // if (Platform.OS === 'android') {
     //   getPermission();
     //   getMeditationFiles();
     // }
-  }, [])
+  }, []);
 
   // const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
   //   const filePathData = await getMeditationFilePathDataInAsyncStorage()
@@ -110,12 +127,12 @@ const HomeScreen = () => {
     auth()
       .signOut()
       .then(() => {
-        console.log('User signed out!')
-        setIsModalVisible(false)
-        setUser(initialUserState)
+        console.log('User signed out!');
+        setIsModalVisible(false);
+        setUser(initialUserState);
         navigation.navigate('SignIn');
       });
-  }
+  };
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
@@ -123,14 +140,13 @@ const HomeScreen = () => {
       setMeditationFilePaths,
       setUnsupportedFiles,
       user,
-    )
+    );
     if (meditations) {
       setMeditationBaseData(meditations);
       //@ts-ignore
-      navigation.navigate('TabNavigation', { screen: 'Library'});
+      navigation.navigate('TabNavigation', {screen: 'Library'});
     }
-  }
-
+  };
 
   const onMeditationPress = (
     meditationId: MeditationId,
@@ -152,29 +168,27 @@ const HomeScreen = () => {
         });
       }
     }
-  }
+  };
 
   const onVoidPress = () => {
     navigation.navigate('Debug');
-  }
+  };
 
   const onEduClosePress = async () => {
-    await fbUpdateUser(user.uid,
-      { 'onboarding.hasSeenHomeOnboarding': true }
-    )
+    await fbUpdateUser(user.uid, {'onboarding.hasSeenHomeOnboarding': true});
     setUser({
       ...user,
       onboarding: {
         ...user.onboarding,
         hasSeenHomeOnboarding: true,
-      }
-    })
-  }
+      },
+    });
+  };
 
-  const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
+  // const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
 
   return (
-    <Layout style={styles.container} level='4'>
+    <Layout style={styles.container} level="4">
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollContainer}>
           <HomeTopBar
@@ -182,19 +196,16 @@ const HomeScreen = () => {
             onVoidPress={onVoidPress}
           />
           <Inspiration />
-          <Streaks
-            current={streakData.current}
-            longest={streakData.longest}
-          />
-          <Layout level='4' style={styles.listsContainer}>
+          <Streaks current={streakData.current} longest={streakData.longest} />
+          <Layout level="4" style={styles.listsContainer}>
             <MeditationList
-              header='Recent Meditations'
+              header="Recent Meditations"
               meditationBaseIds={recentMeditationBaseIds}
               onMeditationPress={onMeditationPress}
               existingMeditationFilePathData={meditationFilePaths}
             />
             <MeditationList
-              header='Top Meditations'
+              header="Top Meditations"
               meditationBaseIds={favoriteMeditations}
               onMeditationPress={onMeditationPress}
               existingMeditationFilePathData={meditationFilePaths}
@@ -203,48 +214,40 @@ const HomeScreen = () => {
         </ScrollView>
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       </SafeAreaView>
-      {!user.onboarding.hasSeenHomeOnboarding
-        ? <EduPromptComponent
+      {!user.onboarding.hasSeenHomeOnboarding ? (
+        <EduPromptComponent
           description="Welcome to your home! Easily access recent meditations, see your streaks, and more."
           onPress={onEduClosePress}
           renderIcon={(props: any) => <HomeIcon {...props} />}
           title="Your Home"
         />
-        : null
-      }
+      ) : null}
       <Modal
         visible={isModalVisible}
         backdropStyle={styles.backdrop}
-        onBackdropPress={() => setIsModalVisible(false)}
-      >
-        <Layout level='3' style={styles.modalContainer}>
-          {user.profile && user.profile.photoURL
-            ? <Avatar source={{ uri: user.profile.photoURL }} />
-            : <Layout style={styles.userIconContainer}>
-                <UserIcon />
-              </Layout>
-          }
-          <_Button
-            onPress={onSignOut}
-            style={styles.modalButton}
-          >
+        onBackdropPress={() => setIsModalVisible(false)}>
+        <Layout level="3" style={styles.modalContainer}>
+          {user.profile && user.profile.photoURL ? (
+            <Avatar source={{uri: user.profile.photoURL}} />
+          ) : (
+            <Layout style={styles.userIconContainer}>
+              <UserIcon />
+            </Layout>
+          )}
+          <_Button onPress={onSignOut} style={styles.modalButton}>
             Sign Out
           </_Button>
           <_Button
             onPress={() => setIsModalVisible(false)}
-            style={styles.modalButton}
-          >
+            style={styles.modalButton}>
             Close
           </_Button>
         </Layout>
       </Modal>
-      { unsupportedFiles.length > 0 
-        ? <UnsupportedFilesModal />
-        : null
-      }
+      {unsupportedFiles.length > 0 ? <UnsupportedFilesModal /> : null}
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   modalContainer: {
@@ -292,7 +295,7 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
-  }
-})
+  },
+});
 
 export default HomeScreen;

@@ -1,11 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components';
+import {ScrollView, StyleSheet} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components';
 
-import { CardV4, EmptyCard } from './Card';
-import { meditationBaseMap } from '../constants/meditation';
-import { MeditationId } from '../types';
-import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
+import {CardV4, EmptyCard} from './Card';
+import {meditationBaseMap} from '../constants/meditation-data';
+import {MeditationId} from '../types';
+import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
 
 interface MeditationListProps {
   header: string;
@@ -22,13 +22,13 @@ interface EmptyListProps {
 
 const EmptyList = (props: EmptyListProps) => (
   <>
-    <EmptyCard isMini={props.isMini}/>
-    <EmptyCard isMini={props.isMini}/>
-    <EmptyCard isMini={props.isMini}/>
-    <EmptyCard isMini={props.isMini}/>
-    <EmptyCard isMini={props.isMini}/>
+    <EmptyCard isMini={props.isMini} />
+    <EmptyCard isMini={props.isMini} />
+    <EmptyCard isMini={props.isMini} />
+    <EmptyCard isMini={props.isMini} />
+    <EmptyCard isMini={props.isMini} />
   </>
-)
+);
 
 export const MeditationList = ({
   header,
@@ -37,39 +37,48 @@ export const MeditationList = ({
   isMini,
   selectedCardId,
   existingMeditationFilePathData,
-}: MeditationListProps) => (
-  <Layout style={isMini ? styles.containerMini : styles.container} key={header} level='4'>
-    <Text category='h6' style={styles.header}>{header}</Text>
-    <ScrollView horizontal={true} style={styles.horizontalContainer}>
-      {meditationBaseIds?.length
-        ? meditationBaseIds.map((id, i) => {
-          const meditation = meditationBaseMap[id];
-          const isDisabled = existingMeditationFilePathData
-            ? !existingMeditationFilePathData[id]
-            : false;
+}: MeditationListProps) => {
+  return (
+    <Layout
+      style={isMini ? styles.containerMini : styles.container}
+      key={header}
+      level="4">
+      <Text category="h6" style={styles.header}>
+        {header}
+      </Text>
+      <ScrollView horizontal={true} style={styles.horizontalContainer}>
+        {meditationBaseIds?.length ? (
+          meditationBaseIds.map(id => {
+            const meditation = meditationBaseMap[id];
+            const isDisabled = existingMeditationFilePathData
+              ? !existingMeditationFilePathData[id]
+              : false;
 
-          return (
-            <CardV4
-              backgroundImage={meditation.backgroundImage}
-              color={meditation.color}
-              formattedDuration={meditation.formattedDuration}
-              name={meditation.name}
-              meditationId={meditation.meditationBaseId}
-              isFirstCard
-              key={meditation.meditationBaseId}
-              level='2'
-              onPress={() => onMeditationPress(meditation.meditationBaseId, isDisabled)}
-              isMini={isMini}
-              isSelected={meditation.meditationBaseId === selectedCardId}
-              isDisabled={isDisabled}
-            />
-          )
-        })
-        : <EmptyList isMini={isMini}/>
-      }
-    </ScrollView>
-  </Layout>
-)
+            return (
+              <CardV4
+                backgroundImage={meditation.backgroundImage}
+                formattedDuration={meditation.formattedDuration}
+                name={meditation.name}
+                meditationId={meditation.meditationBaseId}
+                isFirstCard
+                key={meditation.meditationBaseId}
+                level="2"
+                onPress={() =>
+                  onMeditationPress(meditation.meditationBaseId, isDisabled)
+                }
+                isMini={isMini}
+                isSelected={meditation.meditationBaseId === selectedCardId}
+                isDisabled={isDisabled}
+              />
+            );
+          })
+        ) : (
+          <EmptyList isMini={isMini} />
+        )}
+      </ScrollView>
+    </Layout>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -87,4 +96,4 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 100,
   },
-})
+});
