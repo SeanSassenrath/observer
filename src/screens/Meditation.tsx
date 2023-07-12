@@ -60,6 +60,8 @@ const MeditationScreen = ({
 
   const meditation = meditationBaseMap[id];
 
+  console.log('TESTING >>>', meditation);
+
   useEffect(() => {
     setInitialMeditationInstanceData();
     //@ts-ignore
@@ -118,6 +120,10 @@ const MeditationScreen = ({
   }
 
   const renderBreathGroupSection = () => {
+    if (meditation.groupName === MeditationGroupName.BreathTracks) {
+      return null;
+    }
+
     const breathList = [] as MeditationBase[];
     const meditationGroupKeys = Object.keys(breathMap);
     meditationGroupKeys.forEach(key => {
