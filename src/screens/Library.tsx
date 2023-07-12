@@ -1,15 +1,31 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
-import {sortBy} from 'lodash';
+import {Icon, Layout, useStyleSheet} from '@ui-kitten/components';
 
-import {MeditationList} from '../components/MeditationList';
-import {MeditationScreenNavigationProp, MeditationId} from '../types';
+import {_MeditationListSection} from '../components/MeditationList';
+import {
+  MeditationScreenNavigationProp,
+  MeditationId,
+  MeditationBaseMap,
+  MeditationBase,
+} from '../types';
 import {SearchBar} from '../components/SearchBar';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {onAddMeditations} from '../utils/addMeditations';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {
+  MeditationGroupName,
+  botecMap,
+  breakingHabitMap,
+  breathMap,
+  dailyMeditationsMap,
+  foundationalMap,
+  generatingMap,
+  otherMap,
+  synchronizeMap,
+  unlockedMap,
+  walkingMap,
+} from '../constants/meditation-data';
 import {AddMeditationsPill} from '../components/AddMeditationsPill';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
@@ -17,6 +33,7 @@ import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
+import {sortBy} from 'lodash';
 
 const EMPTY_SEARCH = '';
 
@@ -35,17 +52,9 @@ const LibraryScreen = () => {
   const {unsupportedFiles, setUnsupportedFiles} = useContext(
     UnsupportedFilesContext,
   );
-  const [meditationGroupsList, setMeditationGroupsList] = useState(
-    [] as MeditationGroupsList,
-  );
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
   const styles = useStyleSheet(themedStyles);
-
-  useEffect(() => {
-    const meditationGroups = makeMeditationGroups2(meditationBaseData);
-    setMeditationGroupsList(meditationGroups);
-  }, [meditationBaseData]);
 
   const onMeditationPress = (meditationBaseId: MeditationId) => {
     if (meditationBaseId) {
@@ -56,59 +65,6 @@ const LibraryScreen = () => {
   };
 
   const onClearPress = () => setSearchInput(EMPTY_SEARCH);
-
-  const filterBySearch2 = (
-    searchInput: string,
-    meditationGroupsList: MeditationGroupsList,
-  ) => {
-    if (!searchInput) {
-      return meditationGroupsList;
-    }
-
-    const filteredMeditationGroupsList = meditationGroupsList.map(
-      (group, index) => {
-        const key = Object.keys(group)[0];
-        const meditations = group[key];
-        const filteredMeditations = meditations.filter(meditation => {
-          if (meditation.name.includes(searchInput)) {
-            return meditation;
-          }
-        });
-
-        return {[key]: filteredMeditations};
-      },
-    );
-
-    return filteredMeditationGroupsList || [];
-  };
-
-  const renderMeditationGroupSections = () => {
-    const filteredMeditations = filterBySearch2(
-      searchInput,
-      meditationGroupsList,
-    );
-
-    return filteredMeditations.map(group => {
-      const meditations = Object.values(group)[0];
-      if (meditations.length <= 0) {
-        return null;
-      }
-      const firstMeditation = meditations[0];
-      const meditationBaseIds = meditations.map(
-        meditationBase => meditationBase.meditationBaseId,
-      );
-
-      //TODO Fix Meditation list to take meditations not meditation ids
-      return (
-        <MeditationList
-          key={firstMeditation.groupName}
-          header={firstMeditation.groupName}
-          meditationBaseIds={meditationBaseIds}
-          onMeditationPress={onMeditationPress}
-        />
-      );
-    });
-  };
 
   const onAddMeditationsPress = async () => {
     const meditations = await onAddMeditations(
@@ -133,28 +89,39 @@ const LibraryScreen = () => {
     });
   };
 
-  const renderSupportedMeditations = () => {
-    const nameList = [];
-    const names = {} as any;
-
-    for (const key in meditationBaseMap) {
-      const meditationName = meditationBaseMap[key].name;
-
-      if (!names[meditationName]) {
-        names[meditationName] = true;
-        nameList.push({meditationName, key});
+  const renderMeditationGroupSection = (
+    header: string,
+    meditationGroupMap: MeditationBaseMap,
+  ) => {
+    console.log('search input', searchInput);
+    const meditationList = [] as MeditationBase[];
+    const meditationGroupKeys = Object.keys(meditationGroupMap);
+    meditationGroupKeys.forEach(key => {
+      if (meditationBaseData[key]) {
+        if (searchInput.length > 0) {
+          if (meditationBaseData[key].name.includes(searchInput)) {
+            return meditationList.push(meditationBaseData[key]);
+          }
+        } else {
+          meditationList.push(meditationBaseData[key]);
+        }
       }
+    });
+
+    if (meditationList.length <= 0) {
+      return null;
     }
 
-    const sortedNameList = sortBy(nameList, 'meditationName');
+    const sortedMeditationList = sortBy(meditationList, 'name');
 
-    return sortedNameList.map(({meditationName, key}) => {
-      return (
-        <Text category="s1" key={key} style={styles.supportedName}>
-          {meditationName}
-        </Text>
-      );
-    });
+    return (
+      <_MeditationListSection
+        key={header}
+        header={header}
+        meditationList={sortedMeditationList}
+        onMeditationPress={onMeditationPress}
+      />
+    );
   };
 
   return (
@@ -169,13 +136,43 @@ const LibraryScreen = () => {
                 onClearPress={onClearPress}
               />
             </Layout>
-            {renderMeditationGroupSections()}
-          </Layout>
-          <Layout level="2" style={styles.supportedContainer}>
-            <Text category="h6" style={styles.supportedHeader}>
-              Currently Supported Meditations
-            </Text>
-            {renderSupportedMeditations()}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BlessingEnergyCenter,
+              botecMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BreakingHabit,
+              breakingHabitMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BreathTracks,
+              breathMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Daily,
+              dailyMeditationsMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Foundational,
+              foundationalMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Generating,
+              generatingMap,
+            )}
+            {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Synchronize,
+              synchronizeMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Walking,
+              walkingMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Unlocked,
+              unlockedMap,
+            )}
           </Layout>
         </ScrollView>
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />

@@ -71,7 +71,6 @@ const HomeScreen = () => {
     const allMeditationIds = Object.keys(meditationInstanceCounts);
     const checkedMeditationBaseIds = checkMeditationBaseIds(allMeditationIds);
     favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
-    console.log('favoriteMeditations', favoriteMeditations);
   }
 
   // const getMeditationFiles = async () => {

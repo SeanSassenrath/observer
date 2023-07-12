@@ -4,12 +4,21 @@ import {Layout, Text} from '@ui-kitten/components';
 
 import {CardV4, EmptyCard} from './Card';
 import {meditationBaseMap} from '../constants/meditation-data';
-import {MeditationId} from '../types';
+import {MeditationBase, MeditationId} from '../types';
 import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
 
 interface MeditationListProps {
   header: string;
   meditationBaseIds: MeditationId[];
+  onMeditationPress(id: MeditationId, isDisabled?: boolean): void;
+  isMini?: boolean;
+  selectedCardId?: string;
+  existingMeditationFilePathData?: MeditationFilePathData;
+}
+
+interface _MeditationListProps {
+  header: string;
+  meditationList: MeditationBase[];
   onMeditationPress(id: MeditationId, isDisabled?: boolean): void;
   isMini?: boolean;
   selectedCardId?: string;
@@ -77,6 +86,64 @@ export const MeditationList = ({
         )}
       </ScrollView>
     </Layout>
+  );
+};
+
+export const _MeditationListSection = (props: _MeditationListProps) => {
+  const {header, isMini} = props;
+
+  return (
+    <Layout
+      style={isMini ? styles.containerMini : styles.container}
+      key={header}
+      level="4">
+      <Text category="h6" style={styles.header}>
+        {header}
+      </Text>
+      <_MeditationList {...props} />
+    </Layout>
+  );
+};
+
+export const _MeditationList = (props: _MeditationListProps) => {
+  const {
+    meditationList,
+    onMeditationPress,
+    isMini,
+    selectedCardId,
+    existingMeditationFilePathData,
+  } = props;
+
+  return (
+    <ScrollView horizontal={true} style={styles.horizontalContainer}>
+      {meditationList?.length ? (
+        meditationList.map(meditation => {
+          const isDisabled = existingMeditationFilePathData
+            ? !existingMeditationFilePathData[meditation.meditationBaseId]
+            : false;
+
+          return (
+            <CardV4
+              backgroundImage={meditation.backgroundImage}
+              formattedDuration={meditation.formattedDuration}
+              name={meditation.name}
+              meditationId={meditation.meditationBaseId}
+              isFirstCard
+              key={meditation.meditationBaseId}
+              level="2"
+              onPress={() =>
+                onMeditationPress(meditation.meditationBaseId, isDisabled)
+              }
+              isMini={isMini}
+              isSelected={meditation.meditationBaseId === selectedCardId}
+              isDisabled={isDisabled}
+            />
+          );
+        })
+      ) : (
+        <EmptyList isMini={isMini} />
+      )}
+    </ScrollView>
   );
 };
 

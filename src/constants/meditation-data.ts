@@ -6,14 +6,14 @@ const placeholder = '';
 export enum MeditationGroupName {
   'BlessingEnergyCenter' = 'Blessing of the Energy Centers',
   'BreakingHabit' = 'Breaking the Habit of Being Yourself',
-  'Daily' = 'Daily Meditations',
-  'Generating' = 'Generating Series',
   'BreathTracks' = 'Breathwork',
+  'Daily' = 'Daily Meditations',
   'Foundational' = 'Foundational - Progressive',
-  'Walking' = 'Walking',
-  'Synchronize' = 'Synchronize Series',
-  'Unlocked' = 'Unlocked Series',
+  'Generating' = 'Generating Series',
   'Other' = 'Other',
+  'Synchronize' = 'Synchronize Series',
+  'Walking' = 'Walking',
+  'Unlocked' = 'Unlocked Series',
 }
 
 /* Blessing Energy Centers */
