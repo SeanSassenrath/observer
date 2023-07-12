@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _ from 'lodash';
+import _, {uniq} from 'lodash';
 import Toast from 'react-native-toast-message';
 import {
   Modal,
@@ -68,8 +68,12 @@ const HomeScreen = () => {
     user && user.meditationUserData && user.meditationUserData.meditationCounts;
 
   if (meditationInstanceCounts) {
-    const allMeditationIds = Object.keys(meditationInstanceCounts);
-    const checkedMeditationBaseIds = checkMeditationBaseIds(allMeditationIds);
+    const meditationInstanceCountIds = Object.keys(meditationInstanceCounts);
+
+    const checkedMeditationBaseIds = uniq(
+      checkMeditationBaseIds(meditationInstanceCountIds),
+    );
+
     favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
   }
 
