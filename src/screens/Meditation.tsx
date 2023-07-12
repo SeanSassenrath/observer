@@ -6,15 +6,21 @@ import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import {
+  MeditationBase,
   MeditationBaseId,
   MeditationScreenNavigationProp,
   MeditationStackScreenProps,
 } from '../types';
-import {breathMap, meditationBaseMap} from '../constants/meditation-data';
+import {
+  MeditationGroupName,
+  breathMap,
+  meditationBaseMap,
+} from '../constants/meditation-data';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
-import {MeditationList} from '../components/MeditationList';
+import {_MeditationListSection} from '../components/MeditationList';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import {sortBy} from 'lodash';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -111,21 +117,32 @@ const MeditationScreen = ({
     return null;
   }
 
-  const makeBreathMeditationsList = () => {
-    const breathBaseIds = Object.keys(breathMap);
-    const userBreathBaseIds = Object.keys(meditationBaseData);
-    const breathMeditationList = [] as MeditationBaseId[];
-
-    breathBaseIds.forEach(key => {
-      if (userBreathBaseIds.hasOwnProperty(key)) {
-        breathMeditationList.push(key);
+  const renderBreathGroupSection = () => {
+    const breathList = [] as MeditationBase[];
+    const meditationGroupKeys = Object.keys(breathMap);
+    meditationGroupKeys.forEach(key => {
+      if (meditationBaseData[key]) {
+        breathList.push(meditationBaseData[key]);
       }
     });
 
-    return breathMeditationList;
-  };
+    if (breathList.length <= 0) {
+      return null;
+    }
 
-  const breathMeditationsList = makeBreathMeditationsList();
+    const sortedMeditationList = sortBy(breathList, 'name');
+
+    return (
+      <_MeditationListSection
+        key={MeditationGroupName.BreathTracks}
+        header="Add breath work"
+        meditationList={sortedMeditationList}
+        onMeditationPress={onBreathMeditationPress}
+        selectedCardId={selectedBreathCardId}
+        isMini
+      />
+    );
+  };
 
   return (
     <Layout style={styles.container} level="4">
@@ -154,21 +171,7 @@ const MeditationScreen = ({
               style={styles.thinkBoxStyles}
               textStyle={styles.thinkBoxTextStyles}
             />
-            {/* <MeditationList
-            header='Add heart sync'
-            meditationBaseIds={[]}
-            onMeditationPress={() => { }}
-            isMini
-          /> */}
-            {breathMeditationsList.length > 0 ? (
-              <MeditationList
-                header="Add breath work"
-                meditationBaseIds={breathMeditationsList}
-                onMeditationPress={onBreathMeditationPress}
-                selectedCardId={selectedBreathCardId}
-                isMini
-              />
-            ) : null}
+            {renderBreathGroupSection()}
           </Layout>
         </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level="4">

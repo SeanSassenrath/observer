@@ -93,7 +93,6 @@ const LibraryScreen = () => {
     header: string,
     meditationGroupMap: MeditationBaseMap,
   ) => {
-    console.log('search input', searchInput);
     const meditationList = [] as MeditationBase[];
     const meditationGroupKeys = Object.keys(meditationGroupMap);
     meditationGroupKeys.forEach(key => {
