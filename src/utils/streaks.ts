@@ -1,8 +1,7 @@
-import { set } from 'lodash';
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
 
-import { User, UserStreaks } from "../contexts/userData";
-import { MeditationInstance } from "../types";
+import {User, UserStreaks} from '../contexts/userData';
+import {MeditationInstance} from '../types';
 
 export const getUserStreakData = (user: User) =>
   user.meditationUserData?.streaks;
@@ -15,18 +14,18 @@ export const updateUserStreakData = (
   meditationUserData: {
     ...user.meditationUserData,
     streaks: {
-      ...streakData
-    }
-  }
-})
+      ...streakData,
+    },
+  },
+});
 
 export const makeFbStreakUpdate = (streakData: UserStreaks) => {
-  return ({
+  return {
     ['meditationUserData.streaks']: {
       ...streakData,
-    }
-  })
-}
+    },
+  };
+};
 
 export const checkStreakData = (
   streakData: UserStreaks,
@@ -34,10 +33,12 @@ export const checkStreakData = (
 ): UserStreaks => {
   const dt = DateTime.now();
   const today = dt.weekdayShort;
-  const yesterday = dt.minus({ days: 1 }).weekdayShort;
+  const yesterday = dt.minus({days: 1}).weekdayShort;
 
   if (lastMeditation && lastMeditation.meditationStartTime) {
-    const lastMeditationDt = DateTime.fromSeconds(lastMeditation.meditationStartTime);
+    const lastMeditationDt = DateTime.fromSeconds(
+      lastMeditation.meditationStartTime,
+    );
     const lastMeditationWeekday = lastMeditationDt.weekdayShort;
 
     if (
@@ -49,12 +50,12 @@ export const checkStreakData = (
       return {
         ...streakData,
         current: 0,
-      }
+      };
     }
   }
 
   return streakData;
-}
+};
 
 const updateStreakData = (
   streakData: UserStreaks,
@@ -62,10 +63,12 @@ const updateStreakData = (
 ) => {
   const dt = DateTime.now();
   const today = dt.weekdayShort;
-  const yesterday = dt.minus({ days: 1 }).weekdayShort;
+  const yesterday = dt.minus({days: 1}).weekdayShort;
 
   if (lastMeditation && lastMeditation.meditationStartTime) {
-    const lastMeditationDt = DateTime.fromSeconds(lastMeditation.meditationStartTime);
+    const lastMeditationDt = DateTime.fromSeconds(
+      lastMeditation.meditationStartTime,
+    );
     const lastMeditationWeekday = lastMeditationDt.weekdayShort;
 
     // console.log('lastMeditationWeekday', lastMeditationWeekday)
@@ -75,71 +78,70 @@ const updateStreakData = (
     //   streakData.current &&
     //   streakData.longest ))
 
-
     if (
       lastMeditationWeekday === today &&
       streakData.current &&
       streakData.longest
     ) {
-      return ({
+      return {
         current: streakData.current,
         longest: streakData.longest,
         newLongestStreak: false,
         streakUpdated: false,
-      })
+      };
     } else if (lastMeditationWeekday === yesterday) {
       const currentStreak = streakData.current || 0;
       const longestStreak = streakData.longest || 0;
       const updatedCurrentStreak = currentStreak + 1;
       let updatedLongestStreak = longestStreak;
       let newLongestStreak = false;
-      
+
       if (updatedCurrentStreak > longestStreak) {
         updatedLongestStreak = updatedCurrentStreak;
         newLongestStreak = true;
       }
-      return ({
+      return {
         current: updatedCurrentStreak,
         longest: updatedLongestStreak,
         newLongestStreak,
         streakUpdated: true,
-      })
+      };
     } else {
       const updatedCurrentStreak = 1;
       const updatedLongestStreak = streakData.longest || 1;
       const newLongestStreak = streakData.longest === 0;
 
-      return ({
+      return {
         current: updatedCurrentStreak,
         longest: updatedLongestStreak,
         newLongestStreak,
         streakUpdated: true,
-      })
+      };
     }
   } else {
     const updatedCurrentStreak = 1;
     const updatedLongestStreak = streakData.longest || 1;
 
-    return ({
+    return {
       current: updatedCurrentStreak,
       longest: updatedLongestStreak,
       newLongestStreak: true,
       streakUpdated: true,
-    })
+    };
   }
-}
+};
 
 export interface UpdatedStreakData {
-  current: number,
-  longest: number,
-  newLongestStreak: boolean,
+  current: number;
+  longest: number;
+  newLongestStreak: boolean;
   streakUpdated: boolean;
 }
 
 export const makeUpdatedStreakData = (
   user: User,
-  lastMeditation?: MeditationInstance
+  lastMeditation?: MeditationInstance,
 ): UpdatedStreakData => {
   const streakData = getUserStreakData(user);
   return updateStreakData(streakData, lastMeditation);
-}
+};
