@@ -4,19 +4,18 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {DocumentPickerResponse} from 'react-native-document-picker';
 
 import {
-  DailySeriesSizes,
   GeneratingSeriesSizes,
   MeditationGroupKey,
   MeditationGroupName,
   MeditationSizes,
   OtherSizes,
   SynchronizingSeriesSizes,
-  UnlockedSeriesSizes,
   WalkingMeditationSizes,
 } from './constants/meditation';
 
 // Stack Navigation
 export type StackParamList = {
+  AddMeditations: undefined;
   Debug: undefined;
   InitialUpload: undefined;
   SignIn: undefined;
@@ -49,11 +48,13 @@ type OnboardingStep2 = NativeStackScreenProps<
   StackParamList,
   'OnboardingStep2'
 >;
+type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
+export type AddMeditationsProp = AddMeditations['navigation'];
 
 export type MeditationProps = NativeStackScreenProps<
   StackParamList,
@@ -139,12 +140,10 @@ export interface MeditationBase {
   meditationBaseId: MeditationId;
   name: MeditationName;
   size?:
-    | DailySeriesSizes
     | MeditationSizes
     | GeneratingSeriesSizes
     | OtherSizes
     | SynchronizingSeriesSizes
-    | UnlockedSeriesSizes
     | WalkingMeditationSizes;
   type: MeditationTypes;
   url: any;

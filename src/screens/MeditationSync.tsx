@@ -1,37 +1,45 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
+import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button, Icon, Layout, ListItem, Spinner, Text } from '@ui-kitten/components';
+import {
+  Button,
+  Icon,
+  Layout,
+  ListItem,
+  Spinner,
+  Text,
+} from '@ui-kitten/components';
 
-import { MeditationSyncScreenNavigationProp } from '../types';
-import UnlockedMeditationIdsContext, { getMeditationDataFromAsyncStorage, storageKey } from '../contexts/meditationData';
+import {MeditationSyncScreenNavigationProp} from '../types';
+import UnlockedMeditationIdsContext, {
+  getMeditationDataFromAsyncStorage,
+  storageKey,
+} from '../contexts/meditationData';
 
-const CloseIcon = (props: any) => (
-  <Icon {...props} name='close-outline' />
-);
+const CloseIcon = (props: any) => <Icon {...props} name="close-outline" />;
 
 const SuccessIcon = (props: any) => (
-  <Icon {...props} fill='#00A36C' name='checkmark-circle-2-outline' />
+  <Icon {...props} fill="#00A36C" name="checkmark-circle-2-outline" />
 );
 
-const renderMeditationItem = ({ item }: any) => (
-  <ListItem
-    accessoryLeft={SuccessIcon}
-    title={item.name}
-  />
-)
+const renderMeditationItem = ({item}: any) => (
+  <ListItem accessoryLeft={SuccessIcon} title={item.name} />
+);
 
 const MeditationSync = () => {
-  const {meditations, setMeditations} = useContext(UnlockedMeditationIdsContext);
+  const {meditations, setMeditations} = useContext(
+    UnlockedMeditationIdsContext,
+  );
   const navigation = useNavigation<MeditationSyncScreenNavigationProp>();
   const [fileStored] = useState(false);
   const [isPickingFiles, setIsPickingFiles] = useState(false);
 
   const setMeditationsFromAsyncStorage = async () => {
-    const meditationsFromAsyncStorage = await getMeditationDataFromAsyncStorage();
-    setMeditations(meditationsFromAsyncStorage)
-  }
+    const meditationsFromAsyncStorage =
+      await getMeditationDataFromAsyncStorage();
+    setMeditations(meditationsFromAsyncStorage);
+  };
 
   useEffect(() => {
     setMeditationsFromAsyncStorage();
@@ -39,7 +47,7 @@ const MeditationSync = () => {
 
   const onClosePress = () => {
     navigation.pop();
-  }
+  };
 
   const handleDocumentSelection = useCallback(async () => {
     setIsPickingFiles(true);
@@ -51,13 +59,13 @@ const MeditationSync = () => {
 
   const onRemoveMeditationsPress = async () => {
     try {
-      await AsyncStorage.removeItem(storageKey)
+      await AsyncStorage.removeItem(storageKey);
     } catch (e) {
-      console.log('error removing from storage', e)
+      console.log('error removing from storage', e);
     }
-  
-    setMeditations([])
-  }
+
+    setMeditations([]);
+  };
 
   const hasMeditationFiles = meditations && !!meditations.length;
 
@@ -65,51 +73,50 @@ const MeditationSync = () => {
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout style={styles.topBar}>
-          <Text category='h4' style={styles.topBarText}>Add Meditations</Text>
+          <Text category="h4" style={styles.topBarText}>
+            Add Meditations
+          </Text>
           <Button
-            appearance='ghost'
+            appearance="ghost"
             accessoryLeft={CloseIcon}
             onPress={onClosePress}
             style={styles.topBarIcon}
           />
         </Layout>
         <Layout style={styles.section}>
-          <Text category='p1'>This is placeholder text, but we'll need to add something here.</Text>
+          <Text category="p1">
+            This is placeholder text, but we'll need to add something here.
+          </Text>
         </Layout>
         <Layout style={styles.flatList}>
-          { isPickingFiles
-            ? <Layout style={styles.spinnerContainer}>
-                <Spinner size='giant' />
-              </Layout>
-            : hasMeditationFiles 
-              ? <FlatList
-                  data={meditations}
-                  renderItem={renderMeditationItem}
-                />
-              : null
-          }
-          { hasMeditationFiles && !isPickingFiles
-            ? <Button
-                appearance='ghost'
-                onPress={onRemoveMeditationsPress}
-                status='basic'
-              >
-                Remove All Meditations
-              </Button>
-            : null
-          }
+          {isPickingFiles ? (
+            <Layout style={styles.spinnerContainer}>
+              <Spinner size="giant" />
+            </Layout>
+          ) : hasMeditationFiles ? (
+            <FlatList data={meditations} renderItem={renderMeditationItem} />
+          ) : null}
+          {hasMeditationFiles && !isPickingFiles ? (
+            <Button
+              appearance="ghost"
+              onPress={onRemoveMeditationsPress}
+              status="basic">
+              Remove All Meditations
+            </Button>
+          ) : null}
         </Layout>
         <Layout style={styles.bottomSection}>
-          <Button appearance='outline' onPress={handleDocumentSelection}>ADD MEDITATIONS</Button>
-          <Button
-            onPress={onClosePress}
-            style={styles.addButton}
-          >DONE</Button>
+          <Button appearance="outline" onPress={handleDocumentSelection}>
+            ADD MEDITATIONS
+          </Button>
+          <Button onPress={onClosePress} style={styles.addButton}>
+            DONE
+          </Button>
         </Layout>
       </SafeAreaView>
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   addButton: {
@@ -146,8 +153,8 @@ const styles = StyleSheet.create({
     flex: 9,
   },
   topBarIcon: {
-    flex: 1
-  }
-})
+    flex: 1,
+  },
+});
 
 export default MeditationSync;

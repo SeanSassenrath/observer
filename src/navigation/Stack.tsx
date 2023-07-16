@@ -1,37 +1,39 @@
-import React, { useContext, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, {useContext, useRef} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
 
-import { myTheme } from '../constants/navTheme';
+import {myTheme} from '../constants/navTheme';
 import MeditationFinishScreen from '../screens/MeditationFinish';
 import MeditationPlayerModal from '../screens/MeditationPlayer';
 import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
 import TabNavigator from './Tab';
-import { StackParamList } from '../types';
+import {StackParamList} from '../types';
 import DebugScreen from '../screens/Debug';
 import UserContext from '../contexts/userData';
 import OnboardingStep1 from '../screens/OnboardingStep1';
 import OnboardingStep2 from '../screens/OnboardingStep2';
 import BetaAgreement from '../screens/BetaAgreement';
+import AddMeditationsScreen from '../screens/AddMeditations';
 
-const { Navigator, Screen } = createNativeStackNavigator<StackParamList>();
+const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const routeNameRef: any = useRef({});
   const navigationRef: any = useRef({});
 
   const getInitialRouteName = () => {
-    if (user.uid.length <= 0) {
-      return "SignIn";
-    } else if (!user.betaAgreement?.hasAccepted) {
-      return "BetaAgreement"
-    } else {
-      return "TabNavigation";
-    }
-  }
+    return 'AddMeditations';
+    // if (user.uid.length <= 0) {
+    //   return 'SignIn';
+    // } else if (!user.betaAgreement?.hasAccepted) {
+    //   return 'BetaAgreement';
+    // } else {
+    //   return 'TabNavigation';
+    // }
+  };
 
   return (
     <NavigationContainer
@@ -45,7 +47,8 @@ const StackNavigator = () => {
 
         if (
           previousRouteName !== currentRouteName &&
-          (currentRouteName !== 'RNSScreen' || currentRouteName !== 'UIViewController')
+          (currentRouteName !== 'RNSScreen' ||
+            currentRouteName !== 'UIViewController')
         ) {
           await analytics().logScreenView({
             screen_name: currentRouteName,
@@ -54,14 +57,13 @@ const StackNavigator = () => {
         }
         routeNameRef.current = currentRouteName;
       }}
-      theme={myTheme}
-    >
+      theme={myTheme}>
       <Navigator
         initialRouteName={getInitialRouteName()}
-        screenOptions={{ headerShown: false }}
-      >
+        screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
+        <Screen name="AddMeditations" component={AddMeditationsScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
@@ -71,7 +73,7 @@ const StackNavigator = () => {
         <Screen name="OnboardingStep2" component={OnboardingStep2} />
       </Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
 
 export default StackNavigator;
