@@ -16,6 +16,7 @@ import OnboardingStep1 from '../screens/OnboardingStep1';
 import OnboardingStep2 from '../screens/OnboardingStep2';
 import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
+import AddMeditationsSummaryScreen from '../screens/AddMeditationsSummary';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -64,6 +65,10 @@ const StackNavigator = () => {
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
+        <Screen
+          name="AddMeditationsSummary"
+          component={AddMeditationsSummaryScreen}
+        />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />

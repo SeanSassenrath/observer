@@ -1,8 +1,44 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, Layout, Text} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UserContext from '../contexts/userData';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import {onAddMeditations} from '../utils/addMeditations';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const AddMeditationsScreen = () => {
+  const {user} = useContext(UserContext);
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {unsupportedFiles, setUnsupportedFiles} = useContext(
+    UnsupportedFilesContext,
+  );
+
+  const navigation = useNavigation();
+
+  const onAddMeditationsPress = async () => {
+    const supportedMeditations = await onAddMeditations(
+      meditationFilePaths,
+      setMeditationFilePaths,
+      setUnsupportedFiles,
+      user,
+    );
+
+    if (supportedMeditations) {
+      setMeditationBaseData(supportedMeditations);
+      navigation.navigate('AddMeditationsSummary');
+    }
+  };
+
   return (
     <Layout style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -14,7 +50,9 @@ const AddMeditationsScreen = () => {
           </Text>
         </Layout>
         <Layout style={styles.bottom}>
-          <Button size="large">Add Meditations</Button>
+          <Button size="large" onPress={onAddMeditationsPress}>
+            Add Meditations
+          </Button>
           <Button appearance="ghost" size="large" status="basic">
             Skip
           </Button>

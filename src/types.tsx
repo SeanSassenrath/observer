@@ -16,6 +16,7 @@ import {
 // Stack Navigation
 export type StackParamList = {
   AddMeditations: undefined;
+  AddMeditationsSummary: undefined;
   Debug: undefined;
   InitialUpload: undefined;
   SignIn: undefined;
@@ -49,12 +50,17 @@ type OnboardingStep2 = NativeStackScreenProps<
   'OnboardingStep2'
 >;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
+type AddMeditationsSummary = NativeStackScreenProps<
+  StackParamList,
+  'AddMeditationsSummary'
+>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
+export type AddMeditationsSummaryProp = AddMeditationsSummary['navigation'];
 
 export type MeditationProps = NativeStackScreenProps<
   StackParamList,
