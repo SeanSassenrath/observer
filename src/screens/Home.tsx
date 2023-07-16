@@ -10,6 +10,7 @@ import {
   useStyleSheet,
   Avatar,
   Icon,
+  Text,
 } from '@ui-kitten/components';
 // import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
@@ -56,6 +57,7 @@ const HomeScreen = () => {
     UnsupportedFilesContext,
   );
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showMedIds, setShowMedIds] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -174,7 +176,8 @@ const HomeScreen = () => {
   };
 
   const onVoidPress = () => {
-    navigation.navigate('Debug');
+    // navigation.navigate('Debug');
+    setShowMedIds(!showMedIds);
   };
 
   const onEduClosePress = async () => {
@@ -198,6 +201,13 @@ const HomeScreen = () => {
             onAvatarPress={() => setIsModalVisible(true)}
             onVoidPress={onVoidPress}
           />
+          {showMedIds ? (
+            <Layout style={{marginBottom: 20, padding: 20}}>
+              {Object.keys(meditationBaseData).map(key => {
+                return <Text key={key}>{key}</Text>;
+              })}
+            </Layout>
+          ) : null}
           <Inspiration />
           <Streaks current={streakData.current} longest={streakData.longest} />
           <Layout level="4" style={styles.listsContainer}>

@@ -1,45 +1,47 @@
-import React, { useContext } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { Avatar, Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import React, {useContext} from 'react';
+import {Pressable, StyleSheet} from 'react-native';
+import {Avatar, Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
 
 const brightWhite = '#fcfcfc';
 
 interface HomeTopBarProps {
-  onAvatarPress(): void,
-  onVoidPress(): void,
+  onAvatarPress(): void;
+  onVoidPress(): void;
 }
 
-export const HomeTopBar = ({
-  onAvatarPress,
-  onVoidPress
-}: HomeTopBarProps) => {
-  const { user } = useContext(UserContext);
+export const HomeTopBar = ({onAvatarPress, onVoidPress}: HomeTopBarProps) => {
+  const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
   const UserIcon = (props: any) => (
-    <Icon style={styles.userIcon} fill={brightWhite} name='person' />
+    <Icon style={styles.userIcon} fill={brightWhite} name="person" />
   );
 
   return (
-    <Layout style={styles.topBarContainer} level='4'>
-      <Layout style={styles.topBarVoidContainer}>
-        <Text category='s2' style={styles.topBarVoidText}>BETA</Text>
-      </Layout>
-      <Layout style={styles.topBarActionItemsContainer} level='4'>
+    <Layout style={styles.topBarContainer} level="4">
+      <Pressable onPress={onVoidPress}>
+        <Layout style={styles.topBarVoidContainer}>
+          <Text category="s2" style={styles.topBarVoidText}>
+            BETA
+          </Text>
+        </Layout>
+      </Pressable>
+      <Layout style={styles.topBarActionItemsContainer} level="4">
         <Pressable onPress={onAvatarPress}>
-            {user.profile && user.profile.photoURL
-              ? <Avatar source={{ uri: user.profile.photoURL }} />
-              : <Layout style={styles.userIconContainer}>
-                  <UserIcon />
-                </Layout>
-            }
+          {user.profile && user.profile.photoURL ? (
+            <Avatar source={{uri: user.profile.photoURL}} />
+          ) : (
+            <Layout style={styles.userIconContainer}>
+              <UserIcon />
+            </Layout>
+          )}
         </Pressable>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   searchIcon: {
@@ -86,5 +88,5 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
-  }
-})
+  },
+});

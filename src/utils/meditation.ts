@@ -51,7 +51,8 @@ export const getRecentMeditationBaseIds = (user: User) => {
     user.meditationUserData.recentMeditationBaseIds;
 
   if (recentMeditationIds) {
-    return checkMeditationBaseIds(recentMeditationIds);
+    const checkedMeditations = checkMeditationBaseIds(recentMeditationIds);
+    return uniq(checkedMeditations);
   } else {
     return [];
   }
