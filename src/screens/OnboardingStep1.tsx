@@ -1,9 +1,9 @@
-import { Linking, Platform, Pressable, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Layout, Text } from "@ui-kitten/components/ui";
-import { useNavigation } from "@react-navigation/native";
+import {Linking, Platform, Pressable, StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Layout, Text} from '@ui-kitten/components/ui';
+import {useNavigation} from '@react-navigation/native';
 
-import Button from "../components/Button";
+import Button from '../components/Button';
 
 const dropboxYoutubeLink = 'https://www.youtube.com/watch?v=XJ0Bh9RmObA';
 const googleDriveYoutubeLink = 'https://www.youtube.com/watch?v=GaO-aArPZJ8';
@@ -15,47 +15,35 @@ const OnboardingStep1 = () => {
 
   const onDropboxVideoPress = async () => {
     await Linking.openURL(dropboxYoutubeLink);
-  }
+  };
 
   const onGoogleDriveVideoPress = async () => {
     await Linking.openURL(googleDriveYoutubeLink);
-  }
+  };
 
-  const renderDisclaimer = Platform.OS === 'ios'
-    ? `For this app to work correctly, please ensure that meditations are stored directly on your phone.`
-    : `For this app to work correctly, please ensure that meditations are stored directly on your phone.`
+  const renderDisclaimer =
+    Platform.OS === 'ios'
+      ? 'For this app to work correctly, please ensure that meditations are stored directly on your phone.'
+      : 'For this app to work correctly, please ensure that meditations are stored directly on your phone.';
 
   return (
     <Layout level="4" style={styles.container}>
       <SafeAreaView style={styles.container}>
         <Layout level="4" style={styles.contentContainer}>
           <Layout level="4" style={styles.heroContainer}>
-            <Text
-              category="h2"
-              style={styles.header}
-            >
+            <Text category="h2" style={styles.header}>
               Let's get started
             </Text>
-            <Text
-              category="h6"
-              style={styles.disclaimer}
-            >
+            <Text category="h6" style={styles.disclaimer}>
               {renderDisclaimer}
             </Text>
-            <Layout
-              level='2'
-              style={styles.faqBackground}
-            >
-              <Pressable
-                onPress={onDropboxVideoPress}
-              >
+            <Layout level="2" style={styles.faqBackground}>
+              <Pressable onPress={onDropboxVideoPress}>
                 <Text style={styles.faqItem}>
                   Learn how to download meditations from Dropbox.
                 </Text>
               </Pressable>
-              <Pressable
-                onPress={onGoogleDriveVideoPress}
-              >
+              <Pressable onPress={onGoogleDriveVideoPress}>
                 <Text style={styles.faqItem}>
                   Learn how to download meditations from Google Drive.
                 </Text>
@@ -65,17 +53,16 @@ const OnboardingStep1 = () => {
           <Layout level="4" style={styles.bottomContainer}>
             <Button
               onPress={onContinuePress}
-              size='large'
-              style={styles.button}
-            >
+              size="large"
+              style={styles.button}>
               Continue
             </Button>
           </Layout>
         </Layout>
       </SafeAreaView>
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   bottomContainer: {
@@ -85,11 +72,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 16,
-    width: 300
+    width: 300,
   },
   buttonTest: {
     marginTop: 16,
-    width: 300
+    width: 300,
   },
   container: {
     flex: 1,
@@ -101,7 +88,7 @@ const styles = StyleSheet.create({
   disclaimer: {
     lineHeight: 24,
     textAlign: 'center',
-    fontWeight: '600'
+    fontWeight: '600',
   },
   faqBackground: {
     borderRadius: 16,
@@ -142,7 +129,7 @@ const styles = StyleSheet.create({
   supportedMeditationItem: {
     lineHeight: 22,
     marginVertical: 8,
-  }
-})
+  },
+});
 
 export default OnboardingStep1;

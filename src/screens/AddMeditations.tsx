@@ -1,8 +1,9 @@
 import React, {useContext} from 'react';
-import {Button, Layout, Text} from '@ui-kitten/components';
+import {Layout, Text} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
+import Button from '../components/Button';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UserContext from '../contexts/userData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
@@ -40,17 +41,23 @@ const AddMeditationsScreen = () => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <Layout level="4" style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.top} />
-        <Layout style={styles.middle}>
-          <Text category="h5">Add Meditations</Text>
-          <Text category="s1">
-            Sub header text explaining what is going on in this screen
+        <Layout level="4" style={styles.top} />
+        <Layout level="4" style={styles.middle}>
+          <Text category="h3" style={styles.header}>
+            Add Meditations
+          </Text>
+          <Text category="s1" style={styles.description}>
+            Add meditations from your phone, Dropbox, Google Drive, or wherever
+            you keep your meditations files.
           </Text>
         </Layout>
-        <Layout style={styles.bottom}>
-          <Button size="large" onPress={onAddMeditationsPress}>
+        <Layout level="4" style={styles.bottom}>
+          <Button
+            size="large"
+            onPress={onAddMeditationsPress}
+            style={styles.addButton}>
             Add Meditations
           </Button>
           <Button appearance="ghost" size="large" status="basic">
@@ -65,16 +72,27 @@ const AddMeditationsScreen = () => {
 const styles = StyleSheet.create({
   addButton: {
     color: 'white',
+    marginBottom: 16,
   },
   bottom: {
-    flex: 3,
+    justifyContent: 'flex-end',
+    flex: 2,
     paddingHorizontal: 20,
+    paddingBottom: 20,
   },
   container: {
     flex: 1,
   },
+  header: {
+    paddingBottom: 20,
+    textAlign: 'center',
+  },
+  description: {
+    textAlign: 'center',
+  },
   middle: {
     flex: 4,
+    justifyContent: 'flex-end',
     paddingHorizontal: 20,
   },
   skipButton: {
