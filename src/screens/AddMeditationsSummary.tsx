@@ -1,6 +1,7 @@
 import {Button, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
@@ -15,10 +16,16 @@ const AddMeditationsSummary = () => {
     UnsupportedFilesContext,
   );
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     console.log('meditationFilePaths', meditationFilePaths);
     console.log('unsupportedFiles', unsupportedFiles);
   }, []);
+
+  const onFixMeditationsPress = () => {
+    navigation.navigate('FixMeditation');
+  };
 
   const addedMeditationsCount = meditationFilePaths
     ? Object.keys(meditationFilePaths).length
@@ -34,7 +41,9 @@ const AddMeditationsSummary = () => {
           <Text>{failedMeditationsCount} Failed</Text>
         </Layout>
         <Layout style={styles.bottom}>
-          <Button size="large">Fix Meditations</Button>
+          <Button size="large" onPress={onFixMeditationsPress}>
+            Fix Meditations
+          </Button>
           <Button appearance="ghost" size="large" status="basic">
             Skip
           </Button>

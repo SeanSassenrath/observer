@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Icon, Input } from '@ui-kitten/components';
+import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {Icon, Input} from '@ui-kitten/components';
 
 interface SearchBarProps {
   input: string;
+  placeholder?: string;
+  style?: any;
   onChangeText(nextInput: string): void;
   onClearPress(): void;
 }
@@ -14,20 +16,26 @@ interface ClearButton {
 
 const ClearButton = (props: ClearButton) => (
   <TouchableWithoutFeedback onPress={props.onClearPress}>
-    <Icon {...props} style={styles.clearIcon} fill='#FFFFFF' name='close' />
+    <Icon {...props} style={styles.clearIcon} fill="#FFFFFF" name="close" />
   </TouchableWithoutFeedback>
 );
 
 export const SearchBar = (props: SearchBarProps) => (
   <Input
-    placeholder='Search'
+    placeholder={props.placeholder ? props.placeholder : 'Search'}
     value={props.input}
-    onChangeText={(nextInput) => props.onChangeText(nextInput)}
-    accessoryRight={props.input.length ? <ClearButton onClearPress={props.onClearPress} /> : <></>}
-    style={styles.searchInput}
+    onChangeText={nextInput => props.onChangeText(nextInput)}
+    accessoryRight={
+      props.input.length ? (
+        <ClearButton onClearPress={props.onClearPress} />
+      ) : (
+        <></>
+      )
+    }
+    style={{...styles.searchInput, ...props.style}}
     textStyle={styles.textStyle}
   />
-)
+);
 
 const styles = StyleSheet.create({
   clearIcon: {
@@ -44,5 +52,5 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 18,
     borderRadius: 20,
-  }
-})
+  },
+});
