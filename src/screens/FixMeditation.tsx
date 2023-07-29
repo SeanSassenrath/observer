@@ -9,6 +9,12 @@ import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {MeditationBase} from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import {
+  getMeditationFilePathDataInAsyncStorage,
+  setMeditationFilePathDataInAsyncStorage,
+} from '../utils/asyncStorageMeditation';
+import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const EMPTY_SEARCH = '';
 const EMPTY_SELECTED_OPTION = '';
@@ -110,22 +116,18 @@ const MeditationOptionStyles = StyleSheet.create({
 const FixMeditationScreen = () => {
   const {unsupportedFiles} = useContext(UnsupportedFilesContext);
   const [unsupportedFileIndex, setUnsupportedFileIndex] = useState(0);
-  const {meditationFilePaths} = useContext(MeditationFilePathsContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {_, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
-  const [currentErrorIndex, setCurrentErrorIndex] = useState(1);
   const [selectedMeditationOption, setSelectedMeditationOption] = useState(
     EMPTY_SELECTED_OPTION,
   );
 
   const styles = useStyleSheet(themedStyles);
+  const navigation = useNavigation();
 
   const onSearchClearPress = () => setSearchInput(EMPTY_SEARCH);
   const onMeditationOptionPress = (meditationBase: MeditationBase) => {
-    console.log('selectedMeditationOption', selectedMeditationOption);
-    console.log(
-      'meditationBase.meditationBaseId',
-      meditationBase.meditationBaseId,
-    );
     if (selectedMeditationOption === meditationBase.meditationBaseId) {
       setSelectedMeditationOption(EMPTY_SELECTED_OPTION);
     } else {
@@ -144,6 +146,47 @@ const FixMeditationScreen = () => {
     return sortBy(meditationOptions, 'name');
   };
 
+  const onNextPress = async () => {
+    const isLastMeditation =
+      unsupportedFiles.length === unsupportedFileIndex + 1;
+    try {
+      const asyncData = await getMeditationFilePathDataInAsyncStorage();
+
+      if (asyncData) {
+        const meditationFilePaths = JSON.parse(asyncData);
+
+        const updatedMeditationFilePaths = {
+          ...meditationFilePaths,
+          [selectedMeditationOption]:
+            unsupportedFiles[unsupportedFileIndex]?.name,
+        };
+
+        await setMeditationFilePathDataInAsyncStorage(
+          updatedMeditationFilePaths,
+        );
+
+        setMeditationFilePaths(updatedMeditationFilePaths);
+
+        if (isLastMeditation) {
+          Toast.show({
+            type: 'success',
+            text1: 'Meditations added',
+            text2: 'New meditations were added to your library',
+            position: 'bottom',
+            bottomOffset: 100,
+            visibilityTime: 5000,
+          });
+          //@ts-ignore
+          navigation.navigate('TabNavigation', {screen: 'Library'});
+        } else {
+          setUnsupportedFileIndex(unsupportedFileIndex + 1);
+        }
+      }
+    } catch (e) {
+      console.log('Add meditation file path error', e);
+    }
+  };
+
   const meditationOptions = getMeditationOptions();
   const currentUnsupportedFileName =
     unsupportedFiles[unsupportedFileIndex]?.name;
@@ -155,7 +198,7 @@ const FixMeditationScreen = () => {
           <Layout level="4" style={styles.topContentContainer}>
             <ErrorIcon />
             <Text category="h6" style={styles.topText}>
-              File not recognized ({currentErrorIndex}&nbsp;of&nbsp;
+              File not recognized ({unsupportedFileIndex + 1}&nbsp;of&nbsp;
               {unsupportedFiles.length})
             </Text>
           </Layout>
@@ -191,7 +234,11 @@ const FixMeditationScreen = () => {
           </ScrollView>
         </Layout>
         <Layout level="4" style={styles.bottom}>
-          <Button size="large" style={styles.nextButton}>
+          <Button
+            disabled={!selectedMeditationOption.length || !searchInput.length}
+            onPress={onNextPress}
+            size="large"
+            style={styles.nextButton}>
             Next
           </Button>
           <Button appearance="ghost" size="large" status="basic">

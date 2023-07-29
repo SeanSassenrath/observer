@@ -83,7 +83,6 @@ const OnboardingStep2 = () => {
           </Layout>
         </Layout>
       </SafeAreaView>
-      {unsupportedFiles.length > 0 ? <UnsupportedFilesModal /> : null}
     </Layout>
   );
 };

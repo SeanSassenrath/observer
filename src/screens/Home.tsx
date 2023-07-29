@@ -30,7 +30,6 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
-import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
 import {
   checkMeditationBaseIds,
   getRecentMeditationBaseIds,
@@ -53,6 +52,7 @@ const HomeScreen = () => {
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {unsupportedFiles, setUnsupportedFiles} = useContext(
     UnsupportedFilesContext,
   );
@@ -257,7 +257,6 @@ const HomeScreen = () => {
           </_Button>
         </Layout>
       </Modal>
-      {unsupportedFiles.length > 0 ? <UnsupportedFilesModal /> : null}
     </Layout>
   );
 };

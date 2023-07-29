@@ -32,7 +32,6 @@ import UserContext from '../contexts/userData';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
-import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
 import {sortBy} from 'lodash';
 
 const EMPTY_SEARCH = '';
@@ -49,6 +48,7 @@ const LibraryScreen = () => {
   const {meditationBaseData, setMeditationBaseData} = useContext(
     MeditationBaseDataContext,
   );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {unsupportedFiles, setUnsupportedFiles} = useContext(
     UnsupportedFilesContext,
   );
@@ -184,7 +184,6 @@ const LibraryScreen = () => {
           title="Your Library"
         />
       ) : null}
-      {unsupportedFiles.length > 0 ? <UnsupportedFilesModal /> : null}
     </Layout>
   );
 };
