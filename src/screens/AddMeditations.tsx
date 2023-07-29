@@ -36,7 +36,7 @@ const AddMeditationsScreen = () => {
 
     if (supportedMeditations) {
       setMeditationBaseData(supportedMeditations);
-      navigation.navigate('AddMeditationsSummary');
+      navigation.navigate('FixMeditation');
     }
   };
 
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   description: {
+    lineHeight: 24,
     textAlign: 'center',
   },
   middle: {
