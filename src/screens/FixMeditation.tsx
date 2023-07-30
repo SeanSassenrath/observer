@@ -143,6 +143,7 @@ const FixMeditationScreen = () => {
         meditationOptions.push(meditation);
       }
     }
+
     return sortBy(meditationOptions, 'name');
   };
 
@@ -219,8 +220,9 @@ const FixMeditationScreen = () => {
             style={styles.searchBar}
           />
           <ScrollView>
-            {searchInput
-              ? meditationOptions.map(option => (
+            {searchInput ? (
+              meditationOptions.length ? (
+                meditationOptions.map(option => (
                   <MeditationOption
                     key={option.meditationBaseId}
                     name={option.name}
@@ -230,7 +232,17 @@ const FixMeditationScreen = () => {
                     }
                   />
                 ))
-              : null}
+              ) : (
+                <Layout level="4" style={styles.noResultsContainer}>
+                  <Text category="s1" style={styles.noResults}>
+                    It looks like we don't support this meditation yet.
+                  </Text>
+                  <Text category="s1" style={styles.noResults}>
+                    Double check the spelling or press skip to continue.
+                  </Text>
+                </Layout>
+              )
+            ) : null}
           </ScrollView>
         </Layout>
         <Layout level="4" style={styles.bottom}>
@@ -285,6 +297,14 @@ const themedStyles = StyleSheet.create({
   nextButton: {
     color: 'white',
     marginBottom: 16,
+  },
+  noResults: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  noResultsContainer: {
+    marginTop: 20,
+    opacity: 0.75,
   },
   searchBar: {
     marginVertical: 16,
