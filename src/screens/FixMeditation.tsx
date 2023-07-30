@@ -114,7 +114,9 @@ const MeditationOptionStyles = StyleSheet.create({
 });
 
 const FixMeditationScreen = () => {
-  const {unsupportedFiles} = useContext(UnsupportedFilesContext);
+  const {unsupportedFiles, setUnsupportedFiles} = useContext(
+    UnsupportedFilesContext,
+  );
   const [unsupportedFileIndex, setUnsupportedFileIndex] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {_, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
@@ -165,8 +167,8 @@ const FixMeditationScreen = () => {
         await setMeditationFilePathDataInAsyncStorage(
           updatedMeditationFilePaths,
         );
-
         setMeditationFilePaths(updatedMeditationFilePaths);
+        setUnsupportedFiles([]);
 
         if (isLastMeditation) {
           Toast.show({
@@ -185,6 +187,18 @@ const FixMeditationScreen = () => {
       }
     } catch (e) {
       console.log('Add meditation file path error', e);
+    }
+  };
+
+  const onSkipPress = () => {
+    const isLastMeditation =
+      unsupportedFiles.length <= unsupportedFileIndex + 1;
+
+    if (isLastMeditation) {
+      //@ts-ignore
+      navigation.navigate('TabNavigation', {screen: 'Library'});
+    } else {
+      setUnsupportedFileIndex(unsupportedFileIndex + 1);
     }
   };
 
@@ -253,7 +267,11 @@ const FixMeditationScreen = () => {
             style={styles.nextButton}>
             Next
           </Button>
-          <Button appearance="ghost" size="large" status="basic">
+          <Button
+            appearance="ghost"
+            onPress={onSkipPress}
+            size="large"
+            status="basic">
             Skip
           </Button>
         </Layout>

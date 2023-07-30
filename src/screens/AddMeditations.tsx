@@ -34,9 +34,12 @@ const AddMeditationsScreen = () => {
       user,
     );
 
-    if (supportedMeditations) {
-      setMeditationBaseData(supportedMeditations);
+    if (unsupportedFiles.length) {
       navigation.navigate('FixMeditation');
+    } else if (supportedMeditations) {
+      setMeditationBaseData(supportedMeditations);
+      //@ts-ignore
+      navigation.navigate('TabNavigation', {screen: 'Library'});
     }
   };
 
