@@ -162,8 +162,7 @@ const FixMeditationScreen = () => {
 
     try {
       const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
-        [selectedMeditationOption]:
-          unsupportedFiles[unsupportedFileIndex]?.name,
+        [selectedMeditationOption]: unsupportedFiles[unsupportedFileIndex]?.uri,
       });
 
       await setMeditationFilePathDataInAsyncStorage(updatedMeditationFilePaths);

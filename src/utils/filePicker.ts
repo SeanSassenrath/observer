@@ -44,10 +44,12 @@ export const makeFilePathDataList = (
     if (filePathData) {
       filePathDataList = {...filePathDataList, ...filePathData};
     } else {
+      const fileCopyUri = makeRelativeFilePath(file.fileCopyUri) || null;
       unsupportedFiles.push({
         name: file.name,
         type: file.type,
         size: file.size,
+        uri: fileCopyUri,
       });
     }
   });

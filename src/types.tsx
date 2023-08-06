@@ -203,4 +203,5 @@ export interface UnsupportedFileData {
   name: string | null;
   size: number | null;
   type: string | null;
+  uri: string | null;
 }
