@@ -67,14 +67,19 @@ const LibraryScreen = () => {
   const onClearPress = () => setSearchInput(EMPTY_SEARCH);
 
   const onAddMeditationsPress = async () => {
-    const meditations = await onAddMeditations(
+    const {_meditations, _unsupportedFiles} = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
       setUnsupportedFiles,
       user,
     );
-    if (meditations) {
-      setMeditationBaseData(meditations);
+
+    if (_unsupportedFiles.length) {
+      navigation.navigate('FixMeditation');
+    } else if (_meditations) {
+      setMeditationBaseData(_meditations);
+      //@ts-ignore
+      navigation.navigate('TabNavigation', {screen: 'Library'});
     }
   };
 

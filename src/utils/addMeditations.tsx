@@ -23,6 +23,7 @@ export const onAddMeditations = async (
   hideSuccessToast?: boolean,
 ) => {
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
+  let meditationBaseData = {} as any;
 
   const pickedFiles = await DocumentPicker.pick({
     allowMultiSelection: true,
@@ -64,7 +65,11 @@ export const onAddMeditations = async (
   if (!isEmpty(filePathDataList)) {
     setMeditationFilePathDataInAsyncStorage(filePathDataList);
     setExistingMeditationFilePathData(filePathDataList);
-    const meditationBaseData = await makeMeditationBaseData();
-    return meditationBaseData;
+    meditationBaseData = await makeMeditationBaseData();
   }
+
+  return {
+    _meditations: meditationBaseData,
+    _unsupportedFiles: unsupportedFiles,
+  };
 };

@@ -9,12 +9,11 @@ import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {MeditationBase} from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import {
-  getMeditationFilePathDataInAsyncStorage,
-  setMeditationFilePathDataInAsyncStorage,
-} from '../utils/asyncStorageMeditation';
+import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import {makeMeditationBaseData} from '../utils/meditation';
 
 const EMPTY_SEARCH = '';
 const EMPTY_SELECTED_OPTION = '';
@@ -119,7 +118,13 @@ const FixMeditationScreen = () => {
   );
   const [unsupportedFileIndex, setUnsupportedFileIndex] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {_, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
   const [selectedMeditationOption, setSelectedMeditationOption] = useState(
     EMPTY_SELECTED_OPTION,
@@ -127,6 +132,8 @@ const FixMeditationScreen = () => {
 
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2];
 
   const onSearchClearPress = () => setSearchInput(EMPTY_SEARCH);
   const onMeditationOptionPress = (meditationBase: MeditationBase) => {
@@ -151,39 +158,44 @@ const FixMeditationScreen = () => {
 
   const onNextPress = async () => {
     const isLastMeditation =
-      unsupportedFiles.length === unsupportedFileIndex + 1;
+      unsupportedFiles.length <= unsupportedFileIndex + 1;
+
     try {
-      const asyncData = await getMeditationFilePathDataInAsyncStorage();
+      const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
+        [selectedMeditationOption]:
+          unsupportedFiles[unsupportedFileIndex]?.name,
+      });
 
-      if (asyncData) {
-        const meditationFilePaths = JSON.parse(asyncData);
+      await setMeditationFilePathDataInAsyncStorage(updatedMeditationFilePaths);
+      console.log(
+        'Setting updated file paths to context',
+        updatedMeditationFilePaths,
+      );
+      setMeditationFilePaths(updatedMeditationFilePaths);
 
-        const updatedMeditationFilePaths = {
-          ...meditationFilePaths,
-          [selectedMeditationOption]:
-            unsupportedFiles[unsupportedFileIndex]?.name,
-        };
+      const _meditationBaseData = await makeMeditationBaseData();
+      if (_meditationBaseData) {
+        setMeditationBaseData(_meditationBaseData);
+      }
 
-        await setMeditationFilePathDataInAsyncStorage(
-          updatedMeditationFilePaths,
-        );
-        setMeditationFilePaths(updatedMeditationFilePaths);
-        setUnsupportedFiles([]);
+      setUnsupportedFiles([]);
 
-        if (isLastMeditation) {
-          Toast.show({
-            type: 'success',
-            text1: 'Meditations added',
-            text2: 'New meditations were added to your library',
-            position: 'bottom',
-            bottomOffset: 100,
-            visibilityTime: 5000,
-          });
-          //@ts-ignore
-          navigation.navigate('TabNavigation', {screen: 'Library'});
-        } else {
-          setUnsupportedFileIndex(unsupportedFileIndex + 1);
-        }
+      if (isLastMeditation && !(prevRoute.name === 'AddMeditations')) {
+        Toast.show({
+          type: 'success',
+          text1: 'Meditations added',
+          text2: 'New meditations were added to your library',
+          position: 'bottom',
+          bottomOffset: 100,
+          visibilityTime: 5000,
+        });
+        //@ts-ignore
+        navigation.navigate('TabNavigation', {screen: 'Library'});
+      } else if (isLastMeditation) {
+        //@ts-ignore
+        navigation.navigate('TabNavigation', {screen: 'Library'});
+      } else {
+        setUnsupportedFileIndex(unsupportedFileIndex + 1);
       }
     } catch (e) {
       console.log('Add meditation file path error', e);

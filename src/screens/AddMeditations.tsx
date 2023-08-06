@@ -27,17 +27,17 @@ const AddMeditationsScreen = () => {
   const navigation = useNavigation();
 
   const onAddMeditationsPress = async () => {
-    const supportedMeditations = await onAddMeditations(
+    const {_meditations, _unsupportedFiles} = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
       setUnsupportedFiles,
       user,
     );
 
-    if (unsupportedFiles.length) {
+    if (_unsupportedFiles.length) {
       navigation.navigate('FixMeditation');
-    } else if (supportedMeditations) {
-      setMeditationBaseData(supportedMeditations);
+    } else if (_meditations) {
+      setMeditationBaseData(_meditations);
       //@ts-ignore
       navigation.navigate('TabNavigation', {screen: 'Library'});
     }
