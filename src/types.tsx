@@ -6,12 +6,12 @@ import {DocumentPickerResponse} from 'react-native-document-picker';
 import {
   GeneratingSeriesSizes,
   MeditationGroupKey,
-  MeditationGroupName,
   MeditationSizes,
   OtherSizes,
   SynchronizingSeriesSizes,
   WalkingMeditationSizes,
 } from './constants/meditation';
+import {MeditationGroupName} from './constants/meditation-data';
 
 // Stack Navigation
 export type StackParamList = {

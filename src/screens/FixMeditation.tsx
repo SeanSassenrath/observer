@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
 import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {SearchBar} from '../components/SearchBar';
 import {sortBy} from 'lodash';
@@ -129,6 +129,7 @@ const FixMeditationScreen = () => {
   const [selectedMeditationOption, setSelectedMeditationOption] = useState(
     EMPTY_SELECTED_OPTION,
   );
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
@@ -202,6 +203,11 @@ const FixMeditationScreen = () => {
   };
 
   const onSkipPress = () => {
+    // create meditation base for custom meditation
+    // create custom group
+    // add meditation to async storage
+    // add meditation to context
+
     const isLastMeditation =
       unsupportedFiles.length <= unsupportedFileIndex + 1;
 
@@ -287,11 +293,42 @@ const FixMeditationScreen = () => {
           </Button>
         </Layout>
       </SafeAreaView>
+      <Modal
+        visible={isModalVisible}
+        backdropStyle={styles.backdrop}
+        onBackdropPress={() => setIsModalVisible(false)}>
+        <Layout level="3" style={styles.modalContainer}>
+          <Layout level="3" style={styles.modalTop}>
+            <Text category="h6" style={styles.modalHeader}>
+              Add a name for this meditation
+            </Text>
+            <Text category="s1" style={styles.modalFile}>
+              File: {currentUnsupportedFileName || ''}
+            </Text>
+          </Layout>
+          <Layout level="3" style={styles.modalBottom}>
+            <Button onPress={() => {}} size="large" style={styles.modalButton}>
+              Add
+            </Button>
+            <Button
+              appearance="ghost"
+              onPress={() => setIsModalVisible(false)}
+              style={styles.modalButton}
+              size="large"
+              status="basic">
+              Close
+            </Button>
+          </Layout>
+        </Layout>
+      </Modal>
     </Layout>
   );
 };
 
 const themedStyles = StyleSheet.create({
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
   bottom: {
     flex: 2,
     paddingBottom: 20,
@@ -322,6 +359,37 @@ const themedStyles = StyleSheet.create({
   middle: {
     flex: 7,
     paddingHorizontal: 20,
+  },
+  modalBottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  modalButton: {
+    marginTop: 20,
+    width: 300,
+  },
+  modalContainer: {
+    justifyContent: 'space-between',
+    height: 400,
+    width: 350,
+    borderRadius: 6,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+    paddingBottom: 20,
+  },
+  modalTop: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+  modalHeader: {
+    width: '100%',
+  },
+  modalFile: {
+    marginVertical: 20,
+    opacity: 0.75,
+    width: '100%',
   },
   nextButton: {
     color: 'white',
