@@ -21,6 +21,7 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import {_MeditationListSection} from '../components/MeditationList';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {sortBy} from 'lodash';
+import LastMedNotesPreview from '../components/LastMedNotesPreview';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -35,14 +36,14 @@ const CloseIcon = (props: any) => (
   />
 );
 
-const WarningIcon = (props: any) => (
-  <Icon
-    {...props}
-    style={themedStyles.actionIcon}
-    fill="#E28E69"
-    name="bell-off-outline"
-  />
-);
+// const WarningIcon = (props: any) => (
+//   <Icon
+//     {...props}
+//     style={themedStyles.actionIcon}
+//     fill="#E28E69"
+//     name="bell-off-outline"
+//   />
+// );
 
 const MeditationScreen = ({
   route,
@@ -155,7 +156,7 @@ const MeditationScreen = ({
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
           <Layout style={styles.topBar} level="4">
-            <Text category="h6" style={styles.topBarText}>
+            <Text category="h4" style={styles.topBarText}>
               {meditation.name}
             </Text>
             <TouchableWithoutFeedback
@@ -167,8 +168,16 @@ const MeditationScreen = ({
             </TouchableWithoutFeedback>
           </Layout>
           <Layout style={styles.mainSection} level="4">
-            <Text category="s1" style={styles.thinkBoxLabel}>
-              Current Meditation Intention
+            <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+              <Text category="h6" style={styles.thinkBoxLabel}>
+                Learn From Last Meditation
+              </Text>
+              <Layout level="1" style={styles.lastMedNotesContainer}>
+                <LastMedNotesPreview onPress={() => {}} />
+              </Layout>
+            </Layout>
+            <Text category="h6" style={styles.thinkBoxLabel}>
+              Set an Intention
             </Text>
             <MultiLineInput
               onChangeText={setInputValue}
@@ -181,12 +190,12 @@ const MeditationScreen = ({
           </Layout>
         </KeyboardAwareScrollView>
         <Layout style={styles.bottomBar} level="4">
-          <Layout style={styles.meditationInfo} level="4">
+          {/* <Layout style={styles.meditationInfo} level="4">
             <WarningIcon />
             <Text category="s1" style={styles.meditationInfoText}>
               Don't forget to turn on Do Not Disturb!
             </Text>
-          </Layout>
+          </Layout> */}
           <_Button onPress={onStartPress} size="large">
             Start
           </_Button>
@@ -214,6 +223,7 @@ const themedStyles = StyleSheet.create({
     width: 30,
   },
   bottomBar: {
+    backgroundColor: 'transparent',
     padding: 20,
     justifyContent: 'flex-end',
   },
@@ -234,7 +244,7 @@ const themedStyles = StyleSheet.create({
   },
   thinkBoxStyles: {
     paddingHorizontal: 20,
-    marginBottom: 40,
+    marginBottom: 60,
   },
   thinkBoxTextStyles: {
     minHeight: 100,
@@ -242,6 +252,7 @@ const themedStyles = StyleSheet.create({
   thinkBoxLabel: {
     paddingHorizontal: 20,
     marginBottom: 14,
+    opacity: 0.9,
   },
   header: {
     alignItems: 'center',
@@ -250,6 +261,13 @@ const themedStyles = StyleSheet.create({
   },
   layout: {
     flexDirection: 'row-reverse',
+  },
+  lastMedNotesSectionContainer: {
+    marginBottom: 60,
+  },
+  lastMedNotesContainer: {
+    borderRadius: 10,
+    marginHorizontal: 20,
   },
   mainSection: {
     justifyContent: 'flex-end',
@@ -265,6 +283,12 @@ const themedStyles = StyleSheet.create({
     color: 'color-danger-300',
     marginLeft: 10,
   },
+  option1Container: {
+    marginTop: 30,
+  },
+  option1ActionsContainer: {
+    marginBottom: 40,
+  },
   topBar: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -276,12 +300,6 @@ const themedStyles = StyleSheet.create({
   },
   topBarIcon: {
     flex: 1,
-  },
-  option1Container: {
-    marginTop: 30,
-  },
-  option1ActionsContainer: {
-    marginBottom: 40,
   },
   toggle: {
     justifyContent: 'flex-start',
