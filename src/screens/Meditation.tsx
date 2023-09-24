@@ -170,9 +170,9 @@ const MeditationScreen = ({
           <Layout style={styles.mainSection} level="4">
             <Layout level="4" style={styles.lastMedNotesSectionContainer}>
               <Text category="h6" style={styles.thinkBoxLabel}>
-                Learn From Last Meditation
+                Last Meditation Notes
               </Text>
-              <Layout level="1" style={styles.lastMedNotesContainer}>
+              <Layout level="2" style={styles.lastMedNotesContainer}>
                 <LastMedNotesPreview onPress={() => {}} />
               </Layout>
             </Layout>

@@ -60,14 +60,17 @@ const themedStyles = StyleSheet.create({
     borderColor: 'rgba(90, 90, 90, 0.2)',
   },
   meditationContentContainer: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     flex: 0,
   },
   meditationContainer: {
+    backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'space-between',
   },
   meditationMetaDataContainer: {
+    backgroundColor: 'transparent',
     marginBottom: 10,
     opacity: 0.8,
   },

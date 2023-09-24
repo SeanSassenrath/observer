@@ -24,7 +24,7 @@ const LastMedNotesPreview = (props: Props) => {
   const getDisplayDate = (item: MeditationInstance) => {
     if (item.meditationStartTime) {
       const date = DateTime.fromSeconds(item.meditationStartTime);
-      return date.toLocaleString(DateTime.DATETIME_SHORT);
+      return date.toLocaleString(DateTime.DATE_SHORT);
     } else {
       return EMPTY_STRING;
     }

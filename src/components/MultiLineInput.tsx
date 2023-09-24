@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     borderColor: 'transparent',
     borderRadius: 10,
-    backgroundColor: '#1B2237',
+    backgroundColor: '#1a2138',
   },
   textStyle: {
     minHeight: 120,
