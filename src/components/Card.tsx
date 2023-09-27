@@ -112,7 +112,7 @@ const getCardStyles = (props: CardStyleProps) => {
     if (props.isDisabled) {
       return stylesV4.disabledCard;
     } else {
-      return stylesV4.card;
+      return [stylesV4.card, stylesV4.shadowProps];
     }
   }
 };
@@ -149,8 +149,6 @@ const stylesV4 = StyleSheet.create({
     marginRight: 20,
     width: 200,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(90, 90, 90, 0.9)',
   },
   disabledCard: {
     borderRadius: 10,
@@ -158,8 +156,6 @@ const stylesV4 = StyleSheet.create({
     marginRight: 20,
     width: 200,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(90, 90, 90, 0.9)',
     opacity: 0.4,
   },
   miniCard: {

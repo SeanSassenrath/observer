@@ -34,6 +34,7 @@ import {
   checkMeditationBaseIds,
   getRecentMeditationBaseIds,
 } from '../utils/meditation';
+import LastMedNotesPreview from '../components/LastMedNotesPreview';
 
 const brightWhite = '#fcfcfc';
 
@@ -211,8 +212,16 @@ const HomeScreen = () => {
               })}
             </Layout>
           ) : null}
-          <Inspiration />
-          <Streaks current={streakData.current} longest={streakData.longest} />
+          <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+            <Text category="h6" style={styles.thinkBoxLabel}>
+              Last Meditation
+            </Text>
+            <Layout level="2" style={styles.lastMedNotesContainer}>
+              <LastMedNotesPreview onPress={() => {}} />
+            </Layout>
+          </Layout>
+          {/* <Inspiration />
+          <Streaks current={streakData.current} longest={streakData.longest} /> */}
           <Layout level="4" style={styles.listsContainer}>
             <MeditationList
               header="Recent Meditations"
@@ -282,6 +291,13 @@ const themedStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  lastMedNotesSectionContainer: {
+    marginBottom: 60,
+  },
+  lastMedNotesContainer: {
+    borderRadius: 10,
+    marginHorizontal: 20,
+  },
   listsContainer: {
     paddingBottom: 60,
   },
@@ -310,6 +326,11 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
+  },
+  thinkBoxLabel: {
+    paddingHorizontal: 20,
+    marginBottom: 14,
+    opacity: 0.9,
   },
 });
 
