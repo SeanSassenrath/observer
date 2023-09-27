@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,11 +19,8 @@ import _Button from '../components/Button';
 import {MeditationId} from '../types';
 import {HomeTopBar} from '../components/HomeTopBar';
 import {MeditationList} from '../components/MeditationList';
-import {Inspiration} from '../components/Inspiration';
 import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import {Streaks} from '../components/Streaks';
-import {getUserStreakData} from '../utils/streaks';
 import {AddMeditationsPill} from '../components/AddMeditationsPill';
 import {onAddMeditations} from '../utils/addMeditations';
 import {EduPromptComponent} from '../components/EduPrompt/component';
@@ -35,6 +32,9 @@ import {
   getRecentMeditationBaseIds,
 } from '../utils/meditation';
 import LastMedNotesPreview from '../components/LastMedNotesPreview';
+import MeditationNotesModal from '../components/MeditationNotesModal';
+import MeditationHistoryContext from '../contexts/meditationHistory';
+import {meditationBaseMap} from '../constants/meditation-data';
 
 const brightWhite = '#fcfcfc';
 
@@ -57,12 +57,12 @@ const HomeScreen = () => {
   const {unsupportedFiles, setUnsupportedFiles} = useContext(
     UnsupportedFilesContext,
   );
+  const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [showMedIds, setShowMedIds] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
-
-  const streakData = getUserStreakData(user);
 
   const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
 
@@ -80,54 +80,13 @@ const HomeScreen = () => {
     favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
   }
 
-  // const getMeditationFiles = async () => {
-  //   const mediaFiles = await MediaLibrary.getAssetsAsync({
-  //     mediaType: MediaLibrary.MediaType.audio,
-  //   });
-
-  //   // TODO: Scan for meditation files
-  //   console.log('HOME - Media files', mediaFiles);
-  // };
-
-  // const getPermission = async () => {
-  //   const permission = await MediaLibrary.getPermissionsAsync();
-
-  //   if (!permission.granted && permission.canAskAgain) {
-  //     const {status, canAskAgain} =
-  //       await MediaLibrary.requestPermissionsAsync();
-
-  //     if (status === 'granted') {
-  //       getMeditationFiles();
-  //     }
-
-  //     if (status === 'denied' && canAskAgain) {
-  //       // fire alert here
-  //       console.log('permission denied');
-  //     }
-
-  //     if (status === 'denied' && !canAskAgain) {
-  //       console.log('permission really denied');
-  //       // fire alert
-  //     }
-  //   }
-  // };
-
-  useEffect(() => {
-    // setExistingMeditationFilePathDataFromAsyncStorage();
-    // if (Platform.OS === 'android') {
-    //   getPermission();
-    //   getMeditationFiles();
-    // }
-  }, []);
-
-  // const setExistingMeditationFilePathDataFromAsyncStorage = async () => {
-  //   const filePathData = await getMeditationFilePathDataInAsyncStorage()
-  //   // console.log('HOME: Existing file path data from Async Storage', filePathData);
-  //   if (filePathData) {
-  //     const parsedFilePathData = JSON.parse(filePathData);
-  //     setExistingMeditationFilePathData(parsedFilePathData);
-  //   }
-  // }
+  const lastMeditationInstance =
+    meditationHistory &&
+    meditationHistory.meditationInstances &&
+    meditationHistory.meditationInstances[0];
+  const lastMeditation =
+    lastMeditationInstance &&
+    meditationBaseMap[lastMeditationInstance.meditationBaseId];
 
   const onSignOut = () => {
     auth()
@@ -217,7 +176,9 @@ const HomeScreen = () => {
               Last Meditation
             </Text>
             <Layout level="2" style={styles.lastMedNotesContainer}>
-              <LastMedNotesPreview onPress={() => {}} />
+              <LastMedNotesPreview
+                onPress={() => setIsNotesModalVisible(true)}
+              />
             </Layout>
           </Layout>
           {/* <Inspiration />
@@ -269,6 +230,13 @@ const HomeScreen = () => {
           </_Button>
         </Layout>
       </Modal>
+      <MeditationNotesModal
+        visible={isNotesModalVisible}
+        onBackdropPress={() => setIsNotesModalVisible(false)}
+        meditation={lastMeditation}
+        meditationInstance={lastMeditationInstance}
+        showStartMeditation
+      />
     </Layout>
   );
 };

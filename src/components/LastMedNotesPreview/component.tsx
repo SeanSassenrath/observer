@@ -86,7 +86,5 @@ const imageStyles = StyleSheet.create({
     marginRight: 16,
     width: 120,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: 'rgba(90, 90, 90, 0.2)',
   },
 });

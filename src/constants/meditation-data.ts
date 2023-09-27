@@ -543,7 +543,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireEmergingHeart]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -554,7 +554,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireSuenosSelva]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -565,7 +565,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireInferno]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -576,7 +576,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireRefuge]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -587,7 +587,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireKingFisher]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -598,7 +598,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireShamanGoddess]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -609,7 +609,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireCleansing]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
@@ -620,7 +620,7 @@ export const breathMap = {
   },
   [BreathBaseKeys.BreathInspireBreathingLife]: {
     artist,
-    backgroundImage: require('../assets/inspiration.jpg'),
+    backgroundImage: require('../assets/inspire-breath.jpg'),
     formattedDuration: '8',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
