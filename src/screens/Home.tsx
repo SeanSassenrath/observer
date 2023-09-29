@@ -11,6 +11,7 @@ import {
   Avatar,
   Icon,
   Text,
+  Button,
 } from '@ui-kitten/components';
 // import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
@@ -230,11 +231,14 @@ const HomeScreen = () => {
           <_Button onPress={onSignOut} style={styles.modalButton}>
             Sign Out
           </_Button>
-          <_Button
+          <Button
+            appearance="ghost"
+            size="large"
+            status="basic"
             onPress={() => setIsModalVisible(false)}
             style={styles.modalButton}>
             Close
-          </_Button>
+          </Button>
         </Layout>
       </Modal>
       <MeditationNotesModal
