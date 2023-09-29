@@ -23,6 +23,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {sortBy} from 'lodash';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
+import MeditationNotesModal from '../components/MeditationNotesModal';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -58,6 +59,7 @@ const MeditationScreen = ({
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
+  const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const {id} = route.params;
   const styles = useStyleSheet(themedStyles);
 
@@ -184,7 +186,7 @@ const MeditationScreen = ({
                 <MedNotesPreview
                   meditation={lastMeditation}
                   meditationInstance={lastMeditationInstance}
-                  onPress={() => {}}
+                  onPress={() => setIsNotesModalVisible(true)}
                 />
               </Layout>
             </Layout>
@@ -213,6 +215,12 @@ const MeditationScreen = ({
           </_Button>
         </Layout>
       </SafeAreaView>
+      <MeditationNotesModal
+        visible={isNotesModalVisible}
+        onBackdropPress={() => setIsNotesModalVisible(false)}
+        meditation={lastMeditation}
+        meditationInstance={lastMeditationInstance}
+      />
     </Layout>
   );
 };
