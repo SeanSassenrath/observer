@@ -9,7 +9,7 @@ interface Props {
   meditationDate?: string;
 }
 
-export const LastMedNotesPreviewComponent = (props: Props) => {
+export const MedNotesPreviewComponent = (props: Props) => {
   const {meditation, meditationDate, onPress} = props;
   const styles = useStyleSheet(themedStyles);
 

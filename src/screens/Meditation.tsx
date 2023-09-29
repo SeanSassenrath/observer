@@ -21,7 +21,8 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import {_MeditationListSection} from '../components/MeditationList';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {sortBy} from 'lodash';
-import LastMedNotesPreview from '../components/LastMedNotesPreview';
+import MedNotesPreview from '../components/MedNotesPreview';
+import MeditationHistoryContext from '../contexts/meditationHistory';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -53,6 +54,7 @@ const MeditationScreen = ({
     MeditationInstanceDataContext,
   );
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {meditationHistory} = useContext(MeditationHistoryContext);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
@@ -61,7 +63,13 @@ const MeditationScreen = ({
 
   const meditation = meditationBaseMap[id];
 
-  console.log('TESTING >>>', meditation);
+  const lastMeditationInstance =
+    meditationHistory &&
+    meditationHistory.meditationInstances &&
+    meditationHistory.meditationInstances[0];
+  const lastMeditation =
+    lastMeditationInstance &&
+    meditationBaseMap[lastMeditationInstance.meditationBaseId];
 
   useEffect(() => {
     setInitialMeditationInstanceData();
@@ -173,7 +181,11 @@ const MeditationScreen = ({
                 Last Meditation Notes
               </Text>
               <Layout level="2" style={styles.lastMedNotesContainer}>
-                <LastMedNotesPreview onPress={() => {}} />
+                <MedNotesPreview
+                  meditation={lastMeditation}
+                  meditationInstance={lastMeditationInstance}
+                  onPress={() => {}}
+                />
               </Layout>
             </Layout>
             <Text category="h6" style={styles.thinkBoxLabel}>

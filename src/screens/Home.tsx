@@ -31,7 +31,7 @@ import {
   checkMeditationBaseIds,
   getRecentMeditationBaseIds,
 } from '../utils/meditation';
-import LastMedNotesPreview from '../components/LastMedNotesPreview';
+import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationNotesModal from '../components/MeditationNotesModal';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
@@ -176,7 +176,9 @@ const HomeScreen = () => {
               Last Meditation
             </Text>
             <Layout level="2" style={styles.lastMedNotesContainer}>
-              <LastMedNotesPreview
+              <MedNotesPreview
+                meditation={lastMeditation}
+                meditationInstance={lastMeditationInstance}
                 onPress={() => setIsNotesModalVisible(true)}
               />
             </Layout>

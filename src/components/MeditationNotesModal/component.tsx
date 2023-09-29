@@ -7,6 +7,7 @@ interface Props extends ModalProps {
   meditation?: MeditationBase;
   meditationDate?: string;
   meditationInstance?: MeditationInstance;
+  showStartMeditation: boolean;
   meditationLink?(): void;
 }
 
@@ -43,24 +44,30 @@ export const MeditationNotesModalComponent = (props: Props) => {
         </Layout>
         <ScrollView>
           <Layout level="2" style={styles.textSectionsContainer}>
-            <Layout level="2" style={styles.textSection}>
-              <Text category="s1" style={styles.textHeader}>
-                Intention
-              </Text>
-              <Text category="h6">{meditationInstance?.intention}</Text>
-            </Layout>
-            <Layout level="2" style={styles.textSection}>
-              <Text category="s1" style={styles.textHeader}>
-                What did you do well in your meditation?
-              </Text>
-              <Text category="h6">{meditationInstance?.notes}</Text>
-            </Layout>
-            <Layout level="2" style={styles.textSection}>
-              <Text category="s1" style={styles.textHeader}>
-                If you had another opportunity, what would you do differently?
-              </Text>
-              <Text category="h6">{meditationInstance?.feedback}</Text>
-            </Layout>
+            {meditationInstance?.intention ? (
+              <Layout level="2" style={styles.textSection}>
+                <Text category="s1" style={styles.textHeader}>
+                  Intention
+                </Text>
+                <Text category="h6">{meditationInstance?.intention}</Text>
+              </Layout>
+            ) : null}
+            {meditationInstance?.notes ? (
+              <Layout level="2" style={styles.textSection}>
+                <Text category="s1" style={styles.textHeader}>
+                  What did you do well in your meditation?
+                </Text>
+                <Text category="h6">{meditationInstance?.notes}</Text>
+              </Layout>
+            ) : null}
+            {meditationInstance?.feedback ? (
+              <Layout level="2" style={styles.textSection}>
+                <Text category="s1" style={styles.textHeader}>
+                  If you had another opportunity, what would you do differently?
+                </Text>
+                <Text category="h6">{meditationInstance?.feedback}</Text>
+              </Layout>
+            ) : null}
           </Layout>
         </ScrollView>
         <Layout level="2">
@@ -87,7 +94,7 @@ export const MeditationNotesModalComponent = (props: Props) => {
 
 const styles = StyleSheet.create({
   backdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   meditationContentContainer: {
     backgroundColor: 'transparent',
@@ -110,7 +117,7 @@ const styles = StyleSheet.create({
   },
   rootContainer: {
     borderRadius: 10,
-    height: 680,
+    // height: 680,
     paddingHorizontal: 20,
     paddingBottom: 10,
     paddingTop: 30,
