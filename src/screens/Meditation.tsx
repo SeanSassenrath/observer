@@ -178,18 +178,20 @@ const MeditationScreen = ({
             </TouchableWithoutFeedback>
           </Layout>
           <Layout style={styles.mainSection} level="4">
-            <Layout level="4" style={styles.lastMedNotesSectionContainer}>
-              <Text category="h6" style={styles.thinkBoxLabel}>
-                Last Meditation Notes
-              </Text>
-              <Layout level="2" style={styles.lastMedNotesContainer}>
-                <MedNotesPreview
-                  meditation={lastMeditation}
-                  meditationInstance={lastMeditationInstance}
-                  onPress={() => setIsNotesModalVisible(true)}
-                />
+            {lastMeditation && lastMeditationInstance ? (
+              <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+                <Text category="h6" style={styles.thinkBoxLabel}>
+                  Last Meditation Notes
+                </Text>
+                <Layout level="2" style={styles.lastMedNotesContainer}>
+                  <MedNotesPreview
+                    meditation={lastMeditation}
+                    meditationInstance={lastMeditationInstance}
+                    onPress={() => setIsNotesModalVisible(true)}
+                  />
+                </Layout>
               </Layout>
-            </Layout>
+            ) : null}
             <Text category="h6" style={styles.thinkBoxLabel}>
               Set an Intention
             </Text>

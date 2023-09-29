@@ -35,6 +35,7 @@ import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationNotesModal from '../components/MeditationNotesModal';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
+import {Inspiration} from '../components/Inspiration';
 
 const brightWhite = '#fcfcfc';
 
@@ -171,18 +172,22 @@ const HomeScreen = () => {
               })}
             </Layout>
           ) : null}
-          <Layout level="4" style={styles.lastMedNotesSectionContainer}>
-            <Text category="h6" style={styles.thinkBoxLabel}>
-              Last Meditation
-            </Text>
-            <Layout level="2" style={styles.lastMedNotesContainer}>
-              <MedNotesPreview
-                meditation={lastMeditation}
-                meditationInstance={lastMeditationInstance}
-                onPress={() => setIsNotesModalVisible(true)}
-              />
+          {lastMeditation && lastMeditationInstance ? (
+            <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+              <Text category="h6" style={styles.thinkBoxLabel}>
+                Last Meditation
+              </Text>
+              <Layout level="2" style={styles.lastMedNotesContainer}>
+                <MedNotesPreview
+                  meditation={lastMeditation}
+                  meditationInstance={lastMeditationInstance}
+                  onPress={() => setIsNotesModalVisible(true)}
+                />
+              </Layout>
             </Layout>
-          </Layout>
+          ) : (
+            <Inspiration />
+          )}
           {/* <Inspiration />
           <Streaks current={streakData.current} longest={streakData.longest} /> */}
           <Layout level="4" style={styles.listsContainer}>
