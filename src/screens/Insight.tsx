@@ -6,9 +6,7 @@ import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import {TopMeditations} from '../components/TopMeditations';
 import {TimeInMeditationChart} from '../components/TimeInMeditationChart';
-import {MeditationInstance} from '../types';
 import UserContext from '../contexts/userData';
-import {DateTime} from 'luxon';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {Streaks} from '../components/Streaks';
 import {getUserStreakData} from '../utils/streaks';
@@ -16,8 +14,8 @@ import {getMeditationCounts} from '../utils/meditation';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MedNotesPreview from '../components/MedNotesPreview';
-
-const EMPTY_STRING = '';
+import MeditationNotesModal from '../components/MeditationNotesModal';
+import {MeditationBase, MeditationInstance} from '../types';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -31,6 +29,13 @@ const InsightScreen = () => {
   );
   const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
+  const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
+  const [selectedMeditation, setSelectedMeditation] = useState(
+    {} as MeditationBase,
+  );
+  const [selectedMeditationInstance, setSelectedMeditationInstance] = useState(
+    {} as MeditationInstance,
+  );
   const isFocused = useIsFocused();
   const streakData = getUserStreakData(user);
 
@@ -81,15 +86,6 @@ const InsightScreen = () => {
       });
   };
 
-  const getDisplayDate = (item: MeditationInstance) => {
-    if (item.meditationStartTime) {
-      const date = DateTime.fromSeconds(item.meditationStartTime);
-      return date.toLocaleString(DateTime.DATETIME_SHORT);
-    } else {
-      return EMPTY_STRING;
-    }
-  };
-
   const meditationCounts = getMeditationCounts(user);
 
   const onEduClosePress = async () => {
@@ -105,6 +101,15 @@ const InsightScreen = () => {
     });
   };
 
+  const onMeditationInstancePress = (
+    meditation: MeditationBase,
+    meditationInstance: MeditationInstance,
+  ) => {
+    setSelectedMeditation(meditation);
+    setSelectedMeditationInstance(meditationInstance);
+    setIsNotesModalVisible(true);
+  };
+
   interface ListItem {
     item: MeditationInstance;
     index: number;
@@ -118,7 +123,7 @@ const InsightScreen = () => {
         <MedNotesPreview
           meditation={meditation}
           meditationInstance={item}
-          onPress={() => {}}
+          onPress={() => onMeditationInstancePress(meditation, item)}
         />
       </Layout>
     );
@@ -166,6 +171,13 @@ const InsightScreen = () => {
           title="Your Insights"
         />
       ) : null}
+      <MeditationNotesModal
+        visible={isNotesModalVisible}
+        onBackdropPress={() => setIsNotesModalVisible(false)}
+        meditation={selectedMeditation}
+        meditationInstance={selectedMeditationInstance}
+        showStartMeditation
+      />
     </Layout>
   );
 };
