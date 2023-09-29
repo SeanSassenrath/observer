@@ -1,32 +1,35 @@
 import React, {useContext} from 'react';
 import {Pressable, StyleSheet} from 'react-native';
-import {Avatar, Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import {Avatar, Icon, Layout, useStyleSheet} from '@ui-kitten/components';
 
 import UserContext from '../contexts/userData';
+import StreakPill from './StreakPill';
+import {getUserStreakData} from '../utils/streaks';
 
 const brightWhite = '#fcfcfc';
 
 interface HomeTopBarProps {
   onAvatarPress(): void;
-  onVoidPress(): void;
+  onStreaksPress(): void;
 }
 
-export const HomeTopBar = ({onAvatarPress, onVoidPress}: HomeTopBarProps) => {
+export const HomeTopBar = ({
+  onAvatarPress,
+  onStreaksPress,
+}: HomeTopBarProps) => {
   const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
-  const UserIcon = (props: any) => (
+  const streakData = getUserStreakData(user);
+
+  const UserIcon = () => (
     <Icon style={styles.userIcon} fill={brightWhite} name="person" />
   );
 
   return (
     <Layout style={styles.topBarContainer} level="4">
-      <Pressable onPress={onVoidPress}>
-        <Layout style={styles.topBarVoidContainer}>
-          <Text category="s2" style={styles.topBarVoidText}>
-            BETA
-          </Text>
-        </Layout>
+      <Pressable onPress={onStreaksPress}>
+        <StreakPill streaks={streakData} />
       </Pressable>
       <Layout style={styles.topBarActionItemsContainer} level="4">
         <Pressable onPress={onAvatarPress}>

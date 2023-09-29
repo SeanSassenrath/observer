@@ -62,7 +62,6 @@ const HomeScreen = () => {
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
-  const [showMedIds, setShowMedIds] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -140,9 +139,9 @@ const HomeScreen = () => {
     }
   };
 
-  const onVoidPress = () => {
-    // navigation.navigate('Debug');
-    setShowMedIds(!showMedIds);
+  const onStreaksPress = () => {
+    //@ts-ignore
+    navigation.navigate('TabNavigation', {screen: 'Insight'});
   };
 
   const onEduClosePress = async () => {
@@ -164,15 +163,8 @@ const HomeScreen = () => {
         <ScrollView style={styles.scrollContainer}>
           <HomeTopBar
             onAvatarPress={() => setIsModalVisible(true)}
-            onVoidPress={onVoidPress}
+            onStreaksPress={onStreaksPress}
           />
-          {showMedIds ? (
-            <Layout style={{marginBottom: 20, padding: 20}}>
-              {Object.keys(meditationBaseData).map(key => {
-                return <Text key={key}>{key}</Text>;
-              })}
-            </Layout>
-          ) : null}
           {lastMeditation && lastMeditationInstance ? (
             <Layout level="4" style={styles.lastMedNotesSectionContainer}>
               <Text category="h6" style={styles.thinkBoxLabel}>
@@ -189,8 +181,6 @@ const HomeScreen = () => {
           ) : (
             <Inspiration />
           )}
-          {/* <Inspiration />
-          <Streaks current={streakData.current} longest={streakData.longest} /> */}
           <Layout level="4" style={styles.listsContainer}>
             <MeditationList
               header="Recent Meditations"
