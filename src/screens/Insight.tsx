@@ -15,6 +15,7 @@ import {getUserStreakData} from '../utils/streaks';
 import {getMeditationCounts} from '../utils/meditation';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
+import MedNotesPreview from '../components/MedNotesPreview';
 
 const EMPTY_STRING = '';
 
@@ -110,37 +111,15 @@ const InsightScreen = () => {
   }
 
   const renderListItem = ({item, index}: ListItem) => {
-    const level = index % 2 ? '2' : '1';
-    const displayDate = getDisplayDate(item);
-    const isFirstItem = index === 0;
-    const isLastItem = meditationHistory.length - 1 === index;
-    const meditationBaseBreathId = item && item.meditationBaseBreathId;
-    const breathWorkBase =
-      meditationBaseBreathId && meditationBaseMap[meditationBaseBreathId];
-    const breathWorkName = breathWorkBase && breathWorkBase.name;
-    const itemStyles = isFirstItem
-      ? styles.firstItem
-      : isLastItem
-      ? styles.lastItem
-      : styles.listItem;
+    const meditation = meditationBaseMap[item.meditationBaseId];
 
     return (
-      <Layout style={itemStyles} level={level} key={index}>
-        <Layout level={level} style={styles.listItemDataContainer}>
-          <Layout level={level}>
-            <Text category="s1" style={styles.listItemText}>
-              {item.name}
-            </Text>
-            {breathWorkName ? (
-              <Text category="s1" style={styles.listItemBreathWorkText}>
-                {breathWorkName}
-              </Text>
-            ) : null}
-            <Text category="s2" style={styles.listItemDate}>
-              {displayDate}
-            </Text>
-          </Layout>
-        </Layout>
+      <Layout style={styles.listItem} level="2" key={index}>
+        <MedNotesPreview
+          meditation={meditation}
+          meditationInstance={item}
+          onPress={() => {}}
+        />
       </Layout>
     );
   };
@@ -211,9 +190,9 @@ const themedStyles = StyleSheet.create({
     padding: 18,
   },
   listItem: {
-    paddingVertical: 16,
-    paddingHorizontal: 20,
+    borderRadius: 10,
     marginHorizontal: 20,
+    marginBottom: 10,
   },
   listItemText: {
     marginVertical: 2,
