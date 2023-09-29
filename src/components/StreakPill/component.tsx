@@ -46,7 +46,7 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 100,
     flexDirection: 'row',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 8,
   },
   active: {

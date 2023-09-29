@@ -11,11 +11,13 @@ const brightWhite = '#fcfcfc';
 interface HomeTopBarProps {
   onAvatarPress(): void;
   onStreaksPress(): void;
+  onAddMeditationsPress(): void;
 }
 
 export const HomeTopBar = ({
   onAvatarPress,
   onStreaksPress,
+  onAddMeditationsPress,
 }: HomeTopBarProps) => {
   const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
@@ -26,12 +28,21 @@ export const HomeTopBar = ({
     <Icon style={styles.userIcon} fill={brightWhite} name="person" />
   );
 
+  const PlusIcon = () => (
+    <Icon style={styles.plusIcon} fill={brightWhite} name="plus-outline" />
+  );
+
   return (
     <Layout style={styles.topBarContainer} level="4">
       <Pressable onPress={onStreaksPress}>
         <StreakPill streaks={streakData} />
       </Pressable>
       <Layout style={styles.topBarActionItemsContainer} level="4">
+        <Pressable onPress={onAddMeditationsPress}>
+          <Layout style={styles.plusIconContainer}>
+            <PlusIcon />
+          </Layout>
+        </Pressable>
         <Pressable onPress={onAvatarPress}>
           {user.profile && user.profile.photoURL ? (
             <Avatar source={{uri: user.profile.photoURL}} />
@@ -47,6 +58,19 @@ export const HomeTopBar = ({
 };
 
 const themedStyles = StyleSheet.create({
+  plusIconContainer: {
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    marginRight: 20,
+    width: 40,
+    height: 40,
+  },
+  plusIcon: {
+    height: 30,
+    width: 30,
+  },
   searchIcon: {
     height: 25,
     width: 25,

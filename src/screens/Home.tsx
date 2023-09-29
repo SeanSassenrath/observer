@@ -164,6 +164,7 @@ const HomeScreen = () => {
           <HomeTopBar
             onAvatarPress={() => setIsModalVisible(true)}
             onStreaksPress={onStreaksPress}
+            onAddMeditationsPress={onAddMeditationsPress}
           />
           {lastMeditation && lastMeditationInstance ? (
             <Layout level="4" style={styles.lastMedNotesSectionContainer}>
@@ -196,7 +197,9 @@ const HomeScreen = () => {
             />
           </Layout>
         </ScrollView>
-        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+        {meditationFilePaths ? null : (
+          <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+        )}
       </SafeAreaView>
       {!user.onboarding.hasSeenHomeOnboarding ? (
         <EduPromptComponent
