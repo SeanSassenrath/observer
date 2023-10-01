@@ -159,48 +159,46 @@ const HomeScreen = () => {
 
   return (
     <Layout style={styles.container} level="4">
-      <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollContainer}>
-          <HomeTopBar
-            onAvatarPress={() => setIsModalVisible(true)}
-            onStreaksPress={onStreaksPress}
-            onAddMeditationsPress={onAddMeditationsPress}
-          />
-          {lastMeditation && lastMeditationInstance ? (
-            <Layout level="4" style={styles.lastMedNotesSectionContainer}>
-              <Text category="h6" style={styles.thinkBoxLabel}>
-                Last Meditation
-              </Text>
-              <Layout level="2" style={styles.lastMedNotesContainer}>
-                <MedNotesPreview
-                  meditation={lastMeditation}
-                  meditationInstance={lastMeditationInstance}
-                  onPress={() => setIsNotesModalVisible(true)}
-                />
-              </Layout>
+      <ScrollView style={styles.scrollContainer}>
+        <HomeTopBar
+          onAvatarPress={() => setIsModalVisible(true)}
+          onStreaksPress={onStreaksPress}
+          onAddMeditationsPress={onAddMeditationsPress}
+        />
+        {lastMeditation && lastMeditationInstance ? (
+          <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+            <Text category="h6" style={styles.thinkBoxLabel}>
+              Last Meditation
+            </Text>
+            <Layout level="2" style={styles.lastMedNotesContainer}>
+              <MedNotesPreview
+                meditation={lastMeditation}
+                meditationInstance={lastMeditationInstance}
+                onPress={() => setIsNotesModalVisible(true)}
+              />
             </Layout>
-          ) : (
-            <Inspiration />
-          )}
-          <Layout level="4" style={styles.listsContainer}>
-            <MeditationList
-              header="Recent Meditations"
-              meditationBaseIds={recentMeditationBaseIds}
-              onMeditationPress={onMeditationPress}
-              existingMeditationFilePathData={meditationFilePaths}
-            />
-            <MeditationList
-              header="Top Meditations"
-              meditationBaseIds={favoriteMeditations}
-              onMeditationPress={onMeditationPress}
-              existingMeditationFilePathData={meditationFilePaths}
-            />
           </Layout>
-        </ScrollView>
-        {meditationFilePaths ? null : (
-          <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+        ) : (
+          <Inspiration />
         )}
-      </SafeAreaView>
+        <Layout level="4" style={styles.listsContainer}>
+          <MeditationList
+            header="Recent Meditations"
+            meditationBaseIds={recentMeditationBaseIds}
+            onMeditationPress={onMeditationPress}
+            existingMeditationFilePathData={meditationFilePaths}
+          />
+          <MeditationList
+            header="Top Meditations"
+            meditationBaseIds={favoriteMeditations}
+            onMeditationPress={onMeditationPress}
+            existingMeditationFilePathData={meditationFilePaths}
+          />
+        </Layout>
+      </ScrollView>
+      {meditationFilePaths ? null : (
+        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
+      )}
       {!user.onboarding.hasSeenHomeOnboarding ? (
         <EduPromptComponent
           description="Welcome to your home! Easily access recent meditations, see your streaks, and more."
@@ -286,7 +284,6 @@ const themedStyles = StyleSheet.create({
   },
   scrollContainer: {
     flex: 1,
-    flexDirection: 'column',
   },
   userIconContainer: {
     alignItems: 'center',

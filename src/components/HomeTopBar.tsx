@@ -5,6 +5,7 @@ import {Avatar, Icon, Layout, useStyleSheet} from '@ui-kitten/components';
 import UserContext from '../contexts/userData';
 import StreakPill from './StreakPill';
 import {getUserStreakData} from '../utils/streaks';
+import {Wave} from './Wave/component';
 
 const brightWhite = '#fcfcfc';
 
@@ -33,25 +34,30 @@ export const HomeTopBar = ({
   );
 
   return (
-    <Layout style={styles.topBarContainer} level="4">
-      <Pressable onPress={onStreaksPress}>
-        <StreakPill streaks={streakData} />
-      </Pressable>
-      <Layout style={styles.topBarActionItemsContainer} level="4">
-        <Pressable onPress={onAddMeditationsPress}>
-          <Layout style={styles.plusIconContainer}>
-            <PlusIcon />
-          </Layout>
+    <Layout style={styles.container} level="4">
+      <Layout style={styles.rowContainer}>
+        <Pressable onPress={onStreaksPress}>
+          <StreakPill streaks={streakData} />
         </Pressable>
-        <Pressable onPress={onAvatarPress}>
-          {user.profile && user.profile.photoURL ? (
-            <Avatar source={{uri: user.profile.photoURL}} />
-          ) : (
-            <Layout style={styles.userIconContainer}>
-              <UserIcon />
+        <Layout style={styles.topBarActionItemsContainer} level="4">
+          <Pressable onPress={onAddMeditationsPress}>
+            <Layout style={styles.plusIconContainer}>
+              <PlusIcon />
             </Layout>
-          )}
-        </Pressable>
+          </Pressable>
+          <Pressable onPress={onAvatarPress}>
+            {user.profile && user.profile.photoURL ? (
+              <Avatar source={{uri: user.profile.photoURL}} />
+            ) : (
+              <Layout style={styles.userIconContainer}>
+                <UserIcon />
+              </Layout>
+            )}
+          </Pressable>
+        </Layout>
+      </Layout>
+      <Layout style={styles.waveContainer}>
+        <Wave />
       </Layout>
     </Layout>
   );
@@ -75,12 +81,18 @@ const themedStyles = StyleSheet.create({
     height: 25,
     width: 25,
   },
-  topBarContainer: {
+  container: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    paddingTop: 60,
+    marginBottom: 20,
+    backgroundColor: 'color-primary-900',
+  },
+  rowContainer: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
-    marginBottom: 20,
   },
   topBarActionItemsContainer: {
     flexDirection: 'row',
@@ -115,5 +127,11 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
+  },
+  waveContainer: {
+    overflow: 'hidden',
+    flex: 1,
+    height: 149,
+    backgroundColor: 'color-primary-900',
   },
 });
