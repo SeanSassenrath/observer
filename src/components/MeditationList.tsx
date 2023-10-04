@@ -50,8 +50,7 @@ export const MeditationList = ({
   return (
     <Layout
       style={isMini ? styles.containerMini : styles.container}
-      key={header}
-      level="4">
+      key={header}>
       <Text category="h6" style={styles.header}>
         {header}
       </Text>
@@ -149,10 +148,11 @@ export const _MeditationList = (props: _MeditationListProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'transparent',
     marginBottom: 60,
   },
   containerMini: {
-    marginBottom: 40,
+    backgroundColor: 'transparent',
   },
   header: {
     opacity: 0.8,

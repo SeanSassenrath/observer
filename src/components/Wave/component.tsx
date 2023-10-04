@@ -14,9 +14,9 @@ export const Wave = () => {
   const dimens = Dimensions.get('screen');
   const width = dimens.width;
   const frequency = 2;
-  const initialAmplitude = 40;
+  const initialAmplitude = 50;
   const verticalShiftConst = 100;
-  const height = 150;
+  const height = 200;
   const horizontalShift = (dimens.width - width) / 2;
 
   const verticalShift = useValue(verticalShiftConst);
@@ -48,7 +48,7 @@ export const Wave = () => {
   };
 
   const animatedPath = useComputedValue(() => {
-    const current = (clock.current / 1700) % 225;
+    const current = (clock.current / 2600) % 225;
     const start = Skia.Path.MakeFromSVGString(createWavePath(current))!;
     const end = Skia.Path.MakeFromSVGString(createWavePath(Math.PI * current))!;
     return start.interpolate(end, 0.5)!;
@@ -59,8 +59,16 @@ export const Wave = () => {
       <Path
         path={animatedPath}
         style={'stroke'}
-        color="white"
-        strokeWidth={5}
+        color="#9147BB"
+        strokeWidth={3}
+        opacity={0.4}
+      />
+      <Path
+        path={animatedPath}
+        style={'stroke'}
+        color="#48127A"
+        strokeWidth={20}
+        opacity={0.3}
       />
     </Canvas>
   );

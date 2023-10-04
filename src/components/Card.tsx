@@ -136,7 +136,7 @@ export const CardV4 = (props: CardProps) => (
         <Text category="s2">{`${props.formattedDuration}m`}</Text>
       </Layout>
     </ImageBackground>
-    <Layout level="4" style={getCardNameStyles(props)}>
+    <Layout style={getCardNameStyles(props)}>
       <Text category="s1">{props.name}</Text>
     </Layout>
   </Pressable>
@@ -193,6 +193,7 @@ const stylesV4 = StyleSheet.create({
     flex: 1,
   },
   nameContainer: {
+    backgroundColor: 'transparent',
     justifyContent: 'flex-end',
     paddingTop: 18,
     paddingHorizontal: 8,
@@ -200,6 +201,7 @@ const stylesV4 = StyleSheet.create({
     width: 200,
   },
   disabledNameContainer: {
+    backgroundColor: 'transparent',
     justifyContent: 'flex-end',
     paddingTop: 18,
     paddingHorizontal: 8,

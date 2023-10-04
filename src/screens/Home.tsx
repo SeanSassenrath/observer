@@ -37,6 +37,7 @@ import MeditationNotesModal from '../components/MeditationNotesModal';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {Inspiration} from '../components/Inspiration';
+import LinearGradient from 'react-native-linear-gradient';
 
 const brightWhite = '#fcfcfc';
 
@@ -158,43 +159,45 @@ const HomeScreen = () => {
   // const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
 
   return (
-    <Layout style={styles.container} level="4">
+    <Layout style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <HomeTopBar
-          onAvatarPress={() => setIsModalVisible(true)}
-          onStreaksPress={onStreaksPress}
-          onAddMeditationsPress={onAddMeditationsPress}
-        />
-        {lastMeditation && lastMeditationInstance ? (
-          <Layout level="4" style={styles.lastMedNotesSectionContainer}>
-            <Text category="h6" style={styles.thinkBoxLabel}>
-              Last Meditation
-            </Text>
-            <Layout level="2" style={styles.lastMedNotesContainer}>
-              <MedNotesPreview
-                meditation={lastMeditation}
-                meditationInstance={lastMeditationInstance}
-                onPress={() => setIsNotesModalVisible(true)}
-              />
+        <LinearGradient colors={['#020306', '#1B0444']}>
+          <HomeTopBar
+            onAvatarPress={() => setIsModalVisible(true)}
+            onStreaksPress={onStreaksPress}
+            onAddMeditationsPress={onAddMeditationsPress}
+          />
+          {lastMeditation && lastMeditationInstance ? (
+            <Layout style={styles.lastMedNotesSectionContainer}>
+              <Text category="h6" style={styles.thinkBoxLabel}>
+                Last Meditation
+              </Text>
+              <Layout level="1" style={styles.lastMedNotesContainer}>
+                <MedNotesPreview
+                  meditation={lastMeditation}
+                  meditationInstance={lastMeditationInstance}
+                  onPress={() => setIsNotesModalVisible(true)}
+                />
+              </Layout>
             </Layout>
+          ) : (
+            <Inspiration />
+          )}
+          <Layout style={styles.listsContainer}>
+            <MeditationList
+              header="Recent Meditations"
+              meditationBaseIds={recentMeditationBaseIds}
+              onMeditationPress={onMeditationPress}
+              existingMeditationFilePathData={meditationFilePaths}
+            />
+            <MeditationList
+              header="Top Meditations"
+              meditationBaseIds={favoriteMeditations}
+              onMeditationPress={onMeditationPress}
+              existingMeditationFilePathData={meditationFilePaths}
+            />
           </Layout>
-        ) : (
-          <Inspiration />
-        )}
-        <Layout level="4" style={styles.listsContainer}>
-          <MeditationList
-            header="Recent Meditations"
-            meditationBaseIds={recentMeditationBaseIds}
-            onMeditationPress={onMeditationPress}
-            existingMeditationFilePathData={meditationFilePaths}
-          />
-          <MeditationList
-            header="Top Meditations"
-            meditationBaseIds={favoriteMeditations}
-            onMeditationPress={onMeditationPress}
-            existingMeditationFilePathData={meditationFilePaths}
-          />
-        </Layout>
+        </LinearGradient>
       </ScrollView>
       {meditationFilePaths ? null : (
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
@@ -262,13 +265,16 @@ const themedStyles = StyleSheet.create({
     flex: 1,
   },
   lastMedNotesSectionContainer: {
+    backgroundColor: 'transparent',
     marginBottom: 60,
   },
   lastMedNotesContainer: {
+    backgroundColor: 'rgba(34, 43, 69, 0.7)',
     borderRadius: 10,
     marginHorizontal: 20,
   },
   listsContainer: {
+    backgroundColor: 'transparent',
     paddingBottom: 60,
   },
   startCard: {

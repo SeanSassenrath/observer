@@ -34,12 +34,12 @@ export const HomeTopBar = ({
   );
 
   return (
-    <Layout style={styles.container} level="4">
+    <Layout style={styles.container}>
       <Layout style={styles.rowContainer}>
         <Pressable onPress={onStreaksPress}>
           <StreakPill streaks={streakData} />
         </Pressable>
-        <Layout style={styles.topBarActionItemsContainer} level="4">
+        <Layout style={styles.topBarActionItemsContainer}>
           <Pressable onPress={onAddMeditationsPress}>
             <Layout style={styles.plusIconContainer}>
               <PlusIcon />
@@ -86,7 +86,8 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 60,
     marginBottom: 20,
-    backgroundColor: 'color-primary-900',
+    backgroundColor: 'transparent',
+    // backgroundColor: '#020306',
   },
   rowContainer: {
     backgroundColor: 'transparent',
@@ -95,6 +96,7 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
   },
   topBarActionItemsContainer: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
   },
   topBarSearchContainer: {
@@ -131,7 +133,8 @@ const themedStyles = StyleSheet.create({
   waveContainer: {
     overflow: 'hidden',
     flex: 1,
-    height: 149,
-    backgroundColor: 'color-primary-900',
+    height: 160,
+    // backgroundColor: '#020306',
+    backgroundColor: 'transparent',
   },
 });

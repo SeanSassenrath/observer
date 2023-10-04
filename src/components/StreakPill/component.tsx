@@ -16,7 +16,7 @@ export const StreakPillComponent = (props: Props) => {
   const isActive = streaks.current && streaks.current > 0;
 
   return (
-    <Layout level="4">
+    <Layout style={styles.root}>
       <Layout
         style={
           isActive
@@ -51,5 +51,8 @@ const themedStyles = StyleSheet.create({
   },
   active: {
     backgroundColor: 'color-primary-600',
+  },
+  root: {
+    backgroundColor: 'transparent',
   },
 });
