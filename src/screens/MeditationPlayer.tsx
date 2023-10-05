@@ -1,20 +1,33 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import TrackPlayer, { useProgress, useTrackPlayerEvents, Event, Track, State as TrackPlayerState } from 'react-native-track-player';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import TrackPlayer, {
+  useProgress,
+  useTrackPlayerEvents,
+  Event,
+  Track,
+  State as TrackPlayerState,
+} from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import KeepAwake from 'react-native-keep-awake';
-import { Icon, Layout, Modal, Text } from '@ui-kitten/components';
+import {Icon, Layout, Modal, Text} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import { MeditationPlayerScreenNavigationProp, MeditationPlayerStackScreenProps } from '../types';
-import { convertMeditationToTrack } from '../utils/track';
+import {
+  MeditationPlayerScreenNavigationProp,
+  MeditationPlayerStackScreenProps,
+} from '../types';
+import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import Button from '../components/Button';
-import { onAddMeditations } from '../utils/addMeditations';
-import { MeditationFilePathData } from '../utils/asyncStorageMeditation';
-import { meditationPlayerSendEvent, Action, Noun } from '../analytics';
+import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
+import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -23,41 +36,64 @@ const errorRed = '#E28E69';
 const countDownInSeconds = 8;
 
 const CloseIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.closeIcon} fill={brightWhite} name='close-outline' />
+  <Icon
+    {...props}
+    style={iconStyles.closeIcon}
+    fill={brightWhite}
+    name="close-outline"
+  />
 );
 
 const PlayIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.playerIcon} fill={lightWhite} name='play-circle' />
+  <Icon
+    {...props}
+    style={iconStyles.playerIcon}
+    fill={lightWhite}
+    name="play-circle"
+  />
 );
 
 const PauseIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.playerIcon} fill={lightWhite} name='pause-circle' />
+  <Icon
+    {...props}
+    style={iconStyles.playerIcon}
+    fill={lightWhite}
+    name="pause-circle"
+  />
 );
 
 const RestartIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.restartIcon} fill={lightWhite} name='sync' />
+  <Icon
+    {...props}
+    style={iconStyles.restartIcon}
+    fill={lightWhite}
+    name="sync"
+  />
 );
 
-const ErrorIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.restartIcon} fill={errorRed} name='alert-circle-outline' />
-);
-
-const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
-  const { meditationBaseData, setMeditationBaseData } = useContext(MeditationBaseDataContext);
-  const { meditationInstanceData, setMeditationInstanceData } = useContext(MeditationInstanceDataContext);
-  const [existingMeditationFilePathData, setExistingMeditationFilePathData] = useState({} as MeditationFilePathData);
+const MeditationPlayer = ({
+  route,
+}: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
+  const {meditationInstanceData, setMeditationInstanceData} = useContext(
+    MeditationInstanceDataContext,
+  );
+  const [existingMeditationFilePathData, setExistingMeditationFilePathData] =
+    useState({} as MeditationFilePathData);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const timerRef = React.useRef(time);
-  const { position, duration } = useProgress();
+  const {position, duration} = useProgress();
   const [trackData, setTrackData] = useState({} as Track);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
 
-  const { id, meditationBreathId } = route.params;
+  const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
@@ -69,20 +105,16 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
       setMeditationInstanceData({
         ...meditationInstanceData,
         timeMeditated: meditationTime + position,
-      })
+      });
       navigation.navigate('MeditationFinish');
     }
   });
 
   useEffect(() => {
-    meditationPlayerSendEvent(
-      Action.VIEW,
-      Noun.ON_MOUNT,
-      {
-        meditationName: meditation.name,
-        meditationBaseId: meditation.meditationBaseId,
-      },
-    );
+    meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
+      meditationName: meditation.name,
+      meditationBaseId: meditation.meditationBaseId,
+    });
     addTracks();
     const countDownTimer = setCountDownTimer();
     const trackStateInterval = getTrackState();
@@ -92,26 +124,26 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
       clearInterval(countDownTimer);
       clearInterval(trackStateInterval);
       resetTrackPlayer();
-    }
+    };
   }, []);
 
   const addTracks = async () => {
     const tracks = makeTrackList();
     setTracks(tracks);
-    await TrackPlayer.add(tracks)
-  }
+    await TrackPlayer.add(tracks);
+  };
 
   const makeTrackList = () => {
     const tracks = [];
     tracks.push(convertMeditationToTrack(meditation));
 
-    if (!!meditationBreathId) {
+    if (meditationBreathId) {
       const meditationBreath = meditationBaseData[meditationBreathId];
-      tracks.unshift(convertMeditationToTrack(meditationBreath))
-    };
+      tracks.unshift(convertMeditationToTrack(meditationBreath));
+    }
 
     return tracks;
-  }
+  };
 
   const setCountDownTimer = () => {
     const countDownTimer = setInterval(() => {
@@ -126,44 +158,33 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     }, 1000);
 
     return countDownTimer;
-  }
+  };
 
   const getTrackState = () => {
     const getTrackStateInterval = setInterval(async () => {
       const state = await TrackPlayer.getState();
       if (
         state === TrackPlayerState.Buffering ||
-        state === TrackPlayerState.Connecting &&
-        timerRef.current <= 0
+        (state === TrackPlayerState.Connecting && timerRef.current <= 0)
       ) {
-        meditationPlayerSendEvent(
-          Action.FAIL,
-          Noun.ON_PLAY,
-          {
-            meditationName: meditation.name,
-            meditationBaseId: meditation.meditationBaseId,
-          },
-        );
+        meditationPlayerSendEvent(Action.FAIL, Noun.ON_PLAY, {
+          meditationName: meditation.name,
+          meditationBaseId: meditation.meditationBaseId,
+        });
         clearInterval(getTrackStateInterval);
         // setIsModalVisible(true);
         //@ts-ignore
-      } else if (
-        state !== TrackPlayerState.Playing &&
-        isPlaying
-      ) {
+      } else if (state !== TrackPlayerState.Playing && isPlaying) {
         setIsPlaying(false);
-      } else if (
-        state === TrackPlayerState.Playing &&
-        !isPlaying
-      ) {
+      } else if (state === TrackPlayerState.Playing && !isPlaying) {
         setIsModalVisible(false);
         setIsPlaying(true);
       }
       console.log('player state', state);
-    }, 1000)
+    }, 1000);
 
     return getTrackStateInterval;
-  }
+  };
 
   const shouldKeepAwake = (_shouldBeAwake: boolean) => {
     if (_shouldBeAwake) {
@@ -171,7 +192,7 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
     } else {
       KeepAwake.deactivate();
     }
-  }
+  };
 
   // const onAddMeditationsPress = async () => {
   //   const meditations = await onAddMeditations(
@@ -188,46 +209,45 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   const playTrackPlayer = async () => {
     TrackPlayer.play();
     setIsPlaying(true);
-  }
+  };
 
   const resetTrackPlayer = () => {
     TrackPlayer.reset();
-  }
+  };
 
   const onClosePress = () => {
     shouldKeepAwake(false);
     resetTrackPlayer();
     navigation.goBack();
-  }
+  };
 
   const onFinishPress = () => {
     console.log('MEDITATION PLAYER: onFinishPress > position', position);
 
     shouldKeepAwake(false);
     resetTrackPlayer();
-  }
+  };
 
   const onPlayPress = () => {
     playTrackPlayer();
-  }
+  };
 
   const onPausePress = async () => {
     TrackPlayer.pause();
     setIsPlaying(false);
-  }
+  };
 
   const onRestartPress = async () => {
     TrackPlayer.seekTo(0);
-  }
+  };
 
   const isFinishButtonDisabled = time > 3;
-  const timePassed = new Date(position * 1000)
-    .toISOString()
-    .slice(12, 19);
+  const timePassed = new Date(position * 1000).toISOString().slice(12, 19);
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
     .slice(12, 19);
-  const trackTitle = tracks[currentTrackIndex]&& tracks[currentTrackIndex].title;
+  const trackTitle =
+    tracks[currentTrackIndex] && tracks[currentTrackIndex].title;
 
   // const renderModalContext = () => {
   //   return (
@@ -252,39 +272,34 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
   // }
 
   return (
-    <Layout style={styles.container} level='4'>
+    <View style={styles.container}>
       <SafeAreaView style={styles.container}>
-        <Layout style={styles.topBarContainer} level='4'>
-          <Text category='h6' style={styles.topBarTitle}>
-            Playbox
-          </Text>
-          <TouchableWithoutFeedback
-            onPress={onClosePress}
-          >
-            <Layout level='4'>
+        <View style={styles.topBarContainer}>
+          <Text category="h6" style={styles.topBarTitle} />
+          <TouchableWithoutFeedback onPress={onClosePress}>
+            <View>
               <CloseIcon />
-            </Layout>
+            </View>
           </TouchableWithoutFeedback>
-        </Layout>
-        <Layout style={styles.mainContainer} level='4'>
-          <Layout style={styles.countdownTextContainer} level='4'>
-            {time > 2
-              ? <Text style={styles.countdownText}>{time - 3}</Text>
-              : null
-            }
-          </Layout>
-          <Layout style={styles.meditationName} level='4'>
-            <Text category='h6' style={styles.meditationNameText}>{trackTitle}</Text>
-          </Layout>
-        </Layout>
-        <Layout style={styles.bottomBarContainer} level='4'>
-          <Layout style={playerStyles.container} level='4'>
-            <TouchableWithoutFeedback
-              onPress={onRestartPress}
-            >
-              <Layout style={playerStyles.restartContainer} level='4'>
+        </View>
+        <View style={styles.mainContainer}>
+          <View style={styles.countdownTextContainer}>
+            {time > 2 ? (
+              <Text style={styles.countdownText}>{time - 3}</Text>
+            ) : null}
+          </View>
+          <View style={styles.meditationName}>
+            <Text category="h6" style={styles.meditationNameText}>
+              {trackTitle}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.bottomBarContainer}>
+          <View style={playerStyles.container}>
+            <TouchableWithoutFeedback onPress={onRestartPress}>
+              <View style={playerStyles.restartContainer}>
                 <RestartIcon />
-              </Layout>
+              </View>
             </TouchableWithoutFeedback>
             <Slider
               style={playerStyles.slider}
@@ -296,61 +311,59 @@ const MeditationPlayer = ({ route }: MeditationPlayerStackScreenProps<'Meditatio
               maximumTrackTintColor={lightestWhite}
               onSlidingComplete={TrackPlayer.seekTo}
             />
-            <Layout style={playerStyles.timeTextContainer} level='4'>
-              <Layout style={playerStyles.timeContainer} level='4'>
-                <Text category='s2' style={playerStyles.timePassed}>{timePassed}</Text>
-              </Layout>
-              <Layout style={playerStyles.timeContainer} level='4'>
-                <Text category='s2' style={playerStyles.timeLeft}>{`-${timeLeft}`}</Text>
-              </Layout>
-            </Layout>
-            {isPlaying
-              ? <TouchableWithoutFeedback
-                onPress={onPausePress}
-              >
+            <View style={playerStyles.timeTextContainer}>
+              <View style={playerStyles.timeContainer}>
+                <Text category="s2" style={playerStyles.timePassed}>
+                  {timePassed}
+                </Text>
+              </View>
+              <View style={playerStyles.timeContainer}>
+                <Text
+                  category="s2"
+                  style={playerStyles.timeLeft}>{`-${timeLeft}`}</Text>
+              </View>
+            </View>
+            {isPlaying ? (
+              <TouchableWithoutFeedback onPress={onPausePress}>
                 <PauseIcon />
               </TouchableWithoutFeedback>
-              : <TouchableWithoutFeedback
-                onPress={onPlayPress}
-              >
+            ) : (
+              <TouchableWithoutFeedback onPress={onPlayPress}>
                 <PlayIcon />
               </TouchableWithoutFeedback>
-            }
-          </Layout>
-          <Layout style={styles.finishButtonContainer} level='4'>
+            )}
+          </View>
+          <View style={styles.finishButtonContainer}>
             <_Button
               disabled={isFinishButtonDisabled}
               onPress={onFinishPress}
               size="large"
-              style={styles.finishButton}
-            >
+              style={styles.finishButton}>
               FINISH
             </_Button>
-          </Layout>
-        </Layout>
+          </View>
+        </View>
       </SafeAreaView>
       <Modal
         visible={isModalVisible}
         backdropStyle={styles.modalBackdrop}
-        onBackdropPress={() => setIsModalVisible(false)}
-      >
-        <Layout level='3' style={styles.modalContainer}>
+        onBackdropPress={() => setIsModalVisible(false)}>
+        <Layout level="3" style={styles.modalContainer}>
           {/* <Layout level='3'>
             {renderModalContext()}
           </Layout> */}
           <Button
-            appearance='ghost'
+            appearance="ghost"
             onPress={() => setIsModalVisible(false)}
             style={styles.modalButton}
-            status="control"
-          >
+            status="control">
             Close
           </Button>
         </Layout>
       </Modal>
-    </Layout>
-  )
-}
+    </View>
+  );
+};
 
 const iconStyles = StyleSheet.create({
   closeIcon: {
@@ -403,13 +416,13 @@ const playerStyles = StyleSheet.create({
   timeLeft: {
     textAlign: 'right',
     color: '#f3f3f3',
-  }
-})
+  },
+});
 
 const styles = StyleSheet.create({
   bottomBarContainer: {
     flex: 4,
-    padding: 20
+    padding: 20,
   },
   finishButton: {
     paddingVertical: 20,
@@ -418,6 +431,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container: {
+    backgroundColor: '#0B0E18',
     flex: 1,
   },
   mainContainer: {
@@ -482,6 +496,6 @@ const styles = StyleSheet.create({
   topBarTitle: {
     opacity: 0.8,
   },
-})
+});
 
 export default MeditationPlayer;

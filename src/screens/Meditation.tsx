@@ -1,5 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
@@ -24,6 +29,7 @@ import {sortBy} from 'lodash';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import MeditationNotesModal from '../components/MeditationNotesModal';
+import LinearGradient from 'react-native-linear-gradient';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -162,24 +168,24 @@ const MeditationScreen = ({
   };
 
   return (
-    <Layout style={styles.container} level="4">
+    <View style={styles.container}>
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
-          <Layout style={styles.topBar} level="4">
+          <View style={styles.topBar}>
             <Text category="h4" style={styles.topBarText}>
               {meditation.name}
             </Text>
             <TouchableWithoutFeedback
               style={styles.topBarIcon}
               onPress={onBackPress}>
-              <Layout style={styles.closeIconContainer}>
+              <View style={styles.closeIconContainer}>
                 <CloseIcon />
-              </Layout>
+              </View>
             </TouchableWithoutFeedback>
-          </Layout>
-          <Layout style={styles.mainSection} level="4">
+          </View>
+          <View style={styles.mainSection}>
             {lastMeditation && lastMeditationInstance ? (
-              <Layout level="4" style={styles.lastMedNotesSectionContainer}>
+              <View style={styles.lastMedNotesSectionContainer}>
                 <Text category="h6" style={styles.thinkBoxLabel}>
                   Last Meditation Notes
                 </Text>
@@ -190,7 +196,7 @@ const MeditationScreen = ({
                     onPress={() => setIsNotesModalVisible(true)}
                   />
                 </Layout>
-              </Layout>
+              </View>
             ) : null}
             <Text category="h6" style={styles.thinkBoxLabel}>
               Set an Intention
@@ -203,9 +209,9 @@ const MeditationScreen = ({
               textStyle={styles.thinkBoxTextStyles}
             />
             {renderBreathGroupSection()}
-          </Layout>
+          </View>
         </KeyboardAwareScrollView>
-        <Layout style={styles.bottomBar} level="4">
+        <Layout style={styles.bottomBar}>
           {/* <Layout style={styles.meditationInfo} level="4">
             <WarningIcon />
             <Text category="s1" style={styles.meditationInfoText}>
@@ -223,7 +229,7 @@ const MeditationScreen = ({
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
       />
-    </Layout>
+    </View>
   );
 };
 
@@ -258,6 +264,7 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   container: {
+    backgroundColor: '#0B0E18',
     flex: 1,
   },
   icon: {
@@ -265,6 +272,7 @@ const themedStyles = StyleSheet.create({
     height: 20,
   },
   thinkBoxStyles: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     paddingHorizontal: 20,
     marginBottom: 60,
   },
@@ -288,6 +296,7 @@ const themedStyles = StyleSheet.create({
     marginBottom: 60,
   },
   lastMedNotesContainer: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     borderRadius: 10,
     marginHorizontal: 20,
   },
