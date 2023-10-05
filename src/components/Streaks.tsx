@@ -21,8 +21,8 @@ export const Streaks = ({current, longest}: StreaksProps) => {
       <Text category="h6" style={styles.header}>
         Streaks
       </Text>
-      <Layout level="2" style={styles.container}>
-        <Layout level="2" style={styles.currentStreakContainer}>
+      <Layout style={styles.container}>
+        <Layout style={styles.currentStreakContainer}>
           <Text category="h6" style={styles.streakText}>
             {current || 0} {currentDay}
           </Text>
@@ -30,7 +30,7 @@ export const Streaks = ({current, longest}: StreaksProps) => {
             Current Streak
           </Text>
         </Layout>
-        <Layout level="2" style={longestStreakContainerStyles}>
+        <Layout style={longestStreakContainerStyles}>
           <Text category="h6" style={styles.streakText}>
             {longest || 0} {longestDay}
           </Text>
@@ -50,6 +50,7 @@ const themedStyles = StyleSheet.create({
     textAlign: 'center',
   },
   currentLongestStreakContainer: {
+    backgroundColor: 'transparent',
     borderLeftWidth: 1,
     borderColor: 'gray',
     opacity: 0.9,
@@ -57,6 +58,7 @@ const themedStyles = StyleSheet.create({
     flex: 1,
   },
   container: {
+    backgroundColor: 'rgba(48,55,75, 0.6)',
     paddingVertical: 18,
     marginHorizontal: 20,
     marginBottom: 40,
@@ -64,6 +66,7 @@ const themedStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   currentStreakContainer: {
+    backgroundColor: 'transparent',
     borderRightWidth: 1,
     borderColor: 'rgb(17, 20, 37)',
     opacity: 0.9,
@@ -76,6 +79,8 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 16,
   },
   longestStreakContainer: {
+    backgroundColor: 'transparent',
+
     borderLeftWidth: 1,
     borderColor: 'rgb(17, 20, 37)',
     opacity: 0.5,

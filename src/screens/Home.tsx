@@ -172,7 +172,7 @@ const HomeScreen = () => {
               <Text category="h6" style={styles.thinkBoxLabel}>
                 Last Meditation
               </Text>
-              <Layout level="1" style={styles.lastMedNotesContainer}>
+              <Layout style={styles.lastMedNotesContainer}>
                 <MedNotesPreview
                   meditation={lastMeditation}
                   meditationInstance={lastMeditationInstance}
@@ -270,7 +270,7 @@ const themedStyles = StyleSheet.create({
     marginBottom: 60,
   },
   lastMedNotesContainer: {
-    backgroundColor: 'rgba(34, 43, 69, 0.7)',
+    backgroundColor: 'rgba(48,55,75,0.6)',
     borderRadius: 10,
     marginHorizontal: 20,
   },

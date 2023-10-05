@@ -29,8 +29,8 @@ export const TopMeditations = ({meditationCounts}: TopMeditationsProps) => {
       <Text category="h6" style={styles.header}>
         Top 3 Meditations
       </Text>
-      <Layout level="2" style={styles.container}>
-        <Layout level="2" style={styles.chartContainer}>
+      <Layout style={styles.container}>
+        <Layout style={styles.chartContainer}>
           {series.length === 0 ? (
             <PieChart
               widthAndHeight={widthAndHeight}
@@ -52,19 +52,16 @@ export const TopMeditations = ({meditationCounts}: TopMeditationsProps) => {
             />
           )}
         </Layout>
-        <Layout level="2">
+        <Layout style={styles.meditationCountContainer}>
           {topThreeMeditationInstanceCounts.length <= 0 ? (
-            <Layout level="2" style={styles.topMeditationPlaceholder}>
+            <Layout style={styles.topMeditationPlaceholder}>
               <Text category="s1" style={styles.topMeditationPlaceholderText}>
                 Meditate to see this update
               </Text>
             </Layout>
           ) : (
             topThreeMeditationInstanceCounts.map((instance, index) => (
-              <Layout
-                level="2"
-                style={styles.topMeditationContainer}
-                key={instance.name}>
+              <Layout style={styles.topMeditationContainer} key={instance.name}>
                 <Text
                   category="h6"
                   style={{
@@ -87,6 +84,7 @@ export const TopMeditations = ({meditationCounts}: TopMeditationsProps) => {
 
 const themedStyles = StyleSheet.create({
   container: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     marginHorizontal: 20,
     borderRadius: 10,
     marginBottom: 60,
@@ -94,6 +92,7 @@ const themedStyles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: 'center',
+    backgroundColor: 'transparent',
     marginBottom: 18,
     paddingVertical: 10,
   },
@@ -101,6 +100,9 @@ const themedStyles = StyleSheet.create({
     opacity: 0.8,
     paddingHorizontal: 20,
     paddingBottom: 16,
+  },
+  meditationCountContainer: {
+    backgroundColor: 'transparent',
   },
   rootContainer: {
     backgroundColor: 'transparent',
@@ -118,6 +120,7 @@ const themedStyles = StyleSheet.create({
     width: 50,
   },
   topMeditationContainer: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 8,

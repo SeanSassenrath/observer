@@ -81,7 +81,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
     datasets: [
       {
         data: meditationTimeData.reverse().map(seconds => seconds / 60),
-        color: (opacity = 1) => `rgba(119,205,72, ${opacity})`,
+        color: (opacity = 1) => `rgba(145,71,187, ${opacity})`,
         strokeWidth: 2,
       },
     ],
@@ -89,10 +89,10 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
   };
 
   const chartConfig = {
-    backgroundGradientFrom: 'rgba(26, 33, 56, 1)',
-    backgroundGradientFromOpacity: 1,
-    backgroundGradientTo: 'rgba(26, 33, 56, 1)',
-    backgroundGradientToOpacity: 1,
+    backgroundGradientFrom: 'rgba(48,55,75,0.6)',
+    backgroundGradientFromOpacity: 0.6,
+    backgroundGradientTo: 'rgba(48,55,75,0.6)',
+    backgroundGradientToOpacity: 0.6,
     color: (opacity = 1) => `rgba(225, 225, 225, ${opacity})`,
     decimalPlaces: 0,
     strokeWidth: 2, // optional, default 3
@@ -107,7 +107,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
       <Text category="h6" style={styles.header}>
         Time in Meditation
       </Text>
-      <Layout level="2" style={styles.chartContainer}>
+      <Layout style={styles.chartContainer}>
         <LineChart
           data={data}
           width={screenWidth}
@@ -130,6 +130,7 @@ const LineChartStyles = StyleSheet.create({
 
 const themedStyles = StyleSheet.create({
   chartContainer: {
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,

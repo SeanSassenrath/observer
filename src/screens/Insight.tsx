@@ -120,7 +120,7 @@ const InsightScreen = () => {
     const meditation = meditationBaseMap[item.meditationBaseId];
 
     return (
-      <Layout style={styles.listItem} level="2" key={index}>
+      <Layout style={styles.listItem} key={index}>
         <MedNotesPreview
           meditation={meditation}
           meditationInstance={item}
@@ -209,6 +209,7 @@ const themedStyles = StyleSheet.create({
     padding: 18,
   },
   listItem: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     borderRadius: 10,
     marginHorizontal: 20,
     marginBottom: 10,
