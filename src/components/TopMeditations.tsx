@@ -1,79 +1,89 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import PieChart from 'react-native-pie-chart';
-import { sortBy } from 'lodash';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import {sortBy} from 'lodash';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
-import { MeditationCountsMap } from '../contexts/userData';
+import {MeditationCountsMap} from '../contexts/userData';
 
 interface TopMeditationsProps {
-  meditationCounts: MeditationCountsMap | undefined,
+  meditationCounts: MeditationCountsMap | undefined;
 }
 
-export const TopMeditations = ({ meditationCounts }: TopMeditationsProps) => {
+export const TopMeditations = ({meditationCounts}: TopMeditationsProps) => {
   const styles = useStyleSheet(themedStyles);
 
   const sortedMeditationInstanceCounts = sortBy(meditationCounts, ['count']);
-  const reversedMeditationInstanceCounts = sortedMeditationInstanceCounts.reverse();
-  const topThreeMeditationInstanceCounts = reversedMeditationInstanceCounts.slice(0, 3);
-  const series = topThreeMeditationInstanceCounts.map(instance => instance.count);
-  const widthAndHeight = 200
-  const sliceColor = ['#9147BB', '#BB6FDD', '#DFA3F3']
+  const reversedMeditationInstanceCounts =
+    sortedMeditationInstanceCounts.reverse();
+  const topThreeMeditationInstanceCounts =
+    reversedMeditationInstanceCounts.slice(0, 3);
+  const series = topThreeMeditationInstanceCounts.map(
+    instance => instance.count,
+  );
+  const widthAndHeight = 200;
+  const sliceColor = ['#9147BB', '#BB6FDD', '#DFA3F3'];
 
   return (
-    <Layout level='4'>
-      <Text category='h6' style={styles.header}>Top 3 Meditations</Text>
-      <Layout level='2' style={styles.container}>
-        <Layout level='2' style={styles.chartContainer}>
-          { series.length === 0
-            ? <PieChart
-                widthAndHeight={widthAndHeight}
-                series={[1]}
-                sliceColor={['white']}
-                doughnut={true}
-                coverRadius={0.45}
-                coverFill={'rgb(27, 33, 54)'}
-                style={{ opacity: 0.1 }}
-              />
-            : <PieChart
-                widthAndHeight={widthAndHeight}
-                series={series}
-                sliceColor={sliceColor}
-                doughnut={true}
-                coverRadius={0.45}
-                coverFill={'rgb(27, 33, 54)'}
-              />
-          }
+    <Layout style={styles.rootContainer}>
+      <Text category="h6" style={styles.header}>
+        Top 3 Meditations
+      </Text>
+      <Layout level="2" style={styles.container}>
+        <Layout level="2" style={styles.chartContainer}>
+          {series.length === 0 ? (
+            <PieChart
+              widthAndHeight={widthAndHeight}
+              series={[1]}
+              sliceColor={['white']}
+              doughnut={true}
+              coverRadius={0.45}
+              coverFill={'rgb(27, 33, 54)'}
+              style={{opacity: 0.1}}
+            />
+          ) : (
+            <PieChart
+              widthAndHeight={widthAndHeight}
+              series={series}
+              sliceColor={sliceColor}
+              doughnut={true}
+              coverRadius={0.45}
+              coverFill={'rgb(27, 33, 54)'}
+            />
+          )}
         </Layout>
-        <Layout level='2'>
-          {topThreeMeditationInstanceCounts.length <= 0
-            ? <Layout level='2' style={styles.topMeditationPlaceholder}>
-                <Text category='s1' style={styles.topMeditationPlaceholderText}>
-                  Meditate to see this update
-                </Text>
-              </Layout>
-            : topThreeMeditationInstanceCounts.map((instance, index) =>
+        <Layout level="2">
+          {topThreeMeditationInstanceCounts.length <= 0 ? (
+            <Layout level="2" style={styles.topMeditationPlaceholder}>
+              <Text category="s1" style={styles.topMeditationPlaceholderText}>
+                Meditate to see this update
+              </Text>
+            </Layout>
+          ) : (
+            topThreeMeditationInstanceCounts.map((instance, index) => (
               <Layout
-                level='2'
+                level="2"
                 style={styles.topMeditationContainer}
-                key={instance.name}
-              >
-                <Text category='h6'
+                key={instance.name}>
+                <Text
+                  category="h6"
                   style={{
                     ...styles.topMeditationAmountStart,
-                    color: sliceColor[index]
+                    color: sliceColor[index],
                   }}>
                   {instance.count}
                 </Text>
-                <Text category='s1' style={styles.topMeditationName}>{instance.name}</Text>
+                <Text category="s1" style={styles.topMeditationName}>
+                  {instance.name}
+                </Text>
               </Layout>
-            )
-          }
+            ))
+          )}
         </Layout>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   container: {
@@ -91,6 +101,9 @@ const themedStyles = StyleSheet.create({
     opacity: 0.8,
     paddingHorizontal: 20,
     paddingBottom: 16,
+  },
+  rootContainer: {
+    backgroundColor: 'transparent',
   },
   topMeditationAmountStart: {
     color: 'color-primary-400',
@@ -118,5 +131,5 @@ const themedStyles = StyleSheet.create({
   },
   topMeditationPlaceholderText: {
     textAlign: 'center',
-  }
-})
+  },
+});

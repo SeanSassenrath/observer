@@ -16,6 +16,7 @@ import {fbUpdateUser} from '../fb/user';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationNotesModal from '../components/MeditationNotesModal';
 import {MeditationBase, MeditationInstance} from '../types';
+import LinearGradient from 'react-native-linear-gradient';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -130,8 +131,8 @@ const InsightScreen = () => {
   };
 
   const renderHeader = () => (
-    <Layout level="4">
-      <Layout level="4" style={styles.topSpacer}>
+    <Layout style={styles.headerContainer}>
+      <Layout style={styles.topSpacer}>
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory}
@@ -139,7 +140,7 @@ const InsightScreen = () => {
         />
         <TopMeditations meditationCounts={meditationCounts} />
       </Layout>
-      <Layout level="4">
+      <Layout style={styles.historyContainer}>
         {meditationHistory.length > 0 ? (
           <Text category="h6" style={styles.header}>
             Meditation History
@@ -149,19 +150,21 @@ const InsightScreen = () => {
     </Layout>
   );
 
-  const renderFooter = () => <Layout level="4" style={styles.footer} />;
+  const renderFooter = () => <Layout style={styles.footer} />;
 
   return (
-    <Layout style={styles.rootContainer} level="4">
+    <Layout style={styles.rootContainer}>
       <SafeAreaView style={styles.screenContainer}>
-        <FlatList
-          data={meditationHistory}
-          renderItem={({item, index}) => renderListItem({item, index})}
-          onEndReached={fetchMoreMeditationData}
-          onEndReachedThreshold={0.8}
-          ListHeaderComponent={renderHeader()}
-          ListFooterComponent={renderFooter()}
-        />
+        <LinearGradient colors={['#020306', '#1B0444']}>
+          <FlatList
+            data={meditationHistory}
+            renderItem={({item, index}) => renderListItem({item, index})}
+            onEndReached={fetchMoreMeditationData}
+            onEndReachedThreshold={0.8}
+            ListHeaderComponent={renderHeader()}
+            ListFooterComponent={renderFooter()}
+          />
+        </LinearGradient>
       </SafeAreaView>
       {!user.onboarding.hasSeenInsightsOnboarding ? (
         <EduPromptComponent
@@ -184,19 +187,23 @@ const InsightScreen = () => {
 
 const themedStyles = StyleSheet.create({
   scrollContainer: {
+    backgroundColor: 'transparent',
     flex: 1,
     flexDirection: 'column',
   },
   screenContainer: {
+    backgroundColor: 'transparent',
     flex: 1,
   },
   headerContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
+    backgroundColor: 'transparent',
   },
   contentContainer: {
+    backgroundColor: 'transparent',
     flex: 9,
+  },
+  historyContainer: {
+    backgroundColor: 'transparent',
   },
   historyHeader: {
     padding: 18,
@@ -216,11 +223,13 @@ const themedStyles = StyleSheet.create({
     marginTop: 10,
   },
   listItemDataContainer: {
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
   rootContainer: {
+    backgroundColor: '#020306',
     flex: 1,
   },
   streaksCard: {
@@ -238,9 +247,11 @@ const themedStyles = StyleSheet.create({
     marginBottom: 8,
   },
   topSpacer: {
+    backgroundColor: 'transparent',
     marginTop: 40,
   },
   timeContainer: {
+    backgroundColor: 'transparent',
     marginHorizontal: 20,
     borderRadius: 10,
     padding: 18,
@@ -248,11 +259,13 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   timeAmountContainer: {
+    backgroundColor: 'transparent',
     marginVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   timeInMeditationChart: {
+    backgroundColor: 'transparent',
     marginTop: 20,
   },
   header: {
@@ -278,6 +291,7 @@ const themedStyles = StyleSheet.create({
     borderBottomLeftRadius: 10,
   },
   footer: {
+    backgroundColor: 'transparent',
     paddingVertical: 20,
   },
 });

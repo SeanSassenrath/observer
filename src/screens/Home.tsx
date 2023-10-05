@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _, {uniq} from 'lodash';
@@ -262,6 +262,7 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   container: {
+    backgroundColor: '#020306',
     flex: 1,
   },
   lastMedNotesSectionContainer: {

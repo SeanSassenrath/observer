@@ -103,7 +103,7 @@ export const TimeInMeditationChart = (props: TimeInMeditationChartProps) => {
   const screenWidth = Dimensions.get('window').width - 40;
 
   return (
-    <Layout level="4" style={props.style}>
+    <Layout style={props.style}>
       <Text category="h6" style={styles.header}>
         Time in Meditation
       </Text>

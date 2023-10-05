@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {Dimensions, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Icon, Layout, useStyleSheet} from '@ui-kitten/components';
 
@@ -33,8 +33,11 @@ import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {sortBy} from 'lodash';
+import LinearGradient from 'react-native-linear-gradient';
 
 const EMPTY_SEARCH = '';
+
+const screenHeight = Dimensions.get('screen').height;
 
 const LibraryIcon = (props: any) => (
   <Icon {...props} name="book-open-outline" />
@@ -129,58 +132,64 @@ const LibraryScreen = () => {
   };
 
   return (
-    <Layout style={styles.rootContainer} level="4">
-      <SafeAreaView style={styles.rootContainer}>
-        <ScrollView>
-          <Layout style={styles.screenContainer} level="4">
-            <Layout style={styles.inputContainer} level="4">
-              <SearchBar
-                input={searchInput}
-                onChangeText={setSearchInput}
-                onClearPress={onClearPress}
-              />
+    <Layout style={styles.rootContainer}>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView style={styles.scrollContainer}>
+          <LinearGradient colors={['#020306', '#1B0444']}>
+            <Layout style={styles.screenContainer}>
+              <Layout style={styles.inputContainer}>
+                <SearchBar
+                  input={searchInput}
+                  onChangeText={setSearchInput}
+                  onClearPress={onClearPress}
+                />
+              </Layout>
+              {renderMeditationGroupSection(
+                MeditationGroupName.BlessingEnergyCenter,
+                botecMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.BreakingHabit,
+                breakingHabitMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.BreathTracks,
+                breathMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Daily,
+                dailyMeditationsMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Foundational,
+                foundationalMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Generating,
+                generatingMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Other,
+                otherMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Synchronize,
+                synchronizeMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Walking,
+                walkingMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Unlocked,
+                unlockedMap,
+              )}
             </Layout>
-            {renderMeditationGroupSection(
-              MeditationGroupName.BlessingEnergyCenter,
-              botecMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreakingHabit,
-              breakingHabitMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreathTracks,
-              breathMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Daily,
-              dailyMeditationsMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Foundational,
-              foundationalMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Generating,
-              generatingMap,
-            )}
-            {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Synchronize,
-              synchronizeMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Walking,
-              walkingMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Unlocked,
-              unlockedMap,
-            )}
-          </Layout>
+          </LinearGradient>
         </ScrollView>
-        <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       </SafeAreaView>
+
+      <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
       {!user.onboarding.hasSeenLibraryOnboarding ? (
         <EduPromptComponent
           description="Meditations have been added to your Library! You can use the Library to find, start, and add meditations."
@@ -195,13 +204,18 @@ const LibraryScreen = () => {
 
 const themedStyles = StyleSheet.create({
   inputContainer: {
+    backgroundColor: 'transparent',
     marginHorizontal: 20,
     marginBottom: 40,
   },
   rootContainer: {
+    backgroundColor: '#020306',
     flex: 1,
   },
   screenContainer: {
+    flex: 1,
+    minHeight: screenHeight,
+    backgroundColor: 'transparent',
     paddingTop: 40,
   },
   plusIcon: {
@@ -223,6 +237,12 @@ const themedStyles = StyleSheet.create({
   supportedName: {
     marginBottom: 18,
     opacity: 0.8,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  safeArea: {
+    flex: 1,
   },
 });
 

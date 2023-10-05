@@ -1,36 +1,47 @@
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 interface StreaksProps {
-  current?: number,
-  longest?: number,
+  current?: number;
+  longest?: number;
 }
 
-export const Streaks = ({ current, longest }: StreaksProps) => {
+export const Streaks = ({current, longest}: StreaksProps) => {
   const styles = useStyleSheet(themedStyles);
-  const longestStreakContainerStyles = current === longest
-    ? styles.currentLongestStreakContainer
-    : styles.longestStreakContainer
-  const currentDay = current === 1 ? 'Day' : 'Days'
-  const longestDay = longest === 1 ? 'Day' : 'Days'
+  const longestStreakContainerStyles =
+    current === longest
+      ? styles.currentLongestStreakContainer
+      : styles.longestStreakContainer;
+  const currentDay = current === 1 ? 'Day' : 'Days';
+  const longestDay = longest === 1 ? 'Day' : 'Days';
 
   return (
-    <Layout level='4'>
-      <Text category='h6' style={styles.header}>Streaks</Text>
-      <Layout level='2' style={styles.container}>
-        <Layout level='2' style={styles.currentStreakContainer}>
-          <Text category='h6' style={styles.streakText}>{current || 0} {currentDay}</Text>
-          <Text category='s2' style={styles.currentStreakText}>Current Streak</Text>
+    <Layout style={styles.rootContainer}>
+      <Text category="h6" style={styles.header}>
+        Streaks
+      </Text>
+      <Layout level="2" style={styles.container}>
+        <Layout level="2" style={styles.currentStreakContainer}>
+          <Text category="h6" style={styles.streakText}>
+            {current || 0} {currentDay}
+          </Text>
+          <Text category="s2" style={styles.currentStreakText}>
+            Current Streak
+          </Text>
         </Layout>
-        <Layout level='2' style={longestStreakContainerStyles}>
-          <Text category='h6' style={styles.streakText}>{longest || 0} {longestDay}</Text>
-          <Text category='s2' style={styles.longestStreakText}>Longest Streak</Text>
+        <Layout level="2" style={longestStreakContainerStyles}>
+          <Text category="h6" style={styles.streakText}>
+            {longest || 0} {longestDay}
+          </Text>
+          <Text category="s2" style={styles.longestStreakText}>
+            Longest Streak
+          </Text>
         </Layout>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   currentStreakText: {
@@ -77,7 +88,10 @@ const themedStyles = StyleSheet.create({
     color: 'color-warning-300',
     textAlign: 'center',
   },
+  rootContainer: {
+    backgroundColor: 'transparent',
+  },
   streakText: {
     textAlign: 'center',
   },
-})
+});
