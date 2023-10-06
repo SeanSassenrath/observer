@@ -24,6 +24,7 @@ export const MeditationNotesModalComponent = (props: Props) => {
 
   return (
     <Modal
+      animationType="slide"
       visible={visible}
       onBackdropPress={onBackdropPress}
       backdropStyle={styles.backdrop}>
