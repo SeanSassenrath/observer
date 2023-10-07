@@ -1,17 +1,7 @@
 import React from 'react';
 import {Button, Text} from '@ui-kitten/components';
-import {
-  Dimensions,
-  ImageBackground,
-  Modal,
-  ModalProps,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
-
-const dimens = Dimensions.get('screen');
-const screenwWidth = dimens.width;
+import {ImageBackground, ModalProps, StyleSheet, View} from 'react-native';
+import {Drawer} from '../Drawer/component';
 
 interface Props extends ModalProps {
   onClosePress(): void;
@@ -23,10 +13,7 @@ export const WaveDrawer = (props: Props) => {
   console.log('visibile >>>', visible);
 
   return (
-    <Modal transparent={true} animationType="slide" visible={visible}>
-      <Pressable onPress={onClosePress}>
-        <View style={styles.background} />
-      </Pressable>
+    <Drawer visible={visible} onClosePress={onClosePress}>
       <View style={styles.contentContainer}>
         <View style={styles.imgContainer}>
           <ImageBackground
@@ -54,7 +41,7 @@ export const WaveDrawer = (props: Props) => {
           </Button>
         </View>
       </View>
-    </Modal>
+    </Drawer>
   );
 };
 
@@ -63,27 +50,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column-reverse',
     flex: 1,
   },
-  background: {
-    height: '100%',
-    width: screenwWidth,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
   contentContainer: {
-    backgroundColor: '#1B0444',
-    height: 560,
-    width: screenwWidth,
-    position: 'absolute',
+    height: 540,
     bottom: 0,
     paddingBottom: 60,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 15,
-    shadowColor: '#9147BB',
   },
   description: {
     fontWeight: 'normal',
