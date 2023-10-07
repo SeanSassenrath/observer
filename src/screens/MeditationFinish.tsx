@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Layout, Text} from '@ui-kitten/components';
 import firestore, {
@@ -74,8 +74,8 @@ const MeditationFinishScreen = () => {
     );
     const lastMeditation =
       getLastMeditationFromMeditationHistory(meditationHistory);
-    const updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
-    setUpdatedStreaksData(updatedStreaksData);
+    const _updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
+    setUpdatedStreaksData(_updatedStreaksData);
 
     const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
       updatedMeditationInstanceCount,
@@ -147,14 +147,14 @@ const MeditationFinishScreen = () => {
 
   return (
     <KeyboardAwareScrollView style={styles.scrollContainer}>
-      <Layout style={styles.rootContainer} level="4">
+      <View style={styles.rootContainer}>
         <Text category="h5" style={styles.text}>
           Thinkbox
         </Text>
         {updatedStreaksData.streakUpdated ? (
           <StreakUpdate current={streaks.current} longest={streaks.longest} />
         ) : null}
-        <Layout level="4" style={styles.inputContainer}>
+        <View style={styles.inputContainer}>
           <Text category="s1" style={styles.smallText}>
             What did you do well in your last meditation?
           </Text>
@@ -162,9 +162,10 @@ const MeditationFinishScreen = () => {
             onChangeText={setFirstInput}
             placeholder="Add what you did well here"
             value={firstInput}
+            style={styles.inputStyles}
           />
-        </Layout>
-        <Layout level="4" style={styles.inputContainer}>
+        </View>
+        <View style={styles.inputContainer}>
           <Text category="s1" style={styles.smallText}>
             If you had another opportunity, what would you do differently?
           </Text>
@@ -172,12 +173,13 @@ const MeditationFinishScreen = () => {
             onChangeText={setSecondInput}
             placeholder="Add what you would do differently here"
             value={secondInput}
+            style={styles.inputStyles}
           />
-        </Layout>
+        </View>
         <_Button onPress={onDonePress} style={styles.doneButton}>
           DONE
         </_Button>
-      </Layout>
+      </View>
     </KeyboardAwareScrollView>
   );
 };
@@ -189,7 +191,8 @@ const styles = StyleSheet.create({
   },
   rootContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingTop: 40,
+    paddingBottom: 60,
   },
   buttonContainer: {
     flex: 2,
@@ -199,8 +202,8 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   scrollContainer: {
+    backgroundColor: '#0B0E18',
     flex: 1,
-    backgroundColor: 'rgba(16, 20, 38, 1)',
   },
   smallText: {
     lineHeight: 26,
@@ -214,6 +217,9 @@ const styles = StyleSheet.create({
   },
   description: {
     marginBottom: 20,
+  },
+  inputStyles: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
   },
 });
 

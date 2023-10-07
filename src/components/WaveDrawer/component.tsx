@@ -28,10 +28,12 @@ export const WaveDrawer = (props: Props) => {
         <View style={styles.background} />
       </Pressable>
       <View style={styles.contentContainer}>
-        <ImageBackground
-          source={require('../../assets/wave-preview.jpg')}
-          style={styles.img}
-        />
+        <View style={styles.imgContainer}>
+          <ImageBackground
+            source={require('../../assets/wave-preview.jpg')}
+            style={styles.img}
+          />
+        </View>
         <View style={styles.textContainer}>
           <Text category="h5" style={styles.title}>
             Coherence Wave
@@ -64,22 +66,38 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     width: screenwWidth,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   contentContainer: {
-    backgroundColor: '#020306',
+    backgroundColor: '#1B0444',
     height: 560,
     width: screenwWidth,
     position: 'absolute',
     bottom: 0,
     paddingBottom: 60,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 15,
+    shadowColor: '#9147BB',
   },
   description: {
     fontWeight: 'normal',
   },
   img: {
     width: '100%',
+    height: 180,
+  },
+  imgContainer: {
+    backgroundColor: '#020306',
     height: 200,
+    justifyContent: 'flex-end',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
   },
   textContainer: {
     padding: 20,
