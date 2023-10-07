@@ -38,6 +38,7 @@ import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
+import {WaveDrawer} from '../components/WaveDrawer/component';
 
 const brightWhite = '#fcfcfc';
 
@@ -62,6 +63,7 @@ const HomeScreen = () => {
   );
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWaveDrawerVisible, setIsWaveDrawerVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
@@ -166,6 +168,7 @@ const HomeScreen = () => {
             onAvatarPress={() => setIsModalVisible(true)}
             onStreaksPress={onStreaksPress}
             onAddMeditationsPress={onAddMeditationsPress}
+            onWavePress={() => setIsWaveDrawerVisible(true)}
           />
           {lastMeditation && lastMeditationInstance ? (
             <Layout style={styles.lastMedNotesSectionContainer}>
@@ -241,6 +244,10 @@ const HomeScreen = () => {
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
         showStartMeditation
+      />
+      <WaveDrawer
+        visible={isWaveDrawerVisible}
+        onClosePress={() => setIsWaveDrawerVisible(false)}
       />
     </Layout>
   );

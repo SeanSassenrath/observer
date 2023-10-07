@@ -13,12 +13,14 @@ interface HomeTopBarProps {
   onAvatarPress(): void;
   onStreaksPress(): void;
   onAddMeditationsPress(): void;
+  onWavePress(): void;
 }
 
 export const HomeTopBar = ({
   onAvatarPress,
   onStreaksPress,
   onAddMeditationsPress,
+  onWavePress,
 }: HomeTopBarProps) => {
   const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
@@ -57,7 +59,9 @@ export const HomeTopBar = ({
         </Layout>
       </Layout>
       <Layout style={styles.waveContainer}>
-        <Wave />
+        <Pressable onPress={onWavePress} style={styles.wavePress}>
+          <Wave />
+        </Pressable>
       </Layout>
     </Layout>
   );
@@ -136,5 +140,8 @@ const themedStyles = StyleSheet.create({
     height: 160,
     // backgroundColor: '#020306',
     backgroundColor: 'transparent',
+  },
+  wavePress: {
+    flex: 1,
   },
 });
