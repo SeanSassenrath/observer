@@ -1,27 +1,40 @@
-import { useEffect } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import Animated, { Easing, FadeInUp, FadeOutUp, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
+import React, {useEffect} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import Animated, {
+  Easing,
+  FadeInUp,
+  FadeOutUp,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 
 const Splash = () => {
   const corpoTransformScale = useSharedValue(0.8);
 
   useEffect(() => {
-    corpoTransformScale.value = withRepeat(withTiming(0.9, { duration: 1000, easing: Easing.inOut(Easing.ease) }), -1, true)
+    corpoTransformScale.value = withRepeat(
+      withTiming(0.9, {duration: 1000, easing: Easing.inOut(Easing.ease)}),
+      -1,
+      true,
+    );
   }, []);
 
   const corpoReanimatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ scale: corpoTransformScale.value }]
-    }
-  })
+      transform: [{scale: corpoTransformScale.value}],
+    };
+  });
 
   return (
-    <Animated.View style={styles.container} entering={FadeInUp.duration(300)} exiting={FadeOutUp.duration(300)}>
+    <Animated.View
+      style={styles.container}
+      entering={FadeInUp.duration(300)}
+      exiting={FadeOutUp.duration(300)}>
       <View>
         <View style={styles.orbContainer}>
-          <Animated.View
-            style={[styles.orb, corpoReanimatedStyle]}
-          />
+          <Animated.View style={[styles.orb, corpoReanimatedStyle]} />
         </View>
         <Image
           source={require('../assets/app-icon.png')}
@@ -30,13 +43,13 @@ const Splash = () => {
       </View>
       <Text style={styles.text}>Unlimited</Text>
     </Animated.View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: 'rgb(16, 20, 38)',
+    backgroundColor: '#0B0E18',
     flex: 1,
     justifyContent: 'center',
   },
@@ -59,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: 'rgba(49, 50, 98, 1)',
     shadowColor: 'rgba(160, 139, 247, 0.9)',
-    shadowOffset: { width: 0, height: 0 },
+    shadowOffset: {width: 0, height: 0},
     shadowOpacity: 1,
     shadowRadius: 20,
   },
@@ -69,7 +82,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     opacity: 0.8,
-  }
+  },
 });
 
 export default Splash;

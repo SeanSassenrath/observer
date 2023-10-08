@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   container: {
-    backgroundColor: '#1B0444',
+    backgroundColor: '#260752',
     width: screenwWidth,
     position: 'absolute',
     bottom: 0,

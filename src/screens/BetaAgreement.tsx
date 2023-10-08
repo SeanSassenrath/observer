@@ -1,7 +1,7 @@
-import {useContext, useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Layout, Text} from '@ui-kitten/components/ui';
+import {Text} from '@ui-kitten/components/ui';
 import {useNavigation} from '@react-navigation/native';
 
 import Button from '../components/Button';
@@ -45,17 +45,17 @@ const BetaAgreement = () => {
   };
 
   return (
-    <Layout level="4" style={styles.container}>
+    <View style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <Layout level="4" style={styles.contentContainer}>
-          <Layout level="4" style={styles.heroContainer}>
+        <View style={styles.contentContainer}>
+          <View style={styles.heroContainer}>
             <Text category="h4" style={styles.header}>
               Beta Agreement
             </Text>
             <Text category="s1" style={styles.disclaimer}>
               Please review and accept before proceeding.
             </Text>
-            <Layout level="2" style={styles.faqBackground}>
+            <View style={styles.faqBackground}>
               <ScrollView
                 onScroll={({nativeEvent}) => {
                   if (isCloseToBottom(nativeEvent)) {
@@ -65,9 +65,9 @@ const BetaAgreement = () => {
                 scrollEventThrottle={300}>
                 <Text>{betaAgreement}</Text>
               </ScrollView>
-            </Layout>
-          </Layout>
-          <Layout level="4" style={styles.bottomContainer}>
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
             <Button
               disabled={!isEnabled}
               onPress={onContinuePress}
@@ -75,10 +75,10 @@ const BetaAgreement = () => {
               style={styles.button}>
               I Agree
             </Button>
-          </Layout>
-        </Layout>
+          </View>
+        </View>
       </SafeAreaView>
-    </Layout>
+    </View>
   );
 };
 
@@ -137,6 +137,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 9,
     justifyContent: 'center',
+  },
+  rootContainer: {
+    backgroundColor: '#0B0E18',
+    flex: 1,
   },
 });
 

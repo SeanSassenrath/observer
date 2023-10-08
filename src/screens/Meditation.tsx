@@ -29,7 +29,6 @@ import {sortBy} from 'lodash';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import MeditationNotesModal from '../components/MeditationNotesModal';
-import LinearGradient from 'react-native-linear-gradient';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';

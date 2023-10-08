@@ -1,6 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
-import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {SearchBar} from '../components/SearchBar';
 import {sortBy} from 'lodash';
 
@@ -45,8 +51,7 @@ const MeditationOption = (props: MeditationOptionProps) => {
   const {name, onPress, selected} = props;
   return (
     <Pressable onPress={onPress}>
-      <Layout
-        level="4"
+      <View
         style={
           selected
             ? MeditationOptionStyles.meditationSelected
@@ -55,8 +60,8 @@ const MeditationOption = (props: MeditationOptionProps) => {
         <Text category="h6" style={MeditationOptionStyles.text}>
           {name}
         </Text>
-        {/* <Layout level="4" style={MeditationOptionStyles.statusContainer}>
-          <Layout
+        {/* <View style={MeditationOptionStyles.statusContainer}>
+          <View
             level="4"
             style={
               selected
@@ -64,8 +69,8 @@ const MeditationOption = (props: MeditationOptionProps) => {
                 : MeditationOptionStyles.statusDefault
             }
           />
-        </Layout> */}
-      </Layout>
+        </View> */}
+      </View>
     </Pressable>
   );
 };
@@ -224,24 +229,24 @@ const FixMeditationScreen = () => {
     unsupportedFiles[unsupportedFileIndex]?.name;
 
   return (
-    <Layout level="4" style={styles.container}>
+    <View style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <Layout level="4" style={styles.top}>
-          <Layout level="4" style={styles.topContentContainer}>
+        <View style={styles.top}>
+          <View style={styles.topContentContainer}>
             <ErrorIcon />
             <Text category="h6" style={styles.topText}>
               File not recognized ({unsupportedFileIndex + 1}&nbsp;of&nbsp;
               {unsupportedFiles.length})
             </Text>
-          </Layout>
-        </Layout>
-        <Layout level="4" style={styles.middle}>
+          </View>
+        </View>
+        <View style={styles.middle}>
           <Text category="h5">Which meditation is this?</Text>
-          <Layout level="4" style={styles.unsupportedFileContainer}>
+          <View style={styles.unsupportedFileContainer}>
             <Text category="s1" style={styles.unsupportedFileName}>
               File: {currentUnsupportedFileName || ''}
             </Text>
-          </Layout>
+          </View>
           {/* <Text category="h5">Which meditation is this?</Text> */}
           <SearchBar
             placeholder="Enter meditation name"
@@ -264,19 +269,19 @@ const FixMeditationScreen = () => {
                   />
                 ))
               ) : (
-                <Layout level="4" style={styles.noResultsContainer}>
+                <View style={styles.noResultsContainer}>
                   <Text category="s1" style={styles.noResults}>
                     It looks like we don't support this meditation yet.
                   </Text>
                   <Text category="s1" style={styles.noResults}>
                     Double check the spelling or press skip to continue.
                   </Text>
-                </Layout>
+                </View>
               )
             ) : null}
           </ScrollView>
-        </Layout>
-        <Layout level="4" style={styles.bottom}>
+        </View>
+        <View style={styles.bottom}>
           <Button
             disabled={!selectedMeditationOption.length || !searchInput.length}
             onPress={onNextPress}
@@ -291,7 +296,7 @@ const FixMeditationScreen = () => {
             status="basic">
             Skip
           </Button>
-        </Layout>
+        </View>
       </SafeAreaView>
       <Modal
         visible={isModalVisible}
@@ -321,7 +326,7 @@ const FixMeditationScreen = () => {
           </Layout>
         </Layout>
       </Modal>
-    </Layout>
+    </View>
   );
 };
 
@@ -403,7 +408,12 @@ const themedStyles = StyleSheet.create({
     marginTop: 20,
     opacity: 0.75,
   },
+  rootContainer: {
+    backgroundColor: '#0B0E18',
+    flex: 1,
+  },
   searchBar: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     marginVertical: 16,
   },
   top: {

@@ -1,22 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Image, Linking, Platform, Pressable, SafeAreaView, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, {useContext, useEffect, useState} from 'react';
 import {
-	Layout,
-	Modal,
-	Spinner,
-	Text,
-  useStyleSheet,
-} from '@ui-kitten/components';
+  Image,
+  Linking,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Modal, Spinner, Text, useStyleSheet} from '@ui-kitten/components';
 
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
 import UserContext from '../contexts/userData';
+import LinearGradient from 'react-native-linear-gradient';
 
-const privacyPolicyUrl = 'https://www.privacypolicies.com/live/0f561bf7-489c-4c02-830e-c8b276e128f9';
+const privacyPolicyUrl =
+  'https://www.privacypolicies.com/live/0f561bf7-489c-4c02-830e-c8b276e128f9';
 
 const SignInScreen = () => {
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
@@ -36,73 +40,80 @@ const SignInScreen = () => {
           navigation.navigate('BetaAgreement');
         } else {
           //@ts-ignore
-          navigation.navigate('TabNavigation', { screen: 'Home' });
+          navigation.navigate('TabNavigation', {screen: 'Home'});
         }
       }, 1000);
     }
-  }
+  };
 
   const onPrivacyPolicyPress = async () => {
     await Linking.openURL(privacyPolicyUrl);
-  }
+  };
 
   return (
-    <Layout level='4' style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <Layout level='4' style={styles.contentContainer}>
-          <Layout level='4' style={styles.headerContainer}>
-            <Layout level='4'style={styles.headerImageBackground}>
-              <Image
-                source={require('../assets/app-icon.png')}
-                style={imageStyles.headerImage}
-              />
-            </Layout>
-          </Layout>
-          <Layout level='4' style={styles.heroContainer}>
-            <Layout level='4' style={styles.textContainer}>
-              <Layout level='4' style={styles.textHeaderContainer}>
-                <Text category='h3' style={styles.textHeader}>Be Your Own Scientist.</Text>
-                <Text category='h3' style={styles.textHeaderPrimary}>Change your life.</Text>
-              </Layout>
-              <Text category='s2' style={styles.textDescription}>
-                Meditation player, tracker, & “thinkbox” journal
-                for your Dr. Joe Dispenza practice.
+    <View style={styles.container}>
+      <LinearGradient colors={['#020306', '#1B0444']} style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={styles.headerContainer}>
+              <View style={styles.headerImageBackground}>
+                <Image
+                  source={require('../assets/app-icon.png')}
+                  style={imageStyles.headerImage}
+                />
+              </View>
+            </View>
+            <View style={styles.heroContainer}>
+              <View style={styles.textContainer}>
+                <View style={styles.textHeaderContainer}>
+                  <Text category="h3" style={styles.textHeader}>
+                    Be Your Own Scientist.
+                  </Text>
+                  <Text category="h3" style={styles.textHeaderPrimary}>
+                    Change your life.
+                  </Text>
+                </View>
+                <Text category="s2" style={styles.textDescription}>
+                  Meditation player, tracker, & “thinkbox” journal for your Dr.
+                  Joe Dispenza practice.
+                </Text>
+              </View>
+            </View>
+            <View style={styles.bottomContainer}>
+              <View style={styles.buttonsContainer}>
+                <GoogleSSOButton setIsSigningIn={setIsSigningIn} />
+                {Platform.OS === 'ios' ? (
+                  <AppleSSOButton setIsSigningIn={setIsSigningIn} />
+                ) : null}
+              </View>
+            </View>
+            <Pressable onPress={onPrivacyPolicyPress}>
+              <Text style={styles.privacyPolicy} category="s2">
+                Privacy Policy
               </Text>
-            </Layout>
-          </Layout>
-          <Layout level='4' style={styles.bottomContainer}>
-            <Layout level='4' style={styles.buttonsContainer}>
-              <GoogleSSOButton setIsSigningIn={setIsSigningIn}/>
-              {Platform.OS === 'ios'
-                ? <AppleSSOButton setIsSigningIn={setIsSigningIn} />
-                : null
-              }
-            </Layout>
-          </Layout>
-          <Pressable onPress={onPrivacyPolicyPress}>
-            <Text style={styles.privacyPolicy} category='s2'>Privacy Policy</Text>
-          </Pressable>
-        </Layout>
-      </SafeAreaView>
-      <Modal
-        visible={isSigningIn}
-        backdropStyle={styles.backdrop}
-      >
-        <Layout level='3' style={styles.modalContainer}>
+            </Pressable>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+
+      <Modal visible={isSigningIn} backdropStyle={styles.backdrop}>
+        <View style={styles.modalContainer}>
           <Spinner />
-          <Text category='h6' style={styles.modalText}>Signing you in...</Text>
-        </Layout>
+          <Text category="h6" style={styles.modalText}>
+            Signing you in...
+          </Text>
+        </View>
       </Modal>
-    </Layout>
-  )
-}
+    </View>
+  );
+};
 
 const imageStyles = StyleSheet.create({
   headerImage: {
     width: 60,
     height: 60,
   },
-})
+});
 
 const themedStyles = StyleSheet.create({
   backdrop: {
@@ -176,6 +187,6 @@ const themedStyles = StyleSheet.create({
     maxWidth: 300,
     opacity: 0.7,
   },
-})
+});
 
 export default SignInScreen;

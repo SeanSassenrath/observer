@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Layout, Text} from '@ui-kitten/components';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Button from '../components/Button';
@@ -44,10 +44,10 @@ const AddMeditationsScreen = () => {
   };
 
   return (
-    <Layout level="4" style={styles.container}>
+    <View style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <Layout level="4" style={styles.top} />
-        <Layout level="4" style={styles.middle}>
+        <View style={styles.top} />
+        <View style={styles.middle}>
           <Text category="h3" style={styles.header}>
             Add Meditations
           </Text>
@@ -55,8 +55,8 @@ const AddMeditationsScreen = () => {
             Add meditations from your phone, Dropbox, Google Drive, or wherever
             you keep your meditations files.
           </Text>
-        </Layout>
-        <Layout level="4" style={styles.bottom}>
+        </View>
+        <View style={styles.bottom}>
           <Button
             size="large"
             onPress={onAddMeditationsPress}
@@ -66,9 +66,9 @@ const AddMeditationsScreen = () => {
           <Button appearance="ghost" size="large" status="basic">
             Skip
           </Button>
-        </Layout>
+        </View>
       </SafeAreaView>
-    </Layout>
+    </View>
   );
 };
 
@@ -98,6 +98,10 @@ const styles = StyleSheet.create({
     flex: 4,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
+  },
+  rootContainer: {
+    backgroundColor: '#0B0E18',
+    flex: 1,
   },
   skipButton: {
     color: 'white',
