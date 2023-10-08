@@ -32,11 +32,16 @@ export type StackParamList = {
   BetaAgreement: undefined;
   OnboardingStep1: undefined;
   OnboardingStep2: undefined;
+  Profile: UserParams;
 };
 
 interface MeditationParams {
   id: MeditationId;
   meditationBreathId?: MeditationId;
+}
+
+interface UserParams {
+  userId: UserId;
 }
 
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
@@ -51,6 +56,7 @@ type OnboardingStep2 = NativeStackScreenProps<
 >;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
 type FixMeditation = NativeStackScreenProps<StackParamList, 'FixMeditation'>;
+type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
@@ -58,6 +64,7 @@ export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
 export type FixMeditationProp = FixMeditation['navigation'];
+export type ProfileProp = Profile['navigation'];
 
 export type MeditationProps = NativeStackScreenProps<
   StackParamList,
@@ -199,3 +206,5 @@ export interface UnsupportedFileData {
   type: string | null;
   uri: string | null;
 }
+
+export type UserId = string;

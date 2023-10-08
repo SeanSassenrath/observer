@@ -17,6 +17,7 @@ import OnboardingStep2 from '../screens/OnboardingStep2';
 import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
 import FixMeditationScreen from '../screens/FixMeditation';
+import Profile from '../screens/Profile';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -59,7 +60,7 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={getInitialRouteName()}
+        initialRouteName={'Profile'}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
@@ -72,6 +73,7 @@ const StackNavigator = () => {
         <Screen name="Debug" component={DebugScreen} />
         <Screen name="OnboardingStep1" component={OnboardingStep1} />
         <Screen name="OnboardingStep2" component={OnboardingStep2} />
+        <Screen name="Profile" component={Profile} />
       </Navigator>
     </NavigationContainer>
   );

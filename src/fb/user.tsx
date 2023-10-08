@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import { User, UserUid } from '../contexts/userData';
+import {User, UserUid} from '../contexts/userData';
 
 export const fbGetUser = async (userId: UserUid) => {
   return firestore()
@@ -8,17 +8,14 @@ export const fbGetUser = async (userId: UserUid) => {
     .get()
     .then(document => {
       console.log('FB get user success');
-      return document
+      return document;
     })
-    .catch((e) => {
+    .catch(e => {
       console.log('FB get user failed', e);
-    })
-}
+    });
+};
 
-export const fbAddUser = async (
-  userId: UserUid,
-  user: User,
-) => {
+export const fbAddUser = async (userId: UserUid, user: User) => {
   return firestore()
     .collection('users')
     .doc(userId)
@@ -27,16 +24,13 @@ export const fbAddUser = async (
       console.log('FB add user success');
       return true;
     })
-    .catch((e) => {
+    .catch(e => {
       console.log('FB add user failed', e);
       return false;
-    })
-}
+    });
+};
 
-export const fbUpdateUser = async (
-  userId: UserUid,
-  update: any,
-) => {
+export const fbUpdateUser = async (userId: UserUid, update: any) => {
   return firestore()
     .collection('users')
     .doc(userId)
@@ -45,8 +39,8 @@ export const fbUpdateUser = async (
       console.log('FB update user success:', update);
       return true;
     })
-    .catch((e) => {
+    .catch(e => {
       console.log('FB update user failed:', update);
       return false;
-    })
-}
+    });
+};
