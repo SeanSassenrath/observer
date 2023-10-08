@@ -147,6 +147,10 @@ const HomeScreen = () => {
     navigation.navigate('TabNavigation', {screen: 'Insight'});
   };
 
+  const AvatarPress = () => {
+    navigation.navigate('Profile', {userId: user.uid});
+  };
+
   const onEduClosePress = async () => {
     await fbUpdateUser(user.uid, {'onboarding.hasSeenHomeOnboarding': true});
     setUser({
@@ -165,7 +169,7 @@ const HomeScreen = () => {
       <ScrollView style={styles.scrollContainer}>
         <LinearGradient colors={['#020306', '#1B0444']}>
           <HomeTopBar
-            onAvatarPress={() => setIsModalVisible(true)}
+            onAvatarPress={AvatarPress}
             onStreaksPress={onStreaksPress}
             onAddMeditationsPress={onAddMeditationsPress}
             onWavePress={() => setIsWaveDrawerVisible(true)}

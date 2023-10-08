@@ -60,7 +60,7 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={'Profile'}
+        initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />

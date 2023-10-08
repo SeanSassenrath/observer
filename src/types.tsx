@@ -12,6 +12,7 @@ import {
   WalkingMeditationSizes,
 } from './constants/meditation';
 import {MeditationGroupName} from './constants/meditation-data';
+import {UserUid} from './contexts/userData';
 
 // Stack Navigation
 export type StackParamList = {
@@ -41,7 +42,7 @@ interface MeditationParams {
 }
 
 interface UserParams {
-  userId: UserId;
+  userId: UserUid;
 }
 
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
@@ -56,7 +57,6 @@ type OnboardingStep2 = NativeStackScreenProps<
 >;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
 type FixMeditation = NativeStackScreenProps<StackParamList, 'FixMeditation'>;
-type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
@@ -64,7 +64,10 @@ export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
 export type FixMeditationProp = FixMeditation['navigation'];
-export type ProfileProp = Profile['navigation'];
+
+type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
+export type ProfileScreenNavigationProp = Profile['navigation'];
+export type ProfileScreenRouteProp = Profile['route'];
 
 export type MeditationProps = NativeStackScreenProps<
   StackParamList,
@@ -206,5 +209,3 @@ export interface UnsupportedFileData {
   type: string | null;
   uri: string | null;
 }
-
-export type UserId = string;

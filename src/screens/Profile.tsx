@@ -3,7 +3,7 @@ import {Icon, Popover, Text} from '@ui-kitten/components';
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ProfileProp} from '../types';
+import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {SignOut} from '../fb/auth';
 
 const brightWhite = '#fcfcfc';
@@ -26,10 +26,17 @@ const MoreMenuIcon = (props: any) => (
   />
 );
 
-interface Props {}
+interface Props {
+  navigation: ProfileScreenNavigationProp;
+  route: ProfileScreenRouteProp;
+}
 
 const Profile = (props: Props) => {
-  const navigation = useNavigation<ProfileProp>();
+  const {route} = props;
+
+  console.log('userId', route.params.userId);
+
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
