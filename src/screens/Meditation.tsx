@@ -30,6 +30,7 @@ import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import MeditationNotesModal from '../components/MeditationNotesModal';
 import LinearGradient from 'react-native-linear-gradient';
+import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
@@ -236,9 +237,9 @@ const MeditationScreen = ({
           </_Button>
         </LinearGradient>
       </Layout>
-      <MeditationNotesModal
+      <MeditationNotesDrawer
         visible={isNotesModalVisible}
-        onBackdropPress={() => setIsNotesModalVisible(false)}
+        onClosePress={() => setIsNotesModalVisible(false)}
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
       />

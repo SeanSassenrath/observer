@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   background: {
     height: '100%',
     width: screenwWidth,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   container: {
     backgroundColor: '#260752',

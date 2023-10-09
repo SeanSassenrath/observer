@@ -33,12 +33,12 @@ import {
   getRecentMeditationBaseIds,
 } from '../utils/meditation';
 import MedNotesPreview from '../components/MedNotesPreview';
-import MeditationNotesModal from '../components/MeditationNotesModal';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
 import {WaveDrawer} from '../components/WaveDrawer/component';
+import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 
 const brightWhite = '#fcfcfc';
 
@@ -242,9 +242,9 @@ const HomeScreen = () => {
           </Button>
         </Layout>
       </Modal>
-      <MeditationNotesModal
+      <MeditationNotesDrawer
         visible={isNotesModalVisible}
-        onBackdropPress={() => setIsNotesModalVisible(false)}
+        onClosePress={() => setIsNotesModalVisible(false)}
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
         showStartMeditation
