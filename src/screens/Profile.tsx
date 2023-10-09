@@ -24,7 +24,7 @@ const BackIcon = (props: any) => (
 const MoreMenuIcon = (props: any) => (
   <Icon
     {...props}
-    style={iconStyles.backIcon}
+    style={iconStyles.verticalIcon}
     fill={brightWhite}
     name="more-vertical-outline"
   />
@@ -68,64 +68,62 @@ const Profile = (props: Props) => {
 
   return (
     <View style={styles.rootContainer}>
-      <SafeAreaView style={styles.safeArea}>
-        <View style={styles.topBar}>
-          <Pressable onPress={onBackPress}>
-            <BackIcon />
-          </Pressable>
-          <Popover
-            anchor={renderMoreMenuButton}
-            visible={isMoreMenuOpen}
-            placement={'left'}
-            onBackdropPress={() => setIsMoreMenuOpen(false)}>
-            <View style={styles.popoverContainer}>
-              <Pressable onPress={SignOut}>
-                <Text category="s1">Sign Out</Text>
-              </Pressable>
+      <View style={styles.topBar}>
+        <Pressable onPress={onBackPress}>
+          <BackIcon />
+        </Pressable>
+        <Popover
+          anchor={renderMoreMenuButton}
+          visible={isMoreMenuOpen}
+          placement={'left'}
+          onBackdropPress={() => setIsMoreMenuOpen(false)}>
+          <View style={styles.popoverContainer}>
+            <Pressable onPress={SignOut}>
+              <Text category="s1">Sign Out</Text>
+            </Pressable>
+          </View>
+        </Popover>
+      </View>
+      <View style={styles.main}>
+        <View style={styles.profileHeader}>
+          <View style={styles.avatarContainer}>
+            {userProfile?.profile?.photoURL ? (
+              <Image
+                source={{uri: userProfile?.profile?.photoURL}}
+                style={styles.avatar}
+              />
+            ) : null}
+          </View>
+          <View style={styles.profileMetaContainer}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.firstName} category="h5">
+                {userProfile?.profile?.firstName}
+              </Text>
+              <Text category="h5">{userProfile?.profile?.lastName}</Text>
             </View>
-          </Popover>
-        </View>
-        <View style={styles.main}>
-          <View style={styles.profileHeader}>
-            <View style={styles.avatarContainer}>
-              {userProfile?.profile?.photoURL ? (
-                <Image
-                  source={{uri: userProfile?.profile?.photoURL}}
-                  style={styles.avatar}
-                />
-              ) : null}
-            </View>
-            <View style={styles.profileMetaContainer}>
-              <View style={styles.nameContainer}>
-                <Text style={styles.firstName} category="h5">
-                  {userProfile?.profile?.firstName}
-                </Text>
-                <Text category="h5">{userProfile?.profile?.lastName}</Text>
-              </View>
-              {/* <View>
+            {/* <View>
                 <Text category="s2">Joined: 10/21/20</Text>
               </View> */}
-            </View>
-          </View>
-          <View style={styles.profileMeditationsContainer}>
-            <View style={styles.profileMeditationsSectionContainer}>
-              <Text style={styles.profileMetaSectionLabel} category="s1">
-                Meditations
-              </Text>
-              <Text category="h6">43</Text>
-            </View>
-            <View style={styles.profileMeditationsSectionContainer}>
-              <Text style={styles.profileMetaSectionLabel} category="s1">
-                Minutes Meditated
-              </Text>
-              <Text category="h6">1d 5hr</Text>
-            </View>
-          </View>
-          <View style={styles.waveContainer}>
-            <Wave />
           </View>
         </View>
-      </SafeAreaView>
+        <View style={styles.profileMeditationsContainer}>
+          <View style={styles.profileMeditationsSectionContainer}>
+            <Text style={styles.profileMetaSectionLabel} category="s1">
+              Meditations
+            </Text>
+            <Text category="h6">43</Text>
+          </View>
+          <View style={styles.profileMeditationsSectionContainer}>
+            <Text style={styles.profileMetaSectionLabel} category="s1">
+              Minutes Meditated
+            </Text>
+            <Text category="h6">1d 5hr</Text>
+          </View>
+        </View>
+        <View style={styles.waveContainer}>
+          <Wave />
+        </View>
+      </View>
     </View>
   );
 };
@@ -134,6 +132,10 @@ const iconStyles = StyleSheet.create({
   backIcon: {
     height: 40,
     width: 40,
+  },
+  verticalIcon: {
+    height: 34,
+    width: 34,
   },
 });
 
@@ -149,7 +151,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 10,
+    paddingTop: 40,
+    marginBottom: 20,
   },
   popoverContainer: {
     borderRadius: 10,
