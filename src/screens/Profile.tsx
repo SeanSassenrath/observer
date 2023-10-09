@@ -1,11 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
 import {Icon, Popover, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {SignOut} from '../fb/auth';
 import {Wave} from '../components/Wave/component';
+import {getUserProfile} from '../utils/getUserProfile';
+import UserContext, {User} from '../contexts/userData';
 
 const brightWhite = '#fcfcfc';
 
@@ -34,12 +37,24 @@ interface Props {
 
 const Profile = (props: Props) => {
   const {route} = props;
-
-  console.log('userId', route.params.userId);
+  const {userId} = route.params;
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
+  const {user} = useContext(UserContext);
+
+  const [userProfile, setUserProfile] = useState({} as User);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const _userProfile = getUserProfile(userId, user);
+
+    if (_userProfile) {
+      setUserProfile(_userProfile);
+    }
+
+    console.log('finally >>>', _userProfile);
+  }, [user, userId, userProfile]);
 
   const onBackPress = () => {
     navigation.goBack();
@@ -72,17 +87,24 @@ const Profile = (props: Props) => {
         </View>
         <View style={styles.main}>
           <View style={styles.profileHeader}>
-            <View style={styles.avatarContainer} />
+            <View style={styles.avatarContainer}>
+              {userProfile?.profile?.photoURL ? (
+                <Image
+                  source={{uri: userProfile?.profile?.photoURL}}
+                  style={styles.avatar}
+                />
+              ) : null}
+            </View>
             <View style={styles.profileMetaContainer}>
               <View style={styles.nameContainer}>
                 <Text style={styles.firstName} category="h5">
-                  Alexandra
+                  {userProfile?.profile?.firstName}
                 </Text>
-                <Text category="h5">Estrada</Text>
+                <Text category="h5">{userProfile?.profile?.lastName}</Text>
               </View>
-              <View>
+              {/* <View>
                 <Text category="s2">Joined: 10/21/20</Text>
-              </View>
+              </View> */}
             </View>
           </View>
           <View style={styles.profileMeditationsContainer}>
@@ -144,11 +166,18 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   avatarContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: 'rgba(48,55,75,0.6)',
     borderRadius: 100,
     height: 100,
     marginRight: 20,
     width: 100,
+  },
+  avatar: {
+    height: 100,
+    width: 100,
+    borderRadius: 100,
   },
   profileMetaContainer: {
     flexDirection: 'column',
