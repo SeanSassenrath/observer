@@ -293,7 +293,7 @@ const themedStyles = StyleSheet.create({
     height: 50,
     width: 50,
     marginLeft: 20,
-    backgroundColor: 'rgba(48,55,75,0.9)',
+    backgroundColor: 'rgba(48,55,75,0.7)',
   },
   container: {
     backgroundColor: '#0B0E18',
