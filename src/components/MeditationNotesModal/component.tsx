@@ -7,7 +7,7 @@ interface Props extends ModalProps {
   meditation?: MeditationBase;
   meditationDate?: string;
   meditationInstance?: MeditationInstance;
-  showStartMeditation: boolean;
+  showStartMeditation?: boolean;
   meditationLink?(): void;
 }
 

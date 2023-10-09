@@ -11,7 +11,7 @@ const EMPTY_STRING = '';
 interface Props extends ModalProps {
   meditation?: MeditationBase;
   meditationInstance?: MeditationInstance;
-  showStartMeditation: boolean;
+  showStartMeditation?: boolean;
 }
 
 const MeditationNotesModal = (props: Props) => {

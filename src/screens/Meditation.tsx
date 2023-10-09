@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  SafeAreaView,
+  ImageBackground,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -29,17 +29,18 @@ import {sortBy} from 'lodash';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import MeditationNotesModal from '../components/MeditationNotesModal';
+import LinearGradient from 'react-native-linear-gradient';
 
 const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
 const oneSecond = 1000;
 
-const CloseIcon = (props: any) => (
+const BackIcon = (props: any) => (
   <Icon
     {...props}
-    style={themedStyles.closeIcon}
+    style={themedStyles.backIcon}
     fill={brightWhite}
-    name="close-outline"
+    name="arrow-back-outline"
   />
 );
 
@@ -168,60 +169,73 @@ const MeditationScreen = ({
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView>
-          <View style={styles.topBar}>
-            <Text category="h4" style={styles.topBarText}>
-              {meditation.name}
-            </Text>
+      <KeyboardAwareScrollView>
+        <View style={styles.topBar}>
+          <ImageBackground
+            source={meditation.backgroundImage}
+            style={styles.meditationImage}
+            resizeMode="stretch"
+          />
+          <View style={styles.topLineContainer}>
             <TouchableWithoutFeedback
               style={styles.topBarIcon}
               onPress={onBackPress}>
-              <View style={styles.closeIconContainer}>
-                <CloseIcon />
+              <View style={styles.backIconContainer}>
+                <BackIcon />
               </View>
             </TouchableWithoutFeedback>
+            <Text category="h6">{`${meditation.formattedDuration}m`}</Text>
           </View>
-          <View style={styles.mainSection}>
-            {lastMeditation && lastMeditationInstance ? (
-              <View style={styles.lastMedNotesSectionContainer}>
-                <Text category="h6" style={styles.thinkBoxLabel}>
-                  Last Meditation Notes
-                </Text>
-                <Layout level="2" style={styles.lastMedNotesContainer}>
-                  <MedNotesPreview
-                    meditation={lastMeditation}
-                    meditationInstance={lastMeditationInstance}
-                    onPress={() => setIsNotesModalVisible(true)}
-                  />
-                </Layout>
-              </View>
-            ) : null}
-            <Text category="h6" style={styles.thinkBoxLabel}>
-              Set an Intention
-            </Text>
-            <MultiLineInput
-              onChangeText={setInputValue}
-              placeholder="Set an intention for your meditation"
-              value={inputValue}
-              style={styles.thinkBoxStyles}
-              textStyle={styles.thinkBoxTextStyles}
-            />
-            {renderBreathGroupSection()}
-          </View>
-        </KeyboardAwareScrollView>
-        <Layout style={styles.bottomBar}>
+          <Text category="h4" style={styles.topBarText}>
+            {meditation.name}
+          </Text>
+        </View>
+        <View style={styles.mainSection}>
+          {lastMeditation && lastMeditationInstance ? (
+            <View style={styles.lastMedNotesSectionContainer}>
+              <Text category="h6" style={styles.thinkBoxLabel}>
+                Last Meditation Notes
+              </Text>
+              <Layout level="2" style={styles.lastMedNotesContainer}>
+                <MedNotesPreview
+                  meditation={lastMeditation}
+                  meditationInstance={lastMeditationInstance}
+                  onPress={() => setIsNotesModalVisible(true)}
+                />
+              </Layout>
+            </View>
+          ) : null}
+          <Text category="h6" style={styles.thinkBoxLabel}>
+            Set an Intention
+          </Text>
+          <MultiLineInput
+            onChangeText={setInputValue}
+            placeholder="Set an intention for your meditation"
+            value={inputValue}
+            style={styles.thinkBoxStyles}
+            textStyle={styles.thinkBoxTextStyles}
+          />
+          {renderBreathGroupSection()}
+        </View>
+      </KeyboardAwareScrollView>
+      <Layout style={styles.bottomBar}>
+        <LinearGradient
+          colors={['transparent', '#0B0E18', '#0B0E18']}
+          style={styles.bottomBarGradient}>
           {/* <Layout style={styles.meditationInfo} level="4">
             <WarningIcon />
             <Text category="s1" style={styles.meditationInfoText}>
               Don't forget to turn on Do Not Disturb!
             </Text>
           </Layout> */}
-          <_Button onPress={onStartPress} size="large">
+          <_Button
+            onPress={onStartPress}
+            size="large"
+            style={styles.startButton}>
             Start
           </_Button>
-        </Layout>
-      </SafeAreaView>
+        </LinearGradient>
+      </Layout>
       <MeditationNotesModal
         visible={isNotesModalVisible}
         onBackdropPress={() => setIsNotesModalVisible(false)}
@@ -233,6 +247,19 @@ const MeditationScreen = ({
 };
 
 const themedStyles = StyleSheet.create({
+  topLineContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingRight: 20,
+  },
+  meditationImage: {
+    height: 250,
+    width: '100%',
+    position: 'absolute',
+    top: 0,
+    opacity: 0.4,
+  },
   additionalWork: {
     paddingVertical: 40,
   },
@@ -250,17 +277,23 @@ const themedStyles = StyleSheet.create({
     width: 30,
   },
   bottomBar: {
+    flex: 1,
     backgroundColor: 'transparent',
-    padding: 20,
+    // padding: 20,
     justifyContent: 'flex-end',
   },
-  closeIcon: {
-    height: 32,
-    width: 32,
+  backIcon: {
+    height: 40,
+    width: 40,
   },
-  closeIconContainer: {
-    padding: 20,
-    backgroundColor: 'transparent',
+  backIconContainer: {
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 50,
+    width: 50,
+    marginLeft: 20,
+    backgroundColor: 'rgba(48,55,75,0.9)',
   },
   container: {
     backgroundColor: '#0B0E18',
@@ -300,7 +333,9 @@ const themedStyles = StyleSheet.create({
     marginHorizontal: 20,
   },
   mainSection: {
+    flex: 6,
     justifyContent: 'flex-end',
+    paddingBottom: 160,
   },
   meditationInfo: {
     marginBottom: 24,
@@ -320,13 +355,15 @@ const themedStyles = StyleSheet.create({
     marginBottom: 40,
   },
   topBar: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingLeft: 20,
+    justifyContent: 'space-between',
+    // alignItems: 'flex-end',
+    paddingBottom: 20,
+    paddingTop: 50,
     marginBottom: 40,
+    height: 250,
   },
   topBarText: {
-    flex: 9,
+    paddingHorizontal: 20,
   },
   topBarIcon: {
     flex: 1,
@@ -334,6 +371,15 @@ const themedStyles = StyleSheet.create({
   toggle: {
     justifyContent: 'flex-start',
     marginBottom: 30,
+  },
+  bottomBarGradient: {
+    height: 120,
+    paddingBottom: 20,
+    justifyContent: 'flex-end',
+  },
+  startButton: {
+    marginVertical: 24,
+    marginHorizontal: 20,
   },
 });
 
