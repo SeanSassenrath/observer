@@ -5,6 +5,7 @@ import {Pressable, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {SignOut} from '../fb/auth';
+import {Wave} from '../components/Wave/component';
 
 const brightWhite = '#fcfcfc';
 
@@ -69,7 +70,39 @@ const Profile = (props: Props) => {
             </View>
           </Popover>
         </View>
-        <View style={styles.main} />
+        <View style={styles.main}>
+          <View style={styles.profileHeader}>
+            <View style={styles.avatarContainer} />
+            <View style={styles.profileMetaContainer}>
+              <View style={styles.nameContainer}>
+                <Text style={styles.firstName} category="h5">
+                  Alexandra
+                </Text>
+                <Text category="h5">Estrada</Text>
+              </View>
+              <View>
+                <Text category="s2">Joined: 10/21/20</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.profileMeditationsContainer}>
+            <View style={styles.profileMeditationsSectionContainer}>
+              <Text style={styles.profileMetaSectionLabel} category="s1">
+                Meditations
+              </Text>
+              <Text category="h6">43</Text>
+            </View>
+            <View style={styles.profileMeditationsSectionContainer}>
+              <Text style={styles.profileMetaSectionLabel} category="s1">
+                Minutes Meditated
+              </Text>
+              <Text category="h6">1d 5hr</Text>
+            </View>
+          </View>
+          <View style={styles.waveContainer}>
+            <Wave />
+          </View>
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -103,6 +136,50 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 9,
+    paddingHorizontal: 20,
+  },
+  profileHeader: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginBottom: 40,
+  },
+  avatarContainer: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
+    borderRadius: 100,
+    height: 100,
+    marginRight: 20,
+    width: 100,
+  },
+  profileMetaContainer: {
+    flexDirection: 'column',
+  },
+  nameContainer: {
+    flexDirection: 'column',
+    marginBottom: 10,
+  },
+  firstName: {
+    marginBottom: 4,
+  },
+  profileMeditationsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  profileMeditationsSectionContainer: {
+    alignItems: 'center',
+    borderRadius: 10,
+    flex: 0.45,
+    backgroundColor: 'rgba(48,55,75,0.6)',
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+  },
+  profileMetaSectionLabel: {
+    marginBottom: 4,
+  },
+  waveContainer: {
+    overflow: 'hidden',
+    height: 180,
+    backgroundColor: 'transparent',
   },
 });
 
