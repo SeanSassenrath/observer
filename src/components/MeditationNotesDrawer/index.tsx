@@ -16,7 +16,7 @@ interface Props extends ModalProps {
 }
 
 const MeditationNotesDrawer = (props: Props) => {
-  const {meditationInstance, meditation, onBackdropPress} = props;
+  const {meditationInstance, meditation, onClosePress} = props;
 
   const navigation = useNavigation();
 
@@ -35,8 +35,8 @@ const MeditationNotesDrawer = (props: Props) => {
   const meditationBaseId = meditation?.meditationBaseId;
 
   const meditationLink = () => {
-    if (meditationBaseId && onBackdropPress !== undefined) {
-      onBackdropPress();
+    if (meditationBaseId && onClosePress !== undefined) {
+      onClosePress();
       navigation.navigate('Meditation', {
         id: meditationBaseId,
       });
