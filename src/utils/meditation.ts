@@ -180,6 +180,7 @@ export const makeUpdatedFbUserMeditationData = (
   updatedRecentUserMeditationData: UpdatedRecentUserMeditationData,
   updatedStreaksData: UpdatedStreakData,
   meditationInstanceData: MeditationInstance,
+  totalMeditationTime: number | undefined,
 ) => {
   const {meditationBaseId, meditationBaseBreathId, name} =
     meditationInstanceData;
@@ -187,14 +188,30 @@ export const makeUpdatedFbUserMeditationData = (
   const updatedUserMeditationData = {
     'meditationUserData.recentMeditationBaseIds':
       updatedRecentUserMeditationData,
-    'meditationUserData.streaks.current': updatedStreaksData.current,
-    'meditationUserData.streaks.longest': updatedStreaksData.longest,
     [`meditationUserData.meditationCounts.${meditationBaseId}.count`]:
       updatedMeditationInstanceCount,
     [`meditationUserData.meditationCounts.${meditationBaseId}.name`]: name,
     [`meditationUserData.meditationCounts.${meditationBaseId}.id`]:
       meditationBaseId,
   };
+
+  if (updatedStreaksData.current) {
+    Object.assign(updatedUserMeditationData, {
+      ['meditationUserData.streaks.current']: updatedStreaksData.current,
+    });
+  }
+
+  if (updatedStreaksData.longest) {
+    Object.assign(updatedUserMeditationData, {
+      ['meditationUserData.streaks.longest']: updatedStreaksData.longest,
+    });
+  }
+
+  if (totalMeditationTime) {
+    Object.assign(updatedUserMeditationData, {
+      ['meditationUserData.totalMeditationTime']: totalMeditationTime,
+    });
+  }
 
   if (updatedBreathMeditationCountData) {
     Object.assign(updatedUserMeditationData, {
@@ -218,6 +235,7 @@ export const makeUpdatedContextMeditationData = (
   updatedRecentUserMeditationData: UpdatedRecentUserMeditationData,
   updatedStreaksData: UpdatedStreakData,
   meditationInstanceData: MeditationInstance,
+  totalMeditationTime: number | undefined,
   user: User,
 ) => {
   const {meditationBaseId, meditationBaseBreathId, name} =
@@ -241,6 +259,20 @@ export const makeUpdatedContextMeditationData = (
     });
   }
 
+  const streaks = {};
+
+  if (updatedStreaksData.current) {
+    Object.assign(streaks, {
+      ['current']: updatedStreaksData.current,
+    });
+  }
+
+  if (updatedStreaksData.longest) {
+    Object.assign(streaks, {
+      ['longest']: updatedStreaksData.longest,
+    });
+  }
+
   return {
     ...user,
     meditationUserData: {
@@ -250,10 +282,8 @@ export const makeUpdatedContextMeditationData = (
         ...user.meditationUserData.meditationCounts,
         ...meditationCounts,
       },
-      streaks: {
-        current: updatedStreaksData.current,
-        longest: updatedStreaksData.longest,
-      },
+      streaks,
+      totalMeditationTime: totalMeditationTime || 0,
     },
   };
 };
@@ -296,3 +326,19 @@ export const getMeditationBreathCountFromUserData = (
   user.meditationUserData.meditationCounts[
     meditationInstanceData.meditationBaseBreathId
   ].count;
+
+export const makeTotalMeditationTime = (
+  user: User,
+  meditationInstanceData: MeditationInstance,
+) => {
+  const previoustotalMeditationTime =
+    user &&
+    user.meditationUserData &&
+    user.meditationUserData.totalMeditationTime;
+
+  const {timeMeditated} = meditationInstanceData;
+
+  if (previoustotalMeditationTime !== undefined && timeMeditated) {
+    return previoustotalMeditationTime + timeMeditated;
+  }
+};

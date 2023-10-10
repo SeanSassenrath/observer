@@ -14,6 +14,7 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import UserContext from '../contexts/userData';
 import {
   getLastMeditationFromMeditationHistory,
+  makeTotalMeditationTime,
   makeUpdatedBreathMeditationCountData,
   makeUpdatedContextMeditationData,
   makeUpdatedFbUserMeditationData,
@@ -76,13 +77,18 @@ const MeditationFinishScreen = () => {
       getLastMeditationFromMeditationHistory(meditationHistory);
     const _updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
     setUpdatedStreaksData(_updatedStreaksData);
+    const totalMeditationTime = makeTotalMeditationTime(
+      user,
+      meditationInstanceData,
+    );
 
     const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
       updatedMeditationInstanceCount,
       updatedBreathMeditationCountData,
       updatedRecentUserMeditationData,
-      updatedStreaksData,
+      _updatedStreaksData,
       meditationInstanceData,
+      totalMeditationTime,
     );
 
     await fbUpdateUser(user.uid, updatedFbUserMeditationData);
@@ -91,8 +97,9 @@ const MeditationFinishScreen = () => {
       updatedMeditationInstanceCount,
       updatedBreathMeditationCountData,
       updatedRecentUserMeditationData,
-      updatedStreaksData,
+      _updatedStreaksData,
       meditationInstanceData,
+      totalMeditationTime,
       user,
     );
 

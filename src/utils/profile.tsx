@@ -31,3 +31,15 @@ export const getTotalMeditationCount = (currentUser: User) => {
     return count;
   }
 };
+
+export const getTotalMeditationTime = (currentUser: User) => {
+  const totalMeditationTime =
+    currentUser &&
+    currentUser.meditationUserData &&
+    currentUser.meditationUserData.totalMeditationTime;
+
+  if (totalMeditationTime) {
+    const time = Math.round(totalMeditationTime / 60);
+    return time;
+  }
+};

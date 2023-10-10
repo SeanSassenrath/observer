@@ -119,6 +119,7 @@ const App = () => {
         current: 0,
         longest: 0,
       },
+      totalMeditationTime: 0,
     },
   });
 

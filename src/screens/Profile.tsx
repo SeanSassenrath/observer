@@ -7,7 +7,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {SignOut} from '../fb/auth';
 import {Wave} from '../components/Wave/component';
-import {getTotalMeditationCount, getUserProfile} from '../utils/profile';
+import {
+  getTotalMeditationCount,
+  getTotalMeditationTime,
+  getUserProfile,
+} from '../utils/profile';
 import UserContext, {User} from '../contexts/userData';
 
 const brightWhite = '#fcfcfc';
@@ -57,6 +61,8 @@ const Profile = (props: Props) => {
   }, [user, userId, userProfile]);
 
   const totalMeditationCount = getTotalMeditationCount(userProfile);
+
+  const totalMeditationTime = getTotalMeditationTime(userProfile);
 
   const onBackPress = () => {
     navigation.goBack();
@@ -119,7 +125,7 @@ const Profile = (props: Props) => {
             <Text style={styles.profileMetaSectionLabel} category="s1">
               Minutes Meditated
             </Text>
-            <Text category="h6">1d 5hr</Text>
+            <Text category="h6">{totalMeditationTime}</Text>
           </View>
         </View>
         <View style={styles.waveContainer}>

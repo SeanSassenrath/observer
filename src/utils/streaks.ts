@@ -3,8 +3,9 @@ import {DateTime} from 'luxon';
 import {User, UserStreaks} from '../contexts/userData';
 import {MeditationInstance} from '../types';
 
-export const getUserStreakData = (user: User) =>
-  user.meditationUserData?.streaks;
+export const getUserStreakData = (user: User) => {
+  return user.meditationUserData?.streaks;
+};
 
 export const updateUserStreakData = (
   user: User,

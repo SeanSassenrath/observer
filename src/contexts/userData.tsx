@@ -85,6 +85,7 @@ export const initialUserState = {
       current: 0,
       longest: 0,
     },
+    totalMeditationTime: 0,
   },
 };
 
