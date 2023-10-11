@@ -14,7 +14,6 @@ import TrackPlayer, {
   State as TrackPlayerState,
 } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
-import KeepAwake from 'react-native-keep-awake';
 import {Icon, Layout, Modal, Text} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
@@ -118,7 +117,6 @@ const MeditationPlayer = ({
     addTracks();
     const countDownTimer = setCountDownTimer();
     const trackStateInterval = getTrackState();
-    shouldKeepAwake(true);
 
     return () => {
       clearInterval(countDownTimer);
@@ -186,14 +184,6 @@ const MeditationPlayer = ({
     return getTrackStateInterval;
   };
 
-  const shouldKeepAwake = (_shouldBeAwake: boolean) => {
-    if (_shouldBeAwake) {
-      KeepAwake.activate();
-    } else {
-      KeepAwake.deactivate();
-    }
-  };
-
   // const onAddMeditationsPress = async () => {
   //   const meditations = await onAddMeditations(
   //     existingMeditationFilePathData,
@@ -216,7 +206,6 @@ const MeditationPlayer = ({
   };
 
   const onClosePress = () => {
-    shouldKeepAwake(false);
     resetTrackPlayer();
     navigation.goBack();
   };
@@ -224,7 +213,6 @@ const MeditationPlayer = ({
   const onFinishPress = () => {
     console.log('MEDITATION PLAYER: onFinishPress > position', position);
 
-    shouldKeepAwake(false);
     resetTrackPlayer();
   };
 
