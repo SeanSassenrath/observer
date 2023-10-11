@@ -1,3 +1,4 @@
+import {TIME_CHUNK} from '../constants/time';
 import {UserUid, User} from '../contexts/userData';
 
 export const getUserProfile = (
@@ -39,7 +40,18 @@ export const getTotalMeditationTime = (currentUser: User) => {
     currentUser.meditationUserData.totalMeditationTime;
 
   if (totalMeditationTime) {
-    const time = Math.round(totalMeditationTime / 60);
-    return time;
+    if (totalMeditationTime > TIME_CHUNK.DAY) {
+      return `${
+        Math.round((totalMeditationTime / TIME_CHUNK.DAY) * 100) / 100
+      }d`;
+    } else if (totalMeditationTime > TIME_CHUNK.HOUR) {
+      return `${
+        Math.round((totalMeditationTime / TIME_CHUNK.HOUR) * 100) / 100
+      }h`;
+    } else {
+      return `${
+        Math.round((totalMeditationTime / TIME_CHUNK.MINUTE) * 100) / 100
+      }m`;
+    }
   }
 };

@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import {Icon, Popover, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {SignOut} from '../fb/auth';
@@ -56,8 +55,6 @@ const Profile = (props: Props) => {
     if (_userProfile) {
       setUserProfile(_userProfile);
     }
-
-    console.log('finally >>>', _userProfile);
   }, [user, userId, userProfile]);
 
   const totalMeditationCount = getTotalMeditationCount(userProfile);
@@ -123,7 +120,7 @@ const Profile = (props: Props) => {
           </View>
           <View style={styles.profileMeditationsSectionContainer}>
             <Text style={styles.profileMetaSectionLabel} category="s1">
-              Minutes Meditated
+              Time Meditated
             </Text>
             <Text category="h6">{totalMeditationTime}</Text>
           </View>
