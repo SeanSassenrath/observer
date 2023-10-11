@@ -68,13 +68,21 @@ export const MeditationNotesDrawerComponent = (props: Props) => {
                 <Text category="h6">{meditationInstance?.feedback}</Text>
               </View>
             ) : null}
+            {meditationInstance?.feedback ||
+            meditationInstance?.intention ||
+            meditationInstance?.notes ? null : (
+              <Text category="h6" style={styles.emptyNotes}>
+                Try adding your intention, notes, and feedback in the next
+                meditation.
+              </Text>
+            )}
           </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
           <LinearGradient
             colors={['transparent', '#0B0E18', '#0B0E18']}
             style={styles.bottomBarGradient}>
-            <View style={{justifyContent: 'flex-end', flex: 1}}>
+            <View style={styles.buttonSubContainer}>
               {showStartMeditation ? (
                 <Button
                   size="large"
@@ -144,15 +152,22 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginBottom: 10,
   },
+  emptyNotes: {
+    textAlign: 'center',
+    lineHeight: 30,
+  },
   buttonContainer: {
     paddingHorizontal: 20,
-    paddingTop: 60,
     position: 'absolute',
     backgroundColor: 'transparent',
     width: '100%',
     bottom: 40,
   },
   bottomBarGradient: {
-    height: 180,
+    height: 130,
+  },
+  buttonSubContainer: {
+    justifyContent: 'flex-end',
+    flex: 1,
   },
 });

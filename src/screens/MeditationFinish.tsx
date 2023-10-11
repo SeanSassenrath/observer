@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Layout, Text} from '@ui-kitten/components';
+import {Text} from '@ui-kitten/components';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
@@ -34,6 +34,7 @@ import {
 } from '../fb/meditationHistory';
 import {StreakUpdate} from '../components/StreakUpdate';
 import {Action, Noun, thinkboxSendEvent} from '../analytics';
+import {MeditationInstance} from '../types';
 
 const EMPTY_INPUT = '';
 
@@ -135,11 +136,21 @@ const MeditationFinishScreen = () => {
   };
 
   const updateMeditationHistoryContext = () => {
+    const updatedMeditationInstanceData: MeditationInstance = {
+      ...meditationInstanceData,
+      notes: firstInput,
+      feedback: secondInput,
+    };
     const currentMeditationHistory =
       meditationHistory.meditationInstances || [];
-    const updatedMeditationHistory = [meditationInstanceData].concat(
+    const updatedMeditationHistory = [updatedMeditationInstanceData].concat(
       currentMeditationHistory,
     );
+    console.log(
+      'Test 1 >>> updatedMeditationHistory',
+      updatedMeditationHistory,
+    );
+    console.log('Test 2 >>> meditationInstanceData', meditationInstanceData);
     setMeditationHistory({meditationInstances: updatedMeditationHistory});
   };
 
