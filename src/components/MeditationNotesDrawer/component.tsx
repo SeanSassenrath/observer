@@ -72,8 +72,8 @@ export const MeditationNotesDrawerComponent = (props: Props) => {
             meditationInstance?.intention ||
             meditationInstance?.notes ? null : (
               <Text category="h6" style={styles.emptyNotes}>
-                Try adding your intention, notes, and feedback in the next
-                meditation.
+                Add an intention, what you did well, and feedback to your
+                meditations to see it in your meditation notes.
               </Text>
             )}
           </View>
