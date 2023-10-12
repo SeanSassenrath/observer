@@ -58,11 +58,11 @@ export const HomeTopBar = ({
           </Pressable>
         </Layout>
       </Layout>
-      <Layout style={styles.waveContainer}>
+      {/* <Layout style={styles.waveContainer}>
         <Pressable onPress={onWavePress} style={styles.wavePress}>
           <Wave />
         </Pressable>
-      </Layout>
+      </Layout> */}
     </Layout>
   );
 };
@@ -87,7 +87,7 @@ const themedStyles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 20,
-    paddingBottom: 20,
+    paddingBottom: 40,
     paddingTop: 60,
     marginBottom: 20,
     backgroundColor: 'transparent',

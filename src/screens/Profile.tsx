@@ -125,9 +125,9 @@ const Profile = (props: Props) => {
             <Text category="h6">{totalMeditationTime}</Text>
           </View>
         </View>
-        <View style={styles.waveContainer}>
+        {/* <View style={styles.waveContainer}>
           <Wave />
-        </View>
+        </View> */}
       </View>
     </View>
   );
