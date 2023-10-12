@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _, {uniq} from 'lodash';
+import _, {uniq, values, sortBy, takeRight} from 'lodash';
 import Toast from 'react-native-toast-message';
 import {
   Modal,
@@ -28,10 +28,7 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
-import {
-  checkMeditationBaseIds,
-  getRecentMeditationBaseIds,
-} from '../utils/meditation';
+import {getRecentMeditationBaseIds} from '../utils/meditation';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {meditationBaseMap} from '../constants/meditation-data';
@@ -70,18 +67,24 @@ const HomeScreen = () => {
 
   const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
 
-  let favoriteMeditations = [] as MeditationId[];
   const meditationInstanceCounts =
     user && user.meditationUserData && user.meditationUserData.meditationCounts;
+  const meditationCountList = values(meditationInstanceCounts);
+  const sortedMeditationCountList = sortBy(meditationCountList, 'count', 'asc');
+  const lastFiveMeditationCountList = takeRight(sortedMeditationCountList, 5);
+  const meditationCountListIds = lastFiveMeditationCountList.map(
+    meditation => meditation.id,
+  );
+  const favoriteMeditations = meditationCountListIds.reverse();
+
+  console.log('Test 1 >>> meditationCountListIds', meditationCountListIds);
 
   if (meditationInstanceCounts) {
-    const meditationInstanceCountIds = Object.keys(meditationInstanceCounts);
-
-    const checkedMeditationBaseIds = uniq(
-      checkMeditationBaseIds(meditationInstanceCountIds),
-    );
-
-    favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
+    // const meditationInstanceCountIds = Object.keys(meditationInstanceCounts);
+    // const checkedMeditationBaseIds = uniq(
+    //   checkMeditationBaseIds(meditationInstanceCountIds),
+    // );
+    // favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
   }
 
   const lastMeditationInstance =
