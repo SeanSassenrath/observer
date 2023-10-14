@@ -4,14 +4,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
-import {SignOut} from '../fb/auth';
-import {Wave} from '../components/Wave/component';
+import {signOut} from '../fb/auth';
 import {
   getTotalMeditationCount,
   getTotalMeditationTime,
   getUserProfile,
 } from '../utils/profile';
-import UserContext, {User} from '../contexts/userData';
+import UserContext, {User, initialUserState} from '../contexts/userData';
 
 const brightWhite = '#fcfcfc';
 
@@ -44,7 +43,7 @@ const Profile = (props: Props) => {
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   const [userProfile, setUserProfile] = useState({} as User);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
@@ -65,6 +64,15 @@ const Profile = (props: Props) => {
     navigation.goBack();
   };
 
+  const onSignOut = async () => {
+    const isSuccessfulSignOut = await signOut();
+    if (isSuccessfulSignOut) {
+      console.log('User signed out!');
+      setUser(initialUserState);
+      navigation.navigate('SignIn');
+    }
+  };
+
   const renderMoreMenuButton = () => (
     <Pressable onPress={() => setIsMoreMenuOpen(true)}>
       <MoreMenuIcon />
@@ -83,7 +91,7 @@ const Profile = (props: Props) => {
           placement={'left'}
           onBackdropPress={() => setIsMoreMenuOpen(false)}>
           <View style={styles.popoverContainer}>
-            <Pressable onPress={SignOut}>
+            <Pressable onPress={onSignOut}>
               <Text category="s1">Sign Out</Text>
             </Pressable>
           </View>

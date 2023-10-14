@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _, {values, sortBy, takeRight} from 'lodash';
@@ -17,7 +17,6 @@ import auth from '@react-native-firebase/auth';
 
 import _Button from '../components/Button';
 import {MeditationId} from '../types';
-import {HomeTopBar} from '../components/HomeTopBar';
 import {MeditationList} from '../components/MeditationList';
 import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
@@ -30,19 +29,28 @@ import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {getRecentMeditationBaseIds} from '../utils/meditation';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
-import {meditationBaseMap} from '../constants/meditation-data';
 import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
 import {WaveDrawer} from '../components/WaveDrawer/component';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
 import {getUserMeditationInstanceCounts} from '../utils/user/user';
-import {getTopFiveMeditationIds} from '../utils/meditations/meditations';
+import {
+  getLastMeditationInstance,
+  getMeditationFromId,
+  getTopFiveMeditationIds,
+} from '../utils/meditations/meditations';
+import StreakPill from '../components/StreakPill';
+import {getUserStreakData} from '../utils/streaks';
 
 const HomeIcon = (props: any) => <Icon {...props} name="home-outline" />;
 
 const UserIcon = () => (
   <Icon style={themedStyles.userIcon} fill={brightWhite} name="person" />
+);
+
+const PlusIcon = () => (
+  <Icon style={themedStyles.plusIcon} fill={brightWhite} name="plus-outline" />
 );
 
 const HomeScreen = () => {
@@ -72,13 +80,13 @@ const HomeScreen = () => {
     ? getTopFiveMeditationIds(meditationInstanceCounts)
     : [];
 
-  const lastMeditationInstance =
-    meditationHistory &&
-    meditationHistory.meditationInstances &&
-    meditationHistory.meditationInstances[0];
+  const lastMeditationInstance = getLastMeditationInstance(meditationHistory);
   const lastMeditation =
     lastMeditationInstance &&
-    meditationBaseMap[lastMeditationInstance.meditationBaseId];
+    getMeditationFromId(lastMeditationInstance.meditationBaseId);
+  const hasLastMeditation = lastMeditationInstance && lastMeditation;
+
+  const streakData = getUserStreakData(user);
 
   const onSignOut = () => {
     auth()
@@ -135,7 +143,7 @@ const HomeScreen = () => {
     navigation.navigate('TabNavigation', {screen: 'Insight'});
   };
 
-  const AvatarPress = () => {
+  const onAvatarPress = () => {
     navigation.navigate('Profile', {userId: user.uid});
   };
 
@@ -154,12 +162,30 @@ const HomeScreen = () => {
     <Layout style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
         <LinearGradient colors={['#020306', '#1B0444']}>
-          <HomeTopBar
-            onAvatarPress={AvatarPress}
-            onStreaksPress={onStreaksPress}
-            onAddMeditationsPress={onAddMeditationsPress}
-          />
-          {lastMeditation && lastMeditationInstance ? (
+          <Layout style={styles.topBarContainer}>
+            <Layout style={styles.rowContainer}>
+              <Pressable onPress={onStreaksPress}>
+                <StreakPill streaks={streakData} />
+              </Pressable>
+              <Layout style={styles.topBarActionItemsContainer}>
+                <Pressable onPress={onAddMeditationsPress}>
+                  <Layout style={styles.plusIconContainer}>
+                    <PlusIcon />
+                  </Layout>
+                </Pressable>
+                <Pressable onPress={onAvatarPress}>
+                  {user.profile && user.profile.photoURL ? (
+                    <Avatar source={{uri: user.profile.photoURL}} />
+                  ) : (
+                    <Layout style={styles.userIconContainer}>
+                      <UserIcon />
+                    </Layout>
+                  )}
+                </Pressable>
+              </Layout>
+            </Layout>
+          </Layout>
+          {hasLastMeditation ? (
             <Layout style={styles.lastMedNotesSectionContainer}>
               <Text category="h6" style={styles.thinkBoxLabel}>
                 Last Meditation
@@ -243,6 +269,32 @@ const HomeScreen = () => {
 };
 
 const themedStyles = StyleSheet.create({
+  topBarContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+    paddingTop: 60,
+    marginBottom: 20,
+    backgroundColor: 'transparent',
+  },
+  rowContainer: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  topBarActionItemsContainer: {
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+  },
+  plusIconContainer: {
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    marginRight: 20,
+    width: 40,
+    height: 40,
+  },
   modalContainer: {
     height: 300,
     width: 300,
@@ -298,6 +350,10 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
+  },
+  plusIcon: {
+    height: 30,
+    width: 30,
   },
   thinkBoxLabel: {
     paddingHorizontal: 20,
