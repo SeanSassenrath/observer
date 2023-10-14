@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _, {uniq, values, sortBy, takeRight} from 'lodash';
+import _, {values, sortBy, takeRight} from 'lodash';
 import Toast from 'react-native-toast-message';
 import {
   Modal,
@@ -13,7 +13,6 @@ import {
   Text,
   Button,
 } from '@ui-kitten/components';
-// import * as MediaLibrary from 'expo-media-library';
 import auth from '@react-native-firebase/auth';
 
 import _Button from '../components/Button';
@@ -36,8 +35,9 @@ import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
 import {WaveDrawer} from '../components/WaveDrawer/component';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
-
-const brightWhite = '#fcfcfc';
+import {brightWhite} from '../constants/colors';
+import {getUserMeditationInstanceCounts} from '../utils/user/user';
+import {getTopFiveMeditationIds} from '../utils/meditations/meditations';
 
 const HomeIcon = (props: any) => <Icon {...props} name="home-outline" />;
 
@@ -66,26 +66,11 @@ const HomeScreen = () => {
   const styles = useStyleSheet(themedStyles);
 
   const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
+  const meditationInstanceCounts = getUserMeditationInstanceCounts(user);
 
-  const meditationInstanceCounts =
-    user && user.meditationUserData && user.meditationUserData.meditationCounts;
-  const meditationCountList = values(meditationInstanceCounts);
-  const sortedMeditationCountList = sortBy(meditationCountList, 'count', 'asc');
-  const lastFiveMeditationCountList = takeRight(sortedMeditationCountList, 5);
-  const meditationCountListIds = lastFiveMeditationCountList.map(
-    meditation => meditation.id,
-  );
-  const favoriteMeditations = meditationCountListIds.reverse();
-
-  console.log('Test 1 >>> meditationCountListIds', meditationCountListIds);
-
-  if (meditationInstanceCounts) {
-    // const meditationInstanceCountIds = Object.keys(meditationInstanceCounts);
-    // const checkedMeditationBaseIds = uniq(
-    //   checkMeditationBaseIds(meditationInstanceCountIds),
-    // );
-    // favoriteMeditations = checkedMeditationBaseIds.slice(0, 5);
-  }
+  const topMeditations = meditationInstanceCounts
+    ? getTopFiveMeditationIds(meditationInstanceCounts)
+    : [];
 
   const lastMeditationInstance =
     meditationHistory &&
@@ -165,8 +150,6 @@ const HomeScreen = () => {
     });
   };
 
-  // const hasMeditationBaseData = Object.keys(meditationBaseData).length > 0;
-
   return (
     <Layout style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -175,7 +158,6 @@ const HomeScreen = () => {
             onAvatarPress={AvatarPress}
             onStreaksPress={onStreaksPress}
             onAddMeditationsPress={onAddMeditationsPress}
-            onWavePress={() => setIsWaveDrawerVisible(true)}
           />
           {lastMeditation && lastMeditationInstance ? (
             <Layout style={styles.lastMedNotesSectionContainer}>
@@ -202,7 +184,7 @@ const HomeScreen = () => {
             />
             <MeditationList
               header="Top Meditations"
-              meditationBaseIds={favoriteMeditations}
+              meditationBaseIds={topMeditations}
               onMeditationPress={onMeditationPress}
               existingMeditationFilePathData={meditationFilePaths}
             />
