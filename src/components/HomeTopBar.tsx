@@ -5,7 +5,6 @@ import {Avatar, Icon, Layout, useStyleSheet} from '@ui-kitten/components';
 import UserContext from '../contexts/userData';
 import StreakPill from './StreakPill';
 import {getUserStreakData} from '../utils/streaks';
-import {Wave} from './Wave/component';
 
 const brightWhite = '#fcfcfc';
 
@@ -13,14 +12,12 @@ interface HomeTopBarProps {
   onAvatarPress(): void;
   onStreaksPress(): void;
   onAddMeditationsPress(): void;
-  onWavePress(): void;
 }
 
 export const HomeTopBar = ({
   onAvatarPress,
   onStreaksPress,
   onAddMeditationsPress,
-  onWavePress,
 }: HomeTopBarProps) => {
   const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
@@ -58,11 +55,6 @@ export const HomeTopBar = ({
           </Pressable>
         </Layout>
       </Layout>
-      {/* <Layout style={styles.waveContainer}>
-        <Pressable onPress={onWavePress} style={styles.wavePress}>
-          <Wave />
-        </Pressable>
-      </Layout> */}
     </Layout>
   );
 };
@@ -91,7 +83,6 @@ const themedStyles = StyleSheet.create({
     paddingTop: 60,
     marginBottom: 20,
     backgroundColor: 'transparent',
-    // backgroundColor: '#020306',
   },
   rowContainer: {
     backgroundColor: 'transparent',
@@ -133,15 +124,5 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
-  },
-  waveContainer: {
-    overflow: 'hidden',
-    flex: 1,
-    height: 160,
-    // backgroundColor: '#020306',
-    backgroundColor: 'transparent',
-  },
-  wavePress: {
-    flex: 1,
   },
 });
