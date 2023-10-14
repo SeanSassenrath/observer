@@ -62,6 +62,10 @@ export const MeditationList = ({
               ? !existingMeditationFilePathData[id]
               : false;
 
+            if (!meditation) {
+              return;
+            }
+
             return (
               <CardV4
                 backgroundImage={meditation.backgroundImage}
