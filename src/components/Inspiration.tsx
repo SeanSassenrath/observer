@@ -1,23 +1,29 @@
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
-import React, { useContext } from 'react';
-import { StyleSheet } from 'react-native';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import React, {useContext} from 'react';
+import {StyleSheet} from 'react-native';
 
 import UserContext from '../contexts/userData';
 
 export const Inspiration = () => {
-  const { user } = useContext(UserContext);
+  const {user} = useContext(UserContext);
   const styles = useStyleSheet(themedStyles);
 
   return (
-    <Layout level='2' style={styles.container}>
-      <Text category='h5' style={styles.header}>Hello, {user.profile.firstName}</Text>
-      <Text category='s1' style={styles.prompt}>Remember, where you place your attention is where you place your energy.</Text>
+    <Layout level="2" style={styles.container}>
+      <Text category="h5" style={styles.header}>
+        Hello, {user.profile.firstName}
+      </Text>
+      <Text category="s1" style={styles.prompt}>
+        Welcome to the Unlimited App! Complete a meditation to start building
+        your meditation lists below.
+      </Text>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   container: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
     padding: 18,
     marginHorizontal: 20,
     marginBottom: 40,
@@ -30,6 +36,5 @@ const themedStyles = StyleSheet.create({
   prompt: {
     lineHeight: 24,
     opacity: 0.7,
-    fontStyle: 'italic',
   },
-})
+});

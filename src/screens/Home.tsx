@@ -31,7 +31,6 @@ import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
-import {WaveDrawer} from '../components/WaveDrawer/component';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
 import {getUserMeditationInstanceCounts} from '../utils/user/user';
@@ -68,7 +67,6 @@ const HomeScreen = () => {
   );
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isWaveDrawerVisible, setIsWaveDrawerVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
@@ -259,10 +257,6 @@ const HomeScreen = () => {
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
         showStartMeditation
-      />
-      <WaveDrawer
-        visible={isWaveDrawerVisible}
-        onClosePress={() => setIsWaveDrawerVisible(false)}
       />
     </Layout>
   );
