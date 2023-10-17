@@ -256,7 +256,6 @@ const HomeScreen = () => {
         onClosePress={() => setIsNotesModalVisible(false)}
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
-        showStartMeditation
       />
     </Layout>
   );

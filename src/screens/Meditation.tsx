@@ -1,10 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  ImageBackground,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
@@ -26,13 +21,11 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import {_MeditationListSection} from '../components/MeditationList';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {sortBy} from 'lodash';
-import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
-import MeditationNotesModal from '../components/MeditationNotesModal';
 import LinearGradient from 'react-native-linear-gradient';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
+import {brightWhite} from '../constants/colors';
 
-const brightWhite = '#fcfcfc';
 const EMPTY_STRING = '';
 const oneSecond = 1000;
 
@@ -44,15 +37,6 @@ const BackIcon = (props: any) => (
     name="arrow-back-outline"
   />
 );
-
-// const WarningIcon = (props: any) => (
-//   <Icon
-//     {...props}
-//     style={themedStyles.actionIcon}
-//     fill="#E28E69"
-//     name="bell-off-outline"
-//   />
-// );
 
 const MeditationScreen = ({
   route,
@@ -172,11 +156,6 @@ const MeditationScreen = ({
     <View style={styles.container}>
       <KeyboardAwareScrollView>
         <View style={styles.topBar}>
-          <ImageBackground
-            source={meditation.backgroundImage}
-            style={styles.meditationImage}
-            resizeMode="stretch"
-          />
           <View style={styles.topLineContainer}>
             <TouchableWithoutFeedback
               style={styles.topBarIcon}
@@ -185,27 +164,13 @@ const MeditationScreen = ({
                 <BackIcon />
               </View>
             </TouchableWithoutFeedback>
-            <Text category="h6">{`${meditation.formattedDuration}m`}</Text>
           </View>
-          <Text category="h4" style={styles.topBarText}>
+          <Text category="h5" style={styles.topBarText}>
             {meditation.name}
           </Text>
         </View>
         <View style={styles.mainSection}>
-          {lastMeditation && lastMeditationInstance ? (
-            <View style={styles.lastMedNotesSectionContainer}>
-              <Text category="h6" style={styles.thinkBoxLabel}>
-                Last Meditation Notes
-              </Text>
-              <Layout level="2" style={styles.lastMedNotesContainer}>
-                <MedNotesPreview
-                  meditation={lastMeditation}
-                  meditationInstance={lastMeditationInstance}
-                  onPress={() => setIsNotesModalVisible(true)}
-                />
-              </Layout>
-            </View>
-          ) : null}
+          {lastMeditation && lastMeditationInstance ? <></> : null}
           <Text category="h6" style={styles.thinkBoxLabel}>
             Set an Intention
           </Text>
@@ -223,17 +188,11 @@ const MeditationScreen = ({
         <LinearGradient
           colors={['transparent', '#0B0E18', '#0B0E18']}
           style={styles.bottomBarGradient}>
-          {/* <Layout style={styles.meditationInfo} level="4">
-            <WarningIcon />
-            <Text category="s1" style={styles.meditationInfoText}>
-              Don't forget to turn on Do Not Disturb!
-            </Text>
-          </Layout> */}
           <_Button
             onPress={onStartPress}
             size="large"
             style={styles.startButton}>
-            Start
+            START
           </_Button>
         </LinearGradient>
       </Layout>
@@ -253,13 +212,6 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingRight: 20,
-  },
-  meditationImage: {
-    height: 250,
-    width: '100%',
-    position: 'absolute',
-    top: 0,
-    opacity: 0.4,
   },
   additionalWork: {
     paddingVertical: 40,
@@ -361,10 +313,10 @@ const themedStyles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 50,
     marginBottom: 40,
-    height: 250,
   },
   topBarText: {
     paddingHorizontal: 20,
+    paddingTop: 40,
   },
   topBarIcon: {
     flex: 1,
@@ -374,12 +326,12 @@ const themedStyles = StyleSheet.create({
     marginBottom: 30,
   },
   bottomBarGradient: {
-    height: 120,
+    height: 220,
     paddingBottom: 20,
     justifyContent: 'flex-end',
   },
   startButton: {
-    marginVertical: 24,
+    marginBottom: 40,
     marginHorizontal: 20,
   },
 });

@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     bottom: 40,
   },
   bottomBarGradient: {
-    height: 130,
+    height: 100,
   },
   buttonSubContainer: {
     justifyContent: 'flex-end',
