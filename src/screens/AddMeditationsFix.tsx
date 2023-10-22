@@ -56,7 +56,7 @@ interface FixedMeditationMap {
   [key: number]: FixedMeditation;
 }
 
-const FixMeditationScreen = () => {
+const AddMeditationsFixScreen = () => {
   const styles = useStyleSheet(themedStyles);
 
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
@@ -395,4 +395,4 @@ const themedStyles = StyleSheet.create({
   },
 });
 
-export default FixMeditationScreen;
+export default AddMeditationsFixScreen;

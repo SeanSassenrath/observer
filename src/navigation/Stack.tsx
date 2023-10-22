@@ -16,7 +16,7 @@ import OnboardingStep1 from '../screens/OnboardingStep1';
 import OnboardingStep2 from '../screens/OnboardingStep2';
 import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
-import FixMeditationScreen from '../screens/FixMeditation';
+import AddMeditationFixScreen from '../screens/AddMeditationsFix';
 import Profile from '../screens/Profile';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
@@ -65,7 +65,7 @@ const StackNavigator = () => {
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
-        <Screen name="FixMeditation" component={FixMeditationScreen} />
+        <Screen name="AddMeditationsFix" component={AddMeditationFixScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />

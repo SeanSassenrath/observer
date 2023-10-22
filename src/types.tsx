@@ -17,8 +17,8 @@ import {UserUid} from './contexts/userData';
 // Stack Navigation
 export type StackParamList = {
   AddMeditations: undefined;
+  AddMeditationsFix: undefined;
   Debug: undefined;
-  FixMeditation: undefined;
   InitialUpload: undefined;
   SignIn: undefined;
   Welcome: undefined;
@@ -56,14 +56,17 @@ type OnboardingStep2 = NativeStackScreenProps<
   'OnboardingStep2'
 >;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
-type FixMeditation = NativeStackScreenProps<StackParamList, 'FixMeditation'>;
+type AddMeditationsFix = NativeStackScreenProps<
+  StackParamList,
+  'AddMeditationsFix'
+>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
-export type FixMeditationProp = FixMeditation['navigation'];
+export type AddMeditationsFixProp = AddMeditationsFix['navigation'];
 
 type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 export type ProfileScreenNavigationProp = Profile['navigation'];

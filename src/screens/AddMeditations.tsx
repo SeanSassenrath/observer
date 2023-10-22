@@ -33,7 +33,7 @@ const AddMeditationsScreen = () => {
     );
 
     if (_unsupportedFiles.length) {
-      navigation.navigate('FixMeditation');
+      navigation.navigate('AddMeditationsFix');
     } else if (_meditations) {
       setMeditationBaseData(_meditations);
       //@ts-ignore
