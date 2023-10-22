@@ -1,5 +1,11 @@
-import React, {useContext, useState} from 'react';
-import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Autocomplete,
+  AutocompleteItem,
+  Icon,
+  Text,
+  useStyleSheet,
+} from '@ui-kitten/components';
 import {
   Pressable,
   SafeAreaView,
@@ -8,18 +14,21 @@ import {
   View,
 } from 'react-native';
 import {SearchBar} from '../components/SearchBar';
-import {sortBy} from 'lodash';
+import {sortBy, uniqBy} from 'lodash';
 
 import Button from '../components/Button';
 import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {meditationBaseMap} from '../constants/meditation-data';
-import {MeditationBase} from '../types';
+import {MeditationBase, MeditationBaseId, UnsupportedFileData} from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {makeMeditationBaseData} from '../utils/meditation';
+
+const testFilter = (item, query): boolean =>
+  item.name.toLowerCase().includes(query.toLowerCase());
 
 const EMPTY_SEARCH = '';
 const EMPTY_SELECTED_OPTION = '';
@@ -34,88 +43,110 @@ const ErrorIcon = (props: any) => (
   />
 );
 
+const ErrorIconBig = (props: any) => (
+  <Icon
+    {...props}
+    style={iconStyles.errorIconBig}
+    fill={errorRed}
+    name="alert-circle-outline"
+  />
+);
+
 const iconStyles = StyleSheet.create({
   errorIcon: {
     height: 30,
     width: 30,
   },
+  errorIconBig: {
+    height: 50,
+    width: 50,
+  },
 });
 
-interface MeditationOptionProps {
-  name: string;
-  selected: boolean;
-  onPress(): void;
+// interface MeditationOptionProps {
+//   name: string;
+//   selected: boolean;
+//   onPress(): void;
+// }
+
+// const MeditationOption = (props: MeditationOptionProps) => {
+//   const {name, onPress, selected} = props;
+//   return (
+//     <Pressable onPress={onPress}>
+//       <View
+//         style={
+//           selected
+//             ? MeditationOptionStyles.meditationSelected
+//             : MeditationOptionStyles.meditationDefault
+//         }>
+//         <Text category="h6" style={MeditationOptionStyles.text}>
+//           {name}
+//         </Text>
+//         {/* <View style={MeditationOptionStyles.statusContainer}>
+//           <View
+//             level="4"
+//             style={
+//               selected
+//                 ? MeditationOptionStyles.statusSelected
+//                 : MeditationOptionStyles.statusDefault
+//             }
+//           />
+//         </View> */}
+//       </View>
+//     </Pressable>
+//   );
+// };
+
+// const MeditationOptionStyles = StyleSheet.create({
+//   meditationDefault: {
+//     borderBottomColor: '#f3f3f3',
+//     alignItems: 'center',
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     padding: 20,
+//     opacity: 0.5,
+//   },
+//   meditationSelected: {
+//     borderBottomColor: '#f3f3f3',
+//     alignItems: 'center',
+//     flexDirection: 'row',
+//     justifyContent: 'space-between',
+//     padding: 20,
+//     opacity: 1,
+//   },
+//   statusDefault: {
+//     borderWidth: 1,
+//     borderColor: 'white',
+//     borderRadius: 50,
+//     height: 25,
+//     width: 25,
+//   },
+//   statusSelected: {
+//     backgroundColor: 'green',
+//     borderWidth: 2,
+//     borderColor: 'green',
+//     borderRadius: 50,
+//     height: 25,
+//     width: 25,
+//   },
+//   statusContainer: {
+//     flex: 1,
+//     marginLeft: 20,
+//   },
+//   text: {
+//     flex: 9,
+//     fontSize: 16,
+//   },
+// });
+interface FixedMeditation {
+  path?: string;
+  medId?: MeditationBaseId;
+  name?: string;
 }
 
-const MeditationOption = (props: MeditationOptionProps) => {
-  const {name, onPress, selected} = props;
-  return (
-    <Pressable onPress={onPress}>
-      <View
-        style={
-          selected
-            ? MeditationOptionStyles.meditationSelected
-            : MeditationOptionStyles.meditationDefault
-        }>
-        <Text category="h6" style={MeditationOptionStyles.text}>
-          {name}
-        </Text>
-        {/* <View style={MeditationOptionStyles.statusContainer}>
-          <View
-            level="4"
-            style={
-              selected
-                ? MeditationOptionStyles.statusSelected
-                : MeditationOptionStyles.statusDefault
-            }
-          />
-        </View> */}
-      </View>
-    </Pressable>
-  );
-};
-
-const MeditationOptionStyles = StyleSheet.create({
-  meditationDefault: {
-    borderBottomColor: '#f3f3f3',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-    opacity: 0.5,
-  },
-  meditationSelected: {
-    borderBottomColor: '#f3f3f3',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-    opacity: 1,
-  },
-  statusDefault: {
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 50,
-    height: 25,
-    width: 25,
-  },
-  statusSelected: {
-    backgroundColor: 'green',
-    borderWidth: 2,
-    borderColor: 'green',
-    borderRadius: 50,
-    height: 25,
-    width: 25,
-  },
-  statusContainer: {
-    flex: 1,
-    marginLeft: 20,
-  },
-  text: {
-    flex: 9,
-    fontSize: 16,
-  },
-});
+interface FixedMeditationMap {
+  [key: number]: FixedMeditation;
+}
 
 const FixMeditationScreen = () => {
   const {unsupportedFiles, setUnsupportedFiles} = useContext(
@@ -134,21 +165,22 @@ const FixMeditationScreen = () => {
   const [selectedMeditationOption, setSelectedMeditationOption] = useState(
     EMPTY_SELECTED_OPTION,
   );
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  // const [isModalVisible, setIsModalVisible] = useState(true);
+  const [fixedMeds, setFixedMeds] = useState({} as FixedMeditationMap);
 
   const styles = useStyleSheet(themedStyles);
   const navigation = useNavigation();
   const routes = navigation.getState()?.routes;
   const prevRoute = routes[routes.length - 2];
 
-  const onSearchClearPress = () => setSearchInput(EMPTY_SEARCH);
-  const onMeditationOptionPress = (meditationBase: MeditationBase) => {
-    if (selectedMeditationOption === meditationBase.meditationBaseId) {
-      setSelectedMeditationOption(EMPTY_SELECTED_OPTION);
-    } else {
-      setSelectedMeditationOption(meditationBase.meditationBaseId);
-    }
-  };
+  // const onSearchClearPress = () => setSearchInput(EMPTY_SEARCH);
+  // const onMeditationOptionPress = (meditationBase: MeditationBase) => {
+  //   if (selectedMeditationOption === meditationBase.meditationBaseId) {
+  //     setSelectedMeditationOption(EMPTY_SELECTED_OPTION);
+  //   } else {
+  //     setSelectedMeditationOption(meditationBase.meditationBaseId);
+  //   }
+  // };
 
   const getMeditationOptions = () => {
     const meditationOptions = [];
@@ -159,8 +191,15 @@ const FixMeditationScreen = () => {
       }
     }
 
-    return sortBy(meditationOptions, 'name');
+    const uniqueNames = uniqBy(meditationOptions, 'name');
+
+    return sortBy(uniqueNames, 'name');
   };
+
+  const [value, setValue] = React.useState('');
+  const meditationOptions = getMeditationOptions();
+
+  const [data, setData] = React.useState(meditationOptions);
 
   const onNextPress = async () => {
     const isLastMeditation =
@@ -223,16 +262,104 @@ const FixMeditationScreen = () => {
       setUnsupportedFileIndex(unsupportedFileIndex + 1);
     }
   };
+  // const currentUnsupportedFileName =
+  //   unsupportedFiles[unsupportedFileIndex]?.name;
 
-  const meditationOptions = getMeditationOptions();
-  const currentUnsupportedFileName =
-    unsupportedFiles[unsupportedFileIndex]?.name;
+  const renderOption = (item: any, index: any): React.ReactElement => (
+    <AutocompleteItem
+      key={index}
+      title={item.name}
+      style={styles.autocompleteDropdown}
+    />
+  );
+
+  const onSelect = (index: number, key: number | null, path: string | null) => {
+    if (key && path) {
+      setFixedMeds({
+        ...fixedMeds,
+        [key]: {
+          path,
+          medId: data[index].meditationBaseId,
+          name: data[index].name,
+        },
+      });
+      setData(meditationOptions);
+    } else {
+      setFixedMeds(fixedMeds);
+    }
+    // setValue(data[index].name);
+  };
+
+  const onChangeText = (query: string, key: number | null) => {
+    if (key) {
+      setFixedMeds({
+        ...fixedMeds,
+        [key]: {
+          ...fixedMeds[key],
+          name: query,
+        },
+      });
+      const filteredOptions = meditationOptions.filter(item =>
+        testFilter(item, query),
+      );
+      console.log('Test 4 >>> value', filteredOptions);
+      setData(filteredOptions);
+    }
+  };
+
+  useEffect(() => {
+    console.log('fixedMeds', fixedMeds);
+  }, [fixedMeds]);
+
+  const getAutoCompValue = (size: number | null) => {
+    if (size && fixedMeds[size]) {
+      return fixedMeds[size].name;
+    }
+  };
 
   return (
     <View style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.top}>
-          <View style={styles.topContentContainer}>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.topContainer}>
+            <ErrorIconBig />
+            <Text category="h5" style={styles.errorTitle}>
+              We failed to recognize {unsupportedFiles.length} files.
+            </Text>
+            <Text category="s1" style={styles.errorDescription}>
+              Please match the files to the correct meditation below.
+            </Text>
+          </View>
+          <View style={styles.mainContainer}>
+            {unsupportedFiles.length > 0 &&
+              unsupportedFiles.map(item => {
+                if (!item.name) {
+                  return;
+                }
+
+                return (
+                  <View
+                    key={item.size}
+                    style={styles.unsupportedFileViewContainer}>
+                    <Text category="s1" style={styles.unsupportedFileName}>
+                      {item.name}
+                    </Text>
+                    <Autocomplete
+                      placeholder="Enter meditation name"
+                      value={getAutoCompValue(item.size)}
+                      onSelect={(i: number) => onSelect(i, item.size, item.uri)}
+                      onChangeText={(q: string) => onChangeText(q, item.size)}
+                      size="large"
+                      style={styles.autocompleteInput}>
+                      {data.map(renderOption)}
+                    </Autocomplete>
+                  </View>
+                );
+              })}
+          </View>
+        </ScrollView>
+        {/* <View style={styles.top}> */}
+        {/* <View style={styles.topContentContainer}>
             <ErrorIcon />
             <Text category="h6" style={styles.topText}>
               File not recognized ({unsupportedFileIndex + 1}&nbsp;of&nbsp;
@@ -246,16 +373,16 @@ const FixMeditationScreen = () => {
             <Text category="s1" style={styles.unsupportedFileName}>
               File: {currentUnsupportedFileName || ''}
             </Text>
-          </View>
-          {/* <Text category="h5">Which meditation is this?</Text> */}
-          <SearchBar
+          </View> */}
+        {/* <Text category="h5">Which meditation is this?</Text> */}
+        {/* <SearchBar
             placeholder="Enter meditation name"
             input={searchInput}
             onChangeText={setSearchInput}
             onClearPress={onSearchClearPress}
             style={styles.searchBar}
-          />
-          <ScrollView>
+          /> */}
+        {/* <ScrollView>
             {searchInput ? (
               meditationOptions.length ? (
                 meditationOptions.map(option => (
@@ -279,15 +406,15 @@ const FixMeditationScreen = () => {
                 </View>
               )
             ) : null}
-          </ScrollView>
-        </View>
+          </ScrollView> */}
+        {/* </View> */}
         <View style={styles.bottom}>
           <Button
             disabled={!selectedMeditationOption.length || !searchInput.length}
             onPress={onNextPress}
             size="large"
             style={styles.nextButton}>
-            Next
+            Continue
           </Button>
           <Button
             appearance="ghost"
@@ -298,39 +425,47 @@ const FixMeditationScreen = () => {
           </Button>
         </View>
       </SafeAreaView>
-      <Modal
-        visible={isModalVisible}
-        backdropStyle={styles.backdrop}
-        onBackdropPress={() => setIsModalVisible(false)}>
-        <Layout level="3" style={styles.modalContainer}>
-          <Layout level="3" style={styles.modalTop}>
-            <Text category="h6" style={styles.modalHeader}>
-              Add a name for this meditation
-            </Text>
-            <Text category="s1" style={styles.modalFile}>
-              File: {currentUnsupportedFileName || ''}
-            </Text>
-          </Layout>
-          <Layout level="3" style={styles.modalBottom}>
-            <Button onPress={() => {}} size="large" style={styles.modalButton}>
-              Add
-            </Button>
-            <Button
-              appearance="ghost"
-              onPress={() => setIsModalVisible(false)}
-              style={styles.modalButton}
-              size="large"
-              status="basic">
-              Close
-            </Button>
-          </Layout>
-        </Layout>
-      </Modal>
     </View>
   );
 };
 
 const themedStyles = StyleSheet.create({
+  scrollView: {
+    height: '100%',
+  },
+  topContainer: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 60,
+    paddingTop: 40,
+  },
+  errorIconBig: {
+    height: 50,
+    width: 50,
+  },
+  errorTitle: {
+    paddingVertical: 10,
+  },
+  errorDescription: {
+    paddingVertical: 5,
+    opacity: 0.9,
+    textAlign: 'center',
+  },
+  mainContainer: {
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  unsupportedFileViewContainer: {
+    marginBottom: 80,
+    width: 380,
+  },
+  autocompleteInput: {
+    marginTop: 10,
+    width: 380,
+  },
+  autocompleteDropdown: {
+    width: 380,
+  },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
