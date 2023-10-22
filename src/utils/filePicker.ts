@@ -81,18 +81,18 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
-    return {
-      [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
-        file.fileCopyUri,
-      ),
-    };
-  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
-    return {
-      [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
-        file.fileCopyUri,
-      ),
-    };
+    // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
+    //   return {
+    //     [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
+    // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
+    //   return {
+    //     [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
   } else if (fileSize === DailyMeditationSizes.MedMorning) {
     return {
       [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
@@ -111,12 +111,12 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-  } else if (fileSize === FoundationalSizes.MedPresentMoment) {
-    return {
-      [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
-        file.fileCopyUri,
-      ),
-    };
+    // } else if (fileSize === FoundationalSizes.MedPresentMoment) {
+    //   return {
+    //     [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
   } else if (fileSize === FoundationalSizes.MedRecondition) {
     return {
       [FoundationalBaseKeys.MedRecondition]: makeRelativeFilePath(
@@ -240,27 +240,27 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Daily Meditations */
 
-    case DailyMeditationStringSizes.MedMorning2: {
-      return {
-        [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case DailyMeditationStringSizes.MedMorningUpdated: {
-      return {
-        [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
-    case DailyMeditationStringSizes.MedMorningUpdated2: {
-      return {
-        [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
-          file.fileCopyUri,
-        ),
-      };
-    }
+    // case DailyMeditationStringSizes.MedMorning2: {
+    //   return {
+    //     [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
+    // }
+    // case DailyMeditationStringSizes.MedMorningUpdated: {
+    //   return {
+    //     [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
+    // }
+    // case DailyMeditationStringSizes.MedMorningUpdated2: {
+    //   return {
+    //     [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
+    // }
     case DailyMeditationStringSizes.MedEvening2: {
       return {
         [DailyMeditationBaseKeys.MedEvening]: makeRelativeFilePath(

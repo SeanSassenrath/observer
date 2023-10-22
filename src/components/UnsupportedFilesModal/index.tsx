@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import {useContext} from 'react';
 
-import { UnsupportedFilesModalComponent } from "./component"
-import UnsupportedFilesContext from "../../contexts/unsupportedFiles";
+import {UnsupportedFilesModalComponent} from './component';
+import UnsupportedFilesContext from '../../contexts/unknownFiles';
 
 const UnsupportedFilesModal = () => {
-  const {unsupportedFiles, setUnsupportedFiles} = useContext(UnsupportedFilesContext);
+  const {unsupportedFiles, setUnsupportedFiles} = useContext(
+    UnsupportedFilesContext,
+  );
 
   const isVisible = unsupportedFiles.length > 0;
 
@@ -14,7 +16,7 @@ const UnsupportedFilesModal = () => {
       setUnsupportedFiles={setUnsupportedFiles}
       isVisible={isVisible}
     />
-  )
-}
+  );
+};
 
 export default UnsupportedFilesModal;

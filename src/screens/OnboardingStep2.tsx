@@ -12,7 +12,7 @@ import UserContext from '../contexts/userData';
 import SupportedMeditationsList from '../components/SupportedMeditationsList';
 import {meditationBaseMap} from '../constants/meditation-data';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UnsupportedFilesContext from '../contexts/unknownFiles';
 import UnsupportedFilesModal from '../components/UnsupportedFilesModal';
 
 const OnboardingStep2 = () => {

@@ -1,14 +1,14 @@
 import React, {useContext} from 'react';
-import {Layout, Text} from '@ui-kitten/components';
+import {Text} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Button from '../components/Button';
-import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import UserContext from '../contexts/userData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {onAddMeditations} from '../utils/addMeditations';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import UnknownFilesContext from '../contexts/unknownFiles';
 
 const AddMeditationsScreen = () => {
   const {user} = useContext(UserContext);
@@ -20,9 +20,7 @@ const AddMeditationsScreen = () => {
     MeditationBaseDataContext,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {unsupportedFiles, setUnsupportedFiles} = useContext(
-    UnsupportedFilesContext,
-  );
+  const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
 
   const navigation = useNavigation();
 
@@ -30,7 +28,7 @@ const AddMeditationsScreen = () => {
     const {_meditations, _unsupportedFiles} = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
-      setUnsupportedFiles,
+      setUnknownFiles,
       user,
     );
 

@@ -203,7 +203,7 @@ export type MeditationFilePath = {
   [key: string]: MeditationUrl;
 };
 
-export interface UnsupportedFileData {
+export interface UnknownFileData {
   name: string | null;
   size: number | null;
   type: string | null;

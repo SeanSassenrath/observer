@@ -25,7 +25,7 @@ import {onAddMeditations} from '../utils/addMeditations';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UnsupportedFilesContext from '../contexts/unknownFiles';
 import {getRecentMeditationBaseIds} from '../utils/meditation';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';

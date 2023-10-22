@@ -21,7 +21,7 @@ import {
   MeditationBaseMap,
   MeditationFilePath,
   MeditationInstance,
-  UnsupportedFileData,
+  UnknownFileData,
 } from './src/types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {default as mapping} from './mapping.json'; // <-- Import app mapping
@@ -48,7 +48,7 @@ import {Action, appInitializationSendEvent, Noun} from './src/analytics';
 import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import {getMeditationFilePathDataInAsyncStorage} from './src/utils/asyncStorageMeditation';
 import Splash from './src/screens/Splash';
-import UnsupportedFilesContext from './src/contexts/unsupportedFiles';
+import UnknownFilesContext from './src/contexts/unknownFiles';
 
 const googleWebClientId =
   '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
@@ -70,9 +70,7 @@ const App = () => {
   const [initializing, setInitializing] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
-  const [unsupportedFiles, setUnsupportedFiles] = useState(
-    [] as UnsupportedFileData[],
-  );
+  const [unknownFiles, setUnknownFiles] = useState([] as UnknownFileData[]);
 
   const getFirstName = (firebaseUser: any) => {
     if (firebaseUser.displayName) {
@@ -261,10 +259,10 @@ const App = () => {
                 value={{meditationInstanceData, setMeditationInstanceData}}>
                 <MeditationFilePathsContext.Provider
                   value={{meditationFilePaths, setMeditationFilePaths}}>
-                  <UnsupportedFilesContext.Provider
-                    value={{unsupportedFiles, setUnsupportedFiles}}>
+                  <UnknownFilesContext.Provider
+                    value={{unknownFiles, setUnknownFiles}}>
                     <StackNavigator />
-                  </UnsupportedFilesContext.Provider>
+                  </UnknownFilesContext.Provider>
                 </MeditationFilePathsContext.Provider>
               </MeditationInstanceDataContext.Provider>
             </MeditationBaseDataContext.Provider>

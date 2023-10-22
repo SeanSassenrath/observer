@@ -31,7 +31,7 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import UnsupportedFilesContext from '../contexts/unsupportedFiles';
+import UnsupportedFilesContext from '../contexts/unknownFiles';
 import {sortBy} from 'lodash';
 import LinearGradient from 'react-native-linear-gradient';
 

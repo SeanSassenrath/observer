@@ -6,42 +6,25 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {SearchBar} from '../components/SearchBar';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {sortBy, uniqBy} from 'lodash';
 
 import Button from '../components/Button';
-import UnsupportedFilesContext from '../contexts/unsupportedFiles';
 import {meditationBaseMap} from '../constants/meditation-data';
-import {MeditationBase, MeditationBaseId, UnsupportedFileData} from '../types';
+import {MeditationBase, MeditationBaseId} from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {makeMeditationBaseData} from '../utils/meditation';
+import {errorRed} from '../constants/colors';
+import UnknownFilesContext from '../contexts/unknownFiles';
 
-const testFilter = (item, query): boolean =>
+const medNameFilter = (item: MeditationBase, query: string): boolean =>
   item.name.toLowerCase().includes(query.toLowerCase());
 
 const EMPTY_SEARCH = '';
 const EMPTY_SELECTED_OPTION = '';
-const errorRed = '#C55F41';
-
-const ErrorIcon = (props: any) => (
-  <Icon
-    {...props}
-    style={iconStyles.errorIcon}
-    fill={errorRed}
-    name="alert-circle-outline"
-  />
-);
 
 const ErrorIconBig = (props: any) => (
   <Icon
@@ -63,81 +46,6 @@ const iconStyles = StyleSheet.create({
   },
 });
 
-// interface MeditationOptionProps {
-//   name: string;
-//   selected: boolean;
-//   onPress(): void;
-// }
-
-// const MeditationOption = (props: MeditationOptionProps) => {
-//   const {name, onPress, selected} = props;
-//   return (
-//     <Pressable onPress={onPress}>
-//       <View
-//         style={
-//           selected
-//             ? MeditationOptionStyles.meditationSelected
-//             : MeditationOptionStyles.meditationDefault
-//         }>
-//         <Text category="h6" style={MeditationOptionStyles.text}>
-//           {name}
-//         </Text>
-//         {/* <View style={MeditationOptionStyles.statusContainer}>
-//           <View
-//             level="4"
-//             style={
-//               selected
-//                 ? MeditationOptionStyles.statusSelected
-//                 : MeditationOptionStyles.statusDefault
-//             }
-//           />
-//         </View> */}
-//       </View>
-//     </Pressable>
-//   );
-// };
-
-// const MeditationOptionStyles = StyleSheet.create({
-//   meditationDefault: {
-//     borderBottomColor: '#f3f3f3',
-//     alignItems: 'center',
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     padding: 20,
-//     opacity: 0.5,
-//   },
-//   meditationSelected: {
-//     borderBottomColor: '#f3f3f3',
-//     alignItems: 'center',
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//     padding: 20,
-//     opacity: 1,
-//   },
-//   statusDefault: {
-//     borderWidth: 1,
-//     borderColor: 'white',
-//     borderRadius: 50,
-//     height: 25,
-//     width: 25,
-//   },
-//   statusSelected: {
-//     backgroundColor: 'green',
-//     borderWidth: 2,
-//     borderColor: 'green',
-//     borderRadius: 50,
-//     height: 25,
-//     width: 25,
-//   },
-//   statusContainer: {
-//     flex: 1,
-//     marginLeft: 20,
-//   },
-//   text: {
-//     flex: 9,
-//     fontSize: 16,
-//   },
-// });
 interface FixedMeditation {
   path?: string;
   medId?: MeditationBaseId;
@@ -149,11 +57,9 @@ interface FixedMeditationMap {
 }
 
 const FixMeditationScreen = () => {
-  const {unsupportedFiles, setUnsupportedFiles} = useContext(
-    UnsupportedFilesContext,
-  );
-  const [unsupportedFileIndex, setUnsupportedFileIndex] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const styles = useStyleSheet(themedStyles);
+
+  const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
@@ -165,105 +71,68 @@ const FixMeditationScreen = () => {
   const [selectedMeditationOption, setSelectedMeditationOption] = useState(
     EMPTY_SELECTED_OPTION,
   );
-  // const [isModalVisible, setIsModalVisible] = useState(true);
   const [fixedMeds, setFixedMeds] = useState({} as FixedMeditationMap);
 
-  const styles = useStyleSheet(themedStyles);
-  const navigation = useNavigation();
-  const routes = navigation.getState()?.routes;
-  const prevRoute = routes[routes.length - 2];
+  // const navigation = useNavigation();
 
-  // const onSearchClearPress = () => setSearchInput(EMPTY_SEARCH);
-  // const onMeditationOptionPress = (meditationBase: MeditationBase) => {
-  //   if (selectedMeditationOption === meditationBase.meditationBaseId) {
-  //     setSelectedMeditationOption(EMPTY_SELECTED_OPTION);
-  //   } else {
-  //     setSelectedMeditationOption(meditationBase.meditationBaseId);
-  //   }
-  // };
-
-  const getMeditationOptions = () => {
-    const meditationOptions = [];
+  const getMedOptions = () => {
+    const medOptions = [];
     for (const key in meditationBaseMap) {
       const meditation = meditationBaseMap[key];
       if (meditation.name.includes(searchInput)) {
-        meditationOptions.push(meditation);
+        medOptions.push(meditation);
       }
     }
 
-    const uniqueNames = uniqBy(meditationOptions, 'name');
+    const uniqMedOptions = uniqBy(medOptions, 'name');
 
-    return sortBy(uniqueNames, 'name');
+    return sortBy(uniqMedOptions, 'name');
   };
 
-  const [value, setValue] = React.useState('');
-  const meditationOptions = getMeditationOptions();
+  const meditationOptions = getMedOptions();
 
-  const [data, setData] = React.useState(meditationOptions);
+  const [optionData, setOptionData] = React.useState(meditationOptions);
 
   const onNextPress = async () => {
-    const isLastMeditation =
-      unsupportedFiles.length <= unsupportedFileIndex + 1;
-
-    try {
-      const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
-        [selectedMeditationOption]: unsupportedFiles[unsupportedFileIndex]?.uri,
-      });
-
-      await setMeditationFilePathDataInAsyncStorage(updatedMeditationFilePaths);
-      console.log(
-        'Setting updated file paths to context',
-        updatedMeditationFilePaths,
-      );
-      setMeditationFilePaths(updatedMeditationFilePaths);
-
-      const _meditationBaseData = await makeMeditationBaseData();
-      if (_meditationBaseData) {
-        setMeditationBaseData(_meditationBaseData);
-      }
-
-      setUnsupportedFiles([]);
-
-      if (isLastMeditation && !(prevRoute.name === 'AddMeditations')) {
-        Toast.show({
-          type: 'success',
-          text1: 'Meditations added',
-          text2: 'New meditations were added to your library',
-          position: 'bottom',
-          bottomOffset: 100,
-          visibilityTime: 5000,
-        });
-        //@ts-ignore
-        navigation.navigate('TabNavigation', {screen: 'Library'});
-      } else if (isLastMeditation) {
-        //@ts-ignore
-        navigation.navigate('TabNavigation', {screen: 'Library'});
-      } else {
-        setUnsupportedFileIndex(unsupportedFileIndex + 1);
-      }
-    } catch (e) {
-      console.log('Add meditation file path error', e);
-    }
+    // const isLastMeditation = unknownFiles.length <= unsupportedFileIndex + 1;
+    // try {
+    //   const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
+    //     [selectedMeditationOption]: unknownFiles[unsupportedFileIndex]?.uri,
+    //   });
+    //   await setMeditationFilePathDataInAsyncStorage(updatedMeditationFilePaths);
+    //   console.log(
+    //     'Setting updated file paths to context',
+    //     updatedMeditationFilePaths,
+    //   );
+    //   setMeditationFilePaths(updatedMeditationFilePaths);
+    //   const _meditationBaseData = await makeMeditationBaseData();
+    //   if (_meditationBaseData) {
+    //     setMeditationBaseData(_meditationBaseData);
+    //   }
+    //   setUnknownFiles([]);
+    //   if (isLastMeditation && !(prevRoute.name === 'AddMeditations')) {
+    //     Toast.show({
+    //       type: 'success',
+    //       text1: 'Meditations added',
+    //       text2: 'New meditations were added to your library',
+    //       position: 'bottom',
+    //       bottomOffset: 100,
+    //       visibilityTime: 5000,
+    //     });
+    //     //@ts-ignore
+    //     navigation.navigate('TabNavigation', {screen: 'Library'});
+    //   } else if (isLastMeditation) {
+    //     //@ts-ignore
+    //     navigation.navigate('TabNavigation', {screen: 'Library'});
+    //   } else {
+    //     setUnknownFileIndex(unknownFileIndex + 1);
+    //   }
+    // } catch (e) {
+    //   console.log('Add meditation file path error', e);
+    // }
   };
 
-  const onSkipPress = () => {
-    // create meditation base for custom meditation
-    // create custom group
-    // add meditation to async storage
-    // add meditation to context
-
-    const isLastMeditation =
-      unsupportedFiles.length <= unsupportedFileIndex + 1;
-
-    if (isLastMeditation) {
-      //@ts-ignore
-      navigation.navigate('TabNavigation', {screen: 'Library'});
-    } else {
-      setUnsupportedFileIndex(unsupportedFileIndex + 1);
-    }
-  };
-  // const currentUnsupportedFileName =
-  //   unsupportedFiles[unsupportedFileIndex]?.name;
+  const onSkipPress = () => {};
 
   const renderOption = (item: any, index: any): React.ReactElement => (
     <AutocompleteItem
@@ -279,11 +148,11 @@ const FixMeditationScreen = () => {
         ...fixedMeds,
         [key]: {
           path,
-          medId: data[index].meditationBaseId,
-          name: data[index].name,
+          medId: optionData[index].meditationBaseId,
+          name: optionData[index].name,
         },
       });
-      setData(meditationOptions);
+      setOptionData(meditationOptions);
     } else {
       setFixedMeds(fixedMeds);
     }
@@ -300,22 +169,21 @@ const FixMeditationScreen = () => {
         },
       });
       const filteredOptions = meditationOptions.filter(item =>
-        testFilter(item, query),
+        medNameFilter(item, query),
       );
-      console.log('Test 4 >>> value', filteredOptions);
-      setData(filteredOptions);
+      setOptionData(filteredOptions);
     }
   };
-
-  useEffect(() => {
-    console.log('fixedMeds', fixedMeds);
-  }, [fixedMeds]);
 
   const getAutoCompValue = (size: number | null) => {
     if (size && fixedMeds[size]) {
       return fixedMeds[size].name;
     }
   };
+
+  useEffect(() => {
+    console.log('fixedMeds', fixedMeds);
+  }, [fixedMeds]);
 
   return (
     <View style={styles.rootContainer}>
@@ -324,15 +192,15 @@ const FixMeditationScreen = () => {
           <View style={styles.topContainer}>
             <ErrorIconBig />
             <Text category="h5" style={styles.errorTitle}>
-              We failed to recognize {unsupportedFiles.length} files.
+              We failed to recognize {unknownFiles.length} files.
             </Text>
             <Text category="s1" style={styles.errorDescription}>
               Please match the files to the correct meditation below.
             </Text>
           </View>
           <View style={styles.mainContainer}>
-            {unsupportedFiles.length > 0 &&
-              unsupportedFiles.map(item => {
+            {unknownFiles.length > 0 &&
+              unknownFiles.map(item => {
                 if (!item.name) {
                   return;
                 }
@@ -351,63 +219,13 @@ const FixMeditationScreen = () => {
                       onChangeText={(q: string) => onChangeText(q, item.size)}
                       size="large"
                       style={styles.autocompleteInput}>
-                      {data.map(renderOption)}
+                      {optionData.map(renderOption)}
                     </Autocomplete>
                   </View>
                 );
               })}
           </View>
         </ScrollView>
-        {/* <View style={styles.top}> */}
-        {/* <View style={styles.topContentContainer}>
-            <ErrorIcon />
-            <Text category="h6" style={styles.topText}>
-              File not recognized ({unsupportedFileIndex + 1}&nbsp;of&nbsp;
-              {unsupportedFiles.length})
-            </Text>
-          </View>
-        </View>
-        <View style={styles.middle}>
-          <Text category="h5">Which meditation is this?</Text>
-          <View style={styles.unsupportedFileContainer}>
-            <Text category="s1" style={styles.unsupportedFileName}>
-              File: {currentUnsupportedFileName || ''}
-            </Text>
-          </View> */}
-        {/* <Text category="h5">Which meditation is this?</Text> */}
-        {/* <SearchBar
-            placeholder="Enter meditation name"
-            input={searchInput}
-            onChangeText={setSearchInput}
-            onClearPress={onSearchClearPress}
-            style={styles.searchBar}
-          /> */}
-        {/* <ScrollView>
-            {searchInput ? (
-              meditationOptions.length ? (
-                meditationOptions.map(option => (
-                  <MeditationOption
-                    key={option.meditationBaseId}
-                    name={option.name}
-                    onPress={() => onMeditationOptionPress(option)}
-                    selected={
-                      selectedMeditationOption === option.meditationBaseId
-                    }
-                  />
-                ))
-              ) : (
-                <View style={styles.noResultsContainer}>
-                  <Text category="s1" style={styles.noResults}>
-                    It looks like we don't support this meditation yet.
-                  </Text>
-                  <Text category="s1" style={styles.noResults}>
-                    Double check the spelling or press skip to continue.
-                  </Text>
-                </View>
-              )
-            ) : null}
-          </ScrollView> */}
-        {/* </View> */}
         <View style={styles.bottom}>
           <Button
             disabled={!selectedMeditationOption.length || !searchInput.length}
