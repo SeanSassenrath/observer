@@ -2,7 +2,7 @@ import {Platform} from 'react-native';
 import {DocumentPickerResponse} from 'react-native-document-picker';
 
 import {MeditationFilePathData} from './asyncStorageMeditation';
-import {UnsupportedFileData} from '../types';
+import {UnknownFileData} from '../types';
 import {
   BotecBaseKeys,
   BotecStringSizes,
@@ -37,7 +37,7 @@ export const makeFilePathDataList = (
   existingMeditationFilePathData: MeditationFilePathData,
 ) => {
   let filePathDataList = {...existingMeditationFilePathData} as any;
-  let unsupportedFiles: UnsupportedFileData[] = [];
+  let unknownFiles: UnknownFileData[] = [];
 
   files.forEach(file => {
     const filePathData = makeFilePathData(file);
@@ -45,7 +45,7 @@ export const makeFilePathDataList = (
       filePathDataList = {...filePathDataList, ...filePathData};
     } else {
       const fileCopyUri = makeRelativeFilePath(file.fileCopyUri) || null;
-      unsupportedFiles.push({
+      unknownFiles.push({
         name: file.name,
         type: file.type,
         size: file.size,
@@ -54,7 +54,7 @@ export const makeFilePathDataList = (
     }
   });
 
-  return {filePathDataList, unsupportedFiles};
+  return {filePathDataList, unknownFiles};
 };
 
 const makeFilePathData = (file: DocumentPickerResponse) => {

@@ -25,20 +25,17 @@ const AddMeditationsScreen = () => {
   const navigation = useNavigation();
 
   const onAddMeditationsPress = async () => {
-    const {_meditations, _unsupportedFiles} = await onAddMeditations(
+    const {_meditations, _unknownFiles} = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
       setUnknownFiles,
       user,
     );
 
-    if (_unsupportedFiles.length) {
-      navigation.navigate('AddMeditationsFix');
-    } else if (_meditations) {
-      setMeditationBaseData(_meditations);
-      //@ts-ignore
-      navigation.navigate('TabNavigation', {screen: 'Library'});
-    }
+    navigation.navigate('AddMedsMatching', {
+      medsSuccess: _meditations,
+      medsFail: _unknownFiles,
+    });
   };
 
   return (

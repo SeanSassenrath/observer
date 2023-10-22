@@ -11,7 +11,12 @@ import {sortBy, uniqBy} from 'lodash';
 
 import Button from '../components/Button';
 import {meditationBaseMap} from '../constants/meditation-data';
-import {MeditationBase, MeditationBaseId} from '../types';
+import {
+  AddMedsFixScreenNavigationProp,
+  AddMedsFixScreenRouteProp,
+  MeditationBase,
+  MeditationBaseId,
+} from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
@@ -56,10 +61,17 @@ interface FixedMeditationMap {
   [key: number]: FixedMeditation;
 }
 
-const AddMeditationsFixScreen = () => {
-  const styles = useStyleSheet(themedStyles);
+interface Props {
+  navigation: AddMedsFixScreenNavigationProp;
+  route: AddMedsFixScreenRouteProp;
+}
 
-  const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
+const AddMeditationsFixScreen = (props: Props) => {
+  const styles = useStyleSheet(themedStyles);
+  const {route} = props;
+  const {medsFail} = route.params;
+  const unknownFiles = medsFail;
+  // const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
@@ -152,9 +164,9 @@ const AddMeditationsFixScreen = () => {
           name: optionData[index].name,
         },
       });
-      setOptionData(meditationOptions);
     } else {
       setFixedMeds(fixedMeds);
+      setOptionData(meditationOptions);
     }
     // setValue(data[index].name);
   };
@@ -168,7 +180,7 @@ const AddMeditationsFixScreen = () => {
           name: query,
         },
       });
-      const filteredOptions = meditationOptions.filter(item =>
+      let filteredOptions = meditationOptions.filter(item =>
         medNameFilter(item, query),
       );
       setOptionData(filteredOptions);
@@ -192,7 +204,7 @@ const AddMeditationsFixScreen = () => {
           <View style={styles.topContainer}>
             <ErrorIconBig />
             <Text category="h5" style={styles.errorTitle}>
-              We failed to recognize {unknownFiles.length} files.
+              {unknownFiles.length} files weren't recognized
             </Text>
             <Text category="s1" style={styles.errorDescription}>
               Please match the files to the correct meditation below.

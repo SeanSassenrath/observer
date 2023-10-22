@@ -9,7 +9,7 @@ import {
 import {makeFilePathDataList} from './filePicker';
 import {makeMeditationBaseData} from './meditation';
 import {meditationAddSendEvent, Action, Noun} from '../analytics';
-import {UnsupportedFileData} from '../types';
+import {UnknownFileData} from '../types';
 import {fbAddUnsupportedFiles} from '../fb/unsupportedFiles';
 import {User} from '../contexts/userData';
 
@@ -18,7 +18,7 @@ export const onAddMeditations = async (
   setExistingMeditationFilePathData: React.Dispatch<
     React.SetStateAction<MeditationFilePathData>
   >,
-  setUnsupportedFiles: (a: UnsupportedFileData[]) => void,
+  setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
   hideSuccessToast?: boolean,
 ) => {
@@ -30,20 +30,20 @@ export const onAddMeditations = async (
     copyTo: 'documentDirectory',
   });
 
-  const {filePathDataList, unsupportedFiles} = makeFilePathDataList(
+  const {filePathDataList, unknownFiles} = makeFilePathDataList(
     pickedFiles,
     existingMeditationFilePathData,
   );
 
-  if (unsupportedFiles.length > 0) {
-    fbAddUnsupportedFiles(user, unsupportedFiles);
-    setUnsupportedFiles(unsupportedFiles);
+  if (unknownFiles.length > 0) {
+    fbAddUnsupportedFiles(user, unknownFiles);
+    setUnknownFiles(unknownFiles);
   }
 
   if (
     !isEmpty(filePathDataList) &&
     !hideSuccessToast &&
-    unsupportedFiles.length <= 0
+    unknownFiles.length <= 0
   ) {
     Toast.show({
       type: 'success',
@@ -55,7 +55,7 @@ export const onAddMeditations = async (
         onAddMeditations(
           existingMeditationFilePathData,
           setExistingMeditationFilePathData,
-          setUnsupportedFiles,
+          setUnknownFiles,
           user,
         ),
       visibilityTime: 5000,
@@ -70,6 +70,6 @@ export const onAddMeditations = async (
 
   return {
     _meditations: meditationBaseData,
-    _unsupportedFiles: unsupportedFiles,
+    _unknownFiles: unknownFiles,
   };
 };

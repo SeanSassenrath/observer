@@ -18,6 +18,8 @@ import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
 import AddMeditationFixScreen from '../screens/AddMeditationsFix';
 import Profile from '../screens/Profile';
+import AddMedsMatchingScreen from '../screens/AddMedsMatching';
+import AddMedsSuccessScreen from '../screens/AddMedSuccess';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -65,7 +67,9 @@ const StackNavigator = () => {
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
-        <Screen name="AddMeditationsFix" component={AddMeditationFixScreen} />
+        <Screen name="AddMedsFix" component={AddMeditationFixScreen} />
+        <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
+        <Screen name="AddMedsSuccess" component={AddMedsSuccessScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />

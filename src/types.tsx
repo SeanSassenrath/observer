@@ -17,7 +17,9 @@ import {UserUid} from './contexts/userData';
 // Stack Navigation
 export type StackParamList = {
   AddMeditations: undefined;
-  AddMeditationsFix: undefined;
+  AddMedsFix: AddMedsFailParams;
+  AddMedsSuccess: AddMedsSuccessParams;
+  AddMedsMatching: AddMedsMatchingParams;
   Debug: undefined;
   InitialUpload: undefined;
   SignIn: undefined;
@@ -41,6 +43,20 @@ interface MeditationParams {
   meditationBreathId?: MeditationId;
 }
 
+interface AddMedsMatchingParams {
+  medsSuccess: MeditationBaseId[];
+  medsFail: UnknownFileData[];
+}
+
+interface AddMedsSuccessParams {
+  medsSuccess: MeditationBaseId[];
+  medsFail: UnknownFileData[];
+}
+
+interface AddMedsFailParams {
+  medsFail: UnknownFileData[];
+}
+
 interface UserParams {
   userId: UserUid;
 }
@@ -56,17 +72,27 @@ type OnboardingStep2 = NativeStackScreenProps<
   'OnboardingStep2'
 >;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
-type AddMeditationsFix = NativeStackScreenProps<
+type AddMedsFix = NativeStackScreenProps<StackParamList, 'AddMedsFix'>;
+type AddMedsMatching = NativeStackScreenProps<
   StackParamList,
-  'AddMeditationsFix'
+  'AddMedsMatching'
 >;
+type AddMedsSuccess = NativeStackScreenProps<StackParamList, 'AddMedsSuccess'>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
 export type OnboardingStep1Prop = OnboardingStep1['navigation'];
 export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
-export type AddMeditationsFixProp = AddMeditationsFix['navigation'];
+export type AddMedsFixProp = AddMedsFix['navigation'];
+export type AddMedsFixScreenNavigationProp = AddMedsFix['navigation'];
+export type AddMedsFixScreenRouteProp = AddMedsFix['route'];
+export type AddMedsMatchingProp = AddMedsMatching['navigation'];
+export type AddMedsMatchingScreenNavigationProp = AddMedsMatching['navigation'];
+export type AddMedsMatchingScreenRouteProp = AddMedsMatching['route'];
+export type AddMedsSuccessProp = AddMedsSuccess['navigation'];
+export type AddMedsSuccessScreenNavigationProp = AddMedsSuccess['navigation'];
+export type AddMedsSuccessScreenRouteProp = AddMedsSuccess['route'];
 
 type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 export type ProfileScreenNavigationProp = Profile['navigation'];
