@@ -1,8 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Autocomplete,
   AutocompleteItem,
   Icon,
+  Layout,
+  Modal,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
@@ -22,14 +24,13 @@ import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMedi
 import {useNavigation} from '@react-navigation/native';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {makeMeditationBaseData} from '../utils/meditation';
-import {errorRed} from '../constants/colors';
+import {darkBg, errorRed} from '../constants/colors';
 import UnknownFilesContext from '../contexts/unknownFiles';
 
 const medNameFilter = (item: MeditationBase, query: string): boolean =>
   item.name.toLowerCase().includes(query.toLowerCase());
 
 const EMPTY_SEARCH = '';
-const EMPTY_SELECTED_OPTION = '';
 
 const ErrorIconBig = (props: any) => (
   <Icon
@@ -55,7 +56,6 @@ interface FixedMeditation {
   path?: string;
   medId?: MeditationBaseId;
   name?: string;
-  supported?: boolean;
 }
 
 interface FixedMeditationMap {
@@ -80,21 +80,16 @@ const AddMeditationsFixScreen = (props: Props) => {
   const {meditationBaseData, setMeditationBaseData} = useContext(
     MeditationBaseDataContext,
   );
-  const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
-  const [selectedMeditationOption, setSelectedMeditationOption] = useState(
-    EMPTY_SELECTED_OPTION,
-  );
   const [fixedMeds, setFixedMeds] = useState({} as FixedMeditationMap);
+  const [isSkipVisible, setIsSkipVisible] = useState(false);
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const getMedOptions = () => {
     const medOptions = [];
     for (const key in meditationBaseMap) {
       const meditation = meditationBaseMap[key];
-      if (meditation.name.includes(searchInput)) {
-        medOptions.push(meditation);
-      }
+      medOptions.push(meditation);
     }
 
     const uniqMedOptions = uniqBy(medOptions, 'name');
@@ -145,7 +140,19 @@ const AddMeditationsFixScreen = (props: Props) => {
     // }
   };
 
-  const onSkipPress = () => {};
+  const onOpenSkipModal = () => {
+    setIsSkipVisible(true);
+  };
+
+  const onCloseSkipModal = () => {
+    setIsSkipVisible(false);
+  };
+
+  const onSkipConfirm = () => {
+    setIsSkipVisible(false);
+    //@ts-ignore
+    navigation.navigate('TabNavigation', {screen: 'Home'});
+  };
 
   const renderOption = (item: any, index: any): React.ReactElement => (
     <AutocompleteItem
@@ -257,7 +264,7 @@ const AddMeditationsFixScreen = (props: Props) => {
         </ScrollView>
         <View style={styles.bottom}>
           <Button
-            disabled={!selectedMeditationOption.length || !searchInput.length}
+            disabled={true}
             onPress={onNextPress}
             size="large"
             style={styles.nextButton}>
@@ -265,12 +272,31 @@ const AddMeditationsFixScreen = (props: Props) => {
           </Button>
           <Button
             appearance="ghost"
-            onPress={onSkipPress}
+            onPress={onOpenSkipModal}
             size="large"
             status="basic">
             Skip
           </Button>
         </View>
+        <Modal
+          visible={isSkipVisible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={onCloseSkipModal}>
+          <Layout level="4" style={styles.skipModalContainer}>
+            <Text category="h6">Are you sure you want to skip?</Text>
+            <View>
+              <Button style={styles.skipButton} onPress={onSkipConfirm}>
+                Skip
+              </Button>
+              <Button
+                appearance="ghost"
+                status="basic"
+                onPress={onCloseSkipModal}>
+                Cancel
+              </Button>
+            </View>
+          </Layout>
+        </Modal>
       </SafeAreaView>
     </View>
   );
@@ -316,6 +342,19 @@ const themedStyles = StyleSheet.create({
   errorLabel: {
     marginTop: 10,
     color: errorRed,
+  },
+  skipModalContainer: {
+    height: 220,
+    width: 360,
+    borderRadius: 10,
+    paddingTop: 30,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  skipButton: {
+    marginBottom: 20,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
