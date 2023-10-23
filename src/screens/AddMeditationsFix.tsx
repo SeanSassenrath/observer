@@ -55,6 +55,7 @@ interface FixedMeditation {
   path?: string;
   medId?: MeditationBaseId;
   name?: string;
+  supported?: boolean;
 }
 
 interface FixedMeditationMap {
@@ -166,9 +167,7 @@ const AddMeditationsFixScreen = (props: Props) => {
       });
     } else {
       setFixedMeds(fixedMeds);
-      setOptionData(meditationOptions);
     }
-    // setValue(data[index].name);
   };
 
   const onChangeText = (query: string, key: number | null) => {
@@ -176,13 +175,24 @@ const AddMeditationsFixScreen = (props: Props) => {
       setFixedMeds({
         ...fixedMeds,
         [key]: {
-          ...fixedMeds[key],
           name: query,
         },
       });
       let filteredOptions = meditationOptions.filter(item =>
         medNameFilter(item, query),
       );
+
+      if (filteredOptions.length <= 0) {
+        filteredOptions = [
+          {
+            //@ts-ignore
+            size: 0,
+            path: '',
+            name: 'Unsupported',
+          },
+        ];
+      }
+
       setOptionData(filteredOptions);
     }
   };
@@ -192,10 +202,6 @@ const AddMeditationsFixScreen = (props: Props) => {
       return fixedMeds[size].name;
     }
   };
-
-  useEffect(() => {
-    console.log('fixedMeds', fixedMeds);
-  }, [fixedMeds]);
 
   return (
     <View style={styles.rootContainer}>
@@ -217,6 +223,11 @@ const AddMeditationsFixScreen = (props: Props) => {
                   return;
                 }
 
+                const fixedMed = item.size && fixedMeds[item.size];
+                const medName = fixedMed && fixedMed.name;
+                const medId = fixedMed && fixedMed.medId;
+                const showNotSupportedLabel = medName && !medId;
+
                 return (
                   <View
                     key={item.size}
@@ -230,9 +241,15 @@ const AddMeditationsFixScreen = (props: Props) => {
                       onSelect={(i: number) => onSelect(i, item.size, item.uri)}
                       onChangeText={(q: string) => onChangeText(q, item.size)}
                       size="large"
+                      onPressIn={() => setOptionData(meditationOptions)}
                       style={styles.autocompleteInput}>
                       {optionData.map(renderOption)}
                     </Autocomplete>
+                    {showNotSupportedLabel ? (
+                      <Text category="s2" style={styles.errorLabel}>
+                        This meditation isn't supported yet
+                      </Text>
+                    ) : null}
                   </View>
                 );
               })}
@@ -295,6 +312,10 @@ const themedStyles = StyleSheet.create({
   },
   autocompleteDropdown: {
     width: 380,
+  },
+  errorLabel: {
+    marginTop: 10,
+    color: errorRed,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
