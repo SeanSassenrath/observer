@@ -82,6 +82,7 @@ const AddMeditationsFixScreen = (props: Props) => {
   );
   const [fixedMeds, setFixedMeds] = useState({} as FixedMeditationMap);
   const [isSkipVisible, setIsSkipVisible] = useState(false);
+  const [isAddMedsVisible, setIsAddMedsVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -102,6 +103,7 @@ const AddMeditationsFixScreen = (props: Props) => {
   const [optionData, setOptionData] = React.useState(meditationOptions);
 
   const onNextPress = async () => {
+    setIsAddMedsVisible(true);
     // const isLastMeditation = unknownFiles.length <= unsupportedFileIndex + 1;
     // try {
     //   const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
@@ -152,6 +154,18 @@ const AddMeditationsFixScreen = (props: Props) => {
     setIsSkipVisible(false);
     //@ts-ignore
     navigation.navigate('TabNavigation', {screen: 'Home'});
+  };
+
+  const isContinueDisabled = () => {
+    const medIdList = [];
+
+    for (const key in fixedMeds) {
+      if (fixedMeds[key] && fixedMeds[key].medId) {
+        medIdList.push(fixedMeds[key].medId);
+      }
+    }
+
+    return medIdList.length <= 0;
   };
 
   const renderOption = (item: any, index: any): React.ReactElement => (
@@ -264,7 +278,7 @@ const AddMeditationsFixScreen = (props: Props) => {
         </ScrollView>
         <View style={styles.bottom}>
           <Button
-            disabled={true}
+            disabled={isContinueDisabled()}
             onPress={onNextPress}
             size="large"
             style={styles.nextButton}>
@@ -295,6 +309,15 @@ const AddMeditationsFixScreen = (props: Props) => {
                 Cancel
               </Button>
             </View>
+          </Layout>
+        </Modal>
+        <Modal
+          visible={isAddMedsVisible}
+          backdropStyle={styles.backdrop}
+          onBackdropPress={onCloseSkipModal}>
+          <Layout level="4" style={styles.skipModalContainer}>
+            <Text category="h5">Adding Meditations</Text>
+            <View />
           </Layout>
         </Modal>
       </SafeAreaView>
