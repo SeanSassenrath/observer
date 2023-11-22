@@ -46,6 +46,7 @@ interface MeditationParams {
 interface AddMedsMatchingParams {
   medsSuccess: MeditationBaseId[];
   medsFail: UnknownFileData[];
+  nextPage: string;
 }
 
 interface AddMedsSuccessParams {

@@ -23,14 +23,10 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import {makeMeditationBaseData} from '../utils/meditation';
-import {darkBg, errorRed} from '../constants/colors';
-import UnknownFilesContext from '../contexts/unknownFiles';
+import {errorRed} from '../constants/colors';
 
 const medNameFilter = (item: MeditationBase, query: string): boolean =>
   item.name.toLowerCase().includes(query.toLowerCase());
-
-const EMPTY_SEARCH = '';
 
 const ErrorIconBig = (props: any) => (
   <Icon
@@ -72,17 +68,13 @@ const AddMeditationsFixScreen = (props: Props) => {
   const {route} = props;
   const {medsFail} = route.params;
   const unknownFiles = medsFail;
-  // const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
-  const {meditationFilePaths, setMeditationFilePaths} = useContext(
-    MeditationFilePathsContext,
-  );
+  const {meditationFilePaths} = useContext(MeditationFilePathsContext);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {meditationBaseData, setMeditationBaseData} = useContext(
     MeditationBaseDataContext,
   );
   const [fixedMeds, setFixedMeds] = useState({} as FixedMeditationMap);
   const [isSkipVisible, setIsSkipVisible] = useState(false);
-  const [isAddMedsVisible, setIsAddMedsVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -102,44 +94,46 @@ const AddMeditationsFixScreen = (props: Props) => {
 
   const [optionData, setOptionData] = React.useState(meditationOptions);
 
-  const onNextPress = async () => {
-    setIsAddMedsVisible(true);
-    // const isLastMeditation = unknownFiles.length <= unsupportedFileIndex + 1;
-    // try {
-    //   const updatedMeditationFilePaths = Object.assign(meditationFilePaths, {
-    //     [selectedMeditationOption]: unknownFiles[unsupportedFileIndex]?.uri,
-    //   });
-    //   await setMeditationFilePathDataInAsyncStorage(updatedMeditationFilePaths);
-    //   console.log(
-    //     'Setting updated file paths to context',
-    //     updatedMeditationFilePaths,
-    //   );
-    //   setMeditationFilePaths(updatedMeditationFilePaths);
-    //   const _meditationBaseData = await makeMeditationBaseData();
-    //   if (_meditationBaseData) {
-    //     setMeditationBaseData(_meditationBaseData);
-    //   }
-    //   setUnknownFiles([]);
-    //   if (isLastMeditation && !(prevRoute.name === 'AddMeditations')) {
-    //     Toast.show({
-    //       type: 'success',
-    //       text1: 'Meditations added',
-    //       text2: 'New meditations were added to your library',
-    //       position: 'bottom',
-    //       bottomOffset: 100,
-    //       visibilityTime: 5000,
-    //     });
-    //     //@ts-ignore
-    //     navigation.navigate('TabNavigation', {screen: 'Library'});
-    //   } else if (isLastMeditation) {
-    //     //@ts-ignore
-    //     navigation.navigate('TabNavigation', {screen: 'Library'});
-    //   } else {
-    //     setUnknownFileIndex(unknownFileIndex + 1);
-    //   }
-    // } catch (e) {
-    //   console.log('Add meditation file path error', e);
-    // }
+  const onContinuePress = async () => {
+    const matchedMeds = {} as any;
+
+    for (const key in fixedMeds) {
+      const fixedMed = fixedMeds[key];
+
+      if (fixedMed && fixedMed.medId) {
+        matchedMeds[fixedMed.medId] = fixedMed.path;
+      }
+    }
+
+    if (Object.keys(matchedMeds).length <= 0) {
+      // Route to confirmation page
+    }
+
+    try {
+      const combinedMeds = {...meditationFilePaths, ...matchedMeds};
+      await setMeditationFilePathDataInAsyncStorage(combinedMeds);
+      navigation.navigate('AddMedsMatching', {
+        medsFail: [],
+        medsSuccess: [],
+        nextPage: 'Home',
+      });
+      // set in async storage
+      // navigate to adding meds screen
+    } catch (e) {
+      console.log('Error with combining matched meditations', e);
+    }
+
+    /*
+      0. Create an object for matched meditations
+      1. Loop fixed meds
+      2. If none of the meds are supported, confirm that no meds were added and that they're going to their home screen
+      3. If a med is supported
+        a. add the meditation base id as a key to the matched meds object, have the path as the value
+      4. After looping, merge matched meditations obj with current meditations object
+      5. Update AsyncStorage with new meditations
+      6. Send user to Adding Meds screen
+        a. Adjust the copy
+    */
   };
 
   const onOpenSkipModal = () => {
@@ -279,7 +273,7 @@ const AddMeditationsFixScreen = (props: Props) => {
         <View style={styles.bottom}>
           <Button
             disabled={isContinueDisabled()}
-            onPress={onNextPress}
+            onPress={onContinuePress}
             size="large"
             style={styles.nextButton}>
             Continue
@@ -309,15 +303,6 @@ const AddMeditationsFixScreen = (props: Props) => {
                 Cancel
               </Button>
             </View>
-          </Layout>
-        </Modal>
-        <Modal
-          visible={isAddMedsVisible}
-          backdropStyle={styles.backdrop}
-          onBackdropPress={onCloseSkipModal}>
-          <Layout level="4" style={styles.skipModalContainer}>
-            <Text category="h5">Adding Meditations</Text>
-            <View />
           </Layout>
         </Modal>
       </SafeAreaView>

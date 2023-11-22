@@ -146,11 +146,6 @@ const MeditationFinishScreen = () => {
     const updatedMeditationHistory = [updatedMeditationInstanceData].concat(
       currentMeditationHistory,
     );
-    console.log(
-      'Test 1 >>> updatedMeditationHistory',
-      updatedMeditationHistory,
-    );
-    console.log('Test 2 >>> meditationInstanceData', meditationInstanceData);
     setMeditationHistory({meditationInstances: updatedMeditationHistory});
   };
 

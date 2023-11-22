@@ -7,7 +7,6 @@ import Button from '../components/Button';
 import UserContext from '../contexts/userData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {onAddMeditations} from '../utils/addMeditations';
-import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import UnknownFilesContext from '../contexts/unknownFiles';
 
 const AddMeditationsScreen = () => {
@@ -16,13 +15,22 @@ const AddMeditationsScreen = () => {
     MeditationFilePathsContext,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {meditationBaseData, setMeditationBaseData} = useContext(
-    MeditationBaseDataContext,
-  );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
 
   const navigation = useNavigation();
+
+  const getNextPage = (_meditations: any, _unknownFiles: any) => {
+    const medKeys = Object.keys(_meditations);
+    const medKeysLength = medKeys && medKeys.length;
+
+    if (medKeysLength > 0) {
+      return 'AddMedsSuccess';
+    } else if (unknownFiles.length > 0) {
+      return 'AddMedsFix';
+    } else {
+      return 'Home';
+    }
+  };
 
   const onAddMeditationsPress = async () => {
     const {_meditations, _unknownFiles} = await onAddMeditations(
@@ -32,9 +40,14 @@ const AddMeditationsScreen = () => {
       user,
     );
 
+    console.log('Test 7 - _meditations', _meditations);
+
+    const nextPage = getNextPage(_meditations, _unknownFiles);
+
     navigation.navigate('AddMedsMatching', {
       medsSuccess: _meditations,
       medsFail: _unknownFiles,
+      nextPage,
     });
   };
 

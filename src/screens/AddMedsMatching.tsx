@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, useStyleSheet} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -8,7 +8,6 @@ import {
   AddMedsMatchingScreenRouteProp,
   AddMedsMatchingScreenNavigationProp,
 } from '../types';
-import {values} from 'lodash';
 
 interface Props {
   navigation: AddMedsMatchingScreenNavigationProp;
@@ -18,23 +17,41 @@ interface Props {
 const AddMedsMatchingScreen = (props: Props) => {
   const styles = useStyleSheet(themedStyles);
   const {route} = props;
-  const {medsFail, medsSuccess} = route.params;
+  const {medsFail, medsSuccess, nextPage} = route.params;
   const navigation = useNavigation();
-  const medsSuccessList = values(medsSuccess);
+  const [barWidth, setBarWidth] = useState(0);
+
+  const incrementBarWidth = () => {
+    setBarWidth(barWidth + 1);
+  };
+
+  const chooseNavigator = () => {
+    if (nextPage === 'AddMedsSuccess') {
+      navigation.navigate('AddMedsSuccess', {
+        medsSuccess: medsSuccess,
+        medsFail: medsFail,
+      });
+    } else if (nextPage === 'AddMedsFix') {
+      navigation.navigate('AddMedsFix', {
+        medsFail: medsFail,
+      });
+    }
+  };
 
   useEffect(() => {
-    console.log('medsFail', medsFail);
-    console.log('medsSuccess', medsSuccess);
-
-    setTimeout(() => {
-      if (medsSuccessList.length > 0) {
-        navigation.navigate('AddMedsSuccess', {
-          medsSuccess: medsSuccess,
-          medsFail: medsFail,
-        });
+    const interval = setInterval(() => {
+      if (barWidth >= 100) {
+        clearInterval(interval);
+        chooseNavigator();
+      } else {
+        incrementBarWidth();
       }
-    }, 4000);
-  }, []);
+    }, 20);
+
+    console.log('interval', interval);
+
+    return () => clearInterval(interval);
+  }, [barWidth]);
 
   return (
     <View style={styles.screenContainer}>
@@ -46,6 +63,17 @@ const AddMedsMatchingScreen = (props: Props) => {
           <Text category="s1" style={styles.actionDescription}>
             Matching each file to its correct Meditation
           </Text>
+          <View>
+            <View
+              style={{
+                borderRadius: 50,
+                height: 4,
+                width: `${barWidth}%`,
+                backgroundColor: '#9147BB',
+                marginTop: 10,
+              }}
+            />
+          </View>
         </View>
       </View>
       <View style={styles.mainContainer} />
