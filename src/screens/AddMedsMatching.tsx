@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Text, useStyleSheet} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -19,11 +19,11 @@ const AddMedsMatchingScreen = (props: Props) => {
   const {route} = props;
   const {medsFail, medsSuccess, nextPage} = route.params;
   const navigation = useNavigation();
-  const [barWidth, setBarWidth] = useState(0);
+  // const [barWidth, setBarWidth] = useState(0);
 
-  const incrementBarWidth = () => {
-    setBarWidth(barWidth + 1);
-  };
+  // const incrementBarWidth = () => {
+  //   setBarWidth(barWidth + 1);
+  // };
 
   const chooseNavigator = () => {
     if (nextPage === 'AddMedsSuccess') {
@@ -39,19 +39,25 @@ const AddMedsMatchingScreen = (props: Props) => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (barWidth >= 100) {
-        clearInterval(interval);
-        chooseNavigator();
-      } else {
-        incrementBarWidth();
-      }
-    }, 20);
+    setTimeout(() => {
+      chooseNavigator();
+    }, 3000);
+  }, []);
 
-    console.log('interval', interval);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (barWidth >= 100) {
+  //       clearInterval(interval);
+  //       chooseNavigator();
+  //     } else {
+  //       incrementBarWidth();
+  //     }
+  //   }, 20);
 
-    return () => clearInterval(interval);
-  }, [barWidth]);
+  //   console.log('interval', interval);
+
+  //   return () => clearInterval(interval);
+  // }, [barWidth]);
 
   return (
     <View style={styles.screenContainer}>
@@ -61,10 +67,10 @@ const AddMedsMatchingScreen = (props: Props) => {
             Adding Meditations
           </Text>
           <Text category="s1" style={styles.actionDescription}>
-            Matching each file to its correct Meditation
+            Matching each file to its correct Meditation...
           </Text>
           <View>
-            <View
+            {/* <View
               style={{
                 borderRadius: 50,
                 height: 4,
@@ -72,7 +78,7 @@ const AddMedsMatchingScreen = (props: Props) => {
                 backgroundColor: '#9147BB',
                 marginTop: 10,
               }}
-            />
+            /> */}
           </View>
         </View>
       </View>

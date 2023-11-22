@@ -112,28 +112,11 @@ const AddMeditationsFixScreen = (props: Props) => {
     try {
       const combinedMeds = {...meditationFilePaths, ...matchedMeds};
       await setMeditationFilePathDataInAsyncStorage(combinedMeds);
-      navigation.navigate('AddMedsMatching', {
-        medsFail: [],
-        medsSuccess: [],
-        nextPage: 'Home',
-      });
-      // set in async storage
-      // navigate to adding meds screen
+      //@ts-ignore
+      navigation.navigate('TabNavigation', {screen: 'Home'});
     } catch (e) {
       console.log('Error with combining matched meditations', e);
     }
-
-    /*
-      0. Create an object for matched meditations
-      1. Loop fixed meds
-      2. If none of the meds are supported, confirm that no meds were added and that they're going to their home screen
-      3. If a med is supported
-        a. add the meditation base id as a key to the matched meds object, have the path as the value
-      4. After looping, merge matched meditations obj with current meditations object
-      5. Update AsyncStorage with new meditations
-      6. Send user to Adding Meds screen
-        a. Adjust the copy
-    */
   };
 
   const onOpenSkipModal = () => {
