@@ -40,8 +40,6 @@ const AddMeditationsScreen = () => {
       user,
     );
 
-    console.log('Test 7 - _meditations', _meditations);
-
     const nextPage = getNextPage(_meditations, _unknownFiles);
 
     navigation.navigate('AddMedsMatching', {
