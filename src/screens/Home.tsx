@@ -238,22 +238,7 @@ const HomeScreen = () => {
               </Layout>
             </Layout>
           </Layout>
-          {/* {hasLastMeditation ? (
-            <Layout style={styles.lastMedNotesSectionContainer}>
-              <Text category="h6" style={styles.thinkBoxLabel}>
-                Last Meditation
-              </Text>
-              <Layout style={styles.lastMedNotesContainer}>
-                <MedNotesPreview
-                  meditation={lastMeditation}
-                  meditationInstance={lastMeditationInstance}
-                  onPress={() => setIsNotesModalVisible(true)}
-                />
-              </Layout>
-            </Layout>
-          ) : (
-            <Inspiration />
-          )} */}
+          {hasLastMeditation ? null : <Inspiration />}
           <Layout style={styles.listsContainer}>
             <Layout style={styles.searchContainer}>
               <SearchBar
