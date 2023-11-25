@@ -16,8 +16,11 @@ import {
 import auth from '@react-native-firebase/auth';
 
 import _Button from '../components/Button';
-import {MeditationId} from '../types';
-import {MeditationList} from '../components/MeditationList';
+import {MeditationBase, MeditationBaseMap, MeditationId} from '../types';
+import {
+  MeditationList,
+  _MeditationListSection,
+} from '../components/MeditationList';
 import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {AddMeditationsPill} from '../components/AddMeditationsPill';
@@ -25,7 +28,7 @@ import {onAddMeditations} from '../utils/addMeditations';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import UnsupportedFilesContext from '../contexts/unknownFiles';
+import UnknownFilesContext from '../contexts/unknownFiles';
 import {getRecentMeditationBaseIds} from '../utils/meditation';
 import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
@@ -41,6 +44,22 @@ import {
 } from '../utils/meditations/meditations';
 import StreakPill from '../components/StreakPill';
 import {getUserStreakData} from '../utils/streaks';
+import {
+  MeditationGroupName,
+  botecMap,
+  breakingHabitMap,
+  breathMap,
+  dailyMeditationsMap,
+  foundationalMap,
+  generatingMap,
+  otherMap,
+  synchronizeMap,
+  unlockedMap,
+  walkingMap,
+} from '../constants/meditation-data';
+import {SearchBar} from '../components/SearchBar';
+
+const EMPTY_SEARCH = '';
 
 const HomeIcon = (props: any) => <Icon {...props} name="home-outline" />;
 
@@ -62,9 +81,7 @@ const HomeScreen = () => {
     MeditationFilePathsContext,
   );
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {unsupportedFiles, setUnsupportedFiles} = useContext(
-    UnsupportedFilesContext,
-  );
+  const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
@@ -86,6 +103,8 @@ const HomeScreen = () => {
 
   const streakData = getUserStreakData(user);
 
+  const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
+
   const onSignOut = () => {
     auth()
       .signOut()
@@ -98,19 +117,19 @@ const HomeScreen = () => {
   };
 
   const onAddMeditationsPress = async () => {
-    const {_meditations, _unsupportedFiles} = await onAddMeditations(
+    const {_meditations, _unknownFiles} = await onAddMeditations(
       meditationFilePaths,
       setMeditationFilePaths,
-      setUnsupportedFiles,
+      setUnknownFiles,
       user,
     );
 
-    if (_unsupportedFiles.length) {
+    if (_unknownFiles.length) {
       navigation.navigate('FixMeditation');
     } else if (_meditations) {
       setMeditationBaseData(_meditations);
       //@ts-ignore
-      navigation.navigate('TabNavigation', {screen: 'Library'});
+      navigation.navigate('TabNavigation', {screen: 'Home'});
     }
   };
 
@@ -154,6 +173,42 @@ const HomeScreen = () => {
         hasSeenHomeOnboarding: true,
       },
     });
+  };
+
+  const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
+
+  const renderMeditationGroupSection = (
+    header: string,
+    meditationGroupMap: MeditationBaseMap,
+  ) => {
+    const meditationList = [] as MeditationBase[];
+    const meditationGroupKeys = Object.keys(meditationGroupMap);
+    meditationGroupKeys.forEach(key => {
+      if (meditationBaseData[key]) {
+        if (searchInput.length > 0) {
+          if (meditationBaseData[key].name.includes(searchInput)) {
+            return meditationList.push(meditationBaseData[key]);
+          }
+        } else {
+          meditationList.push(meditationBaseData[key]);
+        }
+      }
+    });
+
+    if (meditationList.length <= 0) {
+      return null;
+    }
+
+    const sortedMeditationList = sortBy(meditationList, 'name');
+
+    return (
+      <_MeditationListSection
+        key={header}
+        header={header}
+        meditationList={sortedMeditationList}
+        onMeditationPress={onMeditationPress}
+      />
+    );
   };
 
   return (
@@ -200,18 +255,66 @@ const HomeScreen = () => {
             <Inspiration />
           )}
           <Layout style={styles.listsContainer}>
-            <MeditationList
-              header="Recent Meditations"
-              meditationBaseIds={recentMeditationBaseIds}
-              onMeditationPress={onMeditationPress}
-              existingMeditationFilePathData={meditationFilePaths}
-            />
-            <MeditationList
-              header="Top Meditations"
-              meditationBaseIds={topMeditations}
-              onMeditationPress={onMeditationPress}
-              existingMeditationFilePathData={meditationFilePaths}
-            />
+            <Layout style={styles.searchContainer}>
+              <SearchBar
+                input={searchInput}
+                onChangeText={setSearchInput}
+                onClearPress={onClearSearchPress}
+              />
+            </Layout>
+            {recentMeditationBaseIds.length > 0 ? (
+              <MeditationList
+                header="Recent Meditations"
+                meditationBaseIds={recentMeditationBaseIds}
+                onMeditationPress={onMeditationPress}
+                existingMeditationFilePathData={meditationFilePaths}
+              />
+            ) : null}
+            {topMeditations.length > 0 ? (
+              <MeditationList
+                header="Top Meditations"
+                meditationBaseIds={topMeditations}
+                onMeditationPress={onMeditationPress}
+                existingMeditationFilePathData={meditationFilePaths}
+              />
+            ) : null}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BlessingEnergyCenter,
+              botecMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BreakingHabit,
+              breakingHabitMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.BreathTracks,
+              breathMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Daily,
+              dailyMeditationsMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Foundational,
+              foundationalMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Generating,
+              generatingMap,
+            )}
+            {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Synchronize,
+              synchronizeMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Walking,
+              walkingMap,
+            )}
+            {renderMeditationGroupSection(
+              MeditationGroupName.Unlocked,
+              unlockedMap,
+            )}
           </Layout>
         </LinearGradient>
       </ScrollView>
@@ -352,6 +455,11 @@ const themedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 14,
     opacity: 0.9,
+  },
+  searchContainer: {
+    marginHorizontal: 20,
+    marginBottom: 40,
+    backgroundColor: 'transparent',
   },
 });
 
