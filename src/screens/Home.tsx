@@ -238,7 +238,7 @@ const HomeScreen = () => {
               </Layout>
             </Layout>
           </Layout>
-          {hasLastMeditation ? (
+          {/* {hasLastMeditation ? (
             <Layout style={styles.lastMedNotesSectionContainer}>
               <Text category="h6" style={styles.thinkBoxLabel}>
                 Last Meditation
@@ -253,7 +253,7 @@ const HomeScreen = () => {
             </Layout>
           ) : (
             <Inspiration />
-          )}
+          )} */}
           <Layout style={styles.listsContainer}>
             <Layout style={styles.searchContainer}>
               <SearchBar
@@ -270,7 +270,7 @@ const HomeScreen = () => {
                 existingMeditationFilePathData={meditationFilePaths}
               />
             ) : null}
-            {topMeditations.length > 0 ? (
+            {topMeditations.length > 3 ? (
               <MeditationList
                 header="Top Meditations"
                 meditationBaseIds={topMeditations}

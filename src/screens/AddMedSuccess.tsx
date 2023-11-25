@@ -85,7 +85,7 @@ const AddMedsSuccessScreen = (props: Props) => {
               {medsSuccessList.length} Meditations Added
             </Text>
             <Text category="s1" style={styles.errorDescription}>
-              These meditations are now available in your Library
+              These meditations have been added successfully
             </Text>
           </View>
           <View style={styles.mainContainer}>

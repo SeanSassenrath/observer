@@ -4,7 +4,7 @@ import {Icon} from '@ui-kitten/components';
 
 import HomeScreen from '../screens/Home';
 import InsightScreen from '../screens/Insight';
-import LibraryScreen from '../screens/Library';
+// import LibraryScreen from '../screens/Library';
 import {TabParamList} from '../types';
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -41,7 +41,7 @@ const TabNavigator = () => (
       },
     })}>
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Library" component={LibraryScreen} />
+    {/* <Tab.Screen name="Library" component={LibraryScreen} /> */}
     <Tab.Screen name="Insight" component={InsightScreen} />
   </Tab.Navigator>
 );

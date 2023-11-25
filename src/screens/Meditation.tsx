@@ -170,7 +170,14 @@ const MeditationScreen = ({
           </Text>
         </View>
         <View style={styles.mainSection}>
-          {lastMeditation && lastMeditationInstance ? <></> : null}
+          {lastMeditation && lastMeditationInstance ? (
+            <TouchableWithoutFeedback
+              onPress={() => setIsNotesModalVisible(true)}>
+              <Text category="s1" style={styles.prevMedNotes}>
+                See previous meditation notes
+              </Text>
+            </TouchableWithoutFeedback>
+          ) : null}
           <Text category="h6" style={styles.thinkBoxLabel}>
             Set an Intention
           </Text>
@@ -309,10 +316,9 @@ const themedStyles = StyleSheet.create({
   },
   topBar: {
     justifyContent: 'space-between',
-    // alignItems: 'flex-end',
     paddingBottom: 20,
     paddingTop: 50,
-    marginBottom: 40,
+    marginBottom: 10,
   },
   topBarText: {
     paddingHorizontal: 20,
@@ -333,6 +339,12 @@ const themedStyles = StyleSheet.create({
   startButton: {
     marginBottom: 40,
     marginHorizontal: 20,
+  },
+  prevMedNotes: {
+    color: '#BB6FDD',
+    marginHorizontal: 20,
+    marginBottom: 30,
+    paddingVertical: 10,
   },
 });
 

@@ -48,7 +48,7 @@ export const onAddMeditations = async (
     Toast.show({
       type: 'success',
       text1: 'Meditations added',
-      text2: 'New meditations were added to your library',
+      text2: 'Meditations added successfully',
       position: 'bottom',
       bottomOffset: 100,
       onPress: () =>
