@@ -1,15 +1,12 @@
 import React from 'react';
-import {Button, Text} from '@ui-kitten/components';
-import {
-  ImageBackground,
-  ModalProps,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Button, Layout, Text} from '@ui-kitten/components';
+import {ModalProps, ScrollView, StyleSheet, View} from 'react-native';
+import {DateTime} from 'luxon';
+
 import {Drawer} from '../Drawer/component';
 import {MeditationBase, MeditationInstance} from '../../types';
-import LinearGradient from 'react-native-linear-gradient';
+
+const EMPTY_STRING = '';
 
 interface Props extends ModalProps {
   meditation?: MeditationBase;
@@ -30,16 +27,24 @@ export const MeditationNotesDrawerComponent = (props: Props) => {
     onClosePress,
   } = props;
 
+  const getDisplayDate = (item: MeditationInstance) => {
+    if (item.meditationStartTime) {
+      const date = DateTime.fromSeconds(item.meditationStartTime);
+      return date.toLocaleString(DateTime.DATE_SHORT);
+    } else {
+      return EMPTY_STRING;
+    }
+  };
+
   return (
     <Drawer visible={visible} onClosePress={onClosePress}>
-      <View style={styles.contentContainer}>
-        <View style={styles.imgContainer}>
-          <ImageBackground
-            source={meditation?.backgroundImage}
-            style={styles.img}
-          />
+      <Layout level="2" style={styles.contentContainer}>
+        <View style={styles.headerContainer}>
           <Text category="h5" style={styles.title}>
             {meditation?.name}
+          </Text>
+          <Text category="s1">
+            {meditationInstance && getDisplayDate(meditationInstance)}
           </Text>
         </View>
         <ScrollView style={styles.scrollViewContainer}>
@@ -79,67 +84,54 @@ export const MeditationNotesDrawerComponent = (props: Props) => {
           </View>
         </ScrollView>
         <View style={styles.buttonContainer}>
-          <LinearGradient
-            colors={['transparent', '#0B0E18', '#0B0E18']}
-            style={styles.bottomBarGradient}>
-            <View style={styles.buttonSubContainer}>
-              {showStartMeditation ? (
-                <Button
-                  size="large"
-                  onPress={meditationLink}
-                  style={styles.startButton}>
-                  Start Meditation
-                </Button>
-              ) : null}
+          <View style={styles.buttonSubContainer}>
+            {showStartMeditation ? (
               <Button
-                appearance="ghost"
                 size="large"
-                status="basic"
-                onPress={onClosePress}>
-                Close
+                onPress={meditationLink}
+                style={styles.startButton}>
+                Start Meditation
               </Button>
-            </View>
-          </LinearGradient>
+            ) : null}
+            <Button
+              appearance="ghost"
+              size="large"
+              status="basic"
+              onPress={onClosePress}>
+              Close
+            </Button>
+          </View>
         </View>
-      </View>
+      </Layout>
     </Drawer>
   );
 };
 
 const styles = StyleSheet.create({
   contentContainer: {
-    backgroundColor: '#0B0E18',
     height: 680,
     bottom: 0,
     paddingBottom: 40,
+    borderRadius: 20,
   },
   description: {
     fontWeight: 'normal',
   },
-  img: {
-    width: '100%',
-    height: 180,
-    position: 'absolute',
-    top: 0,
-    opacity: 0.4,
-  },
-  imgContainer: {
-    backgroundColor: 'transparent',
-    height: 200,
-    justifyContent: 'flex-end',
+  headerContainer: {
+    paddingHorizontal: 20,
+    marginVertical: 30,
   },
   textContainer: {
     padding: 20,
   },
   title: {
-    paddingHorizontal: 20,
-    paddingVertical: 40,
+    marginBottom: 10,
   },
   textSectionsContainer: {
     paddingTop: 30,
   },
   textSection: {
-    marginBottom: 40,
+    marginBottom: 60,
   },
   textHeader: {
     marginBottom: 10,

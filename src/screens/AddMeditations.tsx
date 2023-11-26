@@ -32,6 +32,11 @@ const AddMeditationsScreen = () => {
     }
   };
 
+  const onSkipPress = () => {
+    // @ts-ignore
+    navigation.navigate('TabNavigation', {screen: 'Home'});
+  };
+
   const onAddMeditationsPress = async () => {
     const {_meditations, _unknownFiles} = await onAddMeditations(
       meditationFilePaths,
@@ -69,7 +74,11 @@ const AddMeditationsScreen = () => {
             style={styles.addButton}>
             Add Meditations
           </Button>
-          <Button appearance="ghost" size="large" status="basic">
+          <Button
+            appearance="ghost"
+            size="large"
+            status="basic"
+            onPress={onSkipPress}>
             Skip
           </Button>
         </View>

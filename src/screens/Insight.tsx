@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import firestore from '@react-native-firebase/firestore';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import {TopMeditations} from '../components/TopMeditations';
@@ -14,9 +13,14 @@ import {getMeditationCounts} from '../utils/meditation';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MedNotesPreview from '../components/MedNotesPreview';
-import MeditationNotesModal from '../components/MeditationNotesModal';
 import {MeditationBase, MeditationInstance} from '../types';
 import LinearGradient from 'react-native-linear-gradient';
+import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
+import MeditationHistoryContext from '../contexts/meditationHistory';
+import {
+  fbGetMeditationHistory,
+  fbGetMoreMeditationHistory,
+} from '../fb/meditationHistory';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -25,10 +29,10 @@ const InsightIcon = (props: any) => (
 const InsightScreen = () => {
   const styles = useStyleSheet(themedStyles);
   const {user, setUser} = useContext(UserContext);
-  const [meditationHistory, setMeditationHistory] = useState(
-    [] as MeditationInstance[],
+  const {meditationHistory, setMeditationHistory} = useContext(
+    MeditationHistoryContext,
   );
-  const [lastBatchDocument, setLastBatchDocument] = useState();
+  // const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [selectedMeditation, setSelectedMeditation] = useState(
@@ -40,51 +44,51 @@ const InsightScreen = () => {
   const isFocused = useIsFocused();
   const streakData = getUserStreakData(user);
 
+  const lastMeditationInstance =
+    meditationHistory &&
+    meditationHistory.meditationInstances &&
+    meditationHistory.meditationInstances[0];
+  const lastMeditation =
+    lastMeditationInstance &&
+    meditationBaseMap[lastMeditationInstance.meditationBaseId];
+
+  const fetchMeditationHistory = async () => {
+    const _meditationHistory = await fbGetMeditationHistory(user.uid);
+
+    setMeditationHistory({
+      meditationInstances: _meditationHistory.meditationInstances,
+      meditationCursor: _meditationHistory.lastDocument,
+    });
+  };
+
+  const fetchMoreMeditationHistory = async () => {
+    const _meditationHistory = await fbGetMoreMeditationHistory(user.uid);
+
+    setMeditationHistory({
+      meditationInstances: [
+        ...(meditationHistory as MeditationInstance[]),
+        ..._meditationHistory.meditationInstances,
+      ],
+      meditationCursor: _meditationHistory.lastDocument,
+    });
+  };
+
   useEffect(() => {
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('meditationHistory')
-      .orderBy('creationTime', 'desc')
-      .limit(20)
-      .get()
-      .then(meditationInstances => {
-        const docs = meditationInstances.docs;
-        setLastBatchDocument(docs[docs.length - 1] as any);
-        const meditationHistoryFromFirebase = docs.map(doc => doc.data());
-        setMeditationHistory(
-          meditationHistoryFromFirebase as MeditationInstance[],
-        );
-      });
+    if (!meditationHistory.meditationInstances) {
+      fetchMeditationHistory();
+    }
   }, [isFocused]);
 
   const fetchMoreMeditationData = () => {
-    if (hasNoMoreHistory) {
+    if (
+      hasNoMoreHistory ||
+      (meditationHistory.meditationInstances &&
+        meditationHistory.meditationInstances.length < 20)
+    ) {
       return;
     }
 
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .collection('meditationHistory')
-      .orderBy('creationTime', 'desc')
-      .startAfter(lastBatchDocument)
-      .limit(20)
-      .get()
-      .then(meditationInstances => {
-        const docs = meditationInstances.docs;
-
-        if (docs.length <= 0) {
-          setHasNoMoreHistory(true);
-        }
-
-        setLastBatchDocument(docs[docs.length - 1] as any);
-        const meditationHistoryFromFirebase = docs.map(doc => doc.data());
-        setMeditationHistory([
-          ...meditationHistory,
-          ...meditationHistoryFromFirebase,
-        ] as MeditationInstance[]);
-      });
+    fetchMoreMeditationHistory();
   };
 
   const meditationCounts = getMeditationCounts(user);
@@ -135,13 +139,15 @@ const InsightScreen = () => {
       <Layout style={styles.topSpacer}>
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
-          meditationHistory={meditationHistory}
+          meditationHistory={meditationHistory.meditationInstances || []}
           style={styles.timeInMeditationChart}
         />
         <TopMeditations meditationCounts={meditationCounts} />
       </Layout>
       <Layout style={styles.historyContainer}>
-        {meditationHistory.length > 0 ? (
+        {meditationHistory &&
+        meditationHistory.meditationInstances &&
+        meditationHistory.meditationInstances.length > 0 ? (
           <Text category="h6" style={styles.header}>
             Meditation History
           </Text>
@@ -157,7 +163,7 @@ const InsightScreen = () => {
       <SafeAreaView style={styles.screenContainer}>
         <LinearGradient colors={['#020306', '#1B0444']}>
           <FlatList
-            data={meditationHistory}
+            data={meditationHistory.meditationInstances}
             renderItem={({item, index}) => renderListItem({item, index})}
             onEndReached={fetchMoreMeditationData}
             onEndReachedThreshold={0.8}
@@ -174,12 +180,11 @@ const InsightScreen = () => {
           title="Your Insights"
         />
       ) : null}
-      <MeditationNotesModal
+      <MeditationNotesDrawer
         visible={isNotesModalVisible}
-        onBackdropPress={() => setIsNotesModalVisible(false)}
-        meditation={selectedMeditation}
-        meditationInstance={selectedMeditationInstance}
-        showStartMeditation
+        onClosePress={() => setIsNotesModalVisible(false)}
+        meditation={lastMeditation}
+        meditationInstance={lastMeditationInstance}
       />
     </Layout>
   );

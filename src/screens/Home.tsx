@@ -10,7 +10,6 @@ import {
   useStyleSheet,
   Avatar,
   Icon,
-  Text,
   Button,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
@@ -29,9 +28,8 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
-import {getRecentMeditationBaseIds} from '../utils/meditation';
-import MedNotesPreview from '../components/MedNotesPreview';
 import MeditationHistoryContext from '../contexts/meditationHistory';
+import {getRecentMeditationBaseIds} from '../utils/meditation';
 import {Inspiration} from '../components/Inspiration';
 import LinearGradient from 'react-native-linear-gradient';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
@@ -247,7 +245,7 @@ const HomeScreen = () => {
                 onClearPress={onClearSearchPress}
               />
             </Layout>
-            {recentMeditationBaseIds.length > 0 ? (
+            {recentMeditationBaseIds.length > 0 && searchInput.length === 0 ? (
               <MeditationList
                 header="Recent Meditations"
                 meditationBaseIds={recentMeditationBaseIds}
@@ -255,7 +253,7 @@ const HomeScreen = () => {
                 existingMeditationFilePathData={meditationFilePaths}
               />
             ) : null}
-            {topMeditations.length > 3 ? (
+            {topMeditations.length > 3 && searchInput.length === 0 ? (
               <MeditationList
                 header="Top Meditations"
                 meditationBaseIds={topMeditations}
