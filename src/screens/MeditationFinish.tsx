@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Text} from '@ui-kitten/components';
+import {Layout, Text} from '@ui-kitten/components';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
@@ -159,8 +159,8 @@ const MeditationFinishScreen = () => {
   const streaks = getUserStreakData(user);
 
   return (
-    <KeyboardAwareScrollView style={styles.scrollContainer}>
-      <View style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
+      <KeyboardAwareScrollView style={styles.scrollContainer}>
         <Text category="h5" style={styles.text}>
           Thinkbox
         </Text>
@@ -192,8 +192,8 @@ const MeditationFinishScreen = () => {
         <_Button onPress={onDonePress} style={styles.doneButton}>
           DONE
         </_Button>
-      </View>
-    </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>
+    </Layout>
   );
 };
 
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 40,
     paddingBottom: 60,
+    flex: 1,
   },
   buttonContainer: {
     flex: 2,
@@ -215,7 +216,6 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   scrollContainer: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   smallText: {

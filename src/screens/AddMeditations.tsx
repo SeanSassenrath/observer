@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Text} from '@ui-kitten/components';
+import {Layout, Text} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -55,7 +55,7 @@ const AddMeditationsScreen = () => {
   };
 
   return (
-    <View style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
         <View style={styles.top} />
         <View style={styles.middle}>
@@ -83,7 +83,7 @@ const AddMeditationsScreen = () => {
           </Button>
         </View>
       </SafeAreaView>
-    </View>
+    </Layout>
   );
 };
 
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   rootContainer: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   skipButton: {

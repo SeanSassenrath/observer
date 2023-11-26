@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Icon, Popover, Text} from '@ui-kitten/components';
+import {Icon, Layout, Popover, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
@@ -80,7 +80,7 @@ const Profile = (props: Props) => {
   );
 
   return (
-    <View style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
       <View style={styles.topBar}>
         <Pressable onPress={onBackPress}>
           <BackIcon />
@@ -137,7 +137,7 @@ const Profile = (props: Props) => {
           <Wave />
         </View> */}
       </View>
-    </View>
+    </Layout>
   );
 };
 
@@ -155,7 +155,6 @@ const iconStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: '#0B0E18',
   },
   safeArea: {
     flex: 1,

@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
-import {Text, useStyleSheet} from '@ui-kitten/components';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {darkBg} from '../constants/colors';
 import {
   AddMedsMatchingScreenRouteProp,
   AddMedsMatchingScreenNavigationProp,
@@ -60,7 +59,7 @@ const AddMedsMatchingScreen = (props: Props) => {
   // }, [barWidth]);
 
   return (
-    <View style={styles.screenContainer}>
+    <Layout level="4" style={styles.screenContainer}>
       <View style={styles.mainContainer}>
         <View>
           <Text category="h5" style={styles.actionTitle}>
@@ -83,13 +82,12 @@ const AddMedsMatchingScreen = (props: Props) => {
         </View>
       </View>
       <View style={styles.mainContainer} />
-    </View>
+    </Layout>
   );
 };
 
 const themedStyles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: darkBg,
     flex: 1,
   },
   mainContainer: {

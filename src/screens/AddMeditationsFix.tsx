@@ -202,7 +202,7 @@ const AddMeditationsFixScreen = (props: Props) => {
   };
 
   return (
-    <View style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.topContainer}>
@@ -289,7 +289,7 @@ const AddMeditationsFixScreen = (props: Props) => {
           </Layout>
         </Modal>
       </SafeAreaView>
-    </View>
+    </Layout>
   );
 };
 
@@ -425,7 +425,6 @@ const themedStyles = StyleSheet.create({
     opacity: 0.75,
   },
   rootContainer: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   searchBar: {

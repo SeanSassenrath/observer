@@ -123,7 +123,7 @@ const HomeScreen = () => {
     );
 
     if (_unknownFiles.length) {
-      navigation.navigate('FixMeditation');
+      navigation.navigate('AddMedsFix');
     } else if (_meditations) {
       setMeditationBaseData(_meditations);
       //@ts-ignore
@@ -210,96 +210,94 @@ const HomeScreen = () => {
   };
 
   return (
-    <Layout style={styles.container}>
+    <Layout level="4" style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
-        <LinearGradient colors={['#020306', '#1B0444']}>
-          <Layout style={styles.topBarContainer}>
-            <Layout style={styles.rowContainer}>
-              <Pressable onPress={onStreaksPress}>
-                <StreakPill streaks={streakData} />
+        <Layout style={styles.topBarContainer}>
+          <Layout style={styles.rowContainer}>
+            <Pressable onPress={onStreaksPress}>
+              <StreakPill streaks={streakData} />
+            </Pressable>
+            <Layout style={styles.topBarActionItemsContainer}>
+              <Pressable onPress={onAddMeditationsPress}>
+                <Layout style={styles.plusIconContainer}>
+                  <PlusIcon />
+                </Layout>
               </Pressable>
-              <Layout style={styles.topBarActionItemsContainer}>
-                <Pressable onPress={onAddMeditationsPress}>
-                  <Layout style={styles.plusIconContainer}>
-                    <PlusIcon />
+              <Pressable onPress={onAvatarPress}>
+                {user.profile && user.profile.photoURL ? (
+                  <Avatar source={{uri: user.profile.photoURL}} />
+                ) : (
+                  <Layout style={styles.userIconContainer}>
+                    <UserIcon />
                   </Layout>
-                </Pressable>
-                <Pressable onPress={onAvatarPress}>
-                  {user.profile && user.profile.photoURL ? (
-                    <Avatar source={{uri: user.profile.photoURL}} />
-                  ) : (
-                    <Layout style={styles.userIconContainer}>
-                      <UserIcon />
-                    </Layout>
-                  )}
-                </Pressable>
-              </Layout>
+                )}
+              </Pressable>
             </Layout>
           </Layout>
-          {hasLastMeditation ? null : <Inspiration />}
-          <Layout style={styles.listsContainer}>
-            <Layout style={styles.searchContainer}>
-              <SearchBar
-                input={searchInput}
-                onChangeText={setSearchInput}
-                onClearPress={onClearSearchPress}
-              />
-            </Layout>
-            {recentMeditationBaseIds.length > 0 && searchInput.length === 0 ? (
-              <MeditationList
-                header="Recent Meditations"
-                meditationBaseIds={recentMeditationBaseIds}
-                onMeditationPress={onMeditationPress}
-                existingMeditationFilePathData={meditationFilePaths}
-              />
-            ) : null}
-            {topMeditations.length > 3 && searchInput.length === 0 ? (
-              <MeditationList
-                header="Top Meditations"
-                meditationBaseIds={topMeditations}
-                onMeditationPress={onMeditationPress}
-                existingMeditationFilePathData={meditationFilePaths}
-              />
-            ) : null}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BlessingEnergyCenter,
-              botecMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreakingHabit,
-              breakingHabitMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreathTracks,
-              breathMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Daily,
-              dailyMeditationsMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Foundational,
-              foundationalMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Generating,
-              generatingMap,
-            )}
-            {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Synchronize,
-              synchronizeMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Walking,
-              walkingMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Unlocked,
-              unlockedMap,
-            )}
+        </Layout>
+        {hasLastMeditation ? null : <Inspiration />}
+        <Layout style={styles.listsContainer}>
+          <Layout style={styles.searchContainer}>
+            <SearchBar
+              input={searchInput}
+              onChangeText={setSearchInput}
+              onClearPress={onClearSearchPress}
+            />
           </Layout>
-        </LinearGradient>
+          {recentMeditationBaseIds.length > 0 && searchInput.length === 0 ? (
+            <MeditationList
+              header="Recent Meditations"
+              meditationBaseIds={recentMeditationBaseIds}
+              onMeditationPress={onMeditationPress}
+              existingMeditationFilePathData={meditationFilePaths}
+            />
+          ) : null}
+          {topMeditations.length > 3 && searchInput.length === 0 ? (
+            <MeditationList
+              header="Top Meditations"
+              meditationBaseIds={topMeditations}
+              onMeditationPress={onMeditationPress}
+              existingMeditationFilePathData={meditationFilePaths}
+            />
+          ) : null}
+          {renderMeditationGroupSection(
+            MeditationGroupName.BlessingEnergyCenter,
+            botecMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.BreakingHabit,
+            breakingHabitMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.BreathTracks,
+            breathMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Daily,
+            dailyMeditationsMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Foundational,
+            foundationalMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Generating,
+            generatingMap,
+          )}
+          {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Synchronize,
+            synchronizeMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Walking,
+            walkingMap,
+          )}
+          {renderMeditationGroupSection(
+            MeditationGroupName.Unlocked,
+            unlockedMap,
+          )}
+        </Layout>
       </ScrollView>
       {meditationFilePaths ? null : (
         <AddMeditationsPill onAddMeditationsPress={onAddMeditationsPress} />
@@ -389,7 +387,6 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   container: {
-    backgroundColor: '#020306',
     flex: 1,
   },
   lastMedNotesSectionContainer: {

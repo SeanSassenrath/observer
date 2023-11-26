@@ -1,11 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Autocomplete,
-  AutocompleteItem,
-  Icon,
-  Text,
-  useStyleSheet,
-} from '@ui-kitten/components';
+import {Layout, Icon, Text, useStyleSheet} from '@ui-kitten/components';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import {sortBy, uniqBy, values} from 'lodash';
 
@@ -14,15 +8,10 @@ import {meditationBaseMap} from '../constants/meditation-data';
 import {
   AddMedsMatchingScreenNavigationProp,
   AddMedsMatchingScreenRouteProp,
-  MeditationBase,
-  MeditationBaseId,
 } from '../types';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import {makeMeditationBaseData} from '../utils/meditation';
-import UnknownFilesContext from '../contexts/unknownFiles';
 import {successGreen} from '../constants/colors';
 
 const SuccessIcon = (props: any) => (
@@ -76,7 +65,7 @@ const AddMedsSuccessScreen = (props: Props) => {
   };
 
   return (
-    <View style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
         <ScrollView style={styles.scrollView}>
           <View style={styles.topContainer}>
@@ -104,7 +93,7 @@ const AddMedsSuccessScreen = (props: Props) => {
           </Button>
         </View>
       </SafeAreaView>
-    </View>
+    </Layout>
   );
 };
 
@@ -230,7 +219,6 @@ const themedStyles = StyleSheet.create({
     opacity: 0.75,
   },
   rootContainer: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   searchBar: {

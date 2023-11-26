@@ -153,7 +153,7 @@ const MeditationScreen = ({
   };
 
   return (
-    <View style={styles.container}>
+    <Layout level="4" style={styles.container}>
       <KeyboardAwareScrollView>
         <View style={styles.topBar}>
           <View style={styles.topLineContainer}>
@@ -209,7 +209,7 @@ const MeditationScreen = ({
         meditation={lastMeditation}
         meditationInstance={lastMeditationInstance}
       />
-    </View>
+    </Layout>
   );
 };
 
@@ -243,20 +243,17 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   backIcon: {
-    height: 40,
-    width: 40,
+    height: 36,
+    width: 36,
   },
   backIconContainer: {
     borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
-    width: 50,
     marginLeft: 20,
-    backgroundColor: 'rgba(48,55,75,0.7)',
+    marginTop: 10,
   },
   container: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   icon: {

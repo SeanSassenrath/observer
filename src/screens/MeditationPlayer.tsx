@@ -31,7 +31,6 @@ import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
-const errorRed = '#E28E69';
 const countDownInSeconds = 8;
 
 const CloseIcon = (props: any) => (
@@ -184,18 +183,6 @@ const MeditationPlayer = ({
     return getTrackStateInterval;
   };
 
-  // const onAddMeditationsPress = async () => {
-  //   const meditations = await onAddMeditations(
-  //     existingMeditationFilePathData,
-  //     setExistingMeditationFilePathData,
-  //   )
-  //   if (meditations) {
-  //     setMeditationBaseData(meditations);
-  //     setIsModalVisible(false);
-  //     navigation.goBack();
-  //   }
-  // }
-
   const playTrackPlayer = async () => {
     TrackPlayer.play();
     setIsPlaying(true);
@@ -237,33 +224,10 @@ const MeditationPlayer = ({
   const trackTitle =
     tracks[currentTrackIndex] && tracks[currentTrackIndex].title;
 
-  // const renderModalContext = () => {
-  //   return (
-  //     <>
-  //       <Layout level='3' style={styles.modalHeader}>
-  //         <ErrorIcon />
-  //       </Layout>
-  //       <Text
-  //         category='s1'
-  //         style={styles.modalDescription}
-  //       >
-  //         Your meditation files have entered the void.
-  //         Please re-add them to start this meditation.
-  //       </Text>
-  //       <Button
-  //         onPress={onAddMeditationsPress}
-  //       >
-  //         Re-add Meditations
-  //       </Button>
-  //     </>
-  //   )
-  // }
-
   return (
-    <View style={styles.container}>
+    <Layout level="4" style={styles.container}>
       <SafeAreaView style={styles.container}>
         <View style={styles.topBarContainer}>
-          <Text category="h6" style={styles.topBarTitle} />
           <TouchableWithoutFeedback onPress={onClosePress}>
             <View>
               <CloseIcon />
@@ -349,14 +313,14 @@ const MeditationPlayer = ({
           </Button>
         </Layout>
       </Modal>
-    </View>
+    </Layout>
   );
 };
 
 const iconStyles = StyleSheet.create({
   closeIcon: {
-    height: 20,
-    width: 20,
+    height: 36,
+    width: 36,
   },
   playerIcon: {
     height: 70,
@@ -419,7 +383,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   container: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
   mainContainer: {
@@ -478,8 +441,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    justifyContent: 'space-between',
-    padding: 20,
+    justifyContent: 'flex-end',
+    marginRight: 20,
   },
   topBarTitle: {
     opacity: 0.8,

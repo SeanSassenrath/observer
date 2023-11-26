@@ -159,18 +159,16 @@ const InsightScreen = () => {
   const renderFooter = () => <Layout style={styles.footer} />;
 
   return (
-    <Layout style={styles.rootContainer}>
+    <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.screenContainer}>
-        <LinearGradient colors={['#020306', '#1B0444']}>
-          <FlatList
-            data={meditationHistory.meditationInstances}
-            renderItem={({item, index}) => renderListItem({item, index})}
-            onEndReached={fetchMoreMeditationData}
-            onEndReachedThreshold={0.8}
-            ListHeaderComponent={renderHeader()}
-            ListFooterComponent={renderFooter()}
-          />
-        </LinearGradient>
+        <FlatList
+          data={meditationHistory.meditationInstances}
+          renderItem={({item, index}) => renderListItem({item, index})}
+          onEndReached={fetchMoreMeditationData}
+          onEndReachedThreshold={0.8}
+          ListHeaderComponent={renderHeader()}
+          ListFooterComponent={renderFooter()}
+        />
       </SafeAreaView>
       {!user.onboarding.hasSeenInsightsOnboarding ? (
         <EduPromptComponent
@@ -235,7 +233,6 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   rootContainer: {
-    backgroundColor: '#020306',
     flex: 1,
   },
   streaksCard: {
