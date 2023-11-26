@@ -62,7 +62,7 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={'AddMeditations'}
+        initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
