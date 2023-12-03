@@ -8,7 +8,13 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sortBy, uniqBy} from 'lodash';
 
 import Button from '../components/Button';
@@ -77,6 +83,8 @@ const AddMeditationsFixScreen = (props: Props) => {
   const [isSkipVisible, setIsSkipVisible] = useState(false);
 
   const navigation = useNavigation();
+
+  const {width} = useWindowDimensions();
 
   const getMedOptions = () => {
     const medOptions = [];
@@ -149,7 +157,7 @@ const AddMeditationsFixScreen = (props: Props) => {
     <AutocompleteItem
       key={index}
       title={item.name}
-      style={styles.autocompleteDropdown}
+      style={{width: autocompleteWidth}}
     />
   );
 
@@ -201,10 +209,12 @@ const AddMeditationsFixScreen = (props: Props) => {
     }
   };
 
+  const autocompleteWidth = width > 380 ? 340 : width - 40;
+
   return (
     <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <ScrollView style={styles.scrollView}>
+        <KeyboardAwareScrollView style={styles.scrollView}>
           <View style={styles.topContainer}>
             <ErrorIconBig />
             <Text category="h5" style={styles.errorTitle}>
@@ -229,7 +239,10 @@ const AddMeditationsFixScreen = (props: Props) => {
                 return (
                   <View
                     key={item.size}
-                    style={styles.unsupportedFileViewContainer}>
+                    style={{
+                      ...styles.unsupportedFileViewContainer,
+                      width: autocompleteWidth,
+                    }}>
                     <Text category="s1" style={styles.unsupportedFileName}>
                       {item.name}
                     </Text>
@@ -240,7 +253,10 @@ const AddMeditationsFixScreen = (props: Props) => {
                       onChangeText={(q: string) => onChangeText(q, item.size)}
                       size="large"
                       onPressIn={() => setOptionData(meditationOptions)}
-                      style={styles.autocompleteInput}>
+                      style={{
+                        ...styles.autocompleteInput,
+                        width: autocompleteWidth,
+                      }}>
                       {optionData.map(renderOption)}
                     </Autocomplete>
                     {showNotSupportedLabel ? (
@@ -252,8 +268,8 @@ const AddMeditationsFixScreen = (props: Props) => {
                 );
               })}
           </View>
-        </ScrollView>
-        <View style={styles.bottom}>
+        </KeyboardAwareScrollView>
+        <Layout level="4" style={styles.bottom}>
           <Button
             disabled={isContinueDisabled()}
             onPress={onContinuePress}
@@ -268,7 +284,7 @@ const AddMeditationsFixScreen = (props: Props) => {
             status="basic">
             Skip
           </Button>
-        </View>
+        </Layout>
         <Modal
           visible={isSkipVisible}
           backdropStyle={styles.backdrop}
@@ -321,14 +337,9 @@ const themedStyles = StyleSheet.create({
   },
   unsupportedFileViewContainer: {
     marginBottom: 80,
-    width: 380,
   },
   autocompleteInput: {
     marginTop: 10,
-    width: 380,
-  },
-  autocompleteDropdown: {
-    width: 380,
   },
   errorLabel: {
     marginTop: 10,
@@ -351,7 +362,6 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   bottom: {
-    flex: 2,
     paddingBottom: 20,
     paddingHorizontal: 20,
     justifyContent: 'flex-end',
