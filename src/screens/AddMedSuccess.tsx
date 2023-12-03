@@ -87,11 +87,11 @@ const AddMedsSuccessScreen = (props: Props) => {
             ))}
           </View>
         </ScrollView>
-        <View style={styles.bottom}>
+        <Layout level="2" style={styles.bottom}>
           <Button onPress={onNextPress} size="large" style={styles.nextButton}>
             Continue
           </Button>
-        </View>
+        </Layout>
       </SafeAreaView>
     </Layout>
   );
@@ -100,6 +100,7 @@ const AddMedsSuccessScreen = (props: Props) => {
 const themedStyles = StyleSheet.create({
   scrollView: {
     height: '100%',
+    paddingBottom: 160,
   },
   topContainer: {
     alignItems: 'center',
@@ -145,10 +146,13 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   bottom: {
-    flex: 2,
-    paddingBottom: 20,
+    paddingBottom: 40,
     paddingHorizontal: 20,
     justifyContent: 'flex-end',
+    position: 'absolute',
+    width: '100%',
+    height: 140,
+    bottom: 0,
   },
   container: {
     flex: 1,

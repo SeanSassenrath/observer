@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sortBy, uniqBy} from 'lodash';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Button from '../components/Button';
 import {meditationBaseMap} from '../constants/meditation-data';
@@ -269,7 +270,7 @@ const AddMeditationsFixScreen = (props: Props) => {
               })}
           </View>
         </KeyboardAwareScrollView>
-        <Layout level="4" style={styles.bottom}>
+        <Layout level="2" style={styles.bottom}>
           <Button
             disabled={isContinueDisabled()}
             onPress={onContinuePress}
@@ -312,6 +313,7 @@ const AddMeditationsFixScreen = (props: Props) => {
 const themedStyles = StyleSheet.create({
   scrollView: {
     height: '100%',
+    paddingBottom: 200,
   },
   topContainer: {
     alignItems: 'center',
@@ -362,9 +364,13 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   bottom: {
-    paddingBottom: 20,
+    paddingVertical: 20,
     paddingHorizontal: 20,
     justifyContent: 'flex-end',
+    position: 'absolute',
+    width: '100%',
+    height: 160,
+    bottom: 0,
   },
   container: {
     flex: 1,
