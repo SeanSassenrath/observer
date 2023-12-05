@@ -1,17 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {Layout, Icon, Text, useStyleSheet} from '@ui-kitten/components';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import {sortBy, uniqBy, values} from 'lodash';
+import {sortBy, values} from 'lodash';
 
 import Button from '../components/Button';
-import {meditationBaseMap} from '../constants/meditation-data';
 import {
   AddMedsMatchingScreenNavigationProp,
   AddMedsMatchingScreenRouteProp,
 } from '../types';
-import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {useNavigation} from '@react-navigation/native';
-import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {successGreen} from '../constants/colors';
 
 const SuccessIcon = (props: any) => (
@@ -42,14 +39,6 @@ const AddMedsSuccessScreen = (props: Props) => {
   const {medsFail, medsSuccess} = route.params;
   const medsSuccessList = values(medsSuccess);
   const sortedMedsSuccessList = sortBy(medsSuccessList, 'name');
-
-  const {meditationFilePaths, setMeditationFilePaths} = useContext(
-    MeditationFilePathsContext,
-  );
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {meditationBaseData, setMeditationBaseData} = useContext(
-    MeditationBaseDataContext,
-  );
 
   const navigation = useNavigation();
 
@@ -86,6 +75,7 @@ const AddMedsSuccessScreen = (props: Props) => {
               </View>
             ))}
           </View>
+          <View style={styles.scrollContentSpacer} />
         </ScrollView>
         <Layout level="2" style={styles.bottom}>
           <Button onPress={onNextPress} size="large" style={styles.nextButton}>
@@ -224,6 +214,9 @@ const themedStyles = StyleSheet.create({
   },
   rootContainer: {
     flex: 1,
+  },
+  scrollContentSpacer: {
+    height: 200,
   },
   searchBar: {
     backgroundColor: 'rgba(48,55,75,0.6)',
