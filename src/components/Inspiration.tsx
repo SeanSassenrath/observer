@@ -14,8 +14,8 @@ export const Inspiration = () => {
         Hello, {user.profile.firstName}
       </Text>
       <Text category="s1" style={styles.prompt}>
-        Welcome to the Unlimited App! Complete a meditation to start building
-        your meditation lists below.
+        Welcome to the Unlimited App! Easily find and play meditations, add
+        breathwork before meditations, and gain insights into your practice.
       </Text>
     </Layout>
   );
