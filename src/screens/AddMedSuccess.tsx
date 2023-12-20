@@ -1,13 +1,8 @@
 import React from 'react';
 import {Layout, Icon, Text, useStyleSheet} from '@ui-kitten/components';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import {sortBy, values} from 'lodash';
 
 import Button from '../components/Button';
-import {
-  AddMedsMatchingScreenNavigationProp,
-  AddMedsMatchingScreenRouteProp,
-} from '../types';
 import {useNavigation} from '@react-navigation/native';
 import {successGreen} from '../constants/colors';
 
@@ -27,30 +22,14 @@ const iconStyles = StyleSheet.create({
   },
 });
 
-interface Props {
-  navigation: AddMedsMatchingScreenNavigationProp;
-  route: AddMedsMatchingScreenRouteProp;
-}
-
-const AddMedsSuccessScreen = (props: Props) => {
+const AddMedsSuccessScreen = () => {
   const styles = useStyleSheet(themedStyles);
-
-  const {route} = props;
-  const {medsFail, medsSuccess} = route.params;
-  const medsSuccessList = values(medsSuccess);
-  const sortedMedsSuccessList = sortBy(medsSuccessList, 'name');
 
   const navigation = useNavigation();
 
   const onNextPress = async () => {
-    if (medsFail.length > 0) {
-      navigation.navigate('AddMedsFix', {
-        medsFail: medsFail,
-      });
-    } else {
-      //@ts-ignore
-      navigation.navigate('TabNavigation', {screen: 'Home'});
-    }
+    //@ts-ignore
+    navigation.navigate('TabNavigation', {screen: 'Home'});
   };
 
   return (
@@ -59,21 +38,9 @@ const AddMedsSuccessScreen = (props: Props) => {
         <ScrollView style={styles.scrollView}>
           <View style={styles.topContainer}>
             <SuccessIcon />
-            <Text category="h5" style={styles.errorTitle}>
-              {medsSuccessList.length} Meditations Added
-            </Text>
             <Text category="s1" style={styles.errorDescription}>
               These meditations have been added successfully
             </Text>
-          </View>
-          <View style={styles.mainContainer}>
-            {sortedMedsSuccessList.map((med: any) => (
-              <View key={med.name} style={styles.medContainer}>
-                <Text category="h6" style={styles.medName}>
-                  {med.name}
-                </Text>
-              </View>
-            ))}
           </View>
           <View style={styles.scrollContentSpacer} />
         </ScrollView>

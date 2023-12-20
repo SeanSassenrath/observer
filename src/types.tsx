@@ -18,7 +18,7 @@ import {UserUid} from './contexts/userData';
 export type StackParamList = {
   AddMeditations: undefined;
   AddMedsFix: AddMedsFailParams;
-  AddMedsSuccess: AddMedsSuccessParams;
+  AddMedsSuccess: undefined;
   AddMedsMatching: AddMedsMatchingParams;
   Debug: undefined;
   InitialUpload: undefined;
@@ -36,6 +36,7 @@ export type StackParamList = {
   OnboardingStep1: undefined;
   OnboardingStep2: undefined;
   Profile: UserParams;
+  UnrecognizedFiles: UnrecognizedFilesParams;
 };
 
 interface MeditationParams {
@@ -49,12 +50,12 @@ interface AddMedsMatchingParams {
   nextPage: string;
 }
 
-interface AddMedsSuccessParams {
-  medsSuccess: MeditationBaseId[];
+// Delete this
+interface AddMedsFailParams {
   medsFail: UnknownFileData[];
 }
 
-interface AddMedsFailParams {
+interface UnrecognizedFilesParams {
   medsFail: UnknownFileData[];
 }
 
@@ -79,6 +80,10 @@ type AddMedsMatching = NativeStackScreenProps<
   'AddMedsMatching'
 >;
 type AddMedsSuccess = NativeStackScreenProps<StackParamList, 'AddMedsSuccess'>;
+type UnrecognizedFiles = NativeStackScreenProps<
+  StackParamList,
+  'UnrecognizedFiles'
+>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
@@ -94,6 +99,7 @@ export type AddMedsMatchingScreenRouteProp = AddMedsMatching['route'];
 export type AddMedsSuccessProp = AddMedsSuccess['navigation'];
 export type AddMedsSuccessScreenNavigationProp = AddMedsSuccess['navigation'];
 export type AddMedsSuccessScreenRouteProp = AddMedsSuccess['route'];
+export type UnrecognizedFilesScreenRouteProp = UnrecognizedFiles['route'];
 
 type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 export type ProfileScreenNavigationProp = Profile['navigation'];

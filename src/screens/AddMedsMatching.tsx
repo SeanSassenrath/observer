@@ -16,7 +16,7 @@ interface Props {
 const AddMedsMatchingScreen = (props: Props) => {
   const styles = useStyleSheet(themedStyles);
   const {route} = props;
-  const {medsFail, medsSuccess, nextPage} = route.params;
+  const {medsFail} = route.params;
   const navigation = useNavigation();
   // const [barWidth, setBarWidth] = useState(0);
 
@@ -25,16 +25,24 @@ const AddMedsMatchingScreen = (props: Props) => {
   // };
 
   const chooseNavigator = () => {
-    if (nextPage === 'AddMedsSuccess') {
-      navigation.navigate('AddMedsSuccess', {
-        medsSuccess: medsSuccess,
+    console.log('meds fail in meds matching', medsFail);
+    if (medsFail.length > 0) {
+      navigation.navigate('UnrecognizedFiles', {
         medsFail: medsFail,
       });
-    } else if (nextPage === 'AddMedsFix') {
-      navigation.navigate('AddMedsFix', {
-        medsFail: medsFail,
-      });
+    } else {
+      navigation.navigate('AddMedsSuccess');
     }
+    // if (nextPage === 'AddMedsSuccess') {
+    //   navigation.navigate('AddMedsSuccess', {
+    //     medsSuccess: medsSuccess,
+    //     medsFail: medsFail,
+    //   });
+    // } else if (nextPage === 'AddMedsFix') {
+    //   navigation.navigate('AddMedsFix', {
+    //     medsFail: medsFail,
+    //   });
+    // }
   };
 
   useEffect(() => {
