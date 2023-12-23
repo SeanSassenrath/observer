@@ -5,13 +5,13 @@ import {useNavigation} from '@react-navigation/native';
 
 import Button from '../components/Button';
 import {
-  AddMedsMatchingScreenNavigationProp,
-  AddMedsMatchingScreenRouteProp,
+  UnrecognizedFilesScreenNavigationProp,
+  UnrecognizedFilesScreenRouteProp,
 } from '../types';
 
 interface Props {
-  navigation: AddMedsMatchingScreenNavigationProp;
-  route: AddMedsMatchingScreenRouteProp;
+  navigation: UnrecognizedFilesScreenNavigationProp;
+  route: UnrecognizedFilesScreenRouteProp;
 }
 
 const UnrecognizedFilesScreen = (props: Props) => {

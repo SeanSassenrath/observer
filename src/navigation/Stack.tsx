@@ -21,6 +21,7 @@ import Profile from '../screens/Profile';
 import AddMedsMatchingScreen from '../screens/AddMedsMatching';
 import AddMedsSuccessScreen from '../screens/AddMedSuccess';
 import UnrecognizedFilesScreen from '../screens/UnrecognizedFiles';
+import MeditationMatchScreen from '../screens/MeditationMatch';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -63,7 +64,7 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={'AddMeditations'}
+        initialRouteName={'MeditationMatch'}
         // initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
@@ -76,6 +77,7 @@ const StackNavigator = () => {
         <Screen name="Meditation" component={MeditationScreen} />
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
+        <Screen name="MeditationMatch" component={MeditationMatchScreen} />
         <Screen name="Debug" component={DebugScreen} />
         <Screen name="OnboardingStep1" component={OnboardingStep1} />
         <Screen name="OnboardingStep2" component={OnboardingStep2} />

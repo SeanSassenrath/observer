@@ -27,6 +27,7 @@ export type StackParamList = {
   Meditation: MeditationParams;
   MeditationFinish: undefined;
   MeditationPlayer: MeditationParams;
+  MeditationMatch: UnrecognizedFilesParams;
   TabNavigation: undefined;
   AddFilesTutorial1: undefined;
   AddFilesTutorial2: undefined;
@@ -84,6 +85,10 @@ type UnrecognizedFiles = NativeStackScreenProps<
   StackParamList,
   'UnrecognizedFiles'
 >;
+type MeditationMatch = NativeStackScreenProps<
+  StackParamList,
+  'MeditationMatch'
+>;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
@@ -99,7 +104,11 @@ export type AddMedsMatchingScreenRouteProp = AddMedsMatching['route'];
 export type AddMedsSuccessProp = AddMedsSuccess['navigation'];
 export type AddMedsSuccessScreenNavigationProp = AddMedsSuccess['navigation'];
 export type AddMedsSuccessScreenRouteProp = AddMedsSuccess['route'];
+export type UnrecognizedFilesScreenNavigationProp =
+  UnrecognizedFiles['navigation'];
 export type UnrecognizedFilesScreenRouteProp = UnrecognizedFiles['route'];
+export type MeditationMatchScreenNavigationProp = AddMedsSuccess['navigation'];
+export type MeditationMatchScreenRouteProp = MeditationMatch['route'];
 
 type Profile = NativeStackScreenProps<StackParamList, 'Profile'>;
 export type ProfileScreenNavigationProp = Profile['navigation'];
