@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -101,6 +101,19 @@ const MeditationMatchScreen = (props: Props) => {
     }
   };
 
+  const onSkipPress = () => {
+    const currentFile = medsFail[currentFileIndex];
+    const lastFile = medsFail[medsFail.length - 1];
+
+    if (lastFile && lastFile.uri === currentFile.uri) {
+      navigation.navigate('AddMedsSuccess');
+    } else {
+      setSearchInput(EMPTY_SEARCH);
+      setSelectedCardId(EMPTY_ID);
+      setCurrentFileIndex(currentFileIndex + 1);
+    }
+  };
+
   const onMeditationPress = (meditationId: MeditationId) => {
     if (meditationId === selectedCardId) {
       setSelectedCardId(EMPTY_ID);
@@ -148,9 +161,16 @@ const MeditationMatchScreen = (props: Props) => {
     <Layout level="4" style={styles.screenContainer}>
       <SafeAreaView style={styles.safeArea}>
         <Layout level="4" style={styles.topContainer}>
-          <Text category="s2" style={styles.fileCount}>
-            File {currentFileIndex + 1} of {fileCount}
-          </Text>
+          <Layout level="4" style={styles.topBarContainer}>
+            <Text category="s2" style={styles.fileCount}>
+              File {currentFileIndex + 1} of {fileCount}
+            </Text>
+            <Pressable onPress={onSkipPress}>
+              <Text category="s2" style={styles.topSkipText}>
+                Skip
+              </Text>
+            </Pressable>
+          </Layout>
           <Text category="s1" style={styles.instructionText}>
             Select the meditation that matches this file:
             <Text category="s1" style={styles.fileName}>
@@ -208,6 +228,21 @@ const MeditationMatchScreen = (props: Props) => {
                 MeditationGroupName.Unlocked,
                 unlockedMap,
               )}
+              <Layout style={styles.skipContainer}>
+                <Text category="s1" style={styles.skipHeader}>
+                  Unable to find the meditation?
+                </Text>
+                <Text category="s2" style={styles.skipDescription}>
+                  The meditation you are adding might not be supported yet. We
+                  will try and get it added soon. Please skip to continue.
+                </Text>
+                <Button
+                  onPress={onSkipPress}
+                  size="small"
+                  style={styles.skipButton}>
+                  Skip
+                </Button>
+              </Layout>
             </Layout>
           </ScrollView>
           <LinearGradient
@@ -280,10 +315,34 @@ const themedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 30,
   },
+  skipButton: {
+    marginTop: 20,
+  },
+  skipContainer: {
+    borderRadius: 10,
+    marginBottom: 100,
+    marginHorizontal: 20,
+    padding: 20,
+  },
+  skipDescription: {
+    textAlign: 'center',
+  },
+  skipHeader: {
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  topBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   topContainer: {
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 20,
+  },
+  topSkipText: {
+    paddingHorizontal: 10,
+    opacity: 0.7,
   },
 });
 
