@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {
   MeditationBase,
@@ -24,7 +26,7 @@ import {
   unlockedMap,
   walkingMap,
 } from '../constants/meditation-data';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import Button from '../components/Button';
 
 const EMPTY_SEARCH = '';
 
@@ -91,74 +93,122 @@ const MeditationMatchScreen = (props: Props) => {
             File {currentFileIndex + 1} of {fileCount}
           </Text>
           <Text category="s1" style={styles.instructionText}>
-            Select the meditation below that matches this file:
-          </Text>
-          <Text category="h6" style={styles.fileName}>
-            {fileName}
+            Select the meditation that matches this file:
+            <Text category="s1" style={styles.fileName}>
+              {` ${fileName}`}
+            </Text>
           </Text>
         </Layout>
-        <Layout level="4" style={styles.searchContainer}>
+        {/* <Layout level="4" style={styles.searchContainer}>
           <SearchBar
             input={searchInput}
             onChangeText={setSearchInput}
             onClearPress={onClearSearchPress}
           />
+        </Layout> */}
+        <Layout style={styles.mainContainer}>
+          <ScrollView style={styles.scrollContainer}>
+            <Layout level="4" style={styles.searchContainer}>
+              <SearchBar
+                input={searchInput}
+                onChangeText={setSearchInput}
+                onClearPress={onClearSearchPress}
+              />
+            </Layout>
+            <Layout level="4">
+              {renderMeditationGroupSection(
+                MeditationGroupName.BlessingEnergyCenter,
+                botecMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.BreakingHabit,
+                breakingHabitMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.BreathTracks,
+                breathMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Daily,
+                dailyMeditationsMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Foundational,
+                foundationalMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Generating,
+                generatingMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Other,
+                otherMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Synchronize,
+                synchronizeMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Walking,
+                walkingMap,
+              )}
+              {renderMeditationGroupSection(
+                MeditationGroupName.Unlocked,
+                unlockedMap,
+              )}
+            </Layout>
+          </ScrollView>
+          <LinearGradient
+            colors={['transparent', 'transparent', '#0B0E18']}
+            style={styles.bottomBarGradient}
+          />
         </Layout>
-        <ScrollView style={styles.scrollContainer}>
-          <Layout level="4">
-            {renderMeditationGroupSection(
-              MeditationGroupName.BlessingEnergyCenter,
-              botecMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreakingHabit,
-              breakingHabitMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.BreathTracks,
-              breathMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Daily,
-              dailyMeditationsMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Foundational,
-              foundationalMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Generating,
-              generatingMap,
-            )}
-            {renderMeditationGroupSection(MeditationGroupName.Other, otherMap)}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Synchronize,
-              synchronizeMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Walking,
-              walkingMap,
-            )}
-            {renderMeditationGroupSection(
-              MeditationGroupName.Unlocked,
-              unlockedMap,
-            )}
-          </Layout>
-        </ScrollView>
+        <Layout level="4" style={styles.bottomContainer}>
+          <Button
+            disabled={false}
+            onPress={() => {}}
+            size="large"
+            style={styles.continueButton}>
+            Continue
+          </Button>
+        </Layout>
       </SafeAreaView>
     </Layout>
   );
 };
 
 const themedStyles = StyleSheet.create({
+  bottomBarGradient: {
+    height: 60,
+    paddingBottom: 20,
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+  },
+  bottomContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  continueButton: {
+    marginBottom: 16,
+  },
   instructionText: {
     paddingBottom: 10,
-    textAlign: 'center',
+    lineHeight: 22,
   },
   fileName: {
-    paddingBottom: 10,
-    textAlign: 'center',
     color: 'color-primary-200',
+  },
+  gradientContainer: {
+    height: 40,
+    backgroundColor: 'transparent',
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   safeArea: {
     flex: 1,
