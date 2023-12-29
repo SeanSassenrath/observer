@@ -51,7 +51,7 @@ const MeditationMatchScreen = (props: Props) => {
   );
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
-  const [selectedCardId, setSelectedCardId] = useState(EMPTY_ID);
+  const [selectedMedId, setSelectedMedId] = useState(EMPTY_ID);
   const styles = useStyleSheet(themedStyles);
 
   const navigation = useNavigation();
@@ -67,7 +67,7 @@ const MeditationMatchScreen = (props: Props) => {
     const lastFile = medsFail[medsFail.length - 1];
 
     if (currentFile && currentFile.uri) {
-      const matchedMeditation = {[selectedCardId]: currentFile.uri};
+      const matchedMeditation = {[selectedMedId]: currentFile.uri};
       const updatedMeditations = {...meditationFilePaths, ...matchedMeditation};
       setMeditationFilePathDataInAsyncStorage(updatedMeditations);
       setMeditationFilePaths(updatedMeditations);
@@ -83,7 +83,7 @@ const MeditationMatchScreen = (props: Props) => {
           visibilityTime: 1500,
         });
         setSearchInput(EMPTY_SEARCH);
-        setSelectedCardId(EMPTY_ID);
+        setSelectedMedId(EMPTY_ID);
         setCurrentFileIndex(currentFileIndex + 1);
       }
     } else {
@@ -96,7 +96,7 @@ const MeditationMatchScreen = (props: Props) => {
         visibilityTime: 2000,
       });
       setSearchInput(EMPTY_SEARCH);
-      setSelectedCardId(EMPTY_ID);
+      setSelectedMedId(EMPTY_ID);
       setCurrentFileIndex(currentFileIndex + 1);
     }
   };
@@ -109,16 +109,16 @@ const MeditationMatchScreen = (props: Props) => {
       navigation.navigate('AddMedsSuccess');
     } else {
       setSearchInput(EMPTY_SEARCH);
-      setSelectedCardId(EMPTY_ID);
+      setSelectedMedId(EMPTY_ID);
       setCurrentFileIndex(currentFileIndex + 1);
     }
   };
 
   const onMeditationPress = (meditationId: MeditationId) => {
-    if (meditationId === selectedCardId) {
-      setSelectedCardId(EMPTY_ID);
+    if (meditationId === selectedMedId) {
+      setSelectedMedId(EMPTY_ID);
     } else {
-      setSelectedCardId(meditationId);
+      setSelectedMedId(meditationId);
     }
   };
 
@@ -152,7 +152,7 @@ const MeditationMatchScreen = (props: Props) => {
         header={header}
         meditationList={sortedMeditationList}
         onMeditationPress={onMeditationPress}
-        selectedCardId={selectedCardId}
+        selectedCardId={selectedMedId}
       />
     );
   };
@@ -228,21 +228,23 @@ const MeditationMatchScreen = (props: Props) => {
                 MeditationGroupName.Unlocked,
                 unlockedMap,
               )}
-              <Layout style={styles.skipContainer}>
-                <Text category="s1" style={styles.skipHeader}>
-                  Unable to find the meditation?
-                </Text>
-                <Text category="s2" style={styles.skipDescription}>
-                  The meditation you are adding might not be supported yet. We
-                  will try and get it added soon. Please skip to continue.
-                </Text>
-                <Button
-                  onPress={onSkipPress}
-                  size="small"
-                  style={styles.skipButton}>
-                  Skip
-                </Button>
-              </Layout>
+              {selectedMedId.length <= 0 ? (
+                <Layout style={styles.skipContainer}>
+                  <Text category="s1" style={styles.skipHeader}>
+                    Unable to find the meditation?
+                  </Text>
+                  <Text category="s2" style={styles.skipDescription}>
+                    The meditation you are adding might not be supported yet. We
+                    will try and get it added soon. Please skip to continue.
+                  </Text>
+                  <Button
+                    onPress={onSkipPress}
+                    size="small"
+                    style={styles.skipButton}>
+                    Skip
+                  </Button>
+                </Layout>
+              ) : null}
             </Layout>
           </ScrollView>
           <LinearGradient
@@ -252,7 +254,7 @@ const MeditationMatchScreen = (props: Props) => {
         </Layout>
         <Layout level="4" style={styles.bottomContainer}>
           <Button
-            disabled={selectedCardId === EMPTY_ID}
+            disabled={selectedMedId === EMPTY_ID}
             onPress={onContinuePress}
             size="large"
             style={styles.continueButton}>
@@ -287,7 +289,7 @@ const themedStyles = StyleSheet.create({
   fileCount: {
     paddingBottom: 20,
     lineHeight: 22,
-    opacity: 0.3,
+    opacity: 0.7,
   },
   fileName: {
     color: 'color-primary-200',
