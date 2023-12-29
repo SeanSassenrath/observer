@@ -111,8 +111,10 @@ const getCardStyles = (props: CardStyleProps) => {
   } else {
     if (props.isDisabled) {
       return stylesV4.disabledCard;
+    } else if (props.isSelected) {
+      return stylesV4.selectedCard;
     } else {
-      return [stylesV4.card, stylesV4.shadowProps];
+      return stylesV4.card;
     }
   }
 };
@@ -149,6 +151,17 @@ const stylesV4 = StyleSheet.create({
     marginRight: 20,
     width: 200,
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: 'rgba(90, 90, 90, 0.9)',
+  },
+  selectedCard: {
+    borderRadius: 10,
+    height: 140,
+    marginRight: 20,
+    width: 200,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#CBF6A1',
   },
   disabledCard: {
     borderRadius: 10,

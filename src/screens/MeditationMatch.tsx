@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
   MeditationBase,
   MeditationBaseMap,
+  MeditationId,
   MeditationMatchScreenNavigationProp,
   MeditationMatchScreenRouteProp,
 } from '../types';
@@ -29,6 +30,7 @@ import {
 import Button from '../components/Button';
 
 const EMPTY_SEARCH = '';
+const EMPTY_ID = '';
 
 interface Props {
   navigation: MeditationMatchScreenNavigationProp;
@@ -42,6 +44,7 @@ const MeditationMatchScreen = (props: Props) => {
 
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
+  const [selectedCardId, setSelectedCardId] = useState(EMPTY_ID);
   const styles = useStyleSheet(themedStyles);
 
   const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
@@ -50,6 +53,12 @@ const MeditationMatchScreen = (props: Props) => {
   // const file = medsFail[currentFileIndex];
   // const fileName = file.name || '';
   const fileName = 'file-name-here';
+
+  const onMeditationPress = (meditationId: MeditationId) => {
+    if (meditationId) {
+      setSelectedCardId(meditationId);
+    }
+  };
 
   const renderMeditationGroupSection = (
     header: string,
@@ -80,7 +89,8 @@ const MeditationMatchScreen = (props: Props) => {
         key={header}
         header={header}
         meditationList={sortedMeditationList}
-        onMeditationPress={() => console.log('Press')}
+        onMeditationPress={onMeditationPress}
+        selectedCardId={selectedCardId}
       />
     );
   };
@@ -99,13 +109,6 @@ const MeditationMatchScreen = (props: Props) => {
             </Text>
           </Text>
         </Layout>
-        {/* <Layout level="4" style={styles.searchContainer}>
-          <SearchBar
-            input={searchInput}
-            onChangeText={setSearchInput}
-            onClearPress={onClearSearchPress}
-          />
-        </Layout> */}
         <Layout style={styles.mainContainer}>
           <ScrollView style={styles.scrollContainer}>
             <Layout level="4" style={styles.searchContainer}>
