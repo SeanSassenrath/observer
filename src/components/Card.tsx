@@ -152,7 +152,7 @@ const stylesV4 = StyleSheet.create({
     width: 200,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: 'rgba(90, 90, 90, 0.9)',
+    borderColor: 'rgba(50, 50, 50, 50.3)',
   },
   selectedCard: {
     borderRadius: 10,

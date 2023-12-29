@@ -20,8 +20,10 @@ const UnrecognizedFilesScreen = (props: Props) => {
 
   const navigation = useNavigation();
 
-  const onNextPress = () => {
-    console.log('test');
+  const onContinuePress = () => {
+    navigation.navigate('MeditationMatch', {
+      medsFail: medsFail,
+    });
   };
 
   const unrecognizedFilesCount = medsFail.length;
@@ -30,7 +32,6 @@ const UnrecognizedFilesScreen = (props: Props) => {
   return (
     <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.top} />
         <View style={styles.middle}>
           <Text category="h3" style={styles.header}>
             Unrecognized {isLengthOne ? 'File' : 'Files'}
@@ -41,7 +42,10 @@ const UnrecognizedFilesScreen = (props: Props) => {
           </Text>
         </View>
         <View style={styles.bottom}>
-          <Button size="large" onPress={onNextPress} style={styles.addButton}>
+          <Button
+            size="large"
+            onPress={onContinuePress}
+            style={styles.addButton}>
             Continue
           </Button>
         </View>
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     justifyContent: 'flex-end',
-    flex: 2,
+    flex: 1,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
@@ -73,8 +77,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   middle: {
-    flex: 4,
-    justifyContent: 'flex-end',
+    flex: 9,
+    justifyContent: 'center',
     paddingHorizontal: 20,
   },
   rootContainer: {

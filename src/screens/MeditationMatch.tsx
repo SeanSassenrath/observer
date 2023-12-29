@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,6 +28,10 @@ import {
   walkingMap,
 } from '../constants/meditation-data';
 import Button from '../components/Button';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
+import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const EMPTY_SEARCH = '';
 const EMPTY_ID = '';
@@ -42,20 +46,65 @@ const MeditationMatchScreen = (props: Props) => {
   const params = route && route.params;
   const medsFail = params && params.medsFail;
 
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
   const [selectedCardId, setSelectedCardId] = useState(EMPTY_ID);
   const styles = useStyleSheet(themedStyles);
 
+  const navigation = useNavigation();
+
   const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
 
   const fileCount = medsFail && medsFail.length;
-  // const file = medsFail[currentFileIndex];
-  // const fileName = file.name || '';
-  const fileName = 'file-name-here';
+  const file = medsFail[currentFileIndex];
+  const fileName = file.name || '';
+
+  const onContinuePress = () => {
+    const currentFile = medsFail[currentFileIndex];
+    const lastFile = medsFail[medsFail.length - 1];
+
+    if (currentFile && currentFile.uri) {
+      const matchedMeditation = {[selectedCardId]: currentFile.uri};
+      const updatedMeditations = {...meditationFilePaths, ...matchedMeditation};
+      setMeditationFilePathDataInAsyncStorage(updatedMeditations);
+      setMeditationFilePaths(updatedMeditations);
+
+      if (lastFile && lastFile.uri === currentFile.uri) {
+        navigation.navigate('AddMedsSuccess');
+      } else {
+        Toast.show({
+          type: 'success',
+          text1: 'Meditation Added',
+          position: 'bottom',
+          bottomOffset: 100,
+          visibilityTime: 1500,
+        });
+        setSearchInput(EMPTY_SEARCH);
+        setSelectedCardId(EMPTY_ID);
+        setCurrentFileIndex(currentFileIndex + 1);
+      }
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Meditation Not Added',
+        text2: "Let's try the next one",
+        position: 'bottom',
+        bottomOffset: 100,
+        visibilityTime: 2000,
+      });
+      setSearchInput(EMPTY_SEARCH);
+      setSelectedCardId(EMPTY_ID);
+      setCurrentFileIndex(currentFileIndex + 1);
+    }
+  };
 
   const onMeditationPress = (meditationId: MeditationId) => {
-    if (meditationId) {
+    if (meditationId === selectedCardId) {
+      setSelectedCardId(EMPTY_ID);
+    } else {
       setSelectedCardId(meditationId);
     }
   };
@@ -99,7 +148,7 @@ const MeditationMatchScreen = (props: Props) => {
     <Layout level="4" style={styles.screenContainer}>
       <SafeAreaView style={styles.safeArea}>
         <Layout level="4" style={styles.topContainer}>
-          <Text category="s1" style={styles.instructionText}>
+          <Text category="s2" style={styles.fileCount}>
             File {currentFileIndex + 1} of {fileCount}
           </Text>
           <Text category="s1" style={styles.instructionText}>
@@ -168,8 +217,8 @@ const MeditationMatchScreen = (props: Props) => {
         </Layout>
         <Layout level="4" style={styles.bottomContainer}>
           <Button
-            disabled={false}
-            onPress={() => {}}
+            disabled={selectedCardId === EMPTY_ID}
+            onPress={onContinuePress}
             size="large"
             style={styles.continueButton}>
             Continue
@@ -199,6 +248,11 @@ const themedStyles = StyleSheet.create({
   instructionText: {
     paddingBottom: 10,
     lineHeight: 22,
+  },
+  fileCount: {
+    paddingBottom: 20,
+    lineHeight: 22,
+    opacity: 0.3,
   },
   fileName: {
     color: 'color-primary-200',
