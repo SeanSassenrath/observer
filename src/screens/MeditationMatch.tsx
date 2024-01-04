@@ -231,14 +231,14 @@ const MeditationMatchScreen = (props: Props) => {
           </Text>
         </Layout>
         <Layout style={styles.mainContainer}>
+          <Layout level="4" style={styles.searchContainer}>
+            <SearchBar
+              input={searchInput}
+              onChangeText={setSearchInput}
+              onClearPress={onClearSearchPress}
+            />
+          </Layout>
           <ScrollView style={styles.scrollContainer}>
-            <Layout level="4" style={styles.searchContainer}>
-              <SearchBar
-                input={searchInput}
-                onChangeText={setSearchInput}
-                onClearPress={onClearSearchPress}
-              />
-            </Layout>
             <Layout level="4">
               {renderMeditationGroupSection(
                 MeditationGroupName.BlessingEnergyCenter,
