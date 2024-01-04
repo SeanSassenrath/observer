@@ -74,14 +74,14 @@ const MeditationMatchScreen = (props: Props) => {
     const existingMedIds = Object.keys(meditationFilePaths);
 
     if (existingMedIds.length > 0) {
-      console.log('HERE - existingMedIds', existingMedIds);
-      console.log('HERE - selectedMedId', selectedMedId);
-      const _existingMedLink = existingMedIds.find(id => id === selectedMedId);
-      console.log('HERE - _existingMedLink', _existingMedLink);
+      const existingMedLinkId = existingMedIds.find(id => id === selectedMedId);
 
-      if (_existingMedLink) {
-        setExistingMedLink(_existingMedLink);
-        return _existingMedLink;
+      if (existingMedLinkId) {
+        const _existingMedLink = meditationFilePaths[existingMedLinkId];
+        const decodedExistingMedLink = decodeURI(_existingMedLink);
+        const filenameOnly = decodedExistingMedLink.split('/')[1];
+        setExistingMedLink(filenameOnly);
+        return filenameOnly;
       }
     }
     return false;
