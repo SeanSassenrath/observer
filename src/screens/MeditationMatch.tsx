@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import {Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {
@@ -32,6 +32,8 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import {makeMeditationBaseData} from '../utils/meditation';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const EMPTY_SEARCH = '';
 const EMPTY_ID = '';
@@ -49,9 +51,15 @@ const MeditationMatchScreen = (props: Props) => {
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
+
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
   const [selectedMedId, setSelectedMedId] = useState(EMPTY_ID);
+  const [existingMedLink, setExistingMedLink] = useState(EMPTY_ID);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const styles = useStyleSheet(themedStyles);
 
   const navigation = useNavigation();
@@ -62,17 +70,48 @@ const MeditationMatchScreen = (props: Props) => {
   const file = medsFail[currentFileIndex];
   const fileName = file.name || '';
 
-  const onContinuePress = () => {
+  const existingMedLinkCheck = () => {
+    const existingMedIds = Object.keys(meditationFilePaths);
+
+    if (existingMedIds.length > 0) {
+      console.log('HERE - existingMedIds', existingMedIds);
+      console.log('HERE - selectedMedId', selectedMedId);
+      const _existingMedLink = existingMedIds.find(id => id === selectedMedId);
+      console.log('HERE - _existingMedLink', _existingMedLink);
+
+      if (_existingMedLink) {
+        setExistingMedLink(_existingMedLink);
+        return _existingMedLink;
+      }
+    }
+    return false;
+  };
+
+  const resetState = () => {
+    setSearchInput(EMPTY_SEARCH);
+    setSelectedMedId(EMPTY_ID);
+    setExistingMedLink(EMPTY_ID);
+    setCurrentFileIndex(currentFileIndex + 1);
+  };
+
+  const saveFileToMedId = async () => {
     const currentFile = medsFail[currentFileIndex];
     const lastFile = medsFail[medsFail.length - 1];
 
     if (currentFile && currentFile.uri) {
       const matchedMeditation = {[selectedMedId]: currentFile.uri};
       const updatedMeditations = {...meditationFilePaths, ...matchedMeditation};
-      setMeditationFilePathDataInAsyncStorage(updatedMeditations);
+      await setMeditationFilePathDataInAsyncStorage(updatedMeditations);
       setMeditationFilePaths(updatedMeditations);
 
       if (lastFile && lastFile.uri === currentFile.uri) {
+        const _meditationBaseData = await makeMeditationBaseData();
+        if (
+          _meditationBaseData &&
+          Object.keys(_meditationBaseData).length > 0
+        ) {
+          setMeditationBaseData(_meditationBaseData);
+        }
         navigation.navigate('AddMedsSuccess');
       } else {
         Toast.show({
@@ -82,9 +121,8 @@ const MeditationMatchScreen = (props: Props) => {
           bottomOffset: 100,
           visibilityTime: 1500,
         });
-        setSearchInput(EMPTY_SEARCH);
-        setSelectedMedId(EMPTY_ID);
-        setCurrentFileIndex(currentFileIndex + 1);
+
+        resetState();
       }
     } else {
       Toast.show({
@@ -95,10 +133,24 @@ const MeditationMatchScreen = (props: Props) => {
         bottomOffset: 100,
         visibilityTime: 2000,
       });
-      setSearchInput(EMPTY_SEARCH);
-      setSelectedMedId(EMPTY_ID);
-      setCurrentFileIndex(currentFileIndex + 1);
+      resetState();
     }
+  };
+
+  const onContinuePress = async () => {
+    const _existingMedLink = existingMedLinkCheck();
+
+    if (_existingMedLink) {
+      setIsModalVisible(true);
+      return;
+    }
+
+    await saveFileToMedId();
+  };
+
+  const onModalConfirmPress = async () => {
+    setIsModalVisible(false);
+    await saveFileToMedId();
   };
 
   const onSkipPress = () => {
@@ -261,6 +313,33 @@ const MeditationMatchScreen = (props: Props) => {
             Continue
           </Button>
         </Layout>
+        <Modal
+          visible={isModalVisible}
+          backdropStyle={styles.modalBackdrop}
+          onBackdropPress={() => setIsModalVisible(false)}>
+          <Layout level="2" style={styles.modalContainer}>
+            <Layout level="2" style={styles.modalTextContainer}>
+              <Text category="s1">
+                The meditation you selected is currently linked to a different
+                file:
+              </Text>
+              <Text category="s1" style={styles.modalTextFileName}>
+                {existingMedLink}
+              </Text>
+              <Text category="s1">
+                Would you like to override the file for this meditation?
+              </Text>
+            </Layout>
+            <Button onPress={onModalConfirmPress}>Confirm Override</Button>
+            <Button
+              appearance="ghost"
+              status="basic"
+              onPress={() => setIsModalVisible(false)}
+              style={styles.modalCancelButton}>
+              Cancel
+            </Button>
+          </Layout>
+        </Modal>
       </SafeAreaView>
     </Layout>
   );
@@ -303,6 +382,26 @@ const themedStyles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: 'transparent',
+  },
+  modalBackdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+  modalCancelButton: {
+    marginTop: 10,
+  },
+  modalContainer: {
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    paddingTop: 30,
+    marginHorizontal: 20,
+  },
+  modalTextContainer: {
+    marginBottom: 20,
+  },
+  modalTextFileName: {
+    color: 'color-primary-200',
+    marginVertical: 20,
   },
   safeArea: {
     flex: 1,

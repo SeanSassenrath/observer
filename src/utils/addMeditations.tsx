@@ -40,28 +40,6 @@ export const onAddMeditations = async (
     setUnknownFiles(unknownFiles);
   }
 
-  if (
-    !isEmpty(filePathDataList) &&
-    !hideSuccessToast &&
-    unknownFiles.length <= 0
-  ) {
-    Toast.show({
-      type: 'success',
-      text1: 'Meditations added',
-      text2: 'Meditations added successfully',
-      position: 'bottom',
-      bottomOffset: 100,
-      onPress: () =>
-        onAddMeditations(
-          existingMeditationFilePathData,
-          setExistingMeditationFilePathData,
-          setUnknownFiles,
-          user,
-        ),
-      visibilityTime: 5000,
-    });
-  }
-
   if (!isEmpty(filePathDataList)) {
     setMeditationFilePathDataInAsyncStorage(filePathDataList);
     setExistingMeditationFilePathData(filePathDataList);
