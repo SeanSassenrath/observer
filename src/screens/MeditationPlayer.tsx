@@ -25,7 +25,6 @@ import {
 import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import Button from '../components/Button';
-import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 
 const brightWhite = '#fcfcfc';
@@ -72,21 +71,16 @@ const RestartIcon = (props: any) => (
 const MeditationPlayer = ({
   route,
 }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
-  const {meditationBaseData, setMeditationBaseData} = useContext(
-    MeditationBaseDataContext,
-  );
+  const {meditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
-  const [existingMeditationFilePathData, setExistingMeditationFilePathData] =
-    useState({} as MeditationFilePathData);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
   const timerRef = React.useRef(time);
   const {position, duration} = useProgress();
-  const [trackData, setTrackData] = useState({} as Track);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
@@ -125,21 +119,21 @@ const MeditationPlayer = ({
   }, []);
 
   const addTracks = async () => {
-    const tracks = makeTrackList();
-    setTracks(tracks);
-    await TrackPlayer.add(tracks);
+    const _tracks = makeTrackList();
+    setTracks(_tracks);
+    await TrackPlayer.add(_tracks);
   };
 
   const makeTrackList = () => {
-    const tracks = [];
-    tracks.push(convertMeditationToTrack(meditation));
+    const _tracks = [];
+    _tracks.push(convertMeditationToTrack(meditation));
 
     if (meditationBreathId) {
       const meditationBreath = meditationBaseData[meditationBreathId];
-      tracks.unshift(convertMeditationToTrack(meditationBreath));
+      _tracks.unshift(convertMeditationToTrack(meditationBreath));
     }
 
-    return tracks;
+    return _tracks;
   };
 
   const setCountDownTimer = () => {
