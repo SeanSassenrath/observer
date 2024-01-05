@@ -25,7 +25,6 @@ const AddMedsMatchingScreen = (props: Props) => {
   // };
 
   const chooseNavigator = () => {
-    console.log('meds fail in meds matching', medsFail);
     if (medsFail.length > 0) {
       navigation.navigate('UnrecognizedFiles', {
         medsFail: medsFail,
@@ -33,16 +32,6 @@ const AddMedsMatchingScreen = (props: Props) => {
     } else {
       navigation.navigate('AddMedsSuccess');
     }
-    // if (nextPage === 'AddMedsSuccess') {
-    //   navigation.navigate('AddMedsSuccess', {
-    //     medsSuccess: medsSuccess,
-    //     medsFail: medsFail,
-    //   });
-    // } else if (nextPage === 'AddMedsFix') {
-    //   navigation.navigate('AddMedsFix', {
-    //     medsFail: medsFail,
-    //   });
-    // }
   };
 
   useEffect(() => {

@@ -17,25 +17,15 @@ import {UserUid} from './contexts/userData';
 // Stack Navigation
 export type StackParamList = {
   AddMeditations: undefined;
-  AddMedsFix: AddMedsFailParams;
   AddMedsSuccess: undefined;
   AddMedsMatching: AddMedsMatchingParams;
-  Debug: undefined;
-  InitialUpload: undefined;
   SignIn: undefined;
-  Welcome: undefined;
   Meditation: MeditationParams;
   MeditationFinish: undefined;
   MeditationPlayer: MeditationParams;
   MeditationMatch: UnrecognizedFilesParams;
   TabNavigation: undefined;
-  AddFilesTutorial1: undefined;
-  AddFilesTutorial2: undefined;
-  AddFilesTutorial3: undefined;
-  AddFilesTutorial4: undefined;
   BetaAgreement: undefined;
-  OnboardingStep1: undefined;
-  OnboardingStep2: undefined;
   Profile: UserParams;
   UnrecognizedFiles: UnrecognizedFilesParams;
 };
@@ -47,12 +37,6 @@ interface MeditationParams {
 
 interface AddMedsMatchingParams {
   medsSuccess: MeditationBaseId[];
-  medsFail: UnknownFileData[];
-  nextPage: string;
-}
-
-// Delete this
-interface AddMedsFailParams {
   medsFail: UnknownFileData[];
 }
 
@@ -66,16 +50,7 @@ interface UserParams {
 
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
 type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
-type OnboardingStep1 = NativeStackScreenProps<
-  StackParamList,
-  'OnboardingStep1'
->;
-type OnboardingStep2 = NativeStackScreenProps<
-  StackParamList,
-  'OnboardingStep2'
->;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
-type AddMedsFix = NativeStackScreenProps<StackParamList, 'AddMedsFix'>;
 type AddMedsMatching = NativeStackScreenProps<
   StackParamList,
   'AddMedsMatching'
@@ -92,12 +67,7 @@ type MeditationMatch = NativeStackScreenProps<
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
-export type OnboardingStep1Prop = OnboardingStep1['navigation'];
-export type OnboardingStep2Prop = OnboardingStep2['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
-export type AddMedsFixProp = AddMedsFix['navigation'];
-export type AddMedsFixScreenNavigationProp = AddMedsFix['navigation'];
-export type AddMedsFixScreenRouteProp = AddMedsFix['route'];
 export type AddMedsMatchingProp = AddMedsMatching['navigation'];
 export type AddMedsMatchingScreenNavigationProp = AddMedsMatching['navigation'];
 export type AddMedsMatchingScreenRouteProp = AddMedsMatching['route'];

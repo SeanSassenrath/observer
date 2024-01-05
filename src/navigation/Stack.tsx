@@ -10,13 +10,9 @@ import MeditationScreen from '../screens/Meditation';
 import SignInScreen from '../screens/SignIn';
 import TabNavigator from './Tab';
 import {StackParamList} from '../types';
-import DebugScreen from '../screens/Debug';
 import UserContext from '../contexts/userData';
-import OnboardingStep1 from '../screens/OnboardingStep1';
-import OnboardingStep2 from '../screens/OnboardingStep2';
 import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
-import AddMeditationFixScreen from '../screens/AddMeditationsFix';
 import Profile from '../screens/Profile';
 import AddMedsMatchingScreen from '../screens/AddMedsMatching';
 import AddMedsSuccessScreen from '../screens/AddMedSuccess';
@@ -53,7 +49,8 @@ const StackNavigator = () => {
         if (
           previousRouteName !== currentRouteName &&
           (currentRouteName !== 'RNSScreen' ||
-            currentRouteName !== 'UIViewController')
+            currentRouteName !== 'UIViewController' ||
+            currentRouteName !== 'RCTModalHostViewController')
         ) {
           await analytics().logScreenView({
             screen_name: currentRouteName,
@@ -69,7 +66,6 @@ const StackNavigator = () => {
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
-        <Screen name="AddMedsFix" component={AddMeditationFixScreen} />
         <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
         <Screen name="AddMedsSuccess" component={AddMedsSuccessScreen} />
         <Screen name="TabNavigation" component={TabNavigator} />
@@ -77,9 +73,6 @@ const StackNavigator = () => {
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
-        <Screen name="Debug" component={DebugScreen} />
-        <Screen name="OnboardingStep1" component={OnboardingStep1} />
-        <Screen name="OnboardingStep2" component={OnboardingStep2} />
         <Screen name="Profile" component={Profile} />
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
       </Navigator>

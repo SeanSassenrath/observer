@@ -19,19 +19,6 @@ const AddMeditationsScreen = () => {
 
   const navigation = useNavigation();
 
-  const getNextPage = (_meditations: any, _unknownFiles: any) => {
-    const medKeys = Object.keys(_meditations);
-    const medKeysLength = medKeys && medKeys.length;
-
-    if (medKeysLength > 0) {
-      return 'AddMedsSuccess';
-    } else if (unknownFiles.length > 0) {
-      return 'AddMedsFix';
-    } else {
-      return 'Home';
-    }
-  };
-
   const onSkipPress = () => {
     // @ts-ignore
     navigation.navigate('TabNavigation', {screen: 'Home'});
@@ -45,12 +32,9 @@ const AddMeditationsScreen = () => {
       user,
     );
 
-    const nextPage = getNextPage(_meditations, _unknownFiles);
-
     navigation.navigate('AddMedsMatching', {
       medsSuccess: _meditations,
       medsFail: _unknownFiles,
-      nextPage,
     });
   };
 

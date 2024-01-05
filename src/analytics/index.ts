@@ -1,5 +1,5 @@
 import analytics from '@react-native-firebase/analytics';
-import { MeditationBaseId, MeditationName } from '../types';
+import {MeditationBaseId, MeditationName} from '../types';
 
 export enum Source {
   'APP_INITIALIZATION' = 'app_initialization',
@@ -22,27 +22,26 @@ export enum Noun {
 }
 
 interface MeditationPlayerPayload {
-  meditationName: MeditationName,
-  meditationBaseId: MeditationBaseId,
+  meditationName: MeditationName;
+  meditationBaseId: MeditationBaseId;
 }
 
 interface ThinkBoxPayload {
-  meditationName: MeditationName,
-  meditationBaseId: MeditationBaseId,
+  meditationName: MeditationName;
+  meditationBaseId: MeditationBaseId;
 }
 
 interface MeditationAddPayload {
-  [key: string]: string | number,
+  [key: string]: string | number;
 }
 
-type Payload = MeditationPlayerPayload |
-  MeditationAddPayload;
+type Payload = MeditationPlayerPayload | MeditationAddPayload;
 
 interface Event {
-  source: Source,
-  action: Action,
-  noun: Noun,
-  payload?: Payload,
+  source: Source;
+  action: Action;
+  noun: Noun;
+  payload?: Payload;
 }
 
 const sendEvent = async (event: Event) => {
@@ -50,8 +49,8 @@ const sendEvent = async (event: Event) => {
     action: event.action,
     noun: event.noun,
     ...event.payload,
-  })
-}
+  });
+};
 
 export const meditationPlayerSendEvent = (
   action: Action,
@@ -63,8 +62,8 @@ export const meditationPlayerSendEvent = (
     action,
     noun,
     payload,
-  })
-}
+  });
+};
 
 export const thinkboxSendEvent = (
   action: Action,
@@ -76,8 +75,8 @@ export const thinkboxSendEvent = (
     action,
     noun,
     payload,
-  })
-}
+  });
+};
 
 export const meditationAddSendEvent = (
   action: Action,
@@ -89,16 +88,13 @@ export const meditationAddSendEvent = (
     action,
     noun,
     payload,
-  })
-}
+  });
+};
 
-export const appInitializationSendEvent = (
-  action: Action,
-  noun: Noun,
-) => {
+export const appInitializationSendEvent = (action: Action, noun: Noun) => {
   sendEvent({
     source: Source.APP_INITIALIZATION,
     action,
     noun,
-  })
-}
+  });
+};

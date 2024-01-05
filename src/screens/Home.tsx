@@ -113,19 +113,6 @@ const HomeScreen = () => {
       });
   };
 
-  const getNextPage = (_meditations: any, _unknownFiles: any) => {
-    const medKeys = Object.keys(_meditations);
-    const medKeysLength = medKeys && medKeys.length;
-
-    if (medKeysLength > 0) {
-      return 'AddMedsSuccess';
-    } else if (unknownFiles.length > 0) {
-      return 'AddMedsFix';
-    } else {
-      return 'Home';
-    }
-  };
-
   const onAddMeditationsPress = async () => {
     const {_meditations, _unknownFiles} = await onAddMeditations(
       meditationFilePaths,
@@ -134,31 +121,11 @@ const HomeScreen = () => {
       user,
     );
 
-    const nextPage = getNextPage(_meditations, _unknownFiles);
-
     navigation.navigate('AddMedsMatching', {
       medsSuccess: _meditations,
       medsFail: _unknownFiles,
-      nextPage,
     });
   };
-
-  // const onAddMeditationsPress = async () => {
-  //   const {_meditations, _unknownFiles} = await onAddMeditations(
-  //     meditationFilePaths,
-  //     setMeditationFilePaths,
-  //     setUnknownFiles,
-  //     user,
-  //   );
-
-  //   if (_unknownFiles.length) {
-  //     navigation.navigate('AddMedsFix');
-  //   } else if (_meditations) {
-  //     setMeditationBaseData(_meditations);
-  //     //@ts-ignore
-  //     navigation.navigate('TabNavigation', {screen: 'Home'});
-  //   }
-  // };
 
   const onMeditationPress = (
     meditationId: MeditationId,
