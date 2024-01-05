@@ -379,7 +379,6 @@ const themedStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 40,
     paddingTop: 60,
-    marginBottom: 20,
     backgroundColor: 'transparent',
   },
   rowContainer: {
