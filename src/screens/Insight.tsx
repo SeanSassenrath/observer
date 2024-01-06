@@ -14,7 +14,6 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
 import MedNotesPreview from '../components/MedNotesPreview';
 import {MeditationBase, MeditationInstance} from '../types';
-import LinearGradient from 'react-native-linear-gradient';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import {
@@ -32,7 +31,6 @@ const InsightScreen = () => {
   const {meditationHistory, setMeditationHistory} = useContext(
     MeditationHistoryContext,
   );
-  // const [lastBatchDocument, setLastBatchDocument] = useState();
   const [hasNoMoreHistory, setHasNoMoreHistory] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [selectedMeditation, setSelectedMeditation] = useState(
@@ -57,20 +55,27 @@ const InsightScreen = () => {
 
     setMeditationHistory({
       meditationInstances: _meditationHistory.meditationInstances,
-      meditationCursor: _meditationHistory.lastDocument,
+      lastDocument: _meditationHistory.lastDocument,
     });
   };
 
   const fetchMoreMeditationHistory = async () => {
-    const _meditationHistory = await fbGetMoreMeditationHistory(user.uid);
+    const _meditationHistory = await fbGetMoreMeditationHistory(
+      user.uid,
+      meditationHistory.lastDocument,
+    );
 
-    setMeditationHistory({
-      meditationInstances: [
-        ...(meditationHistory as MeditationInstance[]),
-        ..._meditationHistory.meditationInstances,
-      ],
-      meditationCursor: _meditationHistory.lastDocument,
-    });
+    if (_meditationHistory.meditationInstances.length <= 0) {
+      setHasNoMoreHistory(true);
+    } else {
+      setMeditationHistory({
+        meditationInstances: [
+          ...(meditationHistory.meditationInstances as MeditationInstance[]),
+          ..._meditationHistory.meditationInstances,
+        ],
+        lastDocument: _meditationHistory.lastDocument,
+      });
+    }
   };
 
   useEffect(() => {

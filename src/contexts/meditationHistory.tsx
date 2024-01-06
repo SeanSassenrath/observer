@@ -5,7 +5,7 @@ import {MeditationInstance} from '../types';
 
 export interface MeditationHistoryData {
   meditationInstances?: MeditationInstance[];
-  meditationCursor?: FirebaseFirestoreTypes.DocumentData;
+  lastDocument?: FirebaseFirestoreTypes.DocumentData;
 }
 
 export interface MeditationHistoryContext {
