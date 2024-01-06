@@ -19,6 +19,7 @@ export type StackParamList = {
   AddMeditations: undefined;
   AddMedsSuccess: undefined;
   AddMedsMatching: AddMedsMatchingParams;
+  Feedback: undefined;
   SignIn: undefined;
   Meditation: MeditationParams;
   MeditationFinish: undefined;

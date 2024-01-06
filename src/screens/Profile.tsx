@@ -54,6 +54,10 @@ const Profile = (props: Props) => {
     navigation.goBack();
   };
 
+  const onFeedbackPress = () => {
+    navigation.navigate('Feedback');
+  };
+
   const onSignOut = async () => {
     const isSuccessfulSignOut = await signOut();
     if (isSuccessfulSignOut) {
@@ -111,8 +115,13 @@ const Profile = (props: Props) => {
         </View> */}
       </View>
       <View style={styles.bottomContainer}>
+        <View>
+          <Button style={styles.feedbackButton} onPress={onFeedbackPress}>
+            Send Feedback
+          </Button>
+        </View>
         <Button
-          status="danger"
+          status="basic"
           appearance="outline"
           onPress={onSignOut}
           style={styles.signOutButton}>
@@ -132,9 +141,13 @@ const iconStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   bottomContainer: {
-    flex: 1,
-    marginBottom: 40,
+    flex: 2,
+    marginBottom: 20,
     paddingHorizontal: 20,
+  },
+  feedbackButton: {
+    borderRadius: 50,
+    marginBottom: 20,
   },
   rootContainer: {
     flex: 1,
@@ -151,13 +164,8 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     marginBottom: 20,
   },
-  popoverContainer: {
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-  },
   main: {
-    flex: 8,
+    flex: 7,
     paddingHorizontal: 20,
   },
   profileHeader: {

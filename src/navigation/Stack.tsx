@@ -18,6 +18,7 @@ import AddMedsMatchingScreen from '../screens/AddMedsMatching';
 import AddMedsSuccessScreen from '../screens/AddMedSuccess';
 import UnrecognizedFilesScreen from '../screens/UnrecognizedFiles';
 import MeditationMatchScreen from '../screens/MeditationMatch';
+import FeedbackScreen from '../screens/Feedback';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -75,6 +76,7 @@ const StackNavigator = () => {
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
         <Screen name="Profile" component={Profile} />
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
+        <Screen name="Feedback" component={FeedbackScreen} />
       </Navigator>
     </NavigationContainer>
   );
