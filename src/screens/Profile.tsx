@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Icon, Layout, Popover, Text} from '@ui-kitten/components';
+import {Button, Icon, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
@@ -23,15 +23,6 @@ const BackIcon = (props: any) => (
   />
 );
 
-const MoreMenuIcon = (props: any) => (
-  <Icon
-    {...props}
-    style={iconStyles.verticalIcon}
-    fill={brightWhite}
-    name="more-vertical-outline"
-  />
-);
-
 interface Props {
   navigation: ProfileScreenNavigationProp;
   route: ProfileScreenRouteProp;
@@ -46,7 +37,6 @@ const Profile = (props: Props) => {
   const {user, setUser} = useContext(UserContext);
 
   const [userProfile, setUserProfile] = useState({} as User);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
@@ -73,29 +63,12 @@ const Profile = (props: Props) => {
     }
   };
 
-  const renderMoreMenuButton = () => (
-    <Pressable onPress={() => setIsMoreMenuOpen(true)}>
-      <MoreMenuIcon />
-    </Pressable>
-  );
-
   return (
     <Layout level="4" style={styles.rootContainer}>
       <View style={styles.topBar}>
         <Pressable onPress={onBackPress}>
           <BackIcon />
         </Pressable>
-        <Popover
-          anchor={renderMoreMenuButton}
-          visible={isMoreMenuOpen}
-          placement={'left'}
-          onBackdropPress={() => setIsMoreMenuOpen(false)}>
-          <View style={styles.popoverContainer}>
-            <Pressable onPress={onSignOut}>
-              <Text category="s1">Sign Out</Text>
-            </Pressable>
-          </View>
-        </Popover>
       </View>
       <View style={styles.main}>
         <View style={styles.profileHeader}>
@@ -137,6 +110,15 @@ const Profile = (props: Props) => {
           <Wave />
         </View> */}
       </View>
+      <View style={styles.bottomContainer}>
+        <Button
+          status="danger"
+          appearance="outline"
+          onPress={onSignOut}
+          style={styles.signOutButton}>
+          Sign Out
+        </Button>
+      </View>
     </Layout>
   );
 };
@@ -146,13 +128,14 @@ const iconStyles = StyleSheet.create({
     height: 40,
     width: 40,
   },
-  verticalIcon: {
-    height: 34,
-    width: 34,
-  },
 });
 
 const styles = StyleSheet.create({
+  bottomContainer: {
+    flex: 1,
+    marginBottom: 40,
+    paddingHorizontal: 20,
+  },
   rootContainer: {
     flex: 1,
   },
@@ -174,7 +157,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
   main: {
-    flex: 9,
+    flex: 8,
     paddingHorizontal: 20,
   },
   profileHeader: {
@@ -221,6 +204,9 @@ const styles = StyleSheet.create({
   },
   profileMetaSectionLabel: {
     marginBottom: 4,
+  },
+  signOutButton: {
+    borderRadius: 50,
   },
   waveContainer: {
     overflow: 'hidden',
