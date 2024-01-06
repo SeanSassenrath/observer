@@ -45,6 +45,7 @@
 		B7B6BCEE8A61BDD5AEDE6B81 /* Pods_Unlimited_UnlimitedTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unlimited_UnlimitedTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F9ED15CFFEA49B7A52F20156 /* Pods_Unlimited.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unlimited.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF91AE822B49B4B000B5C7DB /* Unlimited.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Unlimited.entitlements; path = Unlimited/Unlimited.entitlements; sourceTree = "<group>"; };
 		FFB206182B1BAD8F0027947C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../observer_old/ios/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +89,7 @@
 		13B07FAE1A68108700A75B9A /* Unlimited */ = {
 			isa = PBXGroup;
 			children = (
+				FF91AE822B49B4B000B5C7DB /* Unlimited.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -519,6 +521,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Unlimited/Unlimited.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 63L9X6ZF6Y;
 				ENABLE_BITCODE = NO;
@@ -549,6 +552,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Unlimited/Unlimited.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 63L9X6ZF6Y;
 				INFOPLIST_FILE = Unlimited/Info.plist;
