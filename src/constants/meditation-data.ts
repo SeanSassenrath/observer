@@ -708,7 +708,7 @@ export const foundationalMap = {
     id: placeholder,
     groupName: MeditationGroupName.Foundational,
     meditationBaseId: FoundationalBaseKeys.MedRecondition,
-    name: 'Generous Present Moment',
+    name: 'Reconditioning the Body to a New Mind',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
