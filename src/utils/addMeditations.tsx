@@ -1,5 +1,4 @@
 import {isEmpty} from 'lodash';
-import Toast from 'react-native-toast-message';
 import DocumentPicker from 'react-native-document-picker';
 
 import {
@@ -20,7 +19,6 @@ export const onAddMeditations = async (
   >,
   setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
-  hideSuccessToast?: boolean,
 ) => {
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
   let meditationBaseData = {} as any;
