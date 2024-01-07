@@ -414,9 +414,9 @@ const themedStyles = StyleSheet.create({
   userIconContainer: {
     alignItems: 'center',
     borderRadius: 50,
-    height: 34,
+    height: 40,
     justifyContent: 'center',
-    width: 34,
+    width: 40,
   },
   userIcon: {
     height: 25,
