@@ -2,6 +2,9 @@ import {useNavigation} from '@react-navigation/native';
 import {Button, Icon, Input, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
+import storage from '@react-native-firebase/storage';
+import Toast from 'react-native-toast-message';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {signOut} from '../fb/auth';
@@ -93,6 +96,58 @@ const Profile = (props: Props) => {
     });
   };
 
+  //https://elazizi.com/posts/how-to-build-an-image-picker-in-react-native/
+  const onAvatarPress = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      cropperCircleOverlay: true,
+    }).then(async image => {
+      const filePathArray = image.path.split('/');
+      const fileName = filePathArray.slice(-1);
+      const refString = `${user.uid}/profilePicture/${fileName}`;
+
+      const ref = storage().ref(refString);
+
+      Toast.show({
+        type: 'info',
+        text1: 'Adding photo',
+        text2: 'Please wait',
+        position: 'bottom',
+        bottomOffset: 100,
+        autoHide: false,
+      });
+
+      await ref.putFile(image.path);
+
+      const url = await ref.getDownloadURL();
+
+      await fbUpdateUser(user.uid, {
+        'profile.photoURL': url,
+      });
+
+      setUser({
+        ...user,
+        profile: {
+          ...user.profile,
+          photoURL: url,
+        },
+      });
+
+      Toast.hide();
+
+      Toast.show({
+        type: 'success',
+        text1: 'Photo added',
+        text2: 'Nicely done!',
+        position: 'bottom',
+        bottomOffset: 100,
+        visibilityTime: 3000,
+      });
+    });
+  };
+
   return (
     <Layout level="4" style={styles.rootContainer}>
       <View style={styles.topBar}>
@@ -104,12 +159,16 @@ const Profile = (props: Props) => {
         <View style={styles.profileHeader}>
           <View style={styles.avatarContainer}>
             {userProfile?.profile?.photoURL ? (
-              <Image
-                source={{uri: userProfile?.profile?.photoURL}}
-                style={styles.avatar}
-              />
+              <Pressable onPress={onAvatarPress}>
+                <Image
+                  source={{uri: userProfile?.profile?.photoURL}}
+                  style={styles.avatar}
+                />
+              </Pressable>
             ) : (
-              <UserIcon />
+              <Pressable onPress={onAvatarPress}>
+                <UserIcon />
+              </Pressable>
             )}
           </View>
           <View style={styles.nameContainer}>
