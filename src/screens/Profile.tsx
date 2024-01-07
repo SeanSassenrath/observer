@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Button, Icon, Layout, Text} from '@ui-kitten/components';
+import {Button, Icon, Input, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
@@ -11,8 +11,10 @@ import {
   getUserProfile,
 } from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
+import {brightWhite} from '../constants/colors';
+import {fbUpdateUser} from '../fb/user';
 
-const brightWhite = '#fcfcfc';
+const EMPTY_STRING = '';
 
 const BackIcon = (props: any) => (
   <Icon
@@ -21,6 +23,10 @@ const BackIcon = (props: any) => (
     fill={brightWhite}
     name="arrow-back-outline"
   />
+);
+
+const UserIcon = () => (
+  <Icon style={iconStyles.userIcon} fill={brightWhite} name="person" />
 );
 
 interface Props {
@@ -37,12 +43,14 @@ const Profile = (props: Props) => {
   const {user, setUser} = useContext(UserContext);
 
   const [userProfile, setUserProfile] = useState({} as User);
+  const [name, setName] = useState(EMPTY_STRING);
 
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
 
     if (_userProfile) {
       setUserProfile(_userProfile);
+      setName(_userProfile.profile.displayName);
     }
   }, [user, userId, userProfile]);
 
@@ -67,6 +75,24 @@ const Profile = (props: Props) => {
     }
   };
 
+  const onChangeText = (updatedName: string) => {
+    setName(updatedName);
+  };
+
+  const onBlur = async () => {
+    await fbUpdateUser(user.uid, {
+      'profile.displayName': name,
+    });
+
+    setUser({
+      ...user,
+      profile: {
+        ...user.profile,
+        displayName: name,
+      },
+    });
+  };
+
   return (
     <Layout level="4" style={styles.rootContainer}>
       <View style={styles.topBar}>
@@ -82,18 +108,22 @@ const Profile = (props: Props) => {
                 source={{uri: userProfile?.profile?.photoURL}}
                 style={styles.avatar}
               />
-            ) : null}
+            ) : (
+              <UserIcon />
+            )}
           </View>
-          <View style={styles.profileMetaContainer}>
-            <View style={styles.nameContainer}>
-              <Text style={styles.firstName} category="h5">
-                {userProfile?.profile?.firstName}
-              </Text>
-              <Text category="h5">{userProfile?.profile?.lastName}</Text>
-            </View>
-            {/* <View>
-                <Text category="s2">Joined: 10/21/20</Text>
-              </View> */}
+          <View style={styles.nameContainer}>
+            <Input
+              value={name}
+              placeholder="Display Name"
+              onBlur={onBlur}
+              onChangeText={onChangeText}
+              style={styles.input}
+              textStyle={styles.inputText}
+            />
+            <Text category="s2" style={styles.nameStatus}>
+              Press the name to update
+            </Text>
           </View>
         </View>
         <View style={styles.profileMeditationsContainer}>
@@ -137,6 +167,10 @@ const iconStyles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  userIcon: {
+    height: 60,
+    width: 60,
+  },
 });
 
 const styles = StyleSheet.create({
@@ -149,6 +183,23 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 20,
   },
+  input: {
+    borderRadius: 10,
+    borderColor: 'transparent',
+    paddingVertical: 10,
+    width: '100%',
+  },
+  inputText: {
+    paddingVertical: 8,
+    fontSize: 18,
+    borderRadius: 20,
+  },
+  nameContainer: {
+    flex: 1,
+  },
+  nameStatus: {
+    opacity: 0.3,
+  },
   rootContainer: {
     flex: 1,
   },
@@ -160,7 +211,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     paddingTop: 40,
     marginBottom: 20,
   },
@@ -186,16 +237,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 100,
-  },
-  profileMetaContainer: {
-    flexDirection: 'column',
-  },
-  nameContainer: {
-    flexDirection: 'column',
-    marginBottom: 10,
-  },
-  firstName: {
-    marginBottom: 4,
   },
   profileMeditationsContainer: {
     flexDirection: 'row',
