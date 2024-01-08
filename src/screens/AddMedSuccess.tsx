@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Layout, Icon, Text, useStyleSheet} from '@ui-kitten/components';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
 import {successGreen} from '../constants/colors';
+import {makeMeditationBaseData} from '../utils/meditation';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const SuccessIcon = (props: any) => (
   <Icon
@@ -24,9 +26,21 @@ const iconStyles = StyleSheet.create({
 });
 
 const AddMedsSuccessScreen = () => {
+  const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const styles = useStyleSheet(themedStyles);
 
   const navigation = useNavigation();
+
+  const addMeditationsToContext = async () => {
+    const _meditationBaseData = await makeMeditationBaseData();
+    if (_meditationBaseData && Object.keys(_meditationBaseData).length > 0) {
+      setMeditationBaseData(_meditationBaseData);
+    }
+  };
+
+  useEffect(() => {
+    addMeditationsToContext();
+  }, []);
 
   const onContinuePress = async () => {
     //@ts-ignore

@@ -32,8 +32,6 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import {makeMeditationBaseData} from '../utils/meditation';
-import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const EMPTY_SEARCH = '';
 const EMPTY_ID = '';
@@ -50,9 +48,6 @@ const MeditationMatchScreen = (props: Props) => {
 
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
-  );
-  const {meditationBaseData, setMeditationBaseData} = useContext(
-    MeditationBaseDataContext,
   );
 
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
@@ -105,13 +100,6 @@ const MeditationMatchScreen = (props: Props) => {
       setMeditationFilePaths(updatedMeditations);
 
       if (lastFile && lastFile.uri === currentFile.uri) {
-        const _meditationBaseData = await makeMeditationBaseData();
-        if (
-          _meditationBaseData &&
-          Object.keys(_meditationBaseData).length > 0
-        ) {
-          setMeditationBaseData(_meditationBaseData);
-        }
         navigation.navigate('AddMedsSuccess');
       } else {
         Toast.show({
