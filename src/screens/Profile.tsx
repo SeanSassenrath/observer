@@ -28,6 +28,10 @@ const BackIcon = (props: any) => (
   />
 );
 
+const EditIcon = () => (
+  <Icon style={iconStyles.editIcon} fill={brightWhite} name="edit-outline" />
+);
+
 const UserIcon = () => (
   <Icon style={iconStyles.userIcon} fill={brightWhite} name="person" />
 );
@@ -159,17 +163,18 @@ const Profile = (props: Props) => {
         <View style={styles.profileHeader}>
           <View style={styles.avatarContainer}>
             {userProfile?.profile?.photoURL ? (
-              <Pressable onPress={onAvatarPress}>
-                <Image
-                  source={{uri: userProfile?.profile?.photoURL}}
-                  style={styles.avatar}
-                />
-              </Pressable>
+              <Image
+                source={{uri: userProfile?.profile?.photoURL}}
+                style={styles.avatar}
+              />
             ) : (
-              <Pressable onPress={onAvatarPress}>
-                <UserIcon />
-              </Pressable>
+              <UserIcon />
             )}
+            <Pressable onPress={onAvatarPress} style={styles.editIconContainer}>
+              <View>
+                <EditIcon />
+              </View>
+            </Pressable>
           </View>
           <View style={styles.nameContainer}>
             <Input
@@ -180,9 +185,6 @@ const Profile = (props: Props) => {
               style={styles.input}
               textStyle={styles.inputText}
             />
-            <Text category="s2" style={styles.nameStatus}>
-              Press the name to update
-            </Text>
           </View>
         </View>
         <View style={styles.profileMeditationsContainer}>
@@ -226,6 +228,10 @@ const iconStyles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  editIcon: {
+    height: 40,
+    width: 40,
+  },
   userIcon: {
     height: 60,
     width: 60,
@@ -237,6 +243,15 @@ const styles = StyleSheet.create({
     flex: 2,
     marginBottom: 20,
     paddingHorizontal: 20,
+  },
+  editIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 100,
+    height: 100,
+    position: 'absolute',
+    width: 100,
+    backgroundColor: 'rgba(48,55,75,0.6)',
   },
   feedbackButton: {
     borderRadius: 50,
