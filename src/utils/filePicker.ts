@@ -81,18 +81,18 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-    // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
-    //   return {
-    //     [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
-    // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
-    //   return {
-    //     [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
+  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
+    return {
+      [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
+    return {
+      [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
   } else if (fileSize === DailyMeditationSizes.MedMorning) {
     return {
       [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
@@ -111,12 +111,12 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-    // } else if (fileSize === FoundationalSizes.MedPresentMoment) {
-    //   return {
-    //     [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
+  } else if (fileSize === FoundationalSizes.MedPresentMoment) {
+    return {
+      [FoundationalBaseKeys.MedPresentMoment]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
   } else if (fileSize === FoundationalSizes.MedRecondition) {
     return {
       [FoundationalBaseKeys.MedRecondition]: makeRelativeFilePath(
@@ -129,13 +129,31 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
+  } else if (fileSize === GeneratingSizes.MedGeneratingChange2) {
+    return {
+      [GeneratingBaseKeys.MedGeneratingChange]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
   } else if (fileSize === GeneratingSizes.MedGeneratingFlow) {
     return {
       [GeneratingBaseKeys.MedGeneratingFlow]: makeRelativeFilePath(
         file.fileCopyUri,
       ),
     };
+  } else if (fileSize === GeneratingSizes.MedGeneratingFlow2) {
+    return {
+      [GeneratingBaseKeys.MedGeneratingFlow]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
   } else if (fileSize === OtherSizes.MedLoveLifeYouLove) {
+    return {
+      [OtherBaseKeys.MedLoveLifeYouLove]: makeRelativeFilePath(
+        file.fileCopyUri,
+      ),
+    };
+  } else if (fileSize === OtherSizes.MedLoveLifeYouLove2) {
     return {
       [OtherBaseKeys.MedLoveLifeYouLove]: makeRelativeFilePath(
         file.fileCopyUri,
@@ -152,9 +170,23 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         [BotecBaseKeys.MedBotec1]: makeRelativeFilePath(file.fileCopyUri),
       };
     }
+    case BotecStringSizes.MedBotec1Updated: {
+      return {
+        [BotecBaseKeys.MedBotec1Updated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case BotecStringSizes.MedBotec2: {
       return {
         [BotecBaseKeys.MedBotec2]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    }
+    case BotecStringSizes.MedBotec2Updated: {
+      return {
+        [BotecBaseKeys.MedBotec2Updated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
       };
     }
     case BotecStringSizes.MedBotec3: {
@@ -162,12 +194,29 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         [BotecBaseKeys.MedBotec3]: makeRelativeFilePath(file.fileCopyUri),
       };
     }
+    case BotecStringSizes.MedBotec3Updated: {
+      return {
+        [BotecBaseKeys.MedBotec3Updated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case BotecStringSizes.MedBotec4: {
       return {
         [BotecBaseKeys.MedBotec4]: makeRelativeFilePath(file.fileCopyUri),
       };
     }
+    case BotecStringSizes.MedBotec4s2: {
+      return {
+        [BotecBaseKeys.MedBotec4]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    }
     case BotecStringSizes.MedBotec5: {
+      return {
+        [BotecBaseKeys.MedBotec5]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    }
+    case BotecStringSizes.MedBotec5s2: {
       return {
         [BotecBaseKeys.MedBotec5]: makeRelativeFilePath(file.fileCopyUri),
       };
@@ -178,6 +227,11 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
     }
     case BotecStringSizes.MedBotec6s2: {
+      return {
+        [BotecBaseKeys.MedBotec6]: makeRelativeFilePath(file.fileCopyUri),
+      };
+    }
+    case BotecStringSizes.MedBotec6s3: {
       return {
         [BotecBaseKeys.MedBotec6]: makeRelativeFilePath(file.fileCopyUri),
       };
@@ -282,6 +336,20 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case DailyMeditationStringSizes.MedEveningUpdated3: {
+      return {
+        [DailyMeditationBaseKeys.MedEveningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case DailyMeditationStringSizes.MedEveningUpdated4: {
+      return {
+        [DailyMeditationBaseKeys.MedEveningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
 
     /* Generating Series */
 
@@ -292,7 +360,21 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case GeneratingStringSizes.MedGeneratingAbundance2: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingAbundance]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case GeneratingStringSizes.MedGeneratingGratitude: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingGratitude]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case GeneratingStringSizes.MedGeneratingGratitude2: {
       return {
         [GeneratingBaseKeys.MedGeneratingGratitude]: makeRelativeFilePath(
           file.fileCopyUri,
@@ -313,6 +395,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case GeneratingStringSizes.MedGeneratingEmpowerment3: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingEmpowerment]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case GeneratingStringSizes.MedGeneratingInspiration: {
       return {
         [GeneratingBaseKeys.MedGeneratingInspiration]: makeRelativeFilePath(
@@ -320,7 +409,21 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case GeneratingStringSizes.MedGeneratingInspiration2: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingInspiration]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case GeneratingStringSizes.MedGeneratingJoy: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingJoy]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case GeneratingStringSizes.MedGeneratingJoy2: {
       return {
         [GeneratingBaseKeys.MedGeneratingJoy]: makeRelativeFilePath(
           file.fileCopyUri,
@@ -430,6 +533,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
     }
     case FoundationalStringSizes.MedNewPotentialsUpdated: {
+      return {
+        [FoundationalBaseKeys.MedNewPotentialsUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case FoundationalStringSizes.MedNewPotentialsUpdated2: {
       return {
         [FoundationalBaseKeys.MedNewPotentialsUpdated]: makeRelativeFilePath(
           file.fileCopyUri,
@@ -734,6 +844,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case OtherStringSizes.MedChangingBoxesSv: {
+      return {
+        [OtherBaseKeys.MedChangingBoxesSv]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case OtherStringSizes.MedGoLove: {
       return {
         [OtherBaseKeys.MedGoLove]: makeRelativeFilePath(file.fileCopyUri),
@@ -829,6 +946,20 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
     case OtherStringSizes.MedFallingIntoLoveBody: {
       return {
         [OtherBaseKeys.MedFallingIntoLoveBody]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case OtherStringSizes.MedTuneInWIthYourHeart: {
+      return {
+        [OtherBaseKeys.MedTuneInWithYourHeart]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case OtherStringSizes.MedCenterOfTheMagnet: {
+      return {
+        [OtherBaseKeys.MedCenterOfTheMagnet]: makeRelativeFilePath(
           file.fileCopyUri,
         ),
       };

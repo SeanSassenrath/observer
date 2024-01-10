@@ -21,8 +21,11 @@ export enum MeditationGroupName {
 
 export enum BotecBaseKeys {
   MedBotec1 = 'm-botec-1',
+  MedBotec1Updated = 'm-botec-1-updated',
   MedBotec2 = 'm-botec-2',
+  MedBotec2Updated = 'm-botec-2-updated',
   MedBotec3 = 'm-botec-3',
+  MedBotec3Updated = 'm-botec-3-updated',
   MedBotec4 = 'm-botec-4',
   MedBotec5 = 'm-botec-5',
   MedBotec6 = 'm-botec-6',
@@ -34,10 +37,15 @@ export enum BotecBaseKeys {
 
 export enum BotecSizes {
   MedBotec1 = 61719924,
+  MedBotec1Updated = 46805906,
   MedBotec2 = 69705557,
+  MedBotec2Updated = 48109982,
   MedBotec3 = 77717479,
+  MedBotec3Updated = 52464670,
   MedBotec4 = 93864414,
+  MedBotec4s2 = 63072459,
   MedBotec5 = 104215154,
+  MedBotec5s2 = 68575709,
   MedBotec6 = 110108828,
   MedBotec6s2 = 73078110,
   MedBotec7 = 107656059,
@@ -53,12 +61,18 @@ export enum BotecSizes {
 
 export enum BotecStringSizes {
   MedBotec1 = '61719',
+  MedBotec1Updated = '46805',
   MedBotec2 = '69705',
+  MedBotec2Updated = '48109',
   MedBotec3 = '77717',
+  MedBotec3Updated = '52464',
   MedBotec4 = '93864',
+  MedBotec4s2 = '63072',
   MedBotec5 = '10421',
+  MedBotec5s2 = '68575',
   MedBotec6 = '11010',
   MedBotec6s2 = '73078',
+  MedBotec6s3 = '93829',
   MedBotec7 = '10765',
   MedBotec7s2 = '72338',
   MedBotec8 = '13596',
@@ -82,6 +96,17 @@ export const botecMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
+  [BotecBaseKeys.MedBotec1Updated]: {
+    artist,
+    backgroundImage: require('../assets/bec-1.jpg'),
+    formattedDuration: '48',
+    id: placeholder,
+    groupName: MeditationGroupName.BlessingEnergyCenter,
+    meditationBaseId: BotecBaseKeys.MedBotec1Updated,
+    name: 'Blessing of the Energy Centers 01 - Updated',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
   [BotecBaseKeys.MedBotec2]: {
     artist,
     backgroundImage: require('../assets/bec-2.jpg'),
@@ -93,6 +118,17 @@ export const botecMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
+  [BotecBaseKeys.MedBotec2Updated]: {
+    artist,
+    backgroundImage: require('../assets/bec-2.jpg'),
+    formattedDuration: '49',
+    id: placeholder,
+    groupName: MeditationGroupName.BlessingEnergyCenter,
+    meditationBaseId: BotecBaseKeys.MedBotec2Updated,
+    name: 'Blessing of the Energy Centers 02 - Updated',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
   [BotecBaseKeys.MedBotec3]: {
     artist,
     backgroundImage: require('../assets/bec-3.jpg'),
@@ -101,6 +137,17 @@ export const botecMap = {
     groupName: MeditationGroupName.BlessingEnergyCenter,
     meditationBaseId: BotecBaseKeys.MedBotec3,
     name: 'Blessing of the Energy Centers 03',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [BotecBaseKeys.MedBotec3Updated]: {
+    artist,
+    backgroundImage: require('../assets/bec-3.jpg'),
+    formattedDuration: '54',
+    id: placeholder,
+    groupName: MeditationGroupName.BlessingEnergyCenter,
+    meditationBaseId: BotecBaseKeys.MedBotec3Updated,
+    name: 'Blessing of the Energy Centers 03 - Updated',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -257,6 +304,8 @@ export enum DailyMeditationSizes {
   MedEvening2 = 29178857,
   MedEveningUpdated = 29178857,
   MedEveningUpdated2 = 56234919,
+  MedEveningUpdated3 = 88207387,
+  MedEveningUpdated4 = 77225548,
 }
 
 export enum DailyMeditationStringSizes {
@@ -268,6 +317,8 @@ export enum DailyMeditationStringSizes {
   MedEvening2 = '22604',
   MedEveningUpdated = '29178',
   MedEveningUpdated2 = '56234',
+  MedEveningUpdated3 = '88207',
+  MedEveningUpdated4 = '77225',
 }
 
 export const dailyMeditationsMap = {
@@ -330,24 +381,38 @@ export enum GeneratingBaseKeys {
 
 export enum GeneratingSizes {
   MedGeneratingAbundance = 86671093,
+  MedGeneratingAbundance2 = 58213320,
   MedGeneratingFlow = 14599092,
+  MedGeneratingFlow2 = 36484250,
   MedGeneratingGratitude = 14594274,
+  MedGeneratingGratitude2 = 36493475,
   MedGeneratingEmpowerment = 14596134,
   MedGeneratingEmpowerment2 = 14578838,
+  MedGeneratingEmpowerment3 = 36498782,
   MedGeneratingChange = 14599015,
+  MedGeneratingChange2 = 36503450,
   MedGeneratingInspiration = 15099669,
+  MedGeneratingInspiration2 = 37713033,
   MedGeneratingJoy = 14593178,
+  MedGeneratingJoy2 = 36479295,
 }
 
 export enum GeneratingStringSizes {
   MedGeneratingAbundance = '86671',
+  MedGeneratingAbundance2 = '58213',
   MedGeneratingFlow = '14599',
+  MedGeneratingFlow2 = '36484',
   MedGeneratingGratitude = '14594',
+  MedGeneratingGratitude2 = '36493',
   MedGeneratingEmpowerment = '14596',
   MedGeneratingEmpowerment2 = '14578',
+  MedGeneratingEmpowerment3 = '36498',
   MedGeneratingChange = '14599',
+  MedGeneratingChange2 = '36503',
   MedGeneratingInspiration = '15099',
+  MedGeneratingInspiration2 = '37713',
   MedGeneratingJoy = '14593',
+  MedGeneratingJoy2 = '36479',
 }
 
 export const generatingMap = {
@@ -644,6 +709,7 @@ export enum FoundationalBaseKeys {
 
 export enum FoundationalSizes {
   MedNewPotentials = 56004113,
+  MedNewPotentials2 = 46742444,
   MedNewPotentialsUpdated = 109548649,
   MedPresentMoment = 68710984,
   MedPresentMoment2 = 45584079,
@@ -658,6 +724,7 @@ export enum FoundationalStringSizes {
   MedNewPotentials = '96748',
   MedNewPotentials2 = '56004113',
   MedNewPotentialsUpdated = '17014',
+  MedNewPotentialsUpdated2 = '10954',
   MedPresentMoment = '68710984',
   MedPresentMoment2 = '45584',
   MedPresentMoment3 = '45619',
@@ -1089,6 +1156,7 @@ export const unlockedMap = {
 export enum OtherBaseKeys {
   MedAlchemist = 'm-alchemist',
   MedChangingBoxes = 'm-changing-boxes',
+  MedChangingBoxesSv = 'm-changing-boxes-sv',
   MedGoLove = 'm-go-love',
   MedHigherLoveCouples = 'm-higher-love-couples',
   MedLoveLifeYouLove = 'm-love-life-you-love',
@@ -1100,6 +1168,8 @@ export enum OtherBaseKeys {
   MedPinealGlandLong = 'm-pineal-gland-long',
   MedPinealGlandShort = 'm-pineal-gland-short',
   MedFallingIntoLoveBody = 'm-falling-into-love-body',
+  MedTuneInWithYourHeart = 'm-tune-in-with-your-heart',
+  MedCenterOfTheMagnet = 'm-center-of-the-magnet',
 }
 
 export enum OtherSizes {
@@ -1112,6 +1182,7 @@ export enum OtherSizes {
   MedGoLove3 = 22640150,
   MedHigherLoveCouples = 78649067,
   MedLoveLifeYouLove = 74235672,
+  MedLoveLifeYouLove2 = 29873657,
   MedTurningYourLoveInward = 30255341,
   MedTurningYourLoveInward2 = 19411984,
   MedHeartBrainSync = 81972165,
@@ -1123,6 +1194,8 @@ export enum OtherSizes {
   MedPinealGlandShort = 61080546,
   MedPinealGlandShort2 = 80798855,
   MedFallingIntoLoveBody = 24779555,
+  MedTuneInWithYourHeart = 73866145,
+  MedCenterOfTheMagnet = 155540678,
 }
 
 export enum OtherStringSizes {
@@ -1130,11 +1203,13 @@ export enum OtherStringSizes {
   MedAlchemist2 = '59139',
   MedChangingBoxes = '75996',
   MedChangingBoxes2 = '85420',
+  MedChangingBoxesSv = '51829',
   MedGoLove = '12546',
   MedGoLove2 = '30196',
   MedGoLove3 = '22640',
   MedHigherLoveCouples = '78649',
-  MedLoveLifeYouLove = '74235672',
+  MedLoveLifeYouLove = '74235',
+  MedLoveLifeYouLove2 = '29873',
   MedTurningYourLoveInward = '30255',
   MedTurningYourLoveInward2 = '19411',
   MedHeartBrainSync = '81972',
@@ -1146,6 +1221,8 @@ export enum OtherStringSizes {
   MedPinealGlandShort = '61080',
   MedPinealGlandShort2 = '80798',
   MedFallingIntoLoveBody = '24779',
+  MedTuneInWIthYourHeart = '73866',
+  MedCenterOfTheMagnet = '15554',
 }
 
 export const otherMap = {
@@ -1168,6 +1245,17 @@ export const otherMap = {
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedChangingBoxes,
     name: 'Changing Boxes',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedChangingBoxesSv]: {
+    artist,
+    backgroundImage: require('../assets/changing-boxes-short-version.jpg'),
+    formattedDuration: '21',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedChangingBoxesSv,
+    name: 'Changing Boxes - Short Version',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -1290,6 +1378,28 @@ export const otherMap = {
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedFallingIntoLoveBody,
     name: 'Falling into Love with Your Body',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedTuneInWithYourHeart]: {
+    artist,
+    backgroundImage: require('../assets/tune-in-with-your-heart.jpg'),
+    formattedDuration: '30',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedTuneInWithYourHeart,
+    name: 'Tuning In With Your Heart',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [OtherBaseKeys.MedCenterOfTheMagnet]: {
+    artist,
+    backgroundImage: require('../assets/center-of-the-magnet.jpg'),
+    formattedDuration: '160',
+    id: placeholder,
+    groupName: MeditationGroupName.Other,
+    meditationBaseId: OtherBaseKeys.MedCenterOfTheMagnet,
+    name: 'Center of the Magnet',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
