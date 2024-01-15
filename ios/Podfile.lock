@@ -1315,6 +1315,8 @@ PODS:
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
+  - RNIap (12.12.1):
+    - React-Core
   - RNImageCropPicker (0.40.2):
     - React-Core
     - React-RCTImage
@@ -1398,6 +1400,7 @@ DEPENDENCIES:
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
+  - RNIap (from `../node_modules/react-native-iap`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1558,6 +1561,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-fs"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
+  RNIap:
+    :path: "../node_modules/react-native-iap"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   RNReanimated:
@@ -1659,6 +1664,7 @@ SPEC CHECKSUMS:
   RNFBStorage: 83ac3f2b388cdba567f7a39f59b5a895de8e38e4
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGoogleSignin: 22e468a9474dbcb8618d8847205ad4f0b2575d13
+  RNIap: 31bf0cfb84ec19a9e5cc6b53b88d159c5adb3c68
   RNImageCropPicker: d9616a0cb9b72e8551ff94a7a5021fbd29050aa5
   RNReanimated: 8a6a83984cb4d61ebf1065b6137150b6b31ce609
   RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
