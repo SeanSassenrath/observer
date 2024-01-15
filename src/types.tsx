@@ -19,15 +19,16 @@ export type StackParamList = {
   AddMeditations: undefined;
   AddMedsSuccess: undefined;
   AddMedsMatching: AddMedsMatchingParams;
+  BetaAgreement: undefined;
   Feedback: undefined;
-  SignIn: undefined;
   Meditation: MeditationParams;
   MeditationFinish: undefined;
-  MeditationPlayer: MeditationParams;
   MeditationMatch: UnrecognizedFilesParams;
-  TabNavigation: undefined;
-  BetaAgreement: undefined;
+  MeditationPlayer: MeditationParams;
   Profile: UserParams;
+  SignIn: undefined;
+  Subscriptions: undefined;
+  TabNavigation: undefined;
   UnrecognizedFiles: UnrecognizedFilesParams;
 };
 
@@ -49,21 +50,21 @@ interface UserParams {
   userId: UserUid;
 }
 
-type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
-type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
 type AddMeditations = NativeStackScreenProps<StackParamList, 'AddMeditations'>;
 type AddMedsMatching = NativeStackScreenProps<
   StackParamList,
   'AddMedsMatching'
 >;
-type AddMedsSuccess = NativeStackScreenProps<StackParamList, 'AddMedsSuccess'>;
-type UnrecognizedFiles = NativeStackScreenProps<
-  StackParamList,
-  'UnrecognizedFiles'
->;
 type MeditationMatch = NativeStackScreenProps<
   StackParamList,
   'MeditationMatch'
+>;
+type AddMedsSuccess = NativeStackScreenProps<StackParamList, 'AddMedsSuccess'>;
+type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
+type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
+type UnrecognizedFiles = NativeStackScreenProps<
+  StackParamList,
+  'UnrecognizedFiles'
 >;
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];

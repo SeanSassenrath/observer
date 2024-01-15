@@ -19,6 +19,7 @@ import AddMedsSuccessScreen from '../screens/AddMedSuccess';
 import UnrecognizedFilesScreen from '../screens/UnrecognizedFiles';
 import MeditationMatchScreen from '../screens/MeditationMatch';
 import FeedbackScreen from '../screens/Feedback';
+import SubscriptionsScreen from '../screens/Subscriptions';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -62,9 +63,11 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={getInitialRouteName()}
+        // initialRouteName={getInitialRouteName()}
+        initialRouteName={'Subscriptions'}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
+        <Screen name="Subscriptions" component={SubscriptionsScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
         <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
