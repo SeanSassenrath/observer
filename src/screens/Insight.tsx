@@ -42,14 +42,6 @@ const InsightScreen = () => {
   const isFocused = useIsFocused();
   const streakData = getUserStreakData(user);
 
-  const lastMeditationInstance =
-    meditationHistory &&
-    meditationHistory.meditationInstances &&
-    meditationHistory.meditationInstances[0];
-  const lastMeditation =
-    lastMeditationInstance &&
-    meditationBaseMap[lastMeditationInstance.meditationBaseId];
-
   const fetchMeditationHistory = async () => {
     const _meditationHistory = await fbGetMeditationHistory(user.uid);
 
@@ -115,6 +107,8 @@ const InsightScreen = () => {
     meditation: MeditationBase,
     meditationInstance: MeditationInstance,
   ) => {
+    console.log('HERE >>> Meditation', meditation);
+    console.log('HERE >>> meditationInstance', meditationInstance);
     setSelectedMeditation(meditation);
     setSelectedMeditationInstance(meditationInstance);
     setIsNotesModalVisible(true);
@@ -186,8 +180,8 @@ const InsightScreen = () => {
       <MeditationNotesDrawer
         visible={isNotesModalVisible}
         onClosePress={() => setIsNotesModalVisible(false)}
-        meditation={lastMeditation}
-        meditationInstance={lastMeditationInstance}
+        meditation={selectedMeditation}
+        meditationInstance={selectedMeditationInstance}
       />
     </Layout>
   );
