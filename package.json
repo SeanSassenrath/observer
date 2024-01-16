@@ -41,7 +41,6 @@
     "react-native-dotenv": "^3.4.9",
     "react-native-eject": "^0.2.0",
     "react-native-fs": "^2.20.0",
-    "react-native-iap": "^12.12.1",
     "react-native-image-crop-picker": "^0.40.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-linear-gradient": "^2.6.2",
