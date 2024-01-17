@@ -177,12 +177,26 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case BotecStringSizes.MedBotec1Updated2: {
+      return {
+        [BotecBaseKeys.MedBotec1Updated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case BotecStringSizes.MedBotec2: {
       return {
         [BotecBaseKeys.MedBotec2]: makeRelativeFilePath(file.fileCopyUri),
       };
     }
     case BotecStringSizes.MedBotec2Updated: {
+      return {
+        [BotecBaseKeys.MedBotec2Updated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case BotecStringSizes.MedBotec2Updated3: {
       return {
         [BotecBaseKeys.MedBotec2Updated]: makeRelativeFilePath(
           file.fileCopyUri,
@@ -294,27 +308,27 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
 
     /* Daily Meditations */
 
-    // case DailyMeditationStringSizes.MedMorning2: {
-    //   return {
-    //     [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
-    // }
-    // case DailyMeditationStringSizes.MedMorningUpdated: {
-    //   return {
-    //     [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
-    // }
-    // case DailyMeditationStringSizes.MedMorningUpdated2: {
-    //   return {
-    //     [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
-    //       file.fileCopyUri,
-    //     ),
-    //   };
-    // }
+    case DailyMeditationStringSizes.MedMorning2: {
+      return {
+        [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case DailyMeditationStringSizes.MedMorningUpdated: {
+      return {
+        [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case DailyMeditationStringSizes.MedMorningUpdated2: {
+      return {
+        [DailyMeditationBaseKeys.MedMorningUpdated]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case DailyMeditationStringSizes.MedEvening2: {
       return {
         [DailyMeditationBaseKeys.MedEvening]: makeRelativeFilePath(
@@ -375,6 +389,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
     }
     case GeneratingStringSizes.MedGeneratingGratitude2: {
+      return {
+        [GeneratingBaseKeys.MedGeneratingGratitude]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case GeneratingStringSizes.MedGeneratingGratitude3: {
       return {
         [GeneratingBaseKeys.MedGeneratingGratitude]: makeRelativeFilePath(
           file.fileCopyUri,
@@ -723,6 +744,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case SynchronizeStringSizes.MedSyncHealth2: {
+      return {
+        [SynchronizeBaseKeys.MedSyncHealth]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case SynchronizeStringSizes.MedSyncAbundance: {
       return {
         [SynchronizeBaseKeys.MedSyncAbundance]: makeRelativeFilePath(
@@ -844,6 +872,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case OtherStringSizes.MedChangingBoxes3: {
+      return {
+        [OtherBaseKeys.MedChangingBoxes]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case OtherStringSizes.MedChangingBoxesSv: {
       return {
         [OtherBaseKeys.MedChangingBoxesSv]: makeRelativeFilePath(
@@ -922,6 +957,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    case OtherStringSizes.MedEmpoweringWithin2: {
+      return {
+        [OtherBaseKeys.MedEmpoweringWithin]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
     case OtherStringSizes.MedPinealGlandLong: {
       return {
         [OtherBaseKeys.MedPinealGlandLong]: makeRelativeFilePath(
@@ -944,6 +986,20 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
     }
     case OtherStringSizes.MedFallingIntoLoveBody: {
+      return {
+        [OtherBaseKeys.MedFallingIntoLoveBody]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case OtherStringSizes.MedFallingIntoLoveBody2: {
+      return {
+        [OtherBaseKeys.MedFallingIntoLoveBody]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case OtherStringSizes.MedFallingIntoLoveBody3: {
       return {
         [OtherBaseKeys.MedFallingIntoLoveBody]: makeRelativeFilePath(
           file.fileCopyUri,
