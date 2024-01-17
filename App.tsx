@@ -15,6 +15,8 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+// import Purchases, {LOG_LEVEL} from 'react-native-purchases';
+// import {Platform} from 'react-native';
 
 import StackNavigator from './src/navigation/Stack';
 import {
@@ -208,6 +210,13 @@ const App = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
+  //   if (Platform.OS === 'ios') {
+  //     Purchases.configure({apiKey: revenueCatIos});
+  //   }
+  // }, []);
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();

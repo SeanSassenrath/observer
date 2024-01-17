@@ -64,7 +64,6 @@ const StackNavigator = () => {
       theme={myTheme}>
       <Navigator
         initialRouteName={getInitialRouteName()}
-        // initialRouteName={'Subscriptions'}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="Subscriptions" component={SubscriptionsScreen} />
