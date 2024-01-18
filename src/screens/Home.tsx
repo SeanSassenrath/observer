@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,6 +13,7 @@ import {
   Button,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 
 import _Button from '../components/Button';
 import {MeditationBase, MeditationBaseMap, MeditationId} from '../types';
@@ -101,6 +102,18 @@ const HomeScreen = () => {
   const streakData = getUserStreakData(user);
 
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
+
+  const requestUserPermission = async () => {
+    const authorizationStatus = await messaging().requestPermission();
+
+    if (authorizationStatus) {
+      console.log('Permission status:', authorizationStatus);
+    }
+  };
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
 
   const onSignOut = () => {
     auth()
