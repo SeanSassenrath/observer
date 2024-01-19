@@ -56,6 +56,7 @@ import {
   walkingMap,
 } from '../constants/meditation-data';
 import {SearchBar} from '../components/SearchBar';
+import NotificationModal from '../components/NotificationModal';
 
 const EMPTY_SEARCH = '';
 
@@ -83,6 +84,7 @@ const HomeScreen = () => {
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
+  const [isNotifModalVisible, setIsNotifModalVisible] = useState(true);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -344,6 +346,10 @@ const HomeScreen = () => {
           </Button>
         </Layout>
       </Modal>
+      <NotificationModal
+        onClose={() => setIsNotifModalVisible(false)}
+        isVisible={isNotifModalVisible}
+      />
       <MeditationNotesDrawer
         visible={isNotesModalVisible}
         onClosePress={() => setIsNotesModalVisible(false)}
