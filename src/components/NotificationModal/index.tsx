@@ -25,10 +25,6 @@ const NotificationModal = (props: Props) => {
   const {isVisible, onClose} = props;
   const styles = useStyleSheet(themedStyles);
 
-  useEffect(() => {
-    setSeenNotifModal();
-  }, []);
-
   const setSeenNotifModal = async () => {
     const now = DateTime.now().toString();
     await notificationModalSendEvent(Action.VIEW, Noun.ON_MOUNT);
@@ -46,6 +42,7 @@ const NotificationModal = (props: Props) => {
       console.log('Permission status:', authorizationStatus);
     }
 
+    setSeenNotifModal();
     onClose();
 
     Toast.show({
@@ -58,6 +55,7 @@ const NotificationModal = (props: Props) => {
 
   const onClosePress = async () => {
     await notificationModalSendEvent(Action.SKIP, Noun.BUTTON);
+    setSeenNotifModal();
     onClose();
   };
 

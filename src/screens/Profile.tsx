@@ -90,7 +90,6 @@ const Profile = (props: Props) => {
   const onSignOut = async () => {
     const isSuccessfulSignOut = await signOut();
     if (isSuccessfulSignOut) {
-      console.log('User signed out!');
       setUser(initialUserState);
       navigation.navigate('SignIn');
     }
@@ -107,7 +106,11 @@ const Profile = (props: Props) => {
   };
 
   const onNotifToggleChange = async () => {
-    if (!isNotifEnabled) {
+    const authorizationStatus = await messaging().hasPermission();
+
+    if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
+      await messaging().requestPermission();
+    } else if (!isNotifEnabled) {
       await profileNotifEnabledSendEvent(Action.ENABLE, Noun.BUTTON, {
         isEnabled: true,
       });
