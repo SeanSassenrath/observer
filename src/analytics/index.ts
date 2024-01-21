@@ -7,6 +7,7 @@ export enum Source {
   'MEDITATION_PLAYER' = 'meditation_player',
   'THINKBOX' = 'thinkbox',
   'NOTIFICATION_MODAL' = 'notif_modal',
+  'PROFILE' = 'profile',
 }
 
 export enum Action {
@@ -39,7 +40,10 @@ interface MeditationAddPayload {
   [key: string]: string | number;
 }
 
-type Payload = MeditationPlayerPayload | MeditationAddPayload;
+type Payload =
+  | MeditationPlayerPayload
+  | MeditationAddPayload
+  | ProfileNotifEnabled;
 
 interface Event {
   source: Source;
@@ -111,5 +115,22 @@ export const notificationModalSendEvent = async (
     source: Source.NOTIFICATION_MODAL,
     action,
     noun,
+  });
+};
+
+interface ProfileNotifEnabled {
+  isEnabled: boolean;
+}
+
+export const profileNotifEnabledSendEvent = async (
+  action: Action,
+  noun: Noun,
+  payload: ProfileNotifEnabled,
+) => {
+  await sendEvent({
+    source: Source.NOTIFICATION_MODAL,
+    action,
+    noun,
+    payload,
   });
 };

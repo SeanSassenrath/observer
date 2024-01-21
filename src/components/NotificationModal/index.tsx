@@ -8,10 +8,7 @@ import _Button from '../Button';
 import {brightWhite} from '../../constants/colors';
 import {Action, Noun, notificationModalSendEvent} from '../../analytics';
 
-import {
-  setIsNotificationsEnabledAsyncStorage,
-  setSeenNotificationModalInAsyncStorage,
-} from '../../utils/asyncStorageNotifs';
+import {setSeenNotificationModalInAsyncStorage} from '../../utils/asyncStorageNotifs';
 import {DateTime} from 'luxon';
 import Toast from 'react-native-toast-message';
 
@@ -43,11 +40,9 @@ const NotificationModal = (props: Props) => {
 
     if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
       await notificationModalSendEvent(Action.ENABLE, Noun.BUTTON);
-      await setIsNotificationsEnabledAsyncStorage(true);
       console.log('Permission status:', authorizationStatus);
     } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
       await notificationModalSendEvent(Action.DENIED, Noun.BUTTON);
-      await setIsNotificationsEnabledAsyncStorage(true);
       console.log('Permission status:', authorizationStatus);
     }
 

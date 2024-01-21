@@ -1,10 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
-import {Button, Icon, Input, Layout} from '@ui-kitten/components';
+import {Button, Icon, Input, Layout, Text, Toggle} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {
+  AppState,
+  Image,
+  Linking,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import Toast from 'react-native-toast-message';
+import messaging from '@react-native-firebase/messaging';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {signOut} from '../fb/auth';
@@ -12,6 +20,7 @@ import {getUserProfile} from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
+import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
 
 const EMPTY_STRING = '';
 
@@ -47,6 +56,7 @@ const Profile = (props: Props) => {
 
   const [userProfile, setUserProfile] = useState({} as User);
   const [name, setName] = useState(EMPTY_STRING);
+  const [isNotifEnabled, setIsNotifEnabled] = useState(false);
 
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
@@ -55,6 +65,18 @@ const Profile = (props: Props) => {
       setUserProfile(_userProfile);
       setName(_userProfile.profile.displayName);
     }
+
+    updateIsNotifEnabled();
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        updateIsNotifEnabled();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, [user, userId, userProfile]);
 
   const onBackPress = () => {
@@ -71,6 +93,30 @@ const Profile = (props: Props) => {
       console.log('User signed out!');
       setUser(initialUserState);
       navigation.navigate('SignIn');
+    }
+  };
+
+  const updateIsNotifEnabled = async () => {
+    const authorizationStatus = await messaging().hasPermission();
+
+    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+      setIsNotifEnabled(true);
+    } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
+      setIsNotifEnabled(false);
+    }
+  };
+
+  const onNotifToggleChange = async () => {
+    if (!isNotifEnabled) {
+      await profileNotifEnabledSendEvent(Action.ENABLE, Noun.BUTTON, {
+        isEnabled: true,
+      });
+      Linking.openSettings();
+    } else if (isNotifEnabled) {
+      await profileNotifEnabledSendEvent(Action.DENIED, Noun.BUTTON, {
+        isEnabled: false,
+      });
+      Linking.openSettings();
     }
   };
 
@@ -178,6 +224,14 @@ const Profile = (props: Props) => {
               textStyle={styles.inputText}
             />
           </View>
+        </View>
+        <View style={styles.toggleRowContainer}>
+          <Text category="s1">Enable Notifications</Text>
+          <Toggle
+            checked={isNotifEnabled}
+            status="primary"
+            onChange={onNotifToggleChange}
+          />
         </View>
         {/* <View style={styles.waveContainer}>
           <Wave />
@@ -292,6 +346,11 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     borderRadius: 50,
+  },
+  toggleRowContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   waveContainer: {
     overflow: 'hidden',

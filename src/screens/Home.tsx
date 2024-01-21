@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _, {values, sortBy, takeRight} from 'lodash';
+import _, {sortBy} from 'lodash';
 import Toast from 'react-native-toast-message';
 import {
   Modal,
@@ -114,14 +114,18 @@ const HomeScreen = () => {
   }, []);
 
   const shouldShowNotifModal = async () => {
-    const userHasMeditated = getUserHasMeditated(user);
+    const authorizationStatus = await messaging().hasPermission();
 
-    if (userHasMeditated) {
-      const isoTimestamp = await getSeenNotificationModalInAsyncStorage();
-      const hasNeverSeenModal = !isoTimestamp;
+    if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
+      const userHasMeditated = getUserHasMeditated(user);
 
-      if (hasNeverSeenModal) {
-        setIsNotifModalVisible(true);
+      if (userHasMeditated) {
+        const isoTimestamp = await getSeenNotificationModalInAsyncStorage();
+        const hasNeverSeenModal = !isoTimestamp;
+
+        if (hasNeverSeenModal) {
+          setIsNotifModalVisible(true);
+        }
       }
     }
   };
