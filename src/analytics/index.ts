@@ -6,11 +6,15 @@ export enum Source {
   'MEDITATION_ADD' = 'meditation_add',
   'MEDITATION_PLAYER' = 'meditation_player',
   'THINKBOX' = 'thinkbox',
+  'NOTIFICATION_MODAL' = 'notif_modal',
 }
 
 export enum Action {
   'CLICK' = 'click',
+  'DENIED' = 'denied',
+  'ENABLE' = 'enable',
   'FAIL' = 'fail',
+  'SKIP' = 'skip',
   'SUBMIT' = 'submit',
   'VIEW' = 'view',
 }
@@ -94,6 +98,17 @@ export const meditationAddSendEvent = (
 export const appInitializationSendEvent = (action: Action, noun: Noun) => {
   sendEvent({
     source: Source.APP_INITIALIZATION,
+    action,
+    noun,
+  });
+};
+
+export const notificationModalSendEvent = async (
+  action: Action,
+  noun: Noun,
+) => {
+  await sendEvent({
+    source: Source.NOTIFICATION_MODAL,
     action,
     noun,
   });

@@ -1,11 +1,19 @@
 import {Button, Icon, Layout, Modal, Text} from '@ui-kitten/components/ui';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useStyleSheet} from '@ui-kitten/components';
 import messaging from '@react-native-firebase/messaging';
 
 import _Button from '../Button';
 import {brightWhite} from '../../constants/colors';
+import {Action, Noun, notificationModalSendEvent} from '../../analytics';
+
+import {
+  setIsNotificationsEnabledAsyncStorage,
+  setSeenNotificationModalInAsyncStorage,
+} from '../../utils/asyncStorageNotifs';
+import {DateTime} from 'luxon';
+import Toast from 'react-native-toast-message';
 
 const BellIcon = () => (
   <Icon style={themedStyles.bellIcon} fill={brightWhite} name="bell" />
@@ -20,12 +28,42 @@ const NotificationModal = (props: Props) => {
   const {isVisible, onClose} = props;
   const styles = useStyleSheet(themedStyles);
 
+  useEffect(() => {
+    setSeenNotifModal();
+  }, []);
+
+  const setSeenNotifModal = async () => {
+    const now = DateTime.now().toString();
+    await notificationModalSendEvent(Action.VIEW, Noun.ON_MOUNT);
+    await setSeenNotificationModalInAsyncStorage(now);
+  };
+
   const onEnablePress = async () => {
     const authorizationStatus = await messaging().requestPermission();
 
-    if (authorizationStatus) {
+    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+      await notificationModalSendEvent(Action.ENABLE, Noun.BUTTON);
+      await setIsNotificationsEnabledAsyncStorage(true);
+      console.log('Permission status:', authorizationStatus);
+    } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
+      await notificationModalSendEvent(Action.DENIED, Noun.BUTTON);
+      await setIsNotificationsEnabledAsyncStorage(true);
       console.log('Permission status:', authorizationStatus);
     }
+
+    onClose();
+
+    Toast.show({
+      type: 'success',
+      text1: 'Notifications enabled',
+      position: 'bottom',
+      bottomOffset: 100,
+    });
+  };
+
+  const onClosePress = async () => {
+    await notificationModalSendEvent(Action.SKIP, Noun.BUTTON);
+    onClose();
   };
 
   return (
@@ -33,7 +71,7 @@ const NotificationModal = (props: Props) => {
       animationType={'slide'}
       visible={isVisible}
       backdropStyle={styles.backdrop}
-      onBackdropPress={onClose}>
+      onBackdropPress={onClosePress}>
       <Layout level="2" style={styles.rootContainer}>
         <Layout level="2" style={styles.iconContainer}>
           <View style={styles.bellContainerOutside2}>
@@ -55,7 +93,7 @@ const NotificationModal = (props: Props) => {
           <_Button onPress={onEnablePress} style={styles.primaryButton}>
             Enable Notifications
           </_Button>
-          <Button onPress={onClose} appearance="ghost" status="basic">
+          <Button onPress={onClosePress} appearance="ghost" status="basic">
             Skip
           </Button>
         </Layout>
@@ -83,10 +121,11 @@ const themedStyles = StyleSheet.create({
   },
   bellContainerOutside2: {
     alignItems: 'center',
-    justifyContent: 'center',
     borderRadius: 100,
     backgroundColor: 'rgba(187,111,221, 0.1)',
     height: 105,
+    justifyContent: 'center',
+    opacity: 0.9,
     width: 105,
   },
   bellIcon: {

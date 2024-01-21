@@ -34,7 +34,10 @@ import {getRecentMeditationBaseIds} from '../utils/meditation';
 import {Inspiration} from '../components/Inspiration';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
-import {getUserMeditationInstanceCounts} from '../utils/user/user';
+import {
+  getUserHasMeditated,
+  getUserMeditationInstanceCounts,
+} from '../utils/user/user';
 import {
   getLastMeditationInstance,
   getMeditationFromId,
@@ -57,6 +60,7 @@ import {
 } from '../constants/meditation-data';
 import {SearchBar} from '../components/SearchBar';
 import NotificationModal from '../components/NotificationModal';
+import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
 
 const EMPTY_SEARCH = '';
 
@@ -84,7 +88,7 @@ const HomeScreen = () => {
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
-  const [isNotifModalVisible, setIsNotifModalVisible] = useState(true);
+  const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -105,17 +109,22 @@ const HomeScreen = () => {
 
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
 
-  const requestUserPermission = async () => {
-    const authorizationStatus = await messaging().requestPermission();
+  useEffect(() => {
+    shouldShowNotifModal();
+  }, []);
 
-    if (authorizationStatus) {
-      console.log('Permission status:', authorizationStatus);
+  const shouldShowNotifModal = async () => {
+    const userHasMeditated = getUserHasMeditated(user);
+
+    if (userHasMeditated) {
+      const isoTimestamp = await getSeenNotificationModalInAsyncStorage();
+      const hasNeverSeenModal = !isoTimestamp;
+
+      if (hasNeverSeenModal) {
+        setIsNotifModalVisible(true);
+      }
     }
   };
-
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
 
   const onSignOut = () => {
     auth()
