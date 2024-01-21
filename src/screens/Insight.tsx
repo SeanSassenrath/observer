@@ -20,6 +20,7 @@ import {
   fbGetMeditationHistory,
   fbGetMoreMeditationHistory,
 } from '../fb/meditationHistory';
+import {TotalOverview} from '../components/TotalOverview';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -141,6 +142,7 @@ const InsightScreen = () => {
           meditationHistory={meditationHistory.meditationInstances || []}
           style={styles.timeInMeditationChart}
         />
+        <TotalOverview />
         <TopMeditations meditationCounts={meditationCounts} />
       </Layout>
       <Layout style={styles.historyContainer}>

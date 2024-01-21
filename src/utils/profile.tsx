@@ -43,15 +43,15 @@ export const getTotalMeditationTime = (currentUser: User) => {
     if (totalMeditationTime > TIME_CHUNK.DAY) {
       return `${
         Math.round((totalMeditationTime / TIME_CHUNK.DAY) * 100) / 100
-      }d`;
+      } d`;
     } else if (totalMeditationTime > TIME_CHUNK.HOUR) {
       return `${
         Math.round((totalMeditationTime / TIME_CHUNK.HOUR) * 100) / 100
-      }h`;
+      } h`;
     } else {
       return `${
         Math.round((totalMeditationTime / TIME_CHUNK.MINUTE) * 100) / 100
-      }m`;
+      } m`;
     }
   }
 };

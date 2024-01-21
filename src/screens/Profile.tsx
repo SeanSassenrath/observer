@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import {Button, Icon, Input, Layout, Text} from '@ui-kitten/components';
+import {Button, Icon, Input, Layout} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -8,11 +8,7 @@ import Toast from 'react-native-toast-message';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {signOut} from '../fb/auth';
-import {
-  getTotalMeditationCount,
-  getTotalMeditationTime,
-  getUserProfile,
-} from '../utils/profile';
+import {getUserProfile} from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
@@ -60,10 +56,6 @@ const Profile = (props: Props) => {
       setName(_userProfile.profile.displayName);
     }
   }, [user, userId, userProfile]);
-
-  const totalMeditationCount = getTotalMeditationCount(userProfile);
-
-  const totalMeditationTime = getTotalMeditationTime(userProfile);
 
   const onBackPress = () => {
     navigation.goBack();
@@ -187,20 +179,6 @@ const Profile = (props: Props) => {
             />
           </View>
         </View>
-        <View style={styles.profileMeditationsContainer}>
-          <View style={styles.profileMeditationsSectionContainer}>
-            <Text style={styles.profileMetaSectionLabel} category="s1">
-              Meditations
-            </Text>
-            <Text category="h6">{totalMeditationCount}</Text>
-          </View>
-          <View style={styles.profileMeditationsSectionContainer}>
-            <Text style={styles.profileMetaSectionLabel} category="s1">
-              Time Meditated
-            </Text>
-            <Text category="h6">{totalMeditationTime}</Text>
-          </View>
-        </View>
         {/* <View style={styles.waveContainer}>
           <Wave />
         </View> */}
@@ -311,22 +289,6 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 100,
-  },
-  profileMeditationsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 40,
-  },
-  profileMeditationsSectionContainer: {
-    alignItems: 'center',
-    borderRadius: 10,
-    flex: 0.45,
-    backgroundColor: 'rgba(48,55,75,0.6)',
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-  },
-  profileMetaSectionLabel: {
-    marginBottom: 4,
   },
   signOutButton: {
     borderRadius: 50,
