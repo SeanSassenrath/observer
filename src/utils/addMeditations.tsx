@@ -12,6 +12,34 @@ import {UnknownFileData} from '../types';
 import {fbAddUnsupportedFiles} from '../fb/unsupportedFiles';
 import {User} from '../contexts/userData';
 
+const filterUnknownFiles = (_unknownFiles: UnknownFileData[]) => {
+  const filteredFiles = [] as UnknownFileData[];
+
+  if (_unknownFiles.length > 0) {
+    _unknownFiles.filter(file => {
+      const fileName = file.name?.toLowerCase();
+      const fileType = file.type?.toLowerCase();
+
+      const filterByName = (_fileName: string) =>
+        _fileName.includes('introduction') ||
+        _fileName.includes('intro') ||
+        _fileName.includes('explanation');
+
+      const filterByType = (_fileType: string) =>
+        _fileType.includes('image/png') ||
+        _fileType.includes('application/pdf');
+
+      if (fileName && fileType) {
+        if (!filterByName(fileName) && !filterByType(fileType)) {
+          filteredFiles.push(file);
+        }
+      }
+    });
+  }
+
+  return filteredFiles;
+};
+
 export const onAddMeditations = async (
   existingMeditationFilePathData: MeditationFilePathData,
   setExistingMeditationFilePathData: React.Dispatch<
@@ -33,9 +61,11 @@ export const onAddMeditations = async (
     existingMeditationFilePathData,
   );
 
+  const filteredUnknownFiles = filterUnknownFiles(unknownFiles);
+
   if (unknownFiles.length > 0) {
-    fbAddUnsupportedFiles(user, unknownFiles);
-    setUnknownFiles(unknownFiles);
+    fbAddUnsupportedFiles(user, filteredUnknownFiles);
+    setUnknownFiles(filteredUnknownFiles);
   }
 
   if (!isEmpty(filePathDataList)) {
@@ -46,6 +76,6 @@ export const onAddMeditations = async (
 
   return {
     _meditations: meditationBaseData,
-    _unknownFiles: unknownFiles,
+    _unknownFiles: filteredUnknownFiles,
   };
 };
