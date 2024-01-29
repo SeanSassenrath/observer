@@ -9,7 +9,13 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Modal, Spinner, Text, useStyleSheet} from '@ui-kitten/components';
+import {
+  Layout,
+  Modal,
+  Spinner,
+  Text,
+  useStyleSheet,
+} from '@ui-kitten/components';
 
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
@@ -51,50 +57,48 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <LinearGradient colors={['#020306', '#1B0444']} style={styles.container}>
-        <SafeAreaView style={styles.container}>
-          <View style={styles.contentContainer}>
-            <View style={styles.headerContainer}>
-              <View style={styles.headerImageBackground}>
-                <Image
-                  source={require('../assets/app-icon.png')}
-                  style={imageStyles.headerImage}
-                />
-              </View>
+    <Layout level="4" style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.contentContainer}>
+          <View style={styles.headerContainer}>
+            <View style={styles.headerImageBackground}>
+              <Image
+                source={require('../assets/app-icon.png')}
+                style={imageStyles.headerImage}
+              />
             </View>
-            <View style={styles.heroContainer}>
-              <View style={styles.textContainer}>
-                <View style={styles.textHeaderContainer}>
-                  <Text category="h3" style={styles.textHeader}>
-                    Be Your Own Scientist.
-                  </Text>
-                  <Text category="h3" style={styles.textHeaderPrimary}>
-                    Change your life.
-                  </Text>
-                </View>
-                <Text category="s2" style={styles.textDescription}>
-                  Meditation player, tracker, & “thinkbox” journal for your Dr.
-                  Joe Dispenza practice.
+          </View>
+          <View style={styles.heroContainer}>
+            <View style={styles.textContainer}>
+              <View style={styles.textHeaderContainer}>
+                <Text category="h3" style={styles.textHeader}>
+                  Be Your Own Scientist.
+                </Text>
+                <Text category="h3" style={styles.textHeaderPrimary}>
+                  Change your life.
                 </Text>
               </View>
-            </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.buttonsContainer}>
-                <GoogleSSOButton setIsSigningIn={setIsSigningIn} />
-                {Platform.OS === 'ios' ? (
-                  <AppleSSOButton setIsSigningIn={setIsSigningIn} />
-                ) : null}
-              </View>
-            </View>
-            <Pressable onPress={onPrivacyPolicyPress}>
-              <Text style={styles.privacyPolicy} category="s2">
-                Privacy Policy
+              <Text category="s2" style={styles.textDescription}>
+                Meditation player, tracker, and journal for your Dr. Joe
+                Dispenza practice.
               </Text>
-            </Pressable>
+            </View>
           </View>
-        </SafeAreaView>
-      </LinearGradient>
+          <View style={styles.bottomContainer}>
+            <View style={styles.buttonsContainer}>
+              <GoogleSSOButton setIsSigningIn={setIsSigningIn} />
+              {Platform.OS === 'ios' ? (
+                <AppleSSOButton setIsSigningIn={setIsSigningIn} />
+              ) : null}
+            </View>
+          </View>
+          <Pressable onPress={onPrivacyPolicyPress}>
+            <Text style={styles.privacyPolicy} category="s2">
+              Privacy Policy
+            </Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
 
       <Modal visible={isSigningIn} backdropStyle={styles.backdrop}>
         <View style={styles.modalContainer}>
@@ -104,7 +108,7 @@ const SignInScreen = () => {
           </Text>
         </View>
       </Modal>
-    </View>
+    </Layout>
   );
 };
 
