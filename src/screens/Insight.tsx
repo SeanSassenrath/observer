@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, StyleSheet} from 'react-native';
+import {AppState, FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
@@ -8,7 +8,12 @@ import {TimeInMeditationChart} from '../components/TimeInMeditationChart';
 import UserContext from '../contexts/userData';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {Streaks} from '../components/Streaks';
-import {getUserStreakData} from '../utils/streaks';
+import {
+  checkStreakData,
+  getUserStreakData,
+  makeFbStreakUpdate,
+  updateUserStreakData,
+} from '../utils/streaks';
 import {getMeditationCounts} from '../utils/meditation';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import {fbUpdateUser} from '../fb/user';
@@ -21,6 +26,10 @@ import {
   fbGetMoreMeditationHistory,
 } from '../fb/meditationHistory';
 import {TotalOverview} from '../components/TotalOverview';
+import {
+  getLastMeditationInstance,
+  getMeditationFromId,
+} from '../utils/meditations/meditations';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -42,6 +51,10 @@ const InsightScreen = () => {
   );
   const isFocused = useIsFocused();
   const streakData = getUserStreakData(user);
+  const lastMeditationInstance = getLastMeditationInstance(meditationHistory);
+  const lastMeditation =
+    lastMeditationInstance &&
+    getMeditationFromId(lastMeditationInstance.meditationBaseId);
 
   const fetchMeditationHistory = async () => {
     const _meditationHistory = await fbGetMeditationHistory(user.uid);
@@ -71,11 +84,47 @@ const InsightScreen = () => {
     }
   };
 
+  const updateStreaks = async () => {
+    const userId = user.uid;
+    const userStreakData = getUserStreakData(user);
+
+    if (userStreakData && lastMeditation) {
+      const checkedStreakData = checkStreakData(userStreakData, lastMeditation);
+
+      console.log('   ');
+      console.log(
+        'checkedStreakData.current - Insights',
+        checkedStreakData.current,
+      );
+      console.log('userStreakData.current - Insights', userStreakData.current);
+      console.log('   ');
+
+      if (checkedStreakData.current !== userStreakData.current) {
+        const updatedUser = updateUserStreakData(user, checkedStreakData);
+        const fbUpdate = makeFbStreakUpdate(checkedStreakData);
+        setUser(updatedUser);
+        await fbUpdateUser(userId, fbUpdate);
+      }
+    }
+  };
+
   useEffect(() => {
     if (!meditationHistory.meditationInstances) {
       fetchMeditationHistory();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        updateStreaks();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   const fetchMoreMeditationData = () => {
     if (

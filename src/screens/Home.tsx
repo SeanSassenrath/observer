@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Pressable, ScrollView, StyleSheet} from 'react-native';
+import {AppState, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _, {sortBy} from 'lodash';
@@ -44,7 +44,12 @@ import {
   getTopFiveMeditationIds,
 } from '../utils/meditations/meditations';
 import StreakPill from '../components/StreakPill';
-import {getUserStreakData} from '../utils/streaks';
+import {
+  checkStreakData,
+  getUserStreakData,
+  makeFbStreakUpdate,
+  updateUserStreakData,
+} from '../utils/streaks';
 import {
   MeditationGroupName,
   botecMap,
@@ -109,8 +114,44 @@ const HomeScreen = () => {
 
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
 
+  const updateStreaks = async () => {
+    const userId = user.uid;
+    const userStreakData = getUserStreakData(user);
+
+    if (userStreakData && lastMeditation) {
+      const checkedStreakData = checkStreakData(userStreakData, lastMeditation);
+
+      console.log('   ');
+      console.log(
+        'checkedStreakData.current - Home',
+        checkedStreakData.current,
+      );
+      console.log('userStreakData.current - Home', userStreakData.current);
+      console.log('   ');
+
+      if (checkedStreakData.current !== userStreakData.current) {
+        const updatedUser = updateUserStreakData(user, checkedStreakData);
+        const fbUpdate = makeFbStreakUpdate(checkedStreakData);
+        setUser(updatedUser);
+        await fbUpdateUser(userId, fbUpdate);
+      }
+    }
+  };
+
   useEffect(() => {
     shouldShowNotifModal();
+  }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        updateStreaks();
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   const shouldShowNotifModal = async () => {
