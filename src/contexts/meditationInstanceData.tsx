@@ -1,14 +1,16 @@
-import React, { createContext } from 'react';
+import React, {createContext} from 'react';
 
-import { MeditationInstance } from '../types';
+import {MeditationInstance} from '../types';
 
 interface MeditationInstanceContext {
-  meditationInstanceData: MeditationInstance,
-  setMeditationInstanceData: React.Dispatch<React.SetStateAction<MeditationInstance>>,
+  meditationInstanceData: MeditationInstance;
+  setMeditationInstanceData: React.Dispatch<
+    React.SetStateAction<MeditationInstance>
+  >;
 }
 
-const meditationInstanceData = {} as MeditationInstanceContext;
+export const meditationInstanceContext = {} as MeditationInstanceContext;
 
-const MeditationInstanceDataContext = createContext(meditationInstanceData);
+const MeditationInstanceDataContext = createContext(meditationInstanceContext);
 
 export default MeditationInstanceDataContext;

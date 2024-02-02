@@ -26,6 +26,8 @@ import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
+import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
+import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -84,6 +86,7 @@ const MeditationPlayer = ({
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
+  const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
@@ -187,8 +190,7 @@ const MeditationPlayer = ({
   };
 
   const onClosePress = () => {
-    resetTrackPlayer();
-    navigation.goBack();
+    setIsCancelModalVisible(true);
   };
 
   const onFinishPress = () => {
@@ -208,6 +210,13 @@ const MeditationPlayer = ({
 
   const onRestartPress = async () => {
     TrackPlayer.seekTo(0);
+  };
+
+  const onCancelMeditationModalPress = () => {
+    resetMeditationInstanceData(setMeditationInstanceData);
+    resetTrackPlayer();
+    // @ts-ignore
+    navigation.navigate('TabNavigation', {screen: 'Home'});
   };
 
   const isFinishButtonDisabled = time > 3;
@@ -290,6 +299,11 @@ const MeditationPlayer = ({
           </View>
         </View>
       </SafeAreaView>
+      <MeditationPlayerCancelModal
+        isVisible={isCancelModalVisible}
+        onCancel={onCancelMeditationModalPress}
+        onContinue={() => setIsCancelModalVisible(false)}
+      />
       <Modal
         visible={isModalVisible}
         backdropStyle={styles.modalBackdrop}
