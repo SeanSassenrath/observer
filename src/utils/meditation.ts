@@ -331,14 +331,14 @@ export const makeTotalMeditationTime = (
   user: User,
   meditationInstanceData: MeditationInstance,
 ) => {
-  const previoustotalMeditationTime =
+  const previousTotalMeditationTime =
     user &&
     user.meditationUserData &&
     user.meditationUserData.totalMeditationTime;
 
   const {timeMeditated} = meditationInstanceData;
 
-  if (previoustotalMeditationTime !== undefined && timeMeditated) {
-    return previoustotalMeditationTime + timeMeditated;
+  if (previousTotalMeditationTime !== undefined && timeMeditated) {
+    return previousTotalMeditationTime + timeMeditated;
   }
 };

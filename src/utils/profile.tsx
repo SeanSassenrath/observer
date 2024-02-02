@@ -1,4 +1,5 @@
-import {TIME_CHUNK} from '../constants/time';
+import {Duration} from 'luxon';
+
 import {UserUid, User} from '../contexts/userData';
 
 export const getUserProfile = (
@@ -39,19 +40,24 @@ export const getTotalMeditationTime = (currentUser: User) => {
     currentUser.meditationUserData &&
     currentUser.meditationUserData.totalMeditationTime;
 
-  if (totalMeditationTime) {
-    if (totalMeditationTime > TIME_CHUNK.DAY) {
-      return `${
-        Math.round((totalMeditationTime / TIME_CHUNK.DAY) * 100) / 100
-      } d`;
-    } else if (totalMeditationTime > TIME_CHUNK.HOUR) {
-      return `${
-        Math.round((totalMeditationTime / TIME_CHUNK.HOUR) * 100) / 100
-      } h`;
-    } else {
-      return `${
-        Math.round((totalMeditationTime / TIME_CHUNK.MINUTE) * 100) / 100
-      } m`;
+  console.log('TotalMedTime: ', totalMeditationTime);
+  if (!totalMeditationTime) {
+    return 'test';
+  }
+  // const dur = Duration.fromObject({seconds: Math.round(totalMeditationTime)});
+  const dur = Duration.fromObject({seconds: totalMeditationTime})
+    .rescale()
+    .toObject();
+
+  if (dur) {
+    if (dur.days && dur.hours) {
+      return `${dur.days}d  ${dur.hours}h`;
+    } else if (dur.hours && dur.minutes) {
+      return `${dur.hours}h  ${dur.minutes}m`;
+    } else if (dur.minutes && dur.seconds) {
+      return `${dur.minutes}m  ${dur.seconds}s`;
+    } else if (dur.seconds) {
+      return `${dur.seconds}s`;
     }
   }
 };
