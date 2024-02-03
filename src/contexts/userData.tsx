@@ -33,6 +33,7 @@ interface BetaAgreement {
 
 interface Onboarding {
   hasSeenAddMeditationOnboarding: boolean;
+  hasSeenBreathworkOnboarding: boolean;
   hasSeenLibraryOnboarding: boolean;
   hasSeenHomeOnboarding: boolean;
   hasSeenInsightsOnboarding: boolean;

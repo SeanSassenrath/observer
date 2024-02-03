@@ -25,6 +25,13 @@ import MeditationHistoryContext from '../contexts/meditationHistory';
 import LinearGradient from 'react-native-linear-gradient';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
+import {EduPromptComponent} from '../components/EduPrompt/component';
+import UserContext from '../contexts/userData';
+import {fbUpdateUser} from '../fb/user';
+import {
+  isBreathwork,
+  isBreathworkAvailable,
+} from '../utils/meditations/meditations';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -41,6 +48,7 @@ const BackIcon = (props: any) => (
 const MeditationScreen = ({
   route,
 }: MeditationStackScreenProps<'Meditation'>) => {
+  const {user, setUser} = useContext(UserContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
@@ -53,6 +61,9 @@ const MeditationScreen = ({
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const {id} = route.params;
   const styles = useStyleSheet(themedStyles);
+
+  // REMOVE THIS
+  const [hasSeenTestEdu, setHasSeenTestEdu] = useState(false);
 
   const meditation = meditationBaseMap[id];
 
@@ -116,6 +127,26 @@ const MeditationScreen = ({
 
     setSelectedBreathCardId(selectedCardId);
   };
+
+  const onEduClosePress = async () => {
+    setHasSeenTestEdu(true);
+    // await fbUpdateUser(user.uid, {
+    //   'onboarding.hasSeenBreathworkOnboarding': true,
+    // });
+    // setUser({
+    //   ...user,
+    //   onboarding: {
+    //     ...user.onboarding,
+    //     hasSeenBreathworkOnboarding: true,
+    //   },
+    // });
+  };
+
+  const showBreathworkEdu =
+    // !user.onboarding.hasSeenBreathworkOnboarding &&
+    !hasSeenTestEdu &&
+    isBreathworkAvailable(Object.keys(meditationBaseData)) &&
+    !isBreathwork(meditation.meditationBaseId);
 
   if (!meditation) {
     return null;
@@ -203,6 +234,14 @@ const MeditationScreen = ({
           </_Button>
         </LinearGradient>
       </Layout>
+      {showBreathworkEdu ? (
+        <EduPromptComponent
+          description="Include breathwork before your meditation by choosing a breathwork tile. Meditation will begin automatically after breathwork."
+          onPress={onEduClosePress}
+          title="Add Breathwork"
+          top
+        />
+      ) : null}
       <MeditationNotesDrawer
         visible={isNotesModalVisible}
         onClosePress={() => setIsNotesModalVisible(false)}

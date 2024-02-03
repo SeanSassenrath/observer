@@ -369,7 +369,7 @@ const HomeScreen = () => {
       )}
       {!user.onboarding.hasSeenHomeOnboarding ? (
         <EduPromptComponent
-          description="Welcome to your home! Easily access recent meditations, see your streaks, and more."
+          description="Welcome to your home! Easily access your meditations, see your streaks, and more."
           onPress={onEduClosePress}
           renderIcon={(props: any) => <HomeIcon {...props} />}
           title="Your Home"

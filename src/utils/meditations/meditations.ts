@@ -23,3 +23,13 @@ export const getTopFiveMeditationIds = (
   const meditationCountListIds = lastFiveMeditationCounts.map(med => med.id);
   return meditationCountListIds.reverse();
 };
+
+export const isBreathwork = (medKey: string) => {
+  const breathPrefix = 'b-';
+
+  return medKey.startsWith(breathPrefix);
+};
+
+export const isBreathworkAvailable = (medKeys: string[]) => {
+  return medKeys.some(isBreathwork);
+};

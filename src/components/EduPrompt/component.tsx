@@ -1,6 +1,12 @@
-import { StyleSheet } from "react-native";
-import { Button, Layout, Text } from "@ui-kitten/components";
-import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components';
+import Animated, {
+  FadeIn,
+  SlideInDown,
+  SlideInUp,
+} from 'react-native-reanimated';
+import _Button from '../Button';
 
 const brightWhite = '#fcfcfc';
 
@@ -8,8 +14,9 @@ interface Props {
   description: string;
   descriptionAction?: string;
   onPress(): void;
-  renderIcon(props: any): JSX.Element;
+  renderIcon?(props: any): JSX.Element;
   title: string;
+  top?: boolean;
 }
 
 interface IconProps {
@@ -18,45 +25,56 @@ interface IconProps {
 }
 
 export const EduPromptComponent = (props: Props) => {
-  const {
-    description,
-    descriptionAction,
-    onPress,
-    renderIcon,
-    title,
-  } = props;
+  const {description, descriptionAction, onPress, renderIcon, title, top} =
+    props;
 
-  const Icon = (props: IconProps) => renderIcon(props);
+  const Icon = (iconProps: IconProps) =>
+    renderIcon ? renderIcon(iconProps) : <></>;
 
   return (
     <Animated.View
       key={'eduContainer'}
       entering={FadeIn.duration(600)}
-      style={styles.container}
-    >
+      style={styles.container}>
       <Animated.View
         key={'eduPromptContainer'}
-        entering={SlideInDown.duration(1000)}
-        style={styles.animatedPromptContainer}
-      >
-        <Layout level='1' style={styles.promptContainer}>
+        entering={top ? SlideInUp.duration(1000) : SlideInDown.duration(1000)}
+        style={
+          top
+            ? styles.animatedPromptContainerTop
+            : styles.animatedPromptContainer
+        }>
+        <Layout level="1" style={styles.promptContainer}>
           <Layout style={styles.promptHeader}>
             <Icon style={styles.icon} fill={brightWhite} />
             <Text category="h5">{title}</Text>
           </Layout>
-          <Text category="s1" style={styles.promptDescription}>{description}</Text>
-          {descriptionAction ? <Text category="s1" style={styles.promptDescription}>{descriptionAction}</Text> : null}
-          <Button onPress={onPress} style={styles.promptButton}>Close</Button>
+          <Text category="s1" style={styles.promptDescription}>
+            {description}
+          </Text>
+          {descriptionAction ? (
+            <Text category="s1" style={styles.promptDescription}>
+              {descriptionAction}
+            </Text>
+          ) : null}
+          <_Button onPress={onPress} style={styles.promptButton}>
+            Close
+          </_Button>
         </Layout>
       </Animated.View>
     </Animated.View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   animatedPromptContainer: {
     position: 'absolute',
     bottom: 40,
+    width: 350,
+  },
+  animatedPromptContainerTop: {
+    position: 'absolute',
+    top: 100,
     width: 350,
   },
   container: {
@@ -84,6 +102,6 @@ const styles = StyleSheet.create({
   },
   promptHeader: {
     alignItems: 'flex-end',
-    flexDirection: 'row'
-  }
-})
+    flexDirection: 'row',
+  },
+});
