@@ -236,7 +236,7 @@ const MeditationScreen = ({
       </Layout>
       {showBreathworkEdu ? (
         <EduPromptComponent
-          description="Include breathwork before your meditation by choosing a breathwork tile. Meditation will begin automatically after breathwork."
+          description="You can include breathwork before your meditation by choosing a breathwork below"
           onPress={onEduClosePress}
           title="Add Breathwork"
           top
@@ -331,7 +331,7 @@ const themedStyles = StyleSheet.create({
   mainSection: {
     flex: 6,
     justifyContent: 'flex-end',
-    paddingBottom: 160,
+    paddingBottom: 240,
   },
   meditationInfo: {
     marginBottom: 24,
