@@ -26,7 +26,9 @@ export type StackParamList = {
   MeditationMatch: UnrecognizedFilesParams;
   MeditationPlayer: MeditationParams;
   Profile: UserParams;
+  LimitedVersion: undefined;
   PurchaseOnboarding: undefined;
+  Purchase: undefined;
   SignIn: undefined;
   Subscriptions: undefined;
   TabNavigation: undefined;

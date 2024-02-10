@@ -20,6 +20,8 @@ import UnrecognizedFilesScreen from '../screens/UnrecognizedFiles';
 import MeditationMatchScreen from '../screens/MeditationMatch';
 import FeedbackScreen from '../screens/Feedback';
 import SubscriptionsScreen from '../screens/Subscriptions';
+import PurchaseOnboarding from '../screens/PurchaseOnboarding';
+import Purchase from '../screens/Purchase';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -63,7 +65,8 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        initialRouteName={getInitialRouteName()}
+        // initialRouteName={getInitialRouteName()}
+        initialRouteName={'PurchaseOnboarding'}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="Subscriptions" component={SubscriptionsScreen} />
@@ -77,6 +80,8 @@ const StackNavigator = () => {
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
         <Screen name="Profile" component={Profile} />
+        <Screen name="Purchase" component={Purchase} />
+        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
         <Screen name="Feedback" component={FeedbackScreen} />
       </Navigator>
