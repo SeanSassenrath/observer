@@ -20,7 +20,6 @@ import {
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
 import UserContext from '../contexts/userData';
-import LinearGradient from 'react-native-linear-gradient';
 
 const privacyPolicyUrl =
   'https://www.privacypolicies.com/live/0f561bf7-489c-4c02-830e-c8b276e128f9';

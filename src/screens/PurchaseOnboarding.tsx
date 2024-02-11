@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 const lastPage = 2;
 
 const imageList = [
-  require('../assets/home.png'),
+  require('../assets/home.jpeg'),
   require('../assets/med-player.png'),
   require('../assets/insight.png'),
 ];
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   heroImg: {
+    borderRadius: 10,
     height: 350,
     width: 200,
     objectFit: 'contain',
