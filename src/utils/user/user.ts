@@ -10,3 +10,6 @@ export const getUserHasMeditated = (user: User) => {
     Object.keys(userMeditationInstanceCounts).length > 0
   );
 };
+
+export const getUserSawBreathOnboarding = (user: User) =>
+  user && user.onboarding && user.onboarding.hasSeenBreathworkOnboarding;

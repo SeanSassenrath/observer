@@ -22,6 +22,8 @@ import FeedbackScreen from '../screens/Feedback';
 import SubscriptionsScreen from '../screens/Subscriptions';
 import PurchaseOnboarding from '../screens/PurchaseOnboarding';
 import Purchase from '../screens/Purchase';
+import LimitedVersion from '../screens/LimitedVersion';
+import Disclaimer from '../screens/Disclaimer';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -65,12 +67,12 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <Navigator
-        // initialRouteName={getInitialRouteName()}
-        initialRouteName={'PurchaseOnboarding'}
+        initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
         <Screen name="Subscriptions" component={SubscriptionsScreen} />
         <Screen name="BetaAgreement" component={BetaAgreement} />
+        <Screen name="Disclaimer" component={Disclaimer} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
         <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
         <Screen name="AddMedsSuccess" component={AddMedsSuccessScreen} />
@@ -79,6 +81,7 @@ const StackNavigator = () => {
         <Screen name="MeditationFinish" component={MeditationFinishScreen} />
         <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
+        <Screen name="LimitedVersion" component={LimitedVersion} />
         <Screen name="Profile" component={Profile} />
         <Screen name="Purchase" component={Purchase} />
         <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />

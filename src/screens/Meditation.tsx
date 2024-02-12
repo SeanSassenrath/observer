@@ -28,10 +28,8 @@ import {brightWhite} from '../constants/colors';
 import {EduPromptComponent} from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
 import {fbUpdateUser} from '../fb/user';
-import {
-  isBreathwork,
-  isBreathworkAvailable,
-} from '../utils/meditations/meditations';
+import {isBreathwork} from '../utils/meditations/meditations';
+import {getUserSawBreathOnboarding} from '../utils/user/user';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -61,9 +59,6 @@ const MeditationScreen = ({
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const {id} = route.params;
   const styles = useStyleSheet(themedStyles);
-
-  // REMOVE THIS
-  const [hasSeenTestEdu, setHasSeenTestEdu] = useState(false);
 
   const meditation = meditationBaseMap[id];
 
@@ -129,31 +124,28 @@ const MeditationScreen = ({
   };
 
   const onEduClosePress = async () => {
-    setHasSeenTestEdu(true);
-    // await fbUpdateUser(user.uid, {
-    //   'onboarding.hasSeenBreathworkOnboarding': true,
-    // });
-    // setUser({
-    //   ...user,
-    //   onboarding: {
-    //     ...user.onboarding,
-    //     hasSeenBreathworkOnboarding: true,
-    //   },
-    // });
+    await fbUpdateUser(user.uid, {
+      'onboarding.hasSeenBreathworkOnboarding': true,
+    });
+    setUser({
+      ...user,
+      onboarding: {
+        ...user.onboarding,
+        hasSeenBreathworkOnboarding: true,
+      },
+    });
   };
 
+  const hasUserSeenBreathOnboarding = getUserSawBreathOnboarding(user);
   const showBreathworkEdu =
-    // !user.onboarding.hasSeenBreathworkOnboarding &&
-    !hasSeenTestEdu &&
-    isBreathworkAvailable(Object.keys(meditationBaseData)) &&
-    !isBreathwork(meditation.meditationBaseId);
+    !isBreathwork(meditation.meditationBaseId) && !hasUserSeenBreathOnboarding;
 
   if (!meditation) {
     return null;
   }
 
   const renderBreathGroupSection = () => {
-    if (meditation.groupName === MeditationGroupName.BreathTracks) {
+    if (isBreathwork(meditation.meditationBaseId)) {
       return null;
     }
 
@@ -166,7 +158,14 @@ const MeditationScreen = ({
     });
 
     if (breathList.length <= 0) {
-      return null;
+      return (
+        <View style={styles.emptyBreathworkContainer}>
+          <Text category="h6">Add breathwork</Text>
+          <Text category="s1" style={styles.breathworkDescription}>
+            Add breathwork to the app to include it before your meditation.
+          </Text>
+        </View>
+      );
     }
 
     const sortedMeditationList = sortBy(breathList, 'name');
@@ -174,7 +173,7 @@ const MeditationScreen = ({
     return (
       <_MeditationListSection
         key={MeditationGroupName.BreathTracks}
-        header="Add breath work"
+        header="Add breathwork"
         meditationList={sortedMeditationList}
         onMeditationPress={onBreathMeditationPress}
         selectedCardId={selectedBreathCardId}
@@ -236,7 +235,7 @@ const MeditationScreen = ({
       </Layout>
       {showBreathworkEdu ? (
         <EduPromptComponent
-          description="You can include breathwork before your meditation by choosing a breathwork below"
+          description="Did you know you can include breathwork before any meditation? It will appear below the Intention section."
           onPress={onEduClosePress}
           title="Add Breathwork"
           top
@@ -281,6 +280,10 @@ const themedStyles = StyleSheet.create({
     // padding: 20,
     justifyContent: 'flex-end',
   },
+  breathworkDescription: {
+    opacity: 0.7,
+    paddingTop: 10,
+  },
   backIcon: {
     height: 36,
     width: 36,
@@ -294,6 +297,9 @@ const themedStyles = StyleSheet.create({
   },
   container: {
     flex: 1,
+  },
+  emptyBreathworkContainer: {
+    paddingHorizontal: 20,
   },
   icon: {
     width: 20,

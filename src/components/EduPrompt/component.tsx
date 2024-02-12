@@ -58,7 +58,7 @@ export const EduPromptComponent = (props: Props) => {
             </Text>
           ) : null}
           <_Button onPress={onPress} style={styles.promptButton}>
-            Close
+            Got it
           </_Button>
         </Layout>
       </Animated.View>
