@@ -20,7 +20,7 @@ const headerList = [
 ];
 
 const descriptionList = [
-  'Automatically organized library. Easily search and start meditations.',
+  'Easily find your meditation through an organized Library.',
   'Easily add breathwork before your meditation for a seamless experience.',
   'Get data on your meditation practice, streaks to stay motivated, and more.',
 ];
