@@ -239,18 +239,21 @@ export const botecMap = {
 export enum BreakingHabitBaseKeys {
   MedBreakingHabitSpace = 'm-breaking-habit-space',
   MedBreakingHabitWater = 'm-breaking-habit-water',
+  MedBreakingHabitWaterUpdated = 'm-breaking-habit-water-updated',
   MedBreakingHabitPlacebo = 'm-breaking-habit-placebo',
 }
 
 export enum BreakingHabitSizes {
   MedBreakingHabitSpace = 149360649,
   MedBreakingHabitWater = 140710975,
+  MedBreakingHabitWaterUpdated = 169398605,
   MedBreakingHabitPlacebo = 58249006,
 }
 
 export enum BreakingHabitStringSizes {
   MedBreakingHabitSpace = '149360649',
   MedBreakingHabitWater = '140710975',
+  MedBreakingHabitWaterUpdated = '16939',
   MedBreakingHabitPlacebo = '58249',
 }
 
@@ -274,6 +277,17 @@ export const breakingHabitMap = {
     groupName: MeditationGroupName.BreakingHabit,
     meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitWater,
     name: 'Breaking The Habit Of Being Yourself - Water',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [BreakingHabitBaseKeys.MedBreakingHabitWaterUpdated]: {
+    artist,
+    backgroundImage: require('../assets/breaking_habit.jpg'),
+    formattedDuration: '70',
+    id: placeholder,
+    groupName: MeditationGroupName.BreakingHabit,
+    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitWater,
+    name: 'Breaking The Habit Of Being Yourself - Water - Updated',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -824,6 +838,7 @@ export enum WalkingBaseKeys {
   MedWalkingPrayerEvocationInvocation = 'm-walking-prayer-evocation-invocation',
   MedWalkingRadiantLight = 'm-walking-radiant-light',
   MedWalkingRunning = 'm-walking-running',
+  MedWalkingForTheWorld = 'm-walking-for-the-world',
 }
 
 export enum WalkingSizes {
@@ -1000,6 +1015,17 @@ export const walkingMap = {
     groupName: MeditationGroupName.Walking,
     meditationBaseId: WalkingBaseKeys.MedWalkingRunning,
     name: 'Walking Meditation - Running',
+    type: MeditationTypes.Meditation,
+    url: placeholder,
+  },
+  [WalkingBaseKeys.MedWalkingForTheWorld]: {
+    artist,
+    backgroundImage: require('../assets/wm-walk-for-the-world.jpg'),
+    formattedDuration: '50',
+    id: placeholder,
+    groupName: MeditationGroupName.Walking,
+    meditationBaseId: WalkingBaseKeys.MedWalkingForTheWorld,
+    name: 'Walking Meditation - Walk for the World',
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
@@ -1197,6 +1223,7 @@ export enum OtherSizes {
   MedHeartBrainSync = 81972165,
   MedHeartBrainSync2 = 32977827,
   MedCourageousHeart = 89041318,
+  MedCourageousHeart2 = 35990894,
   MedBreakingHabitsAddictions = 86646730,
   MedEmpoweringWithin = 56628287,
   MedEmpoweringWithin2 = 59375853,
@@ -1228,6 +1255,7 @@ export enum OtherStringSizes {
   MedHeartBrainSync = '81972',
   MedHeartBrainSync2 = '32977',
   MedCourageousHeart = '89041',
+  MedCourageousHeart2 = '35990',
   MedBreakingHabitsAddictions = '86646',
   MedEmpoweringWithin = '56628',
   MedEmpoweringWithin2 = '59375',

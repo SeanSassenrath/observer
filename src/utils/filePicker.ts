@@ -93,6 +93,11 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
+  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWaterUpdated) {
+    return {
+      [BreakingHabitBaseKeys.MedBreakingHabitWaterUpdated]:
+        makeRelativeFilePath(file.fileCopyUri),
+    };
   } else if (fileSize === DailyMeditationSizes.MedMorning) {
     return {
       [DailyMeditationBaseKeys.MedMorning]: makeRelativeFilePath(
@@ -937,6 +942,13 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
       };
     }
     case OtherStringSizes.MedCourageousHeart: {
+      return {
+        [OtherBaseKeys.MedCourageousHeart]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
+    }
+    case OtherStringSizes.MedCourageousHeart2: {
       return {
         [OtherBaseKeys.MedCourageousHeart]: makeRelativeFilePath(
           file.fileCopyUri,
