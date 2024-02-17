@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Text} from '@ui-kitten/components/ui';
+import {Layout, Text} from '@ui-kitten/components/ui';
 import {useNavigation} from '@react-navigation/native';
 
 import Button from '../components/Button';
@@ -25,7 +25,8 @@ const BetaAgreement = () => {
     };
     await fbUpdateUser(user.uid, updatedUser)
       .then(() => {
-        navigation.navigate('AddMeditations');
+        navigation.navigate('PurchaseOnboarding');
+        // navigation.navigate('AddMeditations');
       })
       .catch(e => {
         console.log(e);
@@ -45,7 +46,7 @@ const BetaAgreement = () => {
   };
 
   return (
-    <View style={styles.rootContainer}>
+    <Layout level="2" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.heroContainer}>
@@ -78,7 +79,7 @@ const BetaAgreement = () => {
           </View>
         </View>
       </SafeAreaView>
-    </View>
+    </Layout>
   );
 };
 
@@ -139,7 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   rootContainer: {
-    backgroundColor: '#0B0E18',
     flex: 1,
   },
 });

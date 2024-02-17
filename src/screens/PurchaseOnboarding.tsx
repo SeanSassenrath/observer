@@ -42,7 +42,8 @@ const PurchaseOnboarding = () => {
     const nextIndex = currentIndex + 1;
 
     if (nextIndex > lastPage) {
-      navigation.navigate('Purchase');
+      // navigation.navigate('Purchase');
+      navigation.navigate('AddMeditations');
     } else {
       setCurrentIndex(nextIndex);
     }
