@@ -70,6 +70,7 @@ import {
 import {SearchBar} from '../components/SearchBar';
 import NotificationModal from '../components/NotificationModal';
 import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
+import SubscribeModal from '../components/SubscribeModal';
 
 const EMPTY_SEARCH = '';
 
@@ -98,6 +99,7 @@ const HomeScreen = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
+  const [isSubscribeModalVisible, setIsSubscribeModalVisible] = useState(false);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -194,17 +196,21 @@ const HomeScreen = () => {
   };
 
   const onAddMeditationsPress = async () => {
-    const {_meditations, _unknownFiles} = await onAddMeditations(
-      meditationFilePaths,
-      setMeditationFilePaths,
-      setUnknownFiles,
-      user,
-    );
+    if (!isSubscribed && hasMaxMeds) {
+      setIsSubscribeModalVisible(true);
+    } else {
+      const {_meditations, _unknownFiles} = await onAddMeditations(
+        meditationFilePaths,
+        setMeditationFilePaths,
+        setUnknownFiles,
+        user,
+      );
 
-    navigation.navigate('AddMedsMatching', {
-      medsSuccess: _meditations,
-      medsFail: _unknownFiles,
-    });
+      navigation.navigate('AddMedsMatching', {
+        medsSuccess: _meditations,
+        medsFail: _unknownFiles,
+      });
+    }
   };
 
   const onMeditationPress = (
@@ -414,6 +420,11 @@ const HomeScreen = () => {
       <NotificationModal
         onClose={() => setIsNotifModalVisible(false)}
         isVisible={isNotifModalVisible}
+      />
+      <SubscribeModal
+        description="Add more meditations to your library by starting your 7 day free trial."
+        isVisible={isSubscribeModalVisible}
+        onClose={() => setIsSubscribeModalVisible(false)}
       />
       <MeditationNotesDrawer
         visible={isNotesModalVisible}
