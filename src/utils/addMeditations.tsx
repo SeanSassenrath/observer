@@ -1,5 +1,7 @@
 import {isEmpty} from 'lodash';
-import DocumentPicker from 'react-native-document-picker';
+import DocumentPicker, {
+  DocumentPickerResponse,
+} from 'react-native-document-picker';
 
 import {
   MeditationFilePathData,
@@ -11,6 +13,7 @@ import {meditationAddSendEvent, Action, Noun} from '../analytics';
 import {UnknownFileData} from '../types';
 import {fbAddUnsupportedFiles} from '../fb/unsupportedFiles';
 import {User} from '../contexts/userData';
+import {getIsSubscribed} from './user/user';
 
 const filterUnknownFiles = (_unknownFiles: UnknownFileData[]) => {
   const filteredFiles = [] as UnknownFileData[];
@@ -48,13 +51,25 @@ export const onAddMeditations = async (
   setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
 ) => {
+  const isSubscribed = getIsSubscribed(user);
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
   let meditationBaseData = {} as any;
+  let pickedFiles = [] as DocumentPickerResponse[];
 
-  const pickedFiles = await DocumentPicker.pick({
+  pickedFiles = await DocumentPicker.pick({
     allowMultiSelection: true,
     copyTo: 'documentDirectory',
   });
+
+  if (!isSubscribed) {
+    const meds = Object.keys(existingMeditationFilePathData);
+
+    if (meds.length === 1) {
+      pickedFiles.splice(0, 1);
+    } else {
+      pickedFiles.splice(0, 2);
+    }
+  }
 
   const {filePathDataList, unknownFiles} = makeFilePathDataList(
     pickedFiles,
