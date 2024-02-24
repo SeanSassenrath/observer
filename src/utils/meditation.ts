@@ -342,3 +342,9 @@ export const makeTotalMeditationTime = (
     return previousTotalMeditationTime + timeMeditated;
   }
 };
+
+export const hasMaxMeditationCount = (meds: MeditationBaseMap) => {
+  const keys = Object.keys(meds);
+
+  return !!(keys && keys.length === 2);
+};

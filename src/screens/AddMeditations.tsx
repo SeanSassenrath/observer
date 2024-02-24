@@ -8,9 +8,14 @@ import UserContext from '../contexts/userData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {onAddMeditations} from '../utils/addMeditations';
 import UnknownFilesContext from '../contexts/unknownFiles';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import {hasMaxMeditationCount} from '../utils/meditation';
+import {getIsSubscribed} from '../utils/user/user';
 
 const AddMeditationsScreen = () => {
   const {user} = useContext(UserContext);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {meditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
@@ -18,6 +23,10 @@ const AddMeditationsScreen = () => {
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
 
   const navigation = useNavigation();
+
+  const hasMaxMeds = hasMaxMeditationCount(meditationBaseData);
+
+  const isSubscribed = getIsSubscribed(user);
 
   const onSkipPress = () => {
     // @ts-ignore
@@ -38,6 +47,14 @@ const AddMeditationsScreen = () => {
     });
   };
 
+  const makeDescription = () => {
+    if (!isSubscribed && hasMaxMeds) {
+      return 'Add up to 2 meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
+    } else {
+      return 'Add meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
+    }
+  };
+
   return (
     <Layout level="4" style={styles.rootContainer}>
       <SafeAreaView style={styles.container}>
@@ -47,8 +64,7 @@ const AddMeditationsScreen = () => {
             Add Meditations
           </Text>
           <Text category="s1" style={styles.description}>
-            Add meditations from your phone, Dropbox, Google Drive, or wherever
-            you keep your meditations files.
+            {makeDescription()}
           </Text>
         </View>
         <View style={styles.bottom}>

@@ -14,4 +14,4 @@ export const getUserHasMeditated = (user: User) => {
 export const getUserSawBreathOnboarding = (user: User) =>
   user && user.onboarding && user.onboarding.hasSeenBreathworkOnboarding;
 
-export const isSubscribed = (user: User) => !!(user && user.isSubscribed);
+export const getIsSubscribed = (user: User) => !!(user && user.isSubscribed);
