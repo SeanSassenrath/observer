@@ -30,6 +30,8 @@ import {
   getLastMeditationInstance,
   getMeditationFromId,
 } from '../utils/meditations/meditations';
+import _Button from '../components/Button';
+import {getIsSubscribed} from '../utils/user/user';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -55,6 +57,8 @@ const InsightScreen = () => {
   const lastMeditation =
     lastMeditationInstance &&
     getMeditationFromId(lastMeditationInstance.meditationBaseId);
+
+  const isSubscribed = getIsSubscribed(user);
 
   const fetchMeditationHistory = async () => {
     const _meditationHistory = await fbGetMeditationHistory(user.uid);
@@ -186,6 +190,18 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
+        {!isSubscribed ? (
+          <Layout style={styles.subscribeContainer}>
+            <Text category="h6" style={styles.subscribeHeader}>
+              Start Free Trial
+            </Text>
+            <Text category="s1" style={styles.subscribeDescription}>
+              See your latest meditation trends, streaks, and meditation
+              history.
+            </Text>
+            <_Button>Start 7 Day Free Trial</_Button>
+          </Layout>
+        ) : null}
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory.meditationInstances || []}
@@ -346,6 +362,21 @@ const themedStyles = StyleSheet.create({
   footer: {
     backgroundColor: 'transparent',
     paddingVertical: 20,
+  },
+  subscribeContainer: {
+    backgroundColor: 'rgba(48,55,75, 0.6)',
+    borderRadius: 10,
+    marginBottom: 60,
+    marginHorizontal: 20,
+    padding: 20,
+  },
+  subscribeDescription: {
+    marginTop: 10,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  subscribeHeader: {
+    textAlign: 'center',
   },
 });
 
