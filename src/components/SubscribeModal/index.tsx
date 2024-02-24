@@ -1,6 +1,6 @@
 import {Button, Layout, Modal, Text} from '@ui-kitten/components/ui';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {useStyleSheet} from '@ui-kitten/components';
 import messaging from '@react-native-firebase/messaging';
 
@@ -64,7 +64,7 @@ const SubscribeModal = (props: Props) => {
       <Layout level="2" style={styles.rootContainer}>
         <Layout level="2">
           <Text category="h5" style={styles.modalText}>
-            Upgrade Account
+            Become Unlimited
           </Text>
           <Text category="s1" style={styles.modalText}>
             {description}

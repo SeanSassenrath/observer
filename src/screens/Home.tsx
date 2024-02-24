@@ -422,7 +422,7 @@ const HomeScreen = () => {
         isVisible={isNotifModalVisible}
       />
       <SubscribeModal
-        description="Add more meditations to your library by starting your 7 day free trial."
+        description="Add more meditations to your library by starting your free trial."
         isVisible={isSubscribeModalVisible}
         onClose={() => setIsSubscribeModalVisible(false)}
       />

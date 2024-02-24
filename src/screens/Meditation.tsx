@@ -260,7 +260,7 @@ const MeditationScreen = ({
         meditationInstance={lastMeditationInstance}
       />
       <SubscribeModal
-        description="Set an intention for your meditation by starting your 7 day free trial."
+        description="Set an intention for your meditation by starting your free trial."
         isVisible={isSubscribeModalVisible}
         onClose={() => setIsSubscribeModalVisible(false)}
       />
