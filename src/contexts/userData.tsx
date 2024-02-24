@@ -43,6 +43,7 @@ export interface User {
   uid: UserUid;
   profile: UserProfile;
   hasBetaAccess?: boolean;
+  isSubscribed?: boolean;
   betaAgreement?: BetaAgreement;
   onboarding: Onboarding;
   meditationHistoryIds?: MeditationBaseId[];
