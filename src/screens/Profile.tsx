@@ -21,6 +21,7 @@ import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
 import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
+import {getIsSubscribed} from '../utils/user/user';
 
 const EMPTY_STRING = '';
 
@@ -57,6 +58,8 @@ const Profile = (props: Props) => {
   const [userProfile, setUserProfile] = useState({} as User);
   const [name, setName] = useState(EMPTY_STRING);
   const [isNotifEnabled, setIsNotifEnabled] = useState(false);
+
+  const isSubscribed = getIsSubscribed(user);
 
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
@@ -228,14 +231,16 @@ const Profile = (props: Props) => {
             />
           </View>
         </View>
-        <View style={styles.toggleRowContainer}>
-          <Text category="s1">Enable Notifications</Text>
-          <Toggle
-            checked={isNotifEnabled}
-            status="primary"
-            onChange={onNotifToggleChange}
-          />
-        </View>
+        {isSubscribed ? (
+          <View style={styles.toggleRowContainer}>
+            <Text category="s1">Enable Notifications</Text>
+            <Toggle
+              checked={isNotifEnabled}
+              status="primary"
+              onChange={onNotifToggleChange}
+            />
+          </View>
+        ) : null}
         {/* <View style={styles.waveContainer}>
           <Wave />
         </View> */}
