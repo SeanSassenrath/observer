@@ -30,11 +30,15 @@ import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationHistoryContext from '../contexts/meditationHistory';
-import {getRecentMeditationBaseIds} from '../utils/meditation';
+import {
+  getRecentMeditationBaseIds,
+  hasMaxMeditationCount,
+} from '../utils/meditation';
 import {Inspiration} from '../components/Inspiration';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
 import {
+  getIsSubscribed,
   getUserHasMeditated,
   getUserMeditationInstanceCounts,
 } from '../utils/user/user';
@@ -97,6 +101,9 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
+  const hasMaxMeds = hasMaxMeditationCount(meditationBaseData);
+  const isSubscribed = getIsSubscribed(user);
+
   const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
   const meditationInstanceCounts = getUserMeditationInstanceCounts(user);
 
@@ -155,6 +162,10 @@ const HomeScreen = () => {
   }, []);
 
   const shouldShowNotifModal = async () => {
+    if (!isSubscribed) {
+      return;
+    }
+
     const authorizationStatus = await messaging().hasPermission();
 
     if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {

@@ -80,6 +80,7 @@ export const initialUserState = {
     hasSeenLibraryOnboarding: false,
     hasSeenHomeOnboarding: false,
     hasSeenInsightsOnboarding: false,
+    hasSeenBreathworkOnboarding: false,
   },
   meditationHistoryIds: [],
   meditationUserData: {
