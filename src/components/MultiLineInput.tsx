@@ -3,11 +3,13 @@ import {StyleSheet} from 'react-native';
 import {Input} from '@ui-kitten/components';
 
 interface MultiLineInputProps {
+  isDisabled?: boolean;
   placeholder: string;
   onChangeText(newVal: string): void;
   value: string;
   style?: any;
   textStyle?: any;
+  onPressIn?(): void;
 }
 
 export const MultiLineInput = (props: MultiLineInputProps) => (
@@ -18,6 +20,8 @@ export const MultiLineInput = (props: MultiLineInputProps) => (
     style={{...styles.inputStyle, ...props.style}}
     textStyle={{...styles.textStyle, ...props.textStyle}}
     value={props.value}
+    onPressIn={props.onPressIn}
+    disabled={props.isDisabled}
   />
 );
 
