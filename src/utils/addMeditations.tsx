@@ -64,10 +64,10 @@ export const onAddMeditations = async (
   if (!isSubscribed) {
     const meds = Object.keys(existingMeditationFilePathData);
 
-    if (meds.length === 1) {
-      pickedFiles.splice(0, 1);
-    } else {
-      pickedFiles.splice(0, 2);
+    if (meds.length === 1 && pickedFiles.length > 1) {
+      pickedFiles.splice(0);
+    } else if (pickedFiles.length > 2) {
+      pickedFiles.splice(2);
     }
   }
 
