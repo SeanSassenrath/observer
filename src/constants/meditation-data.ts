@@ -286,7 +286,7 @@ export const breakingHabitMap = {
     formattedDuration: '70',
     id: placeholder,
     groupName: MeditationGroupName.BreakingHabit,
-    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitWater,
+    meditationBaseId: BreakingHabitBaseKeys.MedBreakingHabitWaterUpdated,
     name: 'Breaking The Habit Of Being Yourself - Water - Updated',
     type: MeditationTypes.Meditation,
     url: placeholder,
