@@ -20,7 +20,7 @@ const Purchase = () => {
             Let's get started!
           </Text>
           <Text category="s1" style={styles.priceText}>
-            First 7 days free, then $2.99/month (billed $35.88 annually)
+            First 7 days free, then $2.91/month (billed $34.99 annually)
           </Text>
         </View>
         <View style={styles.midContainer}>
