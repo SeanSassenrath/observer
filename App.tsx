@@ -233,11 +233,19 @@ const App = () => {
         typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== 'undefined'
       ) {
         console.log('user has subscription', customerInfo.entitlements);
+        setUser({
+          ...user,
+          isSubscribed: true,
+        });
       } else {
         console.log(
           'user does not have subscription',
           customerInfo.entitlements,
         );
+        setUser({
+          ...user,
+          isSubscribed: true,
+        });
       }
     } catch (e) {
       console.log('Error', e);

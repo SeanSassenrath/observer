@@ -48,7 +48,7 @@ const AddMeditationsScreen = () => {
   };
 
   const makeDescription = () => {
-    if (!isSubscribed && hasMaxMeds) {
+    if (!isSubscribed) {
       return 'Add up to 2 meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
     } else {
       return 'Add meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';

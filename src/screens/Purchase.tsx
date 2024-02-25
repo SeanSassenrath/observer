@@ -1,5 +1,5 @@
 import {Layout, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Alert,
   Image,
@@ -15,12 +15,15 @@ import {PurchaseScreenRouteProp} from '../types';
 import Purchases from 'react-native-purchases';
 import {ENTITLEMENT_ID} from '../constants/purchase';
 import PurchaseModal from '../components/PurchaseModal';
+import UserContext from '../contexts/userData';
 
 interface Props {
   route: PurchaseScreenRouteProp;
 }
 
 const Purchase = (props: Props) => {
+  const {user, setUser} = useContext(UserContext);
+
   const {route} = props;
   const {offering} = route.params;
   const annualPriceString = offering.annual?.product.priceString;
@@ -50,6 +53,10 @@ const Purchase = (props: Props) => {
           ENTITLEMENT_ID
         ] !== 'undefined'
       ) {
+        setUser({
+          ...user,
+          isSubscribed: true,
+        });
         navigation.navigate('AddMeditations');
       }
     } catch (e: any) {
