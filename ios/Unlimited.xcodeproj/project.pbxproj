@@ -15,6 +15,10 @@
 		4DFAB09C0DE13654BC0E2414 /* Pods_Unlimited_UnlimitedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B6BCEE8A61BDD5AEDE6B81 /* Pods_Unlimited_UnlimitedTests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		FF2CE0652B549D8E0059CB0D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2CE0642B549D8E0059CB0D /* StoreKit.framework */; };
+		FF6A6F012B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */; };
+		FF6A6F022B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */; };
+		FF6A6F042B8BCB7300B11FD1 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F032B8BCB7300B11FD1 /* StoreKitTestCertificate.cer */; };
+		FF6A6F052B8BCB7300B11FD1 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F032B8BCB7300B11FD1 /* StoreKitTestCertificate.cer */; };
 		FFD4D7512B6CBBBF0008F46B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FFD4D7502B6CBBBF0008F46B /* GoogleService-Info.plist */; };
 		FFD4D7522B6CBBBF0008F46B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FFD4D7502B6CBBBF0008F46B /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
@@ -48,6 +52,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F9ED15CFFEA49B7A52F20156 /* Pods_Unlimited.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unlimited.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2CE0642B549D8E0059CB0D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Unlimited - Meditation Player.storekit"; sourceTree = "<group>"; };
+		FF6A6F032B8BCB7300B11FD1 /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
 		FF91AE822B49B4B000B5C7DB /* Unlimited.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Unlimited.entitlements; path = Unlimited/Unlimited.entitlements; sourceTree = "<group>"; };
 		FFD4D7502B6CBBBF0008F46B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +132,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */,
+				FF6A6F032B8BCB7300B11FD1 /* StoreKitTestCertificate.cer */,
 				13B07FAE1A68108700A75B9A /* Unlimited */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* UnlimitedTests */,
@@ -247,7 +255,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF6A6F022B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */,
 				FFD4D7522B6CBBBF0008F46B /* GoogleService-Info.plist in Resources */,
+				FF6A6F052B8BCB7300B11FD1 /* StoreKitTestCertificate.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +265,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF6A6F042B8BCB7300B11FD1 /* StoreKitTestCertificate.cer in Resources */,
+				FF6A6F012B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				FFD4D7512B6CBBBF0008F46B /* GoogleService-Info.plist in Resources */,
