@@ -1,10 +1,19 @@
 import {Layout, Text} from '@ui-kitten/components';
-import React from 'react';
-import {Image, Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Alert,
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from 'react-native';
 
 import _Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
 import {PurchaseScreenRouteProp} from '../types';
+import Purchases from 'react-native-purchases';
+import {ENTITLEMENT_ID} from '../constants/purchase';
 
 interface Props {
   route: PurchaseScreenRouteProp;
@@ -18,8 +27,38 @@ const Purchase = (props: Props) => {
   const monthlyPrice = annualPrice
     ? Math.round((annualPrice / 12) * 100) / 100
     : '';
+  const purchasePackage = offering.annual;
+
+  const [isPurchasing, setIsPurchasing] = useState(false);
 
   const navigation = useNavigation();
+
+  const onPurchase = async () => {
+    if (!purchasePackage) {
+      return;
+    }
+
+    setIsPurchasing(true);
+
+    try {
+      const purchaseResult = await Purchases.purchasePackage(purchasePackage);
+      console.log('Purchase Result', purchaseResult.customerInfo.entitlements);
+
+      if (
+        typeof purchaseResult.customerInfo.entitlements.active[
+          ENTITLEMENT_ID
+        ] !== 'undefined'
+      ) {
+        navigation.goBack();
+      }
+    } catch (e: any) {
+      if (!e.userCancelled) {
+        Alert.alert('Error purchasing package', e.message);
+      }
+    } finally {
+      setIsPurchasing(false);
+    }
+  };
 
   const onLimitedVersionPress = () => {
     navigation.navigate('LimitedVersion');
@@ -86,7 +125,9 @@ const Purchase = (props: Props) => {
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <_Button size="large">Start my free trial</_Button>
+          <_Button size="large" onPress={onPurchase}>
+            Start my free trial
+          </_Button>
           <Pressable onPress={onLimitedVersionPress}>
             <Text category="s1" style={styles.limitedText}>
               Continue with the limited version
