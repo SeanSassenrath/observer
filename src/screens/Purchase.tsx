@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {PurchaseScreenRouteProp} from '../types';
 import Purchases from 'react-native-purchases';
 import {ENTITLEMENT_ID} from '../constants/purchase';
+import PurchaseModal from '../components/PurchaseModal';
 
 interface Props {
   route: PurchaseScreenRouteProp;
@@ -49,7 +50,7 @@ const Purchase = (props: Props) => {
           ENTITLEMENT_ID
         ] !== 'undefined'
       ) {
-        navigation.goBack();
+        navigation.navigate('AddMeditations');
       }
     } catch (e: any) {
       if (!e.userCancelled) {
@@ -135,6 +136,7 @@ const Purchase = (props: Props) => {
           </Pressable>
         </View>
       </SafeAreaView>
+      <PurchaseModal isVisible={isPurchasing} />
     </Layout>
   );
 };
