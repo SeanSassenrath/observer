@@ -1,9 +1,10 @@
 import {Button, Icon, Layout, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
 
 import {brightWhite} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
+import Purchases, {PurchasesOffering} from 'react-native-purchases';
 
 const lastPage = 2;
 
@@ -37,13 +38,29 @@ const PurchaseOnboarding = () => {
   const navigation = useNavigation();
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [offering, setOffering] = useState({} as PurchasesOffering);
+
+  useEffect(() => {
+    fetchOfferings();
+  }, []);
+
+  const fetchOfferings = async () => {
+    try {
+      const offerings = await Purchases.getOfferings();
+      if (offerings.current !== null) {
+        console.log('Offerings', offerings.current);
+        setOffering(offerings.current);
+      }
+    } catch (e) {
+      console.log('error', e);
+    }
+  };
 
   const onNextPress = () => {
     const nextIndex = currentIndex + 1;
 
     if (nextIndex > lastPage) {
-      // navigation.navigate('Purchase');
-      navigation.navigate('AddMeditations');
+      navigation.navigate('Purchase', {offering});
     } else {
       setCurrentIndex(nextIndex);
     }

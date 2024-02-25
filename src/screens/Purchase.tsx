@@ -4,8 +4,21 @@ import {Image, Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
 
 import _Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
+import {PurchaseScreenRouteProp} from '../types';
 
-const Purchase = () => {
+interface Props {
+  route: PurchaseScreenRouteProp;
+}
+
+const Purchase = (props: Props) => {
+  const {route} = props;
+  const {offering} = route.params;
+  const annualPriceString = offering.annual?.product.priceString;
+  const annualPrice = offering.annual?.product.price;
+  const monthlyPrice = annualPrice
+    ? Math.round((annualPrice / 12) * 100) / 100
+    : '';
+
   const navigation = useNavigation();
 
   const onLimitedVersionPress = () => {
@@ -20,7 +33,7 @@ const Purchase = () => {
             Let's get started!
           </Text>
           <Text category="s1" style={styles.priceText}>
-            First 7 days free, then $2.91/month (billed $34.99 annually)
+            {`First 7 days free, then $${monthlyPrice}/month billed at ${annualPriceString} annually`}
           </Text>
         </View>
         <View style={styles.midContainer}>
