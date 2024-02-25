@@ -51,6 +51,7 @@ import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import {getMeditationFilePathDataInAsyncStorage} from './src/utils/asyncStorageMeditation';
 import Splash from './src/screens/Splash';
 import UnknownFilesContext from './src/contexts/unknownFiles';
+import {ENTITLEMENT_ID} from './src/constants/purchase';
 
 const googleWebClientId =
   '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
@@ -220,6 +221,29 @@ const App = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    checkUserSubscription();
+  }, []);
+
+  const checkUserSubscription = async () => {
+    try {
+      const customerInfo = await Purchases.getCustomerInfo();
+      if (
+        typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== 'undefined'
+      ) {
+        console.log('user has subscription', customerInfo.entitlements);
+      } else {
+        console.log(
+          'user does not have subscription',
+          customerInfo.entitlements,
+        );
+      }
+    } catch (e) {
+      console.log('Error', e);
+      // Error fetching purchaser info
+    }
+  };
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();
