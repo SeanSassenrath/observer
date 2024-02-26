@@ -9,7 +9,6 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {onAddMeditations} from '../utils/addMeditations';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import {hasMaxMeditationCount} from '../utils/meditation';
 import {getIsSubscribed} from '../utils/user/user';
 
 const AddMeditationsScreen = () => {
@@ -23,8 +22,6 @@ const AddMeditationsScreen = () => {
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
 
   const navigation = useNavigation();
-
-  const hasMaxMeds = hasMaxMeditationCount(meditationBaseData);
 
   const isSubscribed = getIsSubscribed(user);
 
