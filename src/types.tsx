@@ -119,8 +119,9 @@ export type MeditationPlayerScreenNavigationProp =
 export type MeditationPlayerStackScreenProps<T extends keyof StackParamList> =
   StackScreenProps<StackParamList, T>;
 
-type Purchase = NativeStackScreenProps<StackParamList, 'Purchase'>;
-export type PurchaseScreenRouteProp = Purchase['route'];
+type PurchaseProps = NativeStackScreenProps<StackParamList, 'Purchase'>;
+export type PurchaseScreenRouteProp = PurchaseProps['route'];
+export type PurchaseScreenNavigationProp = PurchaseProps['navigation'];
 
 // Tab Navigation
 export type TabParamList = {

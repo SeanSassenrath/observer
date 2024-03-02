@@ -1,4 +1,4 @@
-import {Layout, Text} from '@ui-kitten/components';
+import {Icon, Layout, Text} from '@ui-kitten/components';
 import React, {useContext, useState} from 'react';
 import {
   Alert,
@@ -6,18 +6,30 @@ import {
   Pressable,
   SafeAreaView,
   StyleSheet,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
 import _Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
-import {PurchaseScreenRouteProp} from '../types';
+import {PurchaseScreenNavigationProp, PurchaseScreenRouteProp} from '../types';
 import Purchases from 'react-native-purchases';
 import {ENTITLEMENT_ID} from '../constants/purchase';
 import PurchaseModal from '../components/PurchaseModal';
 import UserContext from '../contexts/userData';
+import {brightWhite} from '../constants/colors';
+
+const BackIcon = (props: any) => (
+  <Icon
+    {...props}
+    style={iconStyles.backIcon}
+    fill={brightWhite}
+    name="arrow-back-outline"
+  />
+);
 
 interface Props {
+  navigation: PurchaseScreenNavigationProp;
   route: PurchaseScreenRouteProp;
 }
 
@@ -25,17 +37,21 @@ const Purchase = (props: Props) => {
   const {user, setUser} = useContext(UserContext);
 
   const {route} = props;
-  const {offering} = route.params;
-  const annualPriceString = offering.annual?.product.priceString;
-  const annualPrice = offering.annual?.product.price;
+
+  const offering = route.params?.offering;
+  const annualPriceString = offering?.annual?.product.priceString;
+  const annualPrice = offering?.annual?.product.price;
   const monthlyPrice = annualPrice
     ? Math.round((annualPrice / 12) * 100) / 100
     : '';
-  const purchasePackage = offering.annual;
+  const purchasePackage = offering?.annual;
 
   const [isPurchasing, setIsPurchasing] = useState(false);
 
   const navigation = useNavigation();
+  const routes = navigation.getState()?.routes;
+  const prevRoute = routes[routes.length - 2];
+  const showBackButton = prevRoute?.name !== 'PurchaseOnboarding';
 
   const onPurchase = async () => {
     if (!purchasePackage) {
@@ -72,9 +88,20 @@ const Purchase = (props: Props) => {
     navigation.navigate('LimitedVersion');
   };
 
+  const onBackPress = () => {
+    navigation.goBack();
+  };
+
   return (
     <Layout level="2" style={styles.rootContainer}>
       <SafeAreaView style={styles.rootContainer}>
+        <View style={styles.topNavContainer}>
+          {showBackButton ? (
+            <TouchableWithoutFeedback onPress={onBackPress}>
+              <BackIcon />
+            </TouchableWithoutFeedback>
+          ) : null}
+        </View>
         <View style={styles.topContainer}>
           <Text category="h5" style={styles.headerText}>
             Let's get started!
@@ -148,6 +175,13 @@ const Purchase = (props: Props) => {
   );
 };
 
+const iconStyles = StyleSheet.create({
+  backIcon: {
+    height: 36,
+    width: 36,
+  },
+});
+
 const styles = StyleSheet.create({
   bottomContainer: {
     flex: 2,
@@ -197,9 +231,13 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     alignItems: 'center',
-    flex: 3,
+    flex: 2,
     justifyContent: 'center',
     paddingHorizontal: 20,
+  },
+  topNavContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
   },
 });
 

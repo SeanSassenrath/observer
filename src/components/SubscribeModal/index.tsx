@@ -2,14 +2,10 @@ import {Button, Layout, Modal, Text} from '@ui-kitten/components/ui';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {useStyleSheet} from '@ui-kitten/components';
-import messaging from '@react-native-firebase/messaging';
 
 import _Button from '../Button';
-import {Action, Noun, notificationModalSendEvent} from '../../analytics';
-
-import {setSeenNotificationModalInAsyncStorage} from '../../utils/asyncStorageNotifs';
-import {DateTime} from 'luxon';
-import Toast from 'react-native-toast-message';
+import {useFetchOffering} from '../../hooks/useFetchOffering';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   description: string;
@@ -21,37 +17,15 @@ const SubscribeModal = (props: Props) => {
   const {description, isVisible, onClose} = props;
   const styles = useStyleSheet(themedStyles);
 
-  const setSeenNotifModal = async () => {
-    const now = DateTime.now().toString();
-    await notificationModalSendEvent(Action.VIEW, Noun.ON_MOUNT);
-    await setSeenNotificationModalInAsyncStorage(now);
-  };
+  const navigation = useNavigation();
+  const offering = useFetchOffering();
 
-  const onEnablePress = async () => {
-    const authorizationStatus = await messaging().requestPermission();
-
-    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-      await notificationModalSendEvent(Action.ENABLE, Noun.BUTTON);
-      console.log('Permission status:', authorizationStatus);
-    } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
-      await notificationModalSendEvent(Action.DENIED, Noun.BUTTON);
-      console.log('Permission status:', authorizationStatus);
-    }
-
-    setSeenNotifModal();
+  const onEnablePress = () => {
     onClose();
-
-    Toast.show({
-      type: 'success',
-      text1: 'Notifications enabled',
-      position: 'bottom',
-      bottomOffset: 100,
-    });
+    navigation.navigate('Purchase', {offering});
   };
 
-  const onClosePress = async () => {
-    await notificationModalSendEvent(Action.SKIP, Noun.BUTTON);
-    setSeenNotifModal();
+  const onClosePress = () => {
     onClose();
   };
 
