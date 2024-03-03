@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AppState, FlatList, SafeAreaView, StyleSheet} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import {TopMeditations} from '../components/TopMeditations';
@@ -32,6 +32,7 @@ import {
 } from '../utils/meditations/meditations';
 import _Button from '../components/Button';
 import {getIsSubscribed} from '../utils/user/user';
+import {useFetchOffering} from '../hooks/useFetchOffering';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -51,7 +52,9 @@ const InsightScreen = () => {
   const [selectedMeditationInstance, setSelectedMeditationInstance] = useState(
     {} as MeditationInstance,
   );
+  const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const offering = useFetchOffering();
   const streakData = getUserStreakData(user);
   const lastMeditationInstance = getLastMeditationInstance(meditationHistory);
   const lastMeditation =
@@ -144,6 +147,10 @@ const InsightScreen = () => {
 
   const meditationCounts = getMeditationCounts(user);
 
+  const onStartTrialPress = () => {
+    navigation.navigate('Purchase', {offering});
+  };
+
   const onEduClosePress = async () => {
     await fbUpdateUser(user.uid, {
       'onboarding.hasSeenInsightsOnboarding': true,
@@ -199,7 +206,9 @@ const InsightScreen = () => {
               See your latest meditation trends, streaks, and meditation
               history.
             </Text>
-            <_Button>Start 7 Day Free Trial</_Button>
+            <_Button onPress={onStartTrialPress}>
+              Start 7 Day Free Trial
+            </_Button>
           </Layout>
         ) : null}
         <Streaks current={streakData.current} longest={streakData.longest} />
