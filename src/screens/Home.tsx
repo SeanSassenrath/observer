@@ -317,7 +317,7 @@ const HomeScreen = () => {
             </Layout>
           </Layout>
         </Layout>
-        {hasLastMeditation ? null : <Inspiration />}
+        <Inspiration />
         <Layout style={styles.listsContainer}>
           <Layout style={styles.searchContainer}>
             <SearchBar
