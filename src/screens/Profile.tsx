@@ -1,5 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
-import {Button, Icon, Input, Layout, Text, Toggle} from '@ui-kitten/components';
+import {
+  Button,
+  Divider,
+  Icon,
+  Input,
+  Layout,
+  Text,
+  Toggle,
+} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {
   AppState,
@@ -22,6 +30,7 @@ import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
 import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
 import {getIsSubscribed} from '../utils/user/user';
+import {useFetchOffering} from '../hooks/useFetchOffering';
 
 const EMPTY_STRING = '';
 
@@ -31,6 +40,15 @@ const BackIcon = (props: any) => (
     style={iconStyles.backIcon}
     fill={brightWhite}
     name="arrow-back-outline"
+  />
+);
+
+const RightArrow = (props: any) => (
+  <Icon
+    {...props}
+    style={iconStyles.rightArrow}
+    fill={brightWhite}
+    name="arrow-ios-forward-outline"
   />
 );
 
@@ -58,6 +76,8 @@ const Profile = (props: Props) => {
   const [userProfile, setUserProfile] = useState({} as User);
   const [name, setName] = useState(EMPTY_STRING);
   const [isNotifEnabled, setIsNotifEnabled] = useState(false);
+
+  const offering = useFetchOffering();
 
   const isSubscribed = getIsSubscribed(user);
 
@@ -88,6 +108,14 @@ const Profile = (props: Props) => {
 
   const onFeedbackPress = () => {
     navigation.navigate('Feedback');
+  };
+
+  const onSubscriptionPress = () => {
+    if (!isSubscribed) {
+      navigation.navigate('Purchase', {offering});
+    } else {
+      Linking.openURL('App-prefs:APPLE_ACCOUNT&path=SUBSCRIPTIONS');
+    }
   };
 
   const onSignOut = async () => {
@@ -244,13 +272,37 @@ const Profile = (props: Props) => {
         {/* <View style={styles.waveContainer}>
           <Wave />
         </View> */}
+        <View style={styles.profileAction}>
+          <Divider style={styles.divider} />
+          <Pressable onPress={onFeedbackPress}>
+            <View style={styles.profileActionContent}>
+              <View>
+                <Text category="s1">Send Feedback</Text>
+              </View>
+              <View>
+                <RightArrow />
+              </View>
+            </View>
+          </Pressable>
+          <Divider style={styles.divider} />
+          <Pressable onPress={onSubscriptionPress}>
+            <View style={styles.profileActionContent}>
+              <View>
+                <Text category="s1">
+                  {isSubscribed
+                    ? 'Manage Subscription'
+                    : 'Purchase Subscription'}
+                </Text>
+              </View>
+              <View>
+                <RightArrow />
+              </View>
+            </View>
+          </Pressable>
+          <Divider style={styles.divider} />
+        </View>
       </View>
       <View style={styles.bottomContainer}>
-        <View>
-          <Button style={styles.feedbackButton} onPress={onFeedbackPress}>
-            Send Feedback
-          </Button>
-        </View>
         <Button
           status="basic"
           appearance="outline"
@@ -272,6 +324,10 @@ const iconStyles = StyleSheet.create({
     height: 40,
     width: 40,
   },
+  rightArrow: {
+    height: 30,
+    width: 30,
+  },
   userIcon: {
     height: 60,
     width: 60,
@@ -280,9 +336,13 @@ const iconStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   bottomContainer: {
-    flex: 2,
+    flex: 1,
     marginBottom: 20,
     paddingHorizontal: 20,
+  },
+  divider: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    marginVertical: 20,
   },
   editIconContainer: {
     justifyContent: 'center',
@@ -292,10 +352,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 100,
     backgroundColor: 'rgba(48,55,75,0.6)',
-  },
-  feedbackButton: {
-    borderRadius: 50,
-    marginBottom: 20,
   },
   input: {
     borderRadius: 10,
@@ -332,6 +388,14 @@ const styles = StyleSheet.create({
   main: {
     flex: 7,
     paddingHorizontal: 20,
+  },
+  profileAction: {
+    opacity: 0.8,
+  },
+  profileActionContent: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   profileHeader: {
     alignItems: 'center',
