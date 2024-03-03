@@ -1,10 +1,17 @@
 import {Layout, Text} from '@ui-kitten/components';
 import React from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import _Button from '../components/Button';
 
 const LimitedVersion = () => {
+  const navigation = useNavigation();
+
+  const onLimitedTrialPress = () => {
+    navigation.navigate('AddMeditations');
+  };
+
   return (
     <Layout level="2" style={styles.rootContainer}>
       <SafeAreaView style={styles.rootContainer}>
@@ -56,7 +63,9 @@ const LimitedVersion = () => {
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <_Button size="large">Continue with limited version</_Button>
+          <_Button onPress={onLimitedTrialPress} size="large">
+            Continue with limited version
+          </_Button>
           <_Button
             size="large"
             appearance="outline"
