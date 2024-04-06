@@ -73,8 +73,8 @@ export const Inspiration = () => {
     return ctaButton[messageIndex];
   };
 
-  if (!isInitialWelcome && isSubscribed) {
-    return;
+  if (!isInitialWelcome) {
+    return <></>;
   }
 
   return (

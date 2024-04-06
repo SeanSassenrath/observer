@@ -197,7 +197,7 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
-        {!isSubscribed ? (
+        {/* {!isSubscribed ? (
           <Layout style={styles.subscribeContainer}>
             <Text category="h6" style={styles.subscribeHeader}>
               Start Free Trial
@@ -210,7 +210,7 @@ const InsightScreen = () => {
               Start 7 Day Free Trial
             </_Button>
           </Layout>
-        ) : null}
+        ) : null} */}
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory.meditationInstances || []}
