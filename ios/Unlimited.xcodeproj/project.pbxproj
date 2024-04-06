@@ -15,6 +15,8 @@
 		4DFAB09C0DE13654BC0E2414 /* Pods_Unlimited_UnlimitedTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7B6BCEE8A61BDD5AEDE6B81 /* Pods_Unlimited_UnlimitedTests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		FF2CE0652B549D8E0059CB0D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF2CE0642B549D8E0059CB0D /* StoreKit.framework */; };
+		FF4480DC2BC1DF2D00061D25 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4480DB2BC1DF2D00061D25 /* dummy.swift */; };
+		FF4480DD2BC1DF2D00061D25 /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF4480DB2BC1DF2D00061D25 /* dummy.swift */; };
 		FF6A6F012B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */; };
 		FF6A6F022B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit in Resources */ = {isa = PBXBuildFile; fileRef = FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */; };
 		FFB355BD2B8BEEB1003C8DFA /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = FFB355BC2B8BEEB1003C8DFA /* StoreKitTestCertificate.cer */; };
@@ -54,6 +56,9 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F9ED15CFFEA49B7A52F20156 /* Pods_Unlimited.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Unlimited.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF2CE0642B549D8E0059CB0D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FF4480D92BC1DF2D00061D25 /* Unlimited-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Unlimited-Bridging-Header.h"; sourceTree = "<group>"; };
+		FF4480DA2BC1DF2D00061D25 /* UnlimitedTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnlimitedTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		FF4480DB2BC1DF2D00061D25 /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
 		FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Unlimited - Meditation Player.storekit"; sourceTree = "<group>"; };
 		FF91AE822B49B4B000B5C7DB /* Unlimited.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Unlimited.entitlements; path = Unlimited/Unlimited.entitlements; sourceTree = "<group>"; };
 		FFB355BC2B8BEEB1003C8DFA /* StoreKitTestCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = StoreKitTestCertificate.cer; sourceTree = "<group>"; };
@@ -135,6 +140,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FF4480DB2BC1DF2D00061D25 /* dummy.swift */,
 				FF6A6F002B8BC9E500B11FD1 /* Unlimited - Meditation Player.storekit */,
 				FFB355BF2B8BEEDC003C8DFA /* StoreKitTestCertificate.cer */,
 				FFB355BC2B8BEEB1003C8DFA /* StoreKitTestCertificate.cer */,
@@ -144,6 +150,8 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				FF4480D92BC1DF2D00061D25 /* Unlimited-Bridging-Header.h */,
+				FF4480DA2BC1DF2D00061D25 /* UnlimitedTests-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -228,10 +236,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1500;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1500;
 					};
 				};
 			};
@@ -463,6 +472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF4480DD2BC1DF2D00061D25 /* dummy.swift in Sources */,
 				00E356F31AD99517003FC87E /* UnlimitedTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				FF4480DC2BC1DF2D00061D25 /* dummy.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,7 +502,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-Unlimited-UnlimitedTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -510,6 +523,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "UnlimitedTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Unlimited.app/Unlimited";
 			};
 			name = Debug;
@@ -518,7 +534,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-Unlimited-UnlimitedTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = UnlimitedTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
@@ -534,6 +552,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "UnlimitedTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Unlimited.app/Unlimited";
 			};
 			name = Release;
@@ -563,6 +583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unlimited.meditations;
 				PRODUCT_NAME = Unlimited;
+				SWIFT_OBJC_BRIDGING_HEADER = "Unlimited-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -593,6 +614,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.unlimited.meditations;
 				PRODUCT_NAME = Unlimited;
+				SWIFT_OBJC_BRIDGING_HEADER = "Unlimited-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
