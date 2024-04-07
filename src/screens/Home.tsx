@@ -60,6 +60,7 @@ import {
   unlockedMap,
   walkingMap,
 } from '../constants/meditation-data';
+// import {meditationBaseMap} from '../constants/meditation-data';
 import {SearchBar} from '../components/SearchBar';
 import NotificationModal from '../components/NotificationModal';
 // import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
@@ -138,6 +139,13 @@ const HomeScreen = () => {
 
   // useEffect(() => {
   //   shouldShowNotifModal();
+  // }, []);
+
+  // useEffect(() => {
+  //   for (const key in meditationBaseMap) {
+  //     const meditation = meditationBaseMap[key];
+  //     console.log(meditation.name);
+  //   }
   // }, []);
 
   useEffect(() => {
