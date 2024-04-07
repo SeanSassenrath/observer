@@ -15,8 +15,6 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
-import Purchases, {LOG_LEVEL} from 'react-native-purchases';
-import {Platform} from 'react-native';
 
 import StackNavigator from './src/navigation/Stack';
 import {
@@ -51,7 +49,6 @@ import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import {getMeditationFilePathDataInAsyncStorage} from './src/utils/asyncStorageMeditation';
 import Splash from './src/screens/Splash';
 import UnknownFilesContext from './src/contexts/unknownFiles';
-import {ENTITLEMENT_ID} from './src/constants/purchase';
 
 const googleWebClientId =
   '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
@@ -212,46 +209,6 @@ const App = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-    if (Platform.OS === 'ios') {
-      Purchases.configure({
-        apiKey: `${process.env.REACT_APP_REVENUE_CAT_IOS_SECRET}`,
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    checkUserSubscription();
-  }, []);
-
-  const checkUserSubscription = async () => {
-    try {
-      const customerInfo = await Purchases.getCustomerInfo();
-      if (
-        typeof customerInfo.entitlements.active[ENTITLEMENT_ID] !== 'undefined'
-      ) {
-        console.log('user has subscription', customerInfo.entitlements);
-        setUser({
-          ...user,
-          isSubscribed: true,
-        });
-      } else {
-        console.log(
-          'user does not have subscription',
-          customerInfo.entitlements,
-        );
-        setUser({
-          ...user,
-          isSubscribed: true,
-        });
-      }
-    } catch (e) {
-      console.log('Error', e);
-      // Error fetching purchaser info
-    }
-  };
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();

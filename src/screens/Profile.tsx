@@ -29,8 +29,6 @@ import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
 import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
-import {getIsSubscribed} from '../utils/user/user';
-import {useFetchOffering} from '../hooks/useFetchOffering';
 
 const EMPTY_STRING = '';
 
@@ -77,10 +75,6 @@ const Profile = (props: Props) => {
   const [name, setName] = useState(EMPTY_STRING);
   const [isNotifEnabled, setIsNotifEnabled] = useState(false);
 
-  const offering = useFetchOffering();
-
-  const isSubscribed = getIsSubscribed(user);
-
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
 
@@ -108,14 +102,6 @@ const Profile = (props: Props) => {
 
   const onFeedbackPress = () => {
     navigation.navigate('Feedback');
-  };
-
-  const onSubscriptionPress = () => {
-    if (!isSubscribed) {
-      navigation.navigate('Purchase', {offering});
-    } else {
-      Linking.openURL('App-prefs:APPLE_ACCOUNT&path=SUBSCRIPTIONS');
-    }
   };
 
   const onSignOut = async () => {
@@ -259,16 +245,14 @@ const Profile = (props: Props) => {
             />
           </View>
         </View>
-        {isSubscribed ? (
-          <View style={styles.toggleRowContainer}>
-            <Text category="s1">Enable Notifications</Text>
-            <Toggle
-              checked={isNotifEnabled}
-              status="primary"
-              onChange={onNotifToggleChange}
-            />
-          </View>
-        ) : null}
+        <View style={styles.toggleRowContainer}>
+          <Text category="s1">Enable Notifications</Text>
+          <Toggle
+            checked={isNotifEnabled}
+            status="primary"
+            onChange={onNotifToggleChange}
+          />
+        </View>
         {/* <View style={styles.waveContainer}>
           <Wave />
         </View> */}
@@ -278,21 +262,6 @@ const Profile = (props: Props) => {
             <View style={styles.profileActionContent}>
               <View>
                 <Text category="s1">Send Feedback</Text>
-              </View>
-              <View>
-                <RightArrow />
-              </View>
-            </View>
-          </Pressable>
-          <Divider style={styles.divider} />
-          <Pressable onPress={onSubscriptionPress}>
-            <View style={styles.profileActionContent}>
-              <View>
-                <Text category="s1">
-                  {isSubscribed
-                    ? 'Manage Subscription'
-                    : 'Purchase Subscription'}
-                </Text>
               </View>
               <View>
                 <RightArrow />

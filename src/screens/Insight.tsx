@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AppState, FlatList, SafeAreaView, StyleSheet} from 'react-native';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 import {TopMeditations} from '../components/TopMeditations';
@@ -30,9 +30,6 @@ import {
   getLastMeditationInstance,
   getMeditationFromId,
 } from '../utils/meditations/meditations';
-import _Button from '../components/Button';
-import {getIsSubscribed} from '../utils/user/user';
-import {useFetchOffering} from '../hooks/useFetchOffering';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -52,16 +49,14 @@ const InsightScreen = () => {
   const [selectedMeditationInstance, setSelectedMeditationInstance] = useState(
     {} as MeditationInstance,
   );
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   const isFocused = useIsFocused();
-  const offering = useFetchOffering();
+  // const offering = useFetchOffering();
   const streakData = getUserStreakData(user);
   const lastMeditationInstance = getLastMeditationInstance(meditationHistory);
   const lastMeditation =
     lastMeditationInstance &&
     getMeditationFromId(lastMeditationInstance.meditationBaseId);
-
-  const isSubscribed = getIsSubscribed(user);
 
   const fetchMeditationHistory = async () => {
     const _meditationHistory = await fbGetMeditationHistory(user.uid);
@@ -147,9 +142,9 @@ const InsightScreen = () => {
 
   const meditationCounts = getMeditationCounts(user);
 
-  const onStartTrialPress = () => {
-    navigation.navigate('Purchase', {offering});
-  };
+  // const onStartTrialPress = () => {
+  //   navigation.navigate('Purchase', {offering});
+  // };
 
   const onEduClosePress = async () => {
     await fbUpdateUser(user.uid, {
@@ -197,20 +192,6 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
-        {/* {!isSubscribed ? (
-          <Layout style={styles.subscribeContainer}>
-            <Text category="h6" style={styles.subscribeHeader}>
-              Start Free Trial
-            </Text>
-            <Text category="s1" style={styles.subscribeDescription}>
-              See your latest meditation trends, streaks, and meditation
-              history.
-            </Text>
-            <_Button onPress={onStartTrialPress}>
-              Start 7 Day Free Trial
-            </_Button>
-          </Layout>
-        ) : null} */}
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory.meditationInstances || []}

@@ -9,7 +9,6 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {onAddMeditations} from '../utils/addMeditations';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
-import {getIsSubscribed} from '../utils/user/user';
 
 const AddMeditationsScreen = () => {
   const {user} = useContext(UserContext);
@@ -22,8 +21,6 @@ const AddMeditationsScreen = () => {
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
 
   const navigation = useNavigation();
-
-  const isSubscribed = getIsSubscribed(user);
 
   const onSkipPress = () => {
     // @ts-ignore
@@ -45,11 +42,7 @@ const AddMeditationsScreen = () => {
   };
 
   const makeDescription = () => {
-    if (!isSubscribed) {
-      return 'Add up to 2 meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
-    } else {
-      return 'Add meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
-    }
+    return 'Add meditations from your phone, Dropbox, Google Drive, or wherever you keep your meditations files.';
   };
 
   return (

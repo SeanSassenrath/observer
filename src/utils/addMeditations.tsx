@@ -13,7 +13,6 @@ import {meditationAddSendEvent, Action, Noun} from '../analytics';
 import {UnknownFileData} from '../types';
 import {fbAddUnsupportedFiles} from '../fb/unsupportedFiles';
 import {User} from '../contexts/userData';
-import {getIsSubscribed} from './user/user';
 
 const filterUnknownFiles = (_unknownFiles: UnknownFileData[]) => {
   const filteredFiles = [] as UnknownFileData[];
@@ -51,7 +50,6 @@ export const onAddMeditations = async (
   setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
 ) => {
-  const isSubscribed = getIsSubscribed(user);
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
   let meditationBaseData = {} as any;
   let pickedFiles = [] as DocumentPickerResponse[];
@@ -60,16 +58,6 @@ export const onAddMeditations = async (
     allowMultiSelection: true,
     copyTo: 'documentDirectory',
   });
-
-  if (!isSubscribed) {
-    const meds = Object.keys(existingMeditationFilePathData);
-
-    if (meds.length === 1 && pickedFiles.length > 1) {
-      pickedFiles.splice(0);
-    } else if (pickedFiles.length > 2) {
-      pickedFiles.splice(2);
-    }
-  }
 
   const {filePathDataList, unknownFiles} = makeFilePathDataList(
     pickedFiles,

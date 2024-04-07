@@ -29,7 +29,7 @@ import {EduPromptComponent} from '../components/EduPrompt/component';
 import UserContext from '../contexts/userData';
 import {fbUpdateUser} from '../fb/user';
 import {isBreathwork} from '../utils/meditations/meditations';
-import {getIsSubscribed, getUserSawBreathOnboarding} from '../utils/user/user';
+import {getUserSawBreathOnboarding} from '../utils/user/user';
 import SubscribeModal from '../components/SubscribeModal';
 
 const EMPTY_STRING = '';
@@ -62,8 +62,6 @@ const MeditationScreen = ({
   const {id} = route.params;
   const styles = useStyleSheet(themedStyles);
 
-  const isSubscribed = getIsSubscribed(user);
-
   const meditation = meditationBaseMap[id];
 
   const lastMeditationInstance =
@@ -78,12 +76,6 @@ const MeditationScreen = ({
     setInitialMeditationInstanceData();
     //@ts-ignore
   }, []);
-
-  const onPressIn = () => {
-    if (!isSubscribed) {
-      setIsSubscribeModalVisible(true);
-    }
-  };
 
   const setInitialMeditationInstanceData = () => {
     const now = new Date();
@@ -227,8 +219,6 @@ const MeditationScreen = ({
             value={inputValue}
             style={styles.thinkBoxStyles}
             textStyle={styles.thinkBoxTextStyles}
-            onPressIn={onPressIn}
-            isDisabled={!isSubscribed}
           />
           {renderBreathGroupSection()}
         </View>

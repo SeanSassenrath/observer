@@ -28,8 +28,8 @@ import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
 import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
-import {getIsSubscribed} from '../utils/user/user';
-import UserContext from '../contexts/userData';
+// import {getIsSubscribed} from '../utils/user/user';
+// import UserContext from '../contexts/userData';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -76,7 +76,7 @@ const MeditationPlayer = ({
   route,
 }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
-  const {user} = useContext(UserContext);
+  // const {user} = useContext(UserContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
@@ -91,7 +91,7 @@ const MeditationPlayer = ({
   const [meditationTime, setMeditationTime] = useState(0);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
 
-  const isSubscribed = getIsSubscribed(user);
+  // const isSubscribed = getIsSubscribed(user);
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
@@ -106,12 +106,7 @@ const MeditationPlayer = ({
         ...meditationInstanceData,
         timeMeditated: meditationTime + position,
       });
-      if (!isSubscribed) {
-        //@ts-ignore
-        navigation.navigate('TabNavigation', {screen: 'Insight'});
-      } else {
-        navigation.navigate('MeditationFinish');
-      }
+      navigation.navigate('MeditationFinish');
     }
   });
 

@@ -13,7 +13,7 @@ import {
   Button,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 
 import _Button from '../components/Button';
 import {MeditationBase, MeditationBaseMap, MeditationId} from '../types';
@@ -30,18 +30,11 @@ import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationHistoryContext from '../contexts/meditationHistory';
-import {
-  getRecentMeditationBaseIds,
-  hasMaxMeditationCount,
-} from '../utils/meditation';
+import {getRecentMeditationBaseIds} from '../utils/meditation';
 import {Inspiration} from '../components/Inspiration';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
-import {
-  getIsSubscribed,
-  getUserHasMeditated,
-  getUserMeditationInstanceCounts,
-} from '../utils/user/user';
+import {getUserMeditationInstanceCounts} from '../utils/user/user';
 import {
   getLastMeditationInstance,
   getMeditationFromId,
@@ -69,7 +62,7 @@ import {
 } from '../constants/meditation-data';
 import {SearchBar} from '../components/SearchBar';
 import NotificationModal from '../components/NotificationModal';
-import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
+// import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
 import SubscribeModal from '../components/SubscribeModal';
 
 const EMPTY_SEARCH = '';
@@ -103,9 +96,6 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
-  const hasMaxMeds = hasMaxMeditationCount(meditationBaseData);
-  const isSubscribed = getIsSubscribed(user);
-
   const recentMeditationBaseIds = getRecentMeditationBaseIds(user);
   const meditationInstanceCounts = getUserMeditationInstanceCounts(user);
 
@@ -117,7 +107,6 @@ const HomeScreen = () => {
   const lastMeditation =
     lastMeditationInstance &&
     getMeditationFromId(lastMeditationInstance.meditationBaseId);
-  const hasLastMeditation = lastMeditationInstance && lastMeditation;
 
   const streakData = getUserStreakData(user);
 
@@ -147,9 +136,9 @@ const HomeScreen = () => {
     }
   };
 
-  useEffect(() => {
-    shouldShowNotifModal();
-  }, []);
+  // useEffect(() => {
+  //   shouldShowNotifModal();
+  // }, []);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -163,27 +152,6 @@ const HomeScreen = () => {
     };
   }, []);
 
-  const shouldShowNotifModal = async () => {
-    if (!isSubscribed) {
-      return;
-    }
-
-    const authorizationStatus = await messaging().hasPermission();
-
-    if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
-      const userHasMeditated = getUserHasMeditated(user);
-
-      if (userHasMeditated) {
-        const isoTimestamp = await getSeenNotificationModalInAsyncStorage();
-        const hasNeverSeenModal = !isoTimestamp;
-
-        if (hasNeverSeenModal) {
-          setIsNotifModalVisible(true);
-        }
-      }
-    }
-  };
-
   const onSignOut = () => {
     auth()
       .signOut()
@@ -196,21 +164,17 @@ const HomeScreen = () => {
   };
 
   const onAddMeditationsPress = async () => {
-    if (!isSubscribed && hasMaxMeds) {
-      setIsSubscribeModalVisible(true);
-    } else {
-      const {_meditations, _unknownFiles} = await onAddMeditations(
-        meditationFilePaths,
-        setMeditationFilePaths,
-        setUnknownFiles,
-        user,
-      );
+    const {_meditations, _unknownFiles} = await onAddMeditations(
+      meditationFilePaths,
+      setMeditationFilePaths,
+      setUnknownFiles,
+      user,
+    );
 
-      navigation.navigate('AddMedsMatching', {
-        medsSuccess: _meditations,
-        medsFail: _unknownFiles,
-      });
-    }
+    navigation.navigate('AddMedsMatching', {
+      medsSuccess: _meditations,
+      medsFail: _unknownFiles,
+    });
   };
 
   const onMeditationPress = (

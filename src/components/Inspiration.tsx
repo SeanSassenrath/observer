@@ -7,8 +7,8 @@ import {
   getLastMeditationInstance,
   getMeditationFromId,
 } from '../utils/meditations/meditations';
-import UserContext from '../contexts/userData';
-import {getIsSubscribed} from '../utils/user/user';
+// import UserContext from '../contexts/userData';
+// import {getIsSubscribed} from '../utils/user/user';
 
 const MESSAGE_INDEX = 0;
 
@@ -32,7 +32,7 @@ export const Inspiration = () => {
   const styles = useStyleSheet(themedStyles);
 
   const {meditationHistory} = useContext(MeditationHistoryContext);
-  const {user} = useContext(UserContext);
+  // const {user} = useContext(UserContext);
 
   const [messageIndex, setMessageIndex] = useState(0);
 
@@ -43,7 +43,7 @@ export const Inspiration = () => {
   const hasLastMeditation = lastMeditationInstance && lastMeditation;
 
   const isInitialWelcome = !hasLastMeditation;
-  const isSubscribed = getIsSubscribed(user);
+  // const isSubscribed = getIsSubscribed(user);
 
   const setMessage = () => {
     setMessageIndex(MESSAGE_INDEX);
