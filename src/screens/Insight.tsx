@@ -30,6 +30,7 @@ import {
   getLastMeditationInstance,
   getMeditationFromId,
 } from '../utils/meditations/meditations';
+import _Button from '../components/Button';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -192,6 +193,24 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
+        <Layout style={styles.subscribeContainer}>
+          <Text category="h6">Keep Unlimited Free.</Text>
+          <Text category="h6">Donate now!</Text>
+          <Text category="s1" style={styles.donateDescription}>
+            Your donation keeps Unlimited free for all. Thank you for your
+            support!
+          </Text>
+          <_Button style={styles.donationButton} onPress={() => {}}>
+            Donate now
+          </_Button>
+          <_Button
+            style={styles.donationButton}
+            status="basic"
+            appearance="outline"
+            onPress={() => {}}>
+            Remind me later
+          </_Button>
+        </Layout>
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory.meditationInstances || []}
@@ -360,13 +379,12 @@ const themedStyles = StyleSheet.create({
     marginHorizontal: 20,
     padding: 20,
   },
-  subscribeDescription: {
+  donationButton: {
+    marginBottom: 12,
+  },
+  donateDescription: {
     marginTop: 10,
     marginBottom: 20,
-    textAlign: 'center',
-  },
-  subscribeHeader: {
-    textAlign: 'center',
   },
 });
 
