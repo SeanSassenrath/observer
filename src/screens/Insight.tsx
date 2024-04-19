@@ -194,11 +194,11 @@ const InsightScreen = () => {
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
         <Layout style={styles.subscribeContainer}>
-          <Text category="h6">Keep Unlimited Free.</Text>
+          <Text category="h6">Help us fund the Android app.</Text>
           <Text category="h6">Donate now!</Text>
           <Text category="s1" style={styles.donateDescription}>
-            Your donation keeps Unlimited free for all. Thank you for your
-            support!
+            Your donation will help fund an Android version of Unlimited. Thank
+            you for your support!
           </Text>
           <_Button style={styles.donationButton} onPress={() => {}}>
             Donate now
