@@ -30,7 +30,7 @@ import {
   getLastMeditationInstance,
   getMeditationFromId,
 } from '../utils/meditations/meditations';
-import _Button from '../components/Button';
+// import _Button from '../components/Button';
 
 const InsightIcon = (props: any) => (
   <Icon {...props} name="pie-chart-outline" />
@@ -193,7 +193,7 @@ const InsightScreen = () => {
   const renderHeader = () => (
     <Layout style={styles.headerContainer}>
       <Layout style={styles.topSpacer}>
-        <Layout style={styles.subscribeContainer}>
+        {/* <Layout style={styles.subscribeContainer}>
           <Text category="h6">Help us fund the Android app.</Text>
           <Text category="h6">Donate now!</Text>
           <Text category="s1" style={styles.donateDescription}>
@@ -210,7 +210,7 @@ const InsightScreen = () => {
             onPress={() => {}}>
             Remind me later
           </_Button>
-        </Layout>
+        </Layout> */}
         <Streaks current={streakData.current} longest={streakData.longest} />
         <TimeInMeditationChart
           meditationHistory={meditationHistory.meditationInstances || []}
