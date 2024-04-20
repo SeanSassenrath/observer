@@ -6,13 +6,13 @@ import {
   Input,
   Layout,
   Text,
-  Toggle,
+  // Toggle,
 } from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  AppState,
+  // AppState,
   Image,
-  Linking,
+  // Linking,
   Pressable,
   StyleSheet,
   View,
@@ -20,7 +20,7 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import Toast from 'react-native-toast-message';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
 import {signOut} from '../fb/auth';
@@ -28,7 +28,7 @@ import {getUserProfile} from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
-import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
+// import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
 
 const EMPTY_STRING = '';
 
@@ -73,7 +73,7 @@ const Profile = (props: Props) => {
 
   const [userProfile, setUserProfile] = useState({} as User);
   const [name, setName] = useState(EMPTY_STRING);
-  const [isNotifEnabled, setIsNotifEnabled] = useState(false);
+  // const [isNotifEnabled, setIsNotifEnabled] = useState(false);
 
   useEffect(() => {
     const _userProfile = getUserProfile(userId, user);
@@ -83,16 +83,16 @@ const Profile = (props: Props) => {
       setName(_userProfile.profile.displayName);
     }
 
-    updateIsNotifEnabled();
+    // updateIsNotifEnabled();
 
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'active') {
-        updateIsNotifEnabled();
-      }
-    });
+    // const subscription = AppState.addEventListener('change', nextAppState => {
+    //   if (nextAppState === 'active') {
+    //     updateIsNotifEnabled();
+    //   }
+    // });
 
     return () => {
-      subscription.remove();
+      // subscription.remove();
     };
   }, [user, userId, userProfile]);
 
@@ -107,38 +107,38 @@ const Profile = (props: Props) => {
   const onSignOut = async () => {
     const isSuccessfulSignOut = await signOut();
     if (isSuccessfulSignOut) {
-      setUser(initialUserState);
       navigation.navigate('SignIn');
+      setUser(initialUserState);
     }
   };
 
-  const updateIsNotifEnabled = async () => {
-    const authorizationStatus = await messaging().hasPermission();
+  // const updateIsNotifEnabled = async () => {
+  //   const authorizationStatus = await messaging().hasPermission();
 
-    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
-      setIsNotifEnabled(true);
-    } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
-      setIsNotifEnabled(false);
-    }
-  };
+  //   if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+  //     setIsNotifEnabled(true);
+  //   } else if (authorizationStatus === messaging.AuthorizationStatus.DENIED) {
+  //     setIsNotifEnabled(false);
+  //   }
+  // };
 
-  const onNotifToggleChange = async () => {
-    const authorizationStatus = await messaging().hasPermission();
+  // const onNotifToggleChange = async () => {
+  //   const authorizationStatus = await messaging().hasPermission();
 
-    if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
-      await messaging().requestPermission();
-    } else if (!isNotifEnabled) {
-      await profileNotifEnabledSendEvent(Action.ENABLE, Noun.BUTTON, {
-        isEnabled: true,
-      });
-      Linking.openSettings();
-    } else if (isNotifEnabled) {
-      await profileNotifEnabledSendEvent(Action.DENIED, Noun.BUTTON, {
-        isEnabled: false,
-      });
-      Linking.openSettings();
-    }
-  };
+  //   if (authorizationStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
+  //     await messaging().requestPermission();
+  //   } else if (!isNotifEnabled) {
+  //     await profileNotifEnabledSendEvent(Action.ENABLE, Noun.BUTTON, {
+  //       isEnabled: true,
+  //     });
+  //     Linking.openSettings();
+  //   } else if (isNotifEnabled) {
+  //     await profileNotifEnabledSendEvent(Action.DENIED, Noun.BUTTON, {
+  //       isEnabled: false,
+  //     });
+  //     Linking.openSettings();
+  //   }
+  // };
 
   const onChangeText = (updatedName: string) => {
     setName(updatedName);
@@ -245,14 +245,14 @@ const Profile = (props: Props) => {
             />
           </View>
         </View>
-        <View style={styles.toggleRowContainer}>
+        {/* <View style={styles.toggleRowContainer}>
           <Text category="s1">Enable Notifications</Text>
           <Toggle
             checked={isNotifEnabled}
             status="primary"
             onChange={onNotifToggleChange}
           />
-        </View>
+        </View> */}
         {/* <View style={styles.waveContainer}>
           <Wave />
         </View> */}

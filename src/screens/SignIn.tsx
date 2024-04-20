@@ -79,7 +79,7 @@ const SignInScreen = () => {
               </View>
               <Text category="s2" style={styles.textDescription}>
                 Meditation player, tracker, and journal for your Dr. Joe
-                Dispenza practice.
+                practice.
               </Text>
             </View>
           </View>
