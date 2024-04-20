@@ -7,9 +7,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import TrackPlayer, {
-  useProgress,
-  useTrackPlayerEvents,
-  Event,
   Track,
   State as TrackPlayerState,
 } from 'react-native-track-player';
@@ -28,8 +25,11 @@ import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
 import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
-// import {getIsSubscribed} from '../utils/user/user';
-// import UserContext from '../contexts/userData';
+import {
+  getActiveTrackIndex,
+  getPlaybackState,
+  getProgress,
+} from 'react-native-track-player/lib/src/trackPlayer';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
@@ -76,39 +76,25 @@ const MeditationPlayer = ({
   route,
 }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
-  // const {user} = useContext(UserContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [playerState, setPlayerState] = useState(TrackPlayerState.None);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
-  const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
-  const timerRef = React.useRef(time);
-  const {position, duration} = useProgress();
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  // const isSubscribed = getIsSubscribed(user);
+  const timerRef = React.useRef(time);
+
+  const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
-
-  useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
-    if (event.nextTrack && event.nextTrack > 0) {
-      const prevTrackMeditationTime = position;
-      setMeditationTime(prevTrackMeditationTime);
-      setCurrentTrackIndex(event.nextTrack);
-    } else if (event.nextTrack === undefined) {
-      setMeditationInstanceData({
-        ...meditationInstanceData,
-        timeMeditated: meditationTime + position,
-      });
-      navigation.navigate('MeditationFinish');
-    }
-  });
 
   useEffect(() => {
     meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
@@ -161,33 +147,63 @@ const MeditationPlayer = ({
 
   const getTrackState = () => {
     const getTrackStateInterval = setInterval(async () => {
-      const state = await TrackPlayer.getState();
-      if (
-        state === TrackPlayerState.Buffering ||
-        (state === TrackPlayerState.Connecting && timerRef.current <= 0)
-      ) {
+      // Track State Management
+      const playbackState = await getPlaybackState();
+      const {state} = playbackState;
+      setPlayerState(state);
+
+      if (state === TrackPlayerState.Error) {
         meditationPlayerSendEvent(Action.FAIL, Noun.ON_PLAY, {
           meditationName: meditation.name,
           meditationBaseId: meditation.meditationBaseId,
         });
-        clearInterval(getTrackStateInterval);
-        // setIsModalVisible(true);
-        //@ts-ignore
-      } else if (state !== TrackPlayerState.Playing && isPlaying) {
-        setIsPlaying(false);
-      } else if (state === TrackPlayerState.Playing && !isPlaying) {
-        setIsModalVisible(false);
-        setIsPlaying(true);
+
+        // Retry playing the current track
+        TrackPlayer.play();
       }
-      console.log('player state', state);
+
+      // Active Track
+      const activeTrackIndex = await getActiveTrackIndex();
+      if (activeTrackIndex !== currentTrackIndex) {
+        if (activeTrackIndex) {
+          setCurrentTrackIndex(activeTrackIndex);
+        }
+      }
+
+      // Track Progress Management
+      const progress = await getProgress();
+      const _position = Math.round(progress.position);
+      const _duration = Math.round(progress.duration);
+
+      setPosition(_position);
+      setDuration(_duration);
+
+      const endOfTrack = _position === _duration;
+
+      if (endOfTrack) {
+        const trackQueue = await TrackPlayer.getQueue();
+        const numberOfTracks = trackQueue.length;
+
+        if (numberOfTracks > 1 && activeTrackIndex === 0) {
+          setMeditationTime(_position);
+        } else {
+          setMeditationInstanceData({
+            ...meditationInstanceData,
+            timeMeditated: meditationTime + _position,
+          });
+          navigation.pop();
+          navigation.navigate('MeditationFinish');
+        }
+      }
     }, 1000);
+
+    // Track Index Management
 
     return getTrackStateInterval;
   };
 
   const playTrackPlayer = async () => {
     TrackPlayer.play();
-    setIsPlaying(true);
   };
 
   const resetTrackPlayer = () => {
@@ -199,8 +215,6 @@ const MeditationPlayer = ({
   };
 
   const onFinishPress = () => {
-    console.log('MEDITATION PLAYER: onFinishPress > position', position);
-
     resetTrackPlayer();
   };
 
@@ -210,7 +224,6 @@ const MeditationPlayer = ({
 
   const onPausePress = async () => {
     TrackPlayer.pause();
-    setIsPlaying(false);
   };
 
   const onRestartPress = async () => {
@@ -224,6 +237,7 @@ const MeditationPlayer = ({
     navigation.navigate('TabNavigation', {screen: 'Home'});
   };
 
+  const isPlaying = playerState === TrackPlayerState.Playing;
   const isFinishButtonDisabled = time > 3;
   const timePassed = new Date(position * 1000).toISOString().slice(12, 19);
   const timeLeft = new Date((duration - position) * 1000)
