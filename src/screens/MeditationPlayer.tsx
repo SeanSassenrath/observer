@@ -215,6 +215,12 @@ const MeditationPlayer = ({
   };
 
   const onFinishPress = () => {
+    setMeditationInstanceData({
+      ...meditationInstanceData,
+      timeMeditated: meditationTime + position,
+    });
+    navigation.pop();
+    navigation.navigate('MeditationFinish');
     resetTrackPlayer();
   };
 
