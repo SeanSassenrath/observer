@@ -13,7 +13,7 @@ import {
 } from './constants/meditation';
 import {MeditationGroupName} from './constants/meditation-data';
 import {UserUid} from './contexts/userData';
-import {PurchasesOffering} from 'react-native-purchases';
+// import {PurchasesOffering} from 'react-native-purchases';
 
 // Stack Navigation
 export type StackParamList = {
@@ -30,7 +30,7 @@ export type StackParamList = {
   Profile: UserParams;
   LimitedVersion: undefined;
   PurchaseOnboarding: undefined;
-  Purchase: PurchaseParams;
+  // Purchase: PurchaseParams;
   SignIn: undefined;
   Subscriptions: undefined;
   TabNavigation: undefined;
@@ -47,9 +47,9 @@ interface AddMedsMatchingParams {
   medsFail: UnknownFileData[];
 }
 
-interface PurchaseParams {
-  offering: PurchasesOffering;
-}
+// interface PurchaseParams {
+//   offering: PurchasesOffering;
+// }
 
 interface UnrecognizedFilesParams {
   medsFail: UnknownFileData[];

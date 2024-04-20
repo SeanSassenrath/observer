@@ -4,8 +4,8 @@ import {StyleSheet} from 'react-native';
 import {useStyleSheet} from '@ui-kitten/components';
 
 import _Button from '../Button';
-import {useFetchOffering} from '../../hooks/useFetchOffering';
-import {useNavigation} from '@react-navigation/native';
+// import {useFetchOffering} from '../../hooks/useFetchOffering';
+// import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   description: string;
@@ -17,12 +17,12 @@ const SubscribeModal = (props: Props) => {
   const {description, isVisible, onClose} = props;
   const styles = useStyleSheet(themedStyles);
 
-  const navigation = useNavigation();
-  const offering = useFetchOffering();
+  // const navigation = useNavigation();
+  // const offering = useFetchOffering();
 
   const onEnablePress = () => {
     onClose();
-    navigation.navigate('Purchase', {offering});
+    // navigation.navigate('Purchase', {offering});
   };
 
   const onClosePress = () => {

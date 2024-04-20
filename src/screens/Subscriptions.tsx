@@ -1,28 +1,28 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Layout, Text} from '@ui-kitten/components/ui';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import Purchases from 'react-native-purchases';
+// import Purchases from 'react-native-purchases';
 
 const SubscriptionsScreen = () => {
   console.log('Test');
 
-  const fetchOfferings = async () => {
-    console.log(' ');
-    console.log('Fetching offerings');
-    try {
-      const offerings = await Purchases.getOfferings();
-      if (offerings.current !== null) {
-        console.log('HERE >>>', offerings.current);
-        // Display current offering with offerings.current
-      }
-    } catch (e) {
-      console.log('Fetching offerings error', e);
-    }
-  };
+  // const fetchOfferings = async () => {
+  //   console.log(' ');
+  //   console.log('Fetching offerings');
+  //   try {
+  //     const offerings = await Purchases.getOfferings();
+  //     if (offerings.current !== null) {
+  //       console.log('HERE >>>', offerings.current);
+  //       // Display current offering with offerings.current
+  //     }
+  //   } catch (e) {
+  //     console.log('Fetching offerings error', e);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchOfferings();
-  }, []);
+  // useEffect(() => {
+  //   fetchOfferings();
+  // }, []);
 
   return (
     <Layout style={styles.rootContainer}>

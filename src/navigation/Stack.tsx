@@ -19,9 +19,9 @@ import AddMedsSuccessScreen from '../screens/AddMedSuccess';
 import UnrecognizedFilesScreen from '../screens/UnrecognizedFiles';
 import MeditationMatchScreen from '../screens/MeditationMatch';
 import FeedbackScreen from '../screens/Feedback';
-import SubscriptionsScreen from '../screens/Subscriptions';
-import PurchaseOnboarding from '../screens/PurchaseOnboarding';
-import Purchase from '../screens/Purchase';
+// import SubscriptionsScreen from '../screens/Subscriptions';
+// import PurchaseOnboarding from '../screens/PurchaseOnboarding';
+// import Purchase from '../screens/Purchase';
 import LimitedVersion from '../screens/LimitedVersion';
 import Disclaimer from '../screens/Disclaimer';
 
@@ -70,7 +70,7 @@ const StackNavigator = () => {
         initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
         <Screen name="SignIn" component={SignInScreen} />
-        <Screen name="Subscriptions" component={SubscriptionsScreen} />
+        {/* <Screen name="Subscriptions" component={SubscriptionsScreen} /> */}
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="Disclaimer" component={Disclaimer} />
         <Screen name="AddMeditations" component={AddMeditationsScreen} />
@@ -83,8 +83,8 @@ const StackNavigator = () => {
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
         <Screen name="LimitedVersion" component={LimitedVersion} />
         <Screen name="Profile" component={Profile} />
-        <Screen name="Purchase" component={Purchase} />
-        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
+        {/* <Screen name="Purchase" component={Purchase} />
+        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} /> */}
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
         <Screen name="Feedback" component={FeedbackScreen} />
       </Navigator>
