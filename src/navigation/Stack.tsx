@@ -24,6 +24,8 @@ import FeedbackScreen from '../screens/Feedback';
 // import Purchase from '../screens/Purchase';
 import LimitedVersion from '../screens/LimitedVersion';
 import Disclaimer from '../screens/Disclaimer';
+import TermsAgreementScreen from '../screens/TermsAgreement';
+import PurchaseOnboarding from '../screens/PurchaseOnboarding';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -83,10 +85,11 @@ const StackNavigator = () => {
         <Screen name="MeditationMatch" component={MeditationMatchScreen} />
         <Screen name="LimitedVersion" component={LimitedVersion} />
         <Screen name="Profile" component={Profile} />
-        {/* <Screen name="Purchase" component={Purchase} />
-        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} /> */}
+        {/* <Screen name="Purchase" component={Purchase} /> */}
+        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
         <Screen name="Feedback" component={FeedbackScreen} />
+        <Screen name="TermsAgreement" component={TermsAgreementScreen} />
       </Navigator>
     </NavigationContainer>
   );

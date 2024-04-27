@@ -42,7 +42,7 @@ const SignInScreen = () => {
         setIsSigningIn(false);
 
         if (!user.betaAgreement) {
-          navigation.navigate('BetaAgreement');
+          navigation.navigate('TermsAgreement');
         } else {
           //@ts-ignore
           navigation.navigate('TabNavigation', {screen: 'Home'});

@@ -34,6 +34,7 @@ export type StackParamList = {
   SignIn: undefined;
   Subscriptions: undefined;
   TabNavigation: undefined;
+  TermsAgreement: undefined;
   UnrecognizedFiles: UnrecognizedFilesParams;
 };
 
@@ -70,6 +71,7 @@ type MeditationMatch = NativeStackScreenProps<
 >;
 type AddMedsSuccess = NativeStackScreenProps<StackParamList, 'AddMedsSuccess'>;
 type BetaAgreement = NativeStackScreenProps<StackParamList, 'BetaAgreement'>;
+type TermsAgreement = NativeStackScreenProps<StackParamList, 'TermsAgreement'>;
 type SignInProps = NativeStackScreenProps<StackParamList, 'SignIn'>;
 type UnrecognizedFiles = NativeStackScreenProps<
   StackParamList,
@@ -78,6 +80,7 @@ type UnrecognizedFiles = NativeStackScreenProps<
 
 export type SignInScreenNavigationProp = SignInProps['navigation'];
 export type BetaAgreementProp = BetaAgreement['navigation'];
+export type TermsAgreementProp = TermsAgreement['navigation'];
 export type AddMeditationsProp = AddMeditations['navigation'];
 export type AddMedsMatchingProp = AddMedsMatching['navigation'];
 export type AddMedsMatchingScreenNavigationProp = AddMedsMatching['navigation'];
