@@ -12,12 +12,11 @@ export const TotalOverview = () => {
 
   const totalMeditationCount = getTotalMeditationCount(user);
   const totalMeditationTime = getTotalMeditationTime(user);
-  const totalTimeCount = totalMeditationTime ? totalMeditationTime : '0';
 
   return (
     <TotalOverviewComponent
       totalMedCount={totalMeditationCount}
-      totalTimeCount={totalTimeCount}
+      totalTimeCount={totalMeditationTime}
     />
   );
 };

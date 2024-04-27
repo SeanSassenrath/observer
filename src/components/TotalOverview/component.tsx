@@ -3,7 +3,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 
 interface TotalProps {
-  totalMedCount?: number;
+  totalMedCount?: string;
   totalTimeCount?: string;
 }
 

@@ -41,7 +41,7 @@ const SignInScreen = () => {
       return setTimeout(() => {
         setIsSigningIn(false);
 
-        if (!user.betaAgreement) {
+        if (!user.termsAgreement) {
           navigation.navigate('TermsAgreement');
         } else {
           //@ts-ignore

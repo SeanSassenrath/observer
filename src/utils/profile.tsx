@@ -30,7 +30,11 @@ export const getTotalMeditationCount = (currentUser: User) => {
       count += meditation.count;
     }
 
-    return count;
+    const finalCount = count.toString();
+
+    return finalCount;
+  } else {
+    return '0';
   }
 };
 
@@ -42,7 +46,7 @@ export const getTotalMeditationTime = (currentUser: User) => {
 
   console.log('TotalMedTime: ', totalMeditationTime);
   if (!totalMeditationTime) {
-    return 'test';
+    return '0';
   }
   // const dur = Duration.fromObject({seconds: Math.round(totalMeditationTime)});
   const dur = Duration.fromObject({seconds: totalMeditationTime})

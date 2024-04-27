@@ -37,8 +37,8 @@ const StackNavigator = () => {
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
       return 'SignIn';
-    } else if (!user.betaAgreement?.hasAccepted) {
-      return 'BetaAgreement';
+    } else if (!user.termsAgreement?.hasAccepted) {
+      return 'TermsAgreement';
     } else {
       return 'TabNavigation';
     }

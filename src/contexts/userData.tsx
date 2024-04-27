@@ -31,6 +31,11 @@ interface BetaAgreement {
   date: string;
 }
 
+interface TermsAgreement {
+  hasAccepted: boolean;
+  date: string;
+}
+
 interface Onboarding {
   hasSeenAddMeditationOnboarding: boolean;
   hasSeenBreathworkOnboarding: boolean;
@@ -45,6 +50,7 @@ export interface User {
   hasBetaAccess?: boolean;
   isSubscribed?: boolean; // deprecated
   betaAgreement?: BetaAgreement;
+  termsAgreement?: TermsAgreement;
   onboarding: Onboarding;
   meditationHistoryIds?: MeditationBaseId[];
   meditationUserData: {
