@@ -5,6 +5,7 @@ import {
   Icon,
   Input,
   Layout,
+  Modal,
   Text,
   // Toggle,
 } from '@ui-kitten/components';
@@ -28,6 +29,7 @@ import {getUserProfile} from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
 import {fbUpdateUser} from '../fb/user';
+import _Button from '../components/Button';
 // import {Action, Noun, profileNotifEnabledSendEvent} from '../analytics';
 
 const EMPTY_STRING = '';
@@ -73,6 +75,7 @@ const Profile = (props: Props) => {
 
   const [userProfile, setUserProfile] = useState({} as User);
   const [name, setName] = useState(EMPTY_STRING);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   // const [isNotifEnabled, setIsNotifEnabled] = useState(false);
 
   useEffect(() => {
@@ -110,6 +113,10 @@ const Profile = (props: Props) => {
       navigation.navigate('SignIn');
       setUser(initialUserState);
     }
+  };
+
+  const onCancelDeletePress = () => {
+    setIsDeleteModalOpen(false);
   };
 
   // const updateIsNotifEnabled = async () => {
@@ -282,11 +289,41 @@ const Profile = (props: Props) => {
         <Button
           status="danger"
           appearance="outline"
-          onPress={onSignOut}
+          onPress={() => setIsDeleteModalOpen(true)}
           style={styles.deleteButton}>
           Delete Account
         </Button>
       </View>
+      <Modal
+        animationType={'slide'}
+        visible={isDeleteModalOpen}
+        backdropStyle={styles.modalBackdrop}
+        onBackdropPress={onCancelDeletePress}>
+        <Layout level="2" style={styles.modalRootContainer}>
+          <Layout level="2">
+            <Text category="h5" style={styles.modalText}>
+              Delete Account
+            </Text>
+            <Text category="s1" style={styles.modalText}>
+              Are you sure you want to delete your account? All your saved
+              meditation data will be permanently lost.
+            </Text>
+            <_Button
+              onPress={() => {}}
+              status="danger"
+              style={styles.modalPrimaryButton}>
+              Delete My Account
+            </_Button>
+            <Button
+              onPress={onCancelDeletePress}
+              appearance="outline"
+              status="basic"
+              style={styles.modalCancel}>
+              Cancel
+            </Button>
+          </Layout>
+        </Layout>
+      </Modal>
     </Layout>
   );
 };
@@ -345,6 +382,29 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontSize: 18,
     borderRadius: 20,
+  },
+  modalBackdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalCancel: {
+    borderRadius: 50,
+  },
+  modalText: {
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  modalPrimaryButton: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  modalRootContainer: {
+    borderRadius: 10,
+    height: 290,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+    width: 350,
   },
   nameContainer: {
     flex: 1,
