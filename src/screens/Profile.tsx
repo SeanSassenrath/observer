@@ -279,6 +279,13 @@ const Profile = (props: Props) => {
           style={styles.signOutButton}>
           Sign Out
         </Button>
+        <Button
+          status="danger"
+          appearance="outline"
+          onPress={onSignOut}
+          style={styles.deleteButton}>
+          Delete Account
+        </Button>
       </View>
     </Layout>
   );
@@ -305,9 +312,15 @@ const iconStyles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   bottomContainer: {
-    flex: 1,
+    flex: 2,
     marginBottom: 20,
     paddingHorizontal: 20,
+    justifyContent: 'flex-end',
+  },
+  deleteButton: {
+    borderRadius: 50,
+    marginBottom: 40,
+    marginTop: 20,
   },
   divider: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -355,7 +368,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   main: {
-    flex: 7,
+    flex: 6,
     paddingHorizontal: 20,
   },
   profileAction: {
