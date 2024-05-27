@@ -24,7 +24,7 @@ import Toast from 'react-native-toast-message';
 // import messaging from '@react-native-firebase/messaging';
 
 import {ProfileScreenNavigationProp, ProfileScreenRouteProp} from '../types';
-import {signOut} from '../fb/auth';
+import {deleteUser, signOut} from '../fb/auth';
 import {getUserProfile} from '../utils/profile';
 import UserContext, {User, initialUserState} from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
@@ -110,8 +110,17 @@ const Profile = (props: Props) => {
   const onSignOut = async () => {
     const isSuccessfulSignOut = await signOut();
     if (isSuccessfulSignOut) {
-      navigation.navigate('SignIn');
       setUser(initialUserState);
+      navigation.navigate('SignIn');
+    }
+  };
+
+  const onDeleteConfirm = async () => {
+    const isUserDeleted = await deleteUser();
+
+    if (isUserDeleted) {
+      setUser(initialUserState);
+      navigation.navigate('SignIn');
     }
   };
 
@@ -309,7 +318,7 @@ const Profile = (props: Props) => {
               meditation data will be permanently lost.
             </Text>
             <_Button
-              onPress={() => {}}
+              onPress={onDeleteConfirm}
               status="danger"
               style={styles.modalPrimaryButton}>
               Delete My Account
