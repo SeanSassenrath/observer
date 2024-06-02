@@ -171,7 +171,11 @@ const MeditationMatchScreen = (props: Props) => {
     meditationGroupKeys.forEach(key => {
       if (meditationBaseMap[key]) {
         if (searchInput.length > 0) {
-          if (meditationBaseMap[key].name.includes(searchInput)) {
+          if (
+            meditationBaseMap[key].name
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          ) {
             return meditationList.push(meditationBaseMap[key]);
           }
         } else {

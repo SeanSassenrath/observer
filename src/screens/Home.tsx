@@ -238,7 +238,11 @@ const HomeScreen = () => {
     meditationGroupKeys.forEach(key => {
       if (meditationBaseData[key]) {
         if (searchInput.length > 0) {
-          if (meditationBaseData[key].name.includes(searchInput)) {
+          if (
+            meditationBaseData[key].name
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          ) {
             return meditationList.push(meditationBaseData[key]);
           }
         } else {
