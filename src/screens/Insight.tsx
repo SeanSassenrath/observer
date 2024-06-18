@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {AppState, FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import * as StoreReview from 'react-native-store-review';
 
 import {TopMeditations} from '../components/TopMeditations';
 import {TimeInMeditationChart} from '../components/TimeInMeditationChart';
@@ -127,6 +128,10 @@ const InsightScreen = () => {
     return () => {
       subscription.remove();
     };
+  }, []);
+
+  useEffect(() => {
+    StoreReview.requestReview();
   }, []);
 
   const fetchMoreMeditationData = () => {
