@@ -81,12 +81,14 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-  } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
-    return {
-      [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
-        file.fileCopyUri,
-      ),
-    };
+  // Removing due to a bug
+  // https://www.reddit.com/r/unlimitedmeditations/comments/1dpn2ot/comment/lei1jfc/?%24deep_link=true&correlation_id=195b3528-813e-4a96-acf1-ded252ee1046&ref=email_comment_reply&ref_campaign=email_comment_reply&ref_source=email&%243p=e_as&_branch_match_id=1337543622327442147&utm_medium=Email+Amazon+SES&_branch_referrer=H4sIAAAAAAAAA32OXWrDMBCET6O%2B2a4k2ySFUAql1xAbaZ1soz8kGZPbd01S%2BlaQYJidb3eureX6NgwFnaPWQ869p3gbdH4XatT5hAbqC8tU6EIRvFmLP113SugPob74bdvWP3mbAhuF%2Fxo9BWroAvIAGqVY2eZAwNh2KV2OKjVW5%2BTuJkNp1dQMFs0fYwJVckzQQui4C8c9kvxe7H5c8%2F3RIWaztxb6s5UVhZptKgX9YwM59uVxOutJHbqD1NiNcJw7sIvsHDo1KUT5Os7MFVw4jAHIm2dVUzD7%2B2NmLIQMdIn%2Fhmpai8XfyA9nRXjOYgEAAA%3D%3D
+  // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
+  //   return {
+  //     [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
+  //       file.fileCopyUri,
+  //     ),
+  //   };
   } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
     return {
       [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
