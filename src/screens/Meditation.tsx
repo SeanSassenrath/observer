@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
+import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import {
@@ -31,6 +31,9 @@ import {fbUpdateUser} from '../fb/user';
 import {isBreathwork} from '../utils/meditations/meditations';
 import {getUserSawBreathOnboarding} from '../utils/user/user';
 import SubscribeModal from '../components/SubscribeModal';
+import Toast from 'react-native-toast-message';
+import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -44,6 +47,15 @@ const BackIcon = (props: any) => (
   />
 );
 
+const TrashIcon = (props: any) => (
+  <Icon
+    {...props}
+    style={themedStyles.trashIcon}
+    fill={brightWhite}
+    name="trash-outline"
+  />
+);
+
 const MeditationScreen = ({
   route,
 }: MeditationStackScreenProps<'Meditation'>) => {
@@ -52,13 +64,15 @@ const MeditationScreen = ({
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
-  const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {setMeditationBaseData, meditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
+  const {setMeditationFilePaths, meditationFilePaths} = useContext(MeditationFilePathsContext);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isSubscribeModalVisible, setIsSubscribeModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const {id} = route.params;
   const styles = useStyleSheet(themedStyles);
 
@@ -138,6 +152,41 @@ const MeditationScreen = ({
     });
   };
 
+  const onDeletePress = async () => {
+    let updatedMedBaseDataContext = {};
+    for (const key in meditationBaseData) {
+      if (key !== id) {
+        updatedMedBaseDataContext = {
+          ...updatedMedBaseDataContext,
+          [key]: meditationBaseData[key]
+        }
+      }
+    }
+
+    let updatedFilePathContext = {}
+    for (const key in meditationFilePaths) {
+      if (key !== id) {
+        updatedFilePathContext = {
+          ...updatedFilePathContext,
+          [key]: meditationFilePaths[key]
+        }
+      }
+    }
+
+    setMeditationBaseData(updatedMedBaseDataContext);
+    setMeditationFilePaths(updatedFilePathContext);
+    await setMeditationFilePathDataInAsyncStorage(updatedFilePathContext)
+
+    Toast.show({
+      type: 'success',
+      text1: 'Meditation Deleted',
+      position: 'bottom',
+      bottomOffset: 100,
+    });
+
+    navigation.goBack();
+  }
+
   const hasUserSeenBreathOnboarding = getUserSawBreathOnboarding(user);
   const showBreathworkEdu =
     !isBreathwork(meditation.meditationBaseId) && !hasUserSeenBreathOnboarding;
@@ -194,6 +243,13 @@ const MeditationScreen = ({
               onPress={onBackPress}>
               <View style={styles.backIconContainer}>
                 <BackIcon />
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              style={styles.topBarIcon}
+              onPress={() => setIsDeleteModalVisible(true)}>
+              <View style={styles.trashIconContainer}>
+                <TrashIcon />
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -254,6 +310,18 @@ const MeditationScreen = ({
         isVisible={isSubscribeModalVisible}
         onClose={() => setIsSubscribeModalVisible(false)}
       />
+    <Modal
+      visible={isDeleteModalVisible}
+      backdropStyle={styles.backdrop}>
+      <Layout level="2" style={styles.modalRootContainer}>
+        <Layout level="2">
+          <Text category="h5" style={styles.modalTitle}>Delete Meditation</Text>
+          <Text category="s1" style={styles.modalDescription}>Are you sure you want to delete this meditation?</Text>
+          <_Button style={styles.deleteButton} onPress={onDeletePress}>Delete</_Button>
+          <_Button status='basic' appearance='outline' onPress={() => setIsDeleteModalVisible(false)}>Cancel</_Button>
+        </Layout>
+      </Layout>
+    </Modal>
     </Layout>
   );
 };
@@ -281,6 +349,9 @@ const themedStyles = StyleSheet.create({
     height: 30,
     width: 30,
   },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
   bottomBar: {
     flex: 1,
     backgroundColor: 'transparent',
@@ -305,12 +376,30 @@ const themedStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  deleteButton: {
+    marginBottom: 20,
+  },
   emptyBreathworkContainer: {
     paddingHorizontal: 20,
   },
   icon: {
     width: 20,
     height: 20,
+  },
+  modalDescription: {
+    marginBottom: 40,
+  },
+  modalRootContainer: {
+    borderRadius: 10,
+    height: 250,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    width: 350,
+  },
+  modalTitle: {
+    marginBottom: 10,
   },
   thinkBoxStyles: {
     backgroundColor: 'rgba(48,55,75,0.6)',
@@ -379,6 +468,16 @@ const themedStyles = StyleSheet.create({
   toggle: {
     justifyContent: 'flex-start',
     marginBottom: 30,
+  },
+  trashIcon: {
+    height: 30,
+    width: 30,
+  },
+  trashIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginLeft: 20,
+    marginTop: 10,
   },
   bottomBarGradient: {
     height: 220,
