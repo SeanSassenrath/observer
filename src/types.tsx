@@ -176,13 +176,13 @@ export interface Meditation {
 
 export interface MeditationBase {
   artwork?: any;
-  artist: MeditationArtist;
+  artist?: MeditationArtist;
   backgroundImage?: any;
   color?: string;
   formattedDuration: MeditationFormattedDuration;
-  id: MeditationInstanceId;
+  id?: MeditationInstanceId;
   groupKey?: MeditationGroupKey;
-  groupName: MeditationGroupName;
+  groupName: MeditationGroupName | any;
   meditationBaseId: MeditationId;
   name: MeditationName;
   size?:
