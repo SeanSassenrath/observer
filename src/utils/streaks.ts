@@ -33,18 +33,26 @@ export const checkStreakData = (
   lastMeditation: MeditationInstance,
 ): UserStreaks => {
   const dt = DateTime.now();
-  const today = dt.weekdayShort;
-  const yesterday = dt.minus({days: 1}).weekdayShort;
+  const currentDay = dt.day;
+  const currentMonth = dt.month;
+  const currentYear = dt.year;
+
+  const yesterdayDay = dt.minus({days: 1}).day;
+  const yesterdayMonth = dt.minus({days: 1}).month;
+  const yesterdayYear = dt.minus({days: 1}).year;
+
 
   if (lastMeditation && lastMeditation.meditationStartTime) {
     const lastMeditationDt = DateTime.fromSeconds(
       lastMeditation.meditationStartTime,
     );
-    const lastMeditationWeekday = lastMeditationDt.weekdayShort;
+    const lastMeditationDay = lastMeditationDt.day;
+    const lastMeditationMonth = lastMeditationDt.month;
+    const lastMeditationYear = lastMeditationDt.year;
 
     if (
-      lastMeditationWeekday === today ||
-      lastMeditationWeekday === yesterday
+      lastMeditationDay === currentDay && lastMeditationMonth === currentMonth && lastMeditationYear === currentYear ||
+      lastMeditationDay === yesterdayDay && lastMeditationMonth === yesterdayMonth && lastMeditationYear === yesterdayYear
     ) {
       return streakData;
     } else {
@@ -63,24 +71,26 @@ const updateStreakData = (
   lastMeditation?: MeditationInstance,
 ) => {
   const dt = DateTime.now();
-  const today = dt.weekdayShort;
-  const yesterday = dt.minus({days: 1}).weekdayShort;
+  const currentDay = dt.day;
+  const currentMonth = dt.month;
+  const currentYear = dt.year;
+
+  const yesterdayDay = dt.minus({days: 1}).day;
+  const yesterdayMonth = dt.minus({days: 1}).month;
+  const yesterdayYear = dt.minus({days: 1}).year;
 
   if (lastMeditation && lastMeditation.meditationStartTime) {
     const lastMeditationDt = DateTime.fromSeconds(
       lastMeditation.meditationStartTime,
     );
-    const lastMeditationWeekday = lastMeditationDt.weekdayShort;
-
-    // console.log('lastMeditationWeekday', lastMeditationWeekday)
-    // console.log('today', today)
-    // console.log('isEqual', lastMeditationWeekday === today);
-    // console.log('is true?', !(lastMeditationWeekday === today &&
-    //   streakData.current &&
-    //   streakData.longest ))
+    const lastMeditationDay = lastMeditationDt.day;
+    const lastMeditationMonth = lastMeditationDt.month;
+    const lastMeditationYear = lastMeditationDt.year;
 
     if (
-      lastMeditationWeekday === today &&
+      lastMeditationDay === currentDay &&
+      lastMeditationMonth === currentMonth &&
+      lastMeditationYear === currentYear &&
       streakData.current &&
       streakData.longest
     ) {
@@ -90,7 +100,11 @@ const updateStreakData = (
         newLongestStreak: false,
         streakUpdated: false,
       };
-    } else if (lastMeditationWeekday === yesterday) {
+    } else if (
+      lastMeditationDay === yesterdayDay &&
+      lastMeditationMonth === yesterdayMonth &&
+      lastMeditationYear === yesterdayYear
+    ) {
       const currentStreak = streakData.current || 0;
       const longestStreak = streakData.longest || 0;
       const updatedCurrentStreak = currentStreak + 1;
