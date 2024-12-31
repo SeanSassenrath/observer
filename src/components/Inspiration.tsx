@@ -3,10 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 import MeditationHistoryContext from '../contexts/meditationHistory';
-import {
-  getLastMeditationInstance,
-  getMeditationFromId,
-} from '../utils/meditations/meditations';
+import {getLastMeditationInstance} from '../utils/meditations/meditations';
 
 const MESSAGE_INDEX = 0;
 
@@ -35,10 +32,8 @@ export const Inspiration = () => {
   const [messageIndex, setMessageIndex] = useState(0);
 
   const lastMeditationInstance = getLastMeditationInstance(meditationHistory);
-  const lastMeditation =
-    lastMeditationInstance &&
-    getMeditationFromId(lastMeditationInstance.meditationBaseId);
-  const hasLastMeditation = lastMeditationInstance && lastMeditation;
+  const hasLastMeditation =
+    lastMeditationInstance && Object.keys(lastMeditationInstance).length > 0;
 
   const isInitialWelcome = !hasLastMeditation;
 
