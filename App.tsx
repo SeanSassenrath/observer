@@ -49,6 +49,7 @@ import MeditationFilePathsContext from './src/contexts/meditationFilePaths';
 import {getMeditationFilePathDataInAsyncStorage} from './src/utils/asyncStorageMeditation';
 import Splash from './src/screens/Splash';
 import UnknownFilesContext from './src/contexts/unknownFiles';
+import {DebugProvider, DebugButton, DebugPanel} from './src/debug';
 
 const googleWebClientId =
   '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
@@ -251,24 +252,28 @@ const App = () => {
         // @ts-ignore
         // customMapping={mapping}
       >
-        <UserContext.Provider value={{user, setUser}}>
-          <MeditationHistoryContext.Provider
-            value={{meditationHistory, setMeditationHistory}}>
-            <MeditationBaseDataContext.Provider
-              value={{meditationBaseData, setMeditationBaseData}}>
-              <MeditationInstanceDataContext.Provider
-                value={{meditationInstanceData, setMeditationInstanceData}}>
-                <MeditationFilePathsContext.Provider
-                  value={{meditationFilePaths, setMeditationFilePaths}}>
-                  <UnknownFilesContext.Provider
-                    value={{unknownFiles, setUnknownFiles}}>
-                    <StackNavigator />
-                  </UnknownFilesContext.Provider>
-                </MeditationFilePathsContext.Provider>
-              </MeditationInstanceDataContext.Provider>
-            </MeditationBaseDataContext.Provider>
-          </MeditationHistoryContext.Provider>
-        </UserContext.Provider>
+        <DebugProvider>
+          <UserContext.Provider value={{user, setUser}}>
+            <MeditationHistoryContext.Provider
+              value={{meditationHistory, setMeditationHistory}}>
+              <MeditationBaseDataContext.Provider
+                value={{meditationBaseData, setMeditationBaseData}}>
+                <MeditationInstanceDataContext.Provider
+                  value={{meditationInstanceData, setMeditationInstanceData}}>
+                  <MeditationFilePathsContext.Provider
+                    value={{meditationFilePaths, setMeditationFilePaths}}>
+                    <UnknownFilesContext.Provider
+                      value={{unknownFiles, setUnknownFiles}}>
+                      <StackNavigator />
+                      <DebugButton />
+                      <DebugPanel />
+                    </UnknownFilesContext.Provider>
+                  </MeditationFilePathsContext.Provider>
+                </MeditationInstanceDataContext.Provider>
+              </MeditationBaseDataContext.Provider>
+            </MeditationHistoryContext.Provider>
+          </UserContext.Provider>
+        </DebugProvider>
       </ApplicationProvider>
       <Toast config={toastConfig as any} />
     </>
