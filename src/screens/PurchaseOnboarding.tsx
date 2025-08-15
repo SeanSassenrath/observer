@@ -60,7 +60,7 @@ const PurchaseOnboarding = () => {
     const nextIndex = currentIndex + 1;
 
     if (nextIndex > lastPage) {
-      navigation.navigate('AddMeditations');
+      navigation.navigate('SignIn');
     } else {
       setCurrentIndex(nextIndex);
     }

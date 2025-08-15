@@ -36,6 +36,7 @@ export type StackParamList = {
   TabNavigation: undefined;
   TermsAgreement: undefined;
   UnrecognizedFiles: UnrecognizedFilesParams;
+  Welcome: undefined;
 };
 
 interface MeditationParams {

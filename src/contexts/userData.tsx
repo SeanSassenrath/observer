@@ -37,6 +37,7 @@ interface TermsAgreement {
 }
 
 interface Onboarding {
+  hasSeenWelcome: boolean;
   hasSeenAddMeditationOnboarding: boolean;
   hasSeenBreathworkOnboarding: boolean;
   hasSeenLibraryOnboarding: boolean;
@@ -82,6 +83,7 @@ export const initialUserState = {
     photoURL: '',
   },
   onboarding: {
+    hasSeenWelcome: false,
     hasSeenAddMeditationOnboarding: false,
     hasSeenLibraryOnboarding: false,
     hasSeenHomeOnboarding: false,

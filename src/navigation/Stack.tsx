@@ -26,6 +26,7 @@ import LimitedVersion from '../screens/LimitedVersion';
 import Disclaimer from '../screens/Disclaimer';
 import TermsAgreementScreen from '../screens/TermsAgreement';
 import PurchaseOnboarding from '../screens/PurchaseOnboarding';
+import WelcomeScreen from '../screens/Welcome';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -36,7 +37,11 @@ const StackNavigator = () => {
 
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
-      return 'SignIn';
+      if (!user.onboarding?.hasSeenWelcome) {
+        return 'Welcome';
+      } else {
+        return 'SignIn';
+      }
     } else if (!user.termsAgreement?.hasAccepted) {
       return 'TermsAgreement';
     } else {
@@ -71,6 +76,7 @@ const StackNavigator = () => {
       <Navigator
         initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
+        <Screen name="Welcome" component={WelcomeScreen} />
         <Screen name="SignIn" component={SignInScreen} />
         {/* <Screen name="Subscriptions" component={SubscriptionsScreen} /> */}
         <Screen name="BetaAgreement" component={BetaAgreement} />
