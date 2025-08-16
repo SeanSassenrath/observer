@@ -37,11 +37,7 @@ const StackNavigator = () => {
 
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
-      if (!user.onboarding?.hasSeenWelcome) {
-        return 'Welcome';
-      } else {
-        return 'SignIn';
-      }
+      return 'PurchaseOnboarding';
     } else if (!user.termsAgreement?.hasAccepted) {
       return 'TermsAgreement';
     } else {

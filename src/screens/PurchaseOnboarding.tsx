@@ -6,21 +6,24 @@ import {brightWhite} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 // import Purchases, {PurchasesOffering} from 'react-native-purchases';
 
-const lastPage = 2;
+const lastPage = 3;
 
 const imageList = [
+  require('../assets/app-icon.png'),
   require('../assets/home.jpeg'),
   require('../assets/med-player.png'),
   require('../assets/insight.png'),
 ];
 
 const headerList = [
+  'Welcome to the Unlimited Meditation Player',
   'All of your meditations in one place',
   'Enhanced Meditation Player',
   'Understand your practice like never before',
 ];
 
 const descriptionList = [
+  'A tool specifically made for your meditation journey.',
   'Easily find your meditation through an organized Library.',
   'Easily add breathwork before your meditation for a seamless experience.',
   'Get data on your meditation practice, streaks to stay motivated, and more.',
@@ -76,9 +79,15 @@ const PurchaseOnboarding = () => {
     <Layout level="2" style={styles.rootContainer}>
       <SafeAreaView style={styles.rootContainer}>
         <View style={styles.topContainer}>
-          <View style={styles.imgContainer}>
-            <Image source={currentImage} style={styles.heroImg} />
-          </View>
+          {currentIndex === 0 ? (
+            <View style={styles.headerImageBackground}>
+              <Image source={currentImage} style={styles.heroImg} />
+            </View>
+          ) : (
+            <View style={styles.imgContainer}>
+              <Image source={currentImage} style={styles.heroImg} />
+            </View>
+          )}
         </View>
         <View style={styles.midContainer}>
           <Text category="h4" style={styles.headerText}>
@@ -93,6 +102,7 @@ const PurchaseOnboarding = () => {
             <View style={progressStyle(currentIndex, 0)} />
             <View style={progressStyle(currentIndex, 1)} />
             <View style={progressStyle(currentIndex, 2)} />
+            <View style={progressStyle(currentIndex, 3)} />
           </View>
           <Button
             size="large"
@@ -135,6 +145,12 @@ const styles = StyleSheet.create({
     height: 350,
     width: 200,
     objectFit: 'contain',
+  },
+  headerImageBackground: {
+    backgroundColor: 'transparent',
+    shadowColor: 'rgba(160, 139, 247, 1)',
+    shadowOpacity: 1,
+    shadowRadius: 6,
   },
   imgContainer: {
     backgroundColor: 'black',
