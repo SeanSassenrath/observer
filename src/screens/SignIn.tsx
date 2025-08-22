@@ -19,6 +19,7 @@ import {
 
 import AppleSSOButton from '../components/AppleSSOButton';
 import GoogleSSOButton from '../components/GoogleSSOButton';
+import EmailSSOButton from '../components/EmailSSOButton';
 import UserContext from '../contexts/userData';
 
 const privacyPolicyUrl =
@@ -56,7 +57,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <Layout level="4" style={styles.container}>
+    <Layout level="2" style={styles.container}>
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.headerContainer}>
@@ -69,17 +70,8 @@ const SignInScreen = () => {
           </View>
           <View style={styles.heroContainer}>
             <View style={styles.textContainer}>
-              <View style={styles.textHeaderContainer}>
-                <Text category="h3" style={styles.textHeader}>
-                  Be Your Own Scientist.
-                </Text>
-                <Text category="h3" style={styles.textHeaderPrimary}>
-                  Change your life.
-                </Text>
-              </View>
               <Text category="s2" style={styles.textDescription}>
-                Meditation player, tracker, and journal for your Dr. Joe
-                practice.
+                Create an account to start your journey.
               </Text>
             </View>
           </View>
@@ -89,6 +81,7 @@ const SignInScreen = () => {
               {Platform.OS === 'ios' ? (
                 <AppleSSOButton setIsSigningIn={setIsSigningIn} />
               ) : null}
+              <EmailSSOButton setIsSigningIn={setIsSigningIn} />
             </View>
           </View>
           <Pressable onPress={onPrivacyPolicyPress}>
@@ -113,8 +106,8 @@ const SignInScreen = () => {
 
 const imageStyles = StyleSheet.create({
   headerImage: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
   },
 });
 
@@ -125,6 +118,7 @@ const themedStyles = StyleSheet.create({
   buttonsContainer: {
     flex: 5,
     alignItems: 'center',
+    paddingTop: 16,
   },
   bottomContainer: {
     flex: 3,
@@ -154,8 +148,8 @@ const themedStyles = StyleSheet.create({
   },
   heroContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 7,
+    justifyContent: 'flex-end',
+    flex: 3,
   },
   modalContainer: {
     width: 240,
