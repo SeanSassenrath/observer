@@ -81,7 +81,7 @@ const SignInScreen = () => {
               {Platform.OS === 'ios' ? (
                 <AppleSSOButton setIsSigningIn={setIsSigningIn} />
               ) : null}
-              <EmailSSOButton setIsSigningIn={setIsSigningIn} />
+              <EmailSSOButton setIsSigningIn={setIsSigningIn} navigation={navigation} />
             </View>
           </View>
           <Pressable onPress={onPrivacyPolicyPress}>

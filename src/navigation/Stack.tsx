@@ -27,6 +27,7 @@ import Disclaimer from '../screens/Disclaimer';
 import TermsAgreementScreen from '../screens/TermsAgreement';
 import PurchaseOnboarding from '../screens/PurchaseOnboarding';
 import WelcomeScreen from '../screens/Welcome';
+import EmailSignInScreen from '../screens/EmailSignIn';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -74,6 +75,7 @@ const StackNavigator = () => {
         screenOptions={{headerShown: false}}>
         <Screen name="Welcome" component={WelcomeScreen} />
         <Screen name="SignIn" component={SignInScreen} />
+        <Screen name="EmailSignIn" component={EmailSignInScreen} />
         {/* <Screen name="Subscriptions" component={SubscriptionsScreen} /> */}
         <Screen name="BetaAgreement" component={BetaAgreement} />
         <Screen name="Disclaimer" component={Disclaimer} />

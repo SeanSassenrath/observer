@@ -22,6 +22,7 @@ export type StackParamList = {
   AddMedsMatching: AddMedsMatchingParams;
   BetaAgreement: undefined;
   Disclaimer: undefined;
+  EmailSignIn: undefined;
   Feedback: undefined;
   Meditation: MeditationParams;
   MeditationFinish: undefined;
