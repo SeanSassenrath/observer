@@ -65,3 +65,6 @@ buck-out/
 
 .vscode/
 .env
+
+# AI Development Notes
+ai_notes.txt
