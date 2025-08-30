@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
-  Image,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -8,7 +7,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
-  Button,
   Icon,
   Input,
   Layout,
@@ -19,6 +17,7 @@ import {
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 
+import Button from '../components/Button';
 import UserContext from '../contexts/userData';
 
 const EmailSignInScreen = () => {
@@ -151,12 +150,6 @@ const EmailSignInScreen = () => {
             <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
               <Icon name="arrow-back" width={24} height={24} fill="#FFF" />
             </Pressable>
-            <View style={styles.headerImageBackground}>
-              <Image
-                source={require('../assets/app-icon.png')}
-                style={imageStyles.headerImage}
-              />
-            </View>
           </View>
 
           <View style={styles.heroContainer}>
@@ -246,13 +239,6 @@ const EmailSignInScreen = () => {
   );
 };
 
-const imageStyles = StyleSheet.create({
-  headerImage: {
-    width: 80,
-    height: 80,
-  },
-});
-
 const themedStyles = StyleSheet.create({
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -296,12 +282,6 @@ const themedStyles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
-  headerImageBackground: {
-    backgroundColor: 'transparent',
-    shadowColor: 'rgba(160, 139, 247, 1)',
-    shadowOpacity: 1,
-    shadowRadius: 6,
-  },
   heroContainer: {
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -309,6 +289,8 @@ const themedStyles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 1,
   },
   modalContainer: {
     width: 240,
