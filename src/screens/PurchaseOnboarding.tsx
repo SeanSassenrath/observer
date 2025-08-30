@@ -1,6 +1,13 @@
 import {Button, Icon, Layout, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Image, SafeAreaView, StyleSheet, View} from 'react-native';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withTiming,
+  interpolate,
+} from 'react-native-reanimated';
 
 import {brightWhite} from '../constants/colors';
 import {useNavigation} from '@react-navigation/native';
@@ -43,6 +50,19 @@ const PurchaseOnboarding = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // const [offering, setOffering] = useState({} as PurchasesOffering);
 
+  // Animation for the glowing effect
+  const glowAnimation = useSharedValue(0);
+
+  useEffect(() => {
+    if (currentIndex === 0) {
+      glowAnimation.value = withRepeat(
+        withTiming(1, {duration: 2000}),
+        -1,
+        true
+      );
+    }
+  }, [currentIndex]);
+
   // useEffect(() => {
   //   fetchOfferings();
   // }, []);
@@ -75,14 +95,25 @@ const PurchaseOnboarding = () => {
   const progressStyle = (i: number, a: number) =>
     i === a ? styles.progressIndicatorActive : styles.progressIndicator;
 
+  // Animated style for the glowing effect
+  const animatedGlowStyle = useAnimatedStyle(() => {
+    const shadowRadius = interpolate(glowAnimation.value, [0, 1], [10, 25]);
+    const shadowOpacity = interpolate(glowAnimation.value, [0, 1], [0.4, 0.8]);
+    
+    return {
+      shadowRadius,
+      shadowOpacity,
+    };
+  });
+
   return (
     <Layout level="2" style={styles.rootContainer}>
       <SafeAreaView style={styles.rootContainer}>
         <View style={styles.topContainer}>
           {currentIndex === 0 ? (
-            <View style={styles.headerImageBackground}>
+            <Animated.View style={[styles.headerImageBackground, animatedGlowStyle]}>
               <Image source={currentImage} style={styles.heroImg} />
-            </View>
+            </Animated.View>
           ) : (
             <View style={styles.imgContainer}>
               <Image source={currentImage} style={styles.heroImg} />
@@ -149,8 +180,13 @@ const styles = StyleSheet.create({
   headerImageBackground: {
     backgroundColor: 'transparent',
     shadowColor: 'rgba(160, 139, 247, 1)',
-    shadowOpacity: 1,
-    shadowRadius: 6,
+    shadowOpacity: 0.6,
+    shadowRadius: 15,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    elevation: 20,
   },
   imgContainer: {
     backgroundColor: 'black',
