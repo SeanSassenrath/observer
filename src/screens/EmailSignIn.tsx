@@ -15,10 +15,15 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import auth from '@react-native-firebase/auth';
 
 import Button from '../components/Button';
 import UserContext from '../contexts/userData';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  AuthResult,
+} from '../fb/auth';
 
 const EmailSignInScreen = () => {
   const {user} = useContext(UserContext);
@@ -28,6 +33,7 @@ const EmailSignInScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -59,6 +65,7 @@ const EmailSignInScreen = () => {
 
   const handleSignIn = async () => {
     setError('');
+    setSuccessMessage('');
     
     if (!validateEmail(email)) {
       setError('Please enter a valid email address');
@@ -72,55 +79,41 @@ const EmailSignInScreen = () => {
 
     setIsSigningIn(true);
 
-    try {
-      if (isSignUp) {
-        await auth().createUserWithEmailAndPassword(email, password);
-      } else {
-        await auth().signInWithEmailAndPassword(email, password);
-      }
-    } catch (authError: any) {
-      setIsSigningIn(false);
+    let result: AuthResult;
+    
+    if (isSignUp) {
+      result = await createUserWithEmailAndPassword(email, password);
       
-      switch (authError.code) {
-        case 'auth/user-not-found':
-          setError('No account found with this email address');
-          break;
-        case 'auth/wrong-password':
-          setError('Incorrect password');
-          break;
-        case 'auth/email-already-in-use':
-          setError('An account with this email already exists');
-          break;
-        case 'auth/weak-password':
-          setError('Password should be at least 6 characters');
-          break;
-        case 'auth/invalid-email':
-          setError('Please enter a valid email address');
-          break;
-        case 'auth/too-many-requests':
-          setError('Too many failed attempts. Please try again later.');
-          break;
-        default:
-          setError('Something went wrong. Please try again.');
+      if (result.success) {
+        setSuccessMessage('Account created! Please check your email to verify your account.');
       }
+    } else {
+      result = await signInWithEmailAndPassword(email, password);
     }
+
+    if (!result.success) {
+      setIsSigningIn(false);
+      setError(result.error || 'Something went wrong. Please try again.');
+    }
+    
+    // If successful, the user context will update and redirectUser will handle navigation
   };
 
   const handleForgotPassword = async () => {
+    setError('');
+    setSuccessMessage('');
+    
     if (!validateEmail(email)) {
       setError('Please enter your email address first');
       return;
     }
 
-    try {
-      await auth().sendPasswordResetEmail(email);
-      setError('Password reset email sent! Check your inbox.');
-    } catch (authError: any) {
-      if (authError.code === 'auth/user-not-found') {
-        setError('No account found with this email address');
-      } else {
-        setError('Failed to send reset email. Please try again.');
-      }
+    const result = await sendPasswordResetEmail(email);
+    
+    if (result.success) {
+      setSuccessMessage('Password reset email sent! Check your inbox.');
+    } else {
+      setError(result.error || 'Failed to send reset email. Please try again.');
     }
   };
 
@@ -131,6 +124,7 @@ const EmailSignInScreen = () => {
   const toggleSignUpMode = () => {
     setIsSignUp(!isSignUp);
     setError('');
+    setSuccessMessage('');
   };
 
   const renderPasswordIcon = (props: any) => (
@@ -197,6 +191,12 @@ const EmailSignInScreen = () => {
               </Text>
             ) : null}
 
+            {successMessage ? (
+              <Text status="success" category="c1" style={styles.successText}>
+                {successMessage}
+              </Text>
+            ) : null}
+
             <Button
               size="large"
               onPress={handleSignIn}
@@ -258,6 +258,10 @@ const themedStyles = StyleSheet.create({
     padding: 20,
   },
   errorText: {
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  successText: {
     marginBottom: 16,
     textAlign: 'center',
   },
