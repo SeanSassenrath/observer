@@ -25,7 +25,7 @@ const TermsAgreement = () => {
     };
     await fbUpdateUser(user.uid, updatedUser)
       .then(() => {
-        navigation.navigate('TabNavigation', {screen: 'Home'});
+        navigation.navigate('AddMeditations');
       })
       .catch(e => {
         console.log(e);
