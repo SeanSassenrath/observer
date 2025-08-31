@@ -25,12 +25,7 @@ const TermsAgreement = () => {
     };
     await fbUpdateUser(user.uid, updatedUser)
       .then(() => {
-        if (user.betaAgreement?.hasAccepted) {
-          // @ts-ignore
-          navigation.navigate('TabNavigation', {screen: 'Home'});
-        } else {
-          navigation.navigate('PurchaseOnboarding');
-        }
+        navigation.navigate('TabNavigation', {screen: 'Home'});
       })
       .catch(e => {
         console.log(e);
