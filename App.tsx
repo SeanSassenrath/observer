@@ -79,6 +79,11 @@ const App = () => {
     } else if (firebaseUser.firstName) {
       return firebaseUser.firstName;
     }
+    // For email/password users without displayName, extract from email
+    if (firebaseUser.email) {
+      return firebaseUser.email.split('@')[0];
+    }
+    return '';
   };
 
   const getLastName = (firebaseUser: any) => {
@@ -87,19 +92,34 @@ const App = () => {
     } else if (firebaseUser.lastName) {
       return firebaseUser.lastName;
     }
+    // Email/password users typically don't have lastName
+    return '';
   };
 
   const getPhotoUrl = (firebaseUser: any) => {
     if (firebaseUser.providerData && firebaseUser.providerData[0]) {
       return firebaseUser.providerData[0].photoURL;
     }
+    // Email/password users don't have photoURL
+    return '';
+  };
+
+  const getDisplayName = (firebaseUser: any) => {
+    if (firebaseUser.displayName) {
+      return firebaseUser.displayName;
+    }
+    // For email/password users, use email prefix as display name
+    if (firebaseUser.email) {
+      return firebaseUser.email.split('@')[0];
+    }
+    return '';
   };
 
   const normalizeFirebaseUser = (firebaseUser: any): User => ({
     uid: firebaseUser.uid,
     hasBetaAccess: false,
     profile: {
-      displayName: firebaseUser.displayName || EMPTY_STRING,
+      displayName: getDisplayName(firebaseUser) || EMPTY_STRING,
       email: firebaseUser.email || EMPTY_STRING,
       firstName: getFirstName(firebaseUser) || EMPTY_STRING,
       lastName: getLastName(firebaseUser) || EMPTY_STRING,
