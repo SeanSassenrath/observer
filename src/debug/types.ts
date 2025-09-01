@@ -11,6 +11,7 @@ export enum DebugTab {
   PERFORMANCE = 'performance',
   SETTINGS = 'settings',
   LOGS = 'logs',
+  AUDIO_TEST = 'audio_test',
 }
 
 export interface DebugLog {

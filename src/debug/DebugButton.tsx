@@ -5,9 +5,6 @@ import {useDebug} from './DebugContext';
 const DebugButton: React.FC = () => {
   const {debugState, setDebugState} = useDebug();
 
-  // Hidden for now
-  return null;
-
   const toggleDebugPanel = () => {
     setDebugState(prev => ({
       ...prev,

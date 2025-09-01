@@ -285,8 +285,8 @@ const App = () => {
                     <UnknownFilesContext.Provider
                       value={{unknownFiles, setUnknownFiles}}>
                       <StackNavigator />
-                      <DebugButton />
-                      <DebugPanel />
+                      {__DEV__ && <DebugButton />}
+                      {__DEV__ && <DebugPanel />}
                     </UnknownFilesContext.Provider>
                   </MeditationFilePathsContext.Provider>
                 </MeditationInstanceDataContext.Provider>

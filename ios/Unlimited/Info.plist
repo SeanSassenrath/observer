@@ -48,6 +48,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs microphone access to analyze meditation audio files for automatic matching.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to the photo library to upload your profile photo.</string>
 	<key>UIBackgroundModes</key>

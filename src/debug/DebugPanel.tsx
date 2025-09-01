@@ -16,6 +16,7 @@ import DatabaseDebugger from './DatabaseDebugger';
 import PerformanceMonitor from './PerformanceMonitor';
 import SettingsDebugger from './SettingsDebugger';
 import LogViewer from './LogViewer';
+import {AudioAnalysisTest} from './AudioAnalysisTest';
 
 const {height: screenHeight} = Dimensions.get('window');
 
@@ -53,6 +54,8 @@ const DebugPanel: React.FC = () => {
         return <SettingsDebugger />;
       case DebugTab.LOGS:
         return <LogViewer />;
+      case DebugTab.AUDIO_TEST:
+        return <AudioAnalysisTest />;
       default:
         return <FileAnalysisDebugger />;
     }
@@ -64,6 +67,7 @@ const DebugPanel: React.FC = () => {
     {key: DebugTab.PERFORMANCE, label: 'Performance', icon: '⚡'},
     {key: DebugTab.SETTINGS, label: 'Settings', icon: '⚙️'},
     {key: DebugTab.LOGS, label: 'Logs', icon: '📝'},
+    {key: DebugTab.AUDIO_TEST, label: 'Audio Test', icon: '🎵'},
   ];
 
   return (

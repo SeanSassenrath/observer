@@ -6,4 +6,5 @@ export { default as DatabaseDebugger } from './DatabaseDebugger';
 export { default as PerformanceMonitor } from './PerformanceMonitor';
 export { default as SettingsDebugger } from './SettingsDebugger';
 export { default as LogViewer } from './LogViewer';
+export { AudioAnalysisTest } from './AudioAnalysisTest';
 export * from './types';

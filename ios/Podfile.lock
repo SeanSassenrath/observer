@@ -1297,6 +1297,8 @@ PODS:
     - RevenueCat (= 4.31.9)
   - RNAppleAuthentication (2.2.2):
     - React-Core
+  - RNAudioPcmStream (1.3.0):
+    - React
   - RNCAsyncStorage (1.21.0):
     - React-Core
   - RNFBAnalytics (17.3.2):
@@ -1416,6 +1418,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
+  - RNAudioPcmStream (from `../node_modules/react-native-live-audio-fft`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -1573,6 +1576,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/art"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
+  RNAudioPcmStream:
+    :path: "../node_modules/react-native-live-audio-fft"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFBAnalytics:
@@ -1694,6 +1699,7 @@ SPEC CHECKSUMS:
   RevenueCat: aa3e439fb6282e7768609774a73c06ab87c3d9c3
   RevenueCatUI: ef3f12dddf49d333a66a13f1d32c73ef1075ae95
   RNAppleAuthentication: 0571c08da8c327ae2afc0261b48b4a515b0286a6
+  RNAudioPcmStream: 14df4ecbc32729a463ad0a6e971a4cb2e2d86908
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNFBAnalytics: e1c916bd60f2f8ea9a46999b3b3842e0031eec37
   RNFBApp: dd22a306a31189e99126a35962498c83b06520ab
