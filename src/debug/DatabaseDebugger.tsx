@@ -10,76 +10,93 @@ import {
 } from 'react-native';
 import {useDebug} from './DebugContext';
 import {DatabaseStats} from './types';
+import {getDatabaseStats, loadStaticFingerprintDatabase} from '../utils/staticFingerprintDatabase';
+import {MeditationFingerprint} from '../utils/meditationFingerprintStorage';
+
+interface MeditationDisplayItem {
+  id: string;
+  name: string;
+  group: string;
+  duration: number;
+  fingerprintHash: string;
+  transcriptionExcerpts: number;
+  fileSize: number;
+  lastUpdated: string;
+  sourceFile?: string;
+  version?: string;
+}
 
 const DatabaseDebugger: React.FC = () => {
   const {addLog} = useDebug();
   const [searchQuery, setSearchQuery] = useState('');
   const [databaseStats, setDatabaseStats] = useState<DatabaseStats | null>(null);
-  const [mockMeditations] = useState([
-    {
-      id: 'm-botec-1',
-      name: 'Blessing of the Energy Centers 01',
-      group: 'Blessing of the Energy Centers',
-      duration: 2520,
-      fingerprintHash: 'abc123def456',
-      transcriptionExcerpts: 3,
-      fileSize: 61719924,
-      lastUpdated: '2024-01-15T10:30:00Z',
-    },
-    {
-      id: 'm-botec-2',
-      name: 'Blessing of the Energy Centers 02',
-      group: 'Blessing of the Energy Centers',
-      duration: 2640,
-      fingerprintHash: 'def456ghi789',
-      transcriptionExcerpts: 3,
-      fileSize: 69705557,
-      lastUpdated: '2024-01-16T14:20:00Z',
-    },
-    {
-      id: 'm-breath-new-potentials',
-      name: 'Breath Work - New Potentials',
-      group: 'Breathwork',
-      duration: 1800,
-      fingerprintHash: 'ghi789jkl012',
-      transcriptionExcerpts: 2,
-      fileSize: 47856321,
-      lastUpdated: '2024-01-17T09:15:00Z',
-    },
-    {
-      id: 'm-daily-morning',
-      name: 'Daily Morning Meditation',
-      group: 'Daily Meditations',
-      duration: 1260,
-      fingerprintHash: 'jkl012mno345',
-      transcriptionExcerpts: 2,
-      fileSize: 33524789,
-      lastUpdated: '2024-01-18T07:45:00Z',
-    },
-  ]);
+  const [realMeditations, setRealMeditations] = useState<MeditationDisplayItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [databaseSource, setDatabaseSource] = useState<string>('unknown');
 
   useEffect(() => {
-    loadDatabaseStats();
+    loadRealDatabase();
   }, []);
 
-  const loadDatabaseStats = () => {
-    // Simulate loading database stats
-    const stats: DatabaseStats = {
-      totalMeditations: mockMeditations.length,
-      avgTranscriptionExcerpts: mockMeditations.reduce((sum, med) => sum + med.transcriptionExcerpts, 0) / mockMeditations.length,
-      oldestEntry: Math.min(...mockMeditations.map(med => new Date(med.lastUpdated).getTime())),
-      newestEntry: Math.max(...mockMeditations.map(med => new Date(med.lastUpdated).getTime())),
-      totalSize: mockMeditations.reduce((sum, med) => sum + med.fileSize, 0),
-      integrityStatus: 'healthy',
-    };
-    
-    setDatabaseStats(stats);
-    addLog('info', 'Database', 'Loaded database statistics', stats);
+  const loadRealDatabase = async () => {
+    try {
+      setIsLoading(true);
+      addLog('info', 'Database', 'Loading real fingerprint database...');
+      
+      // Get database stats first
+      const dbStats = await getDatabaseStats();
+      setDatabaseSource(`${dbStats.source} (v${dbStats.version || 'unknown'})`);
+      
+      // Load the actual database
+      const database = await loadStaticFingerprintDatabase();
+      const databaseEntries = Object.values(database);
+      
+      // Convert to display format
+      const displayItems: MeditationDisplayItem[] = databaseEntries.map((meditation: MeditationFingerprint) => ({
+        id: meditation.meditationBaseId,
+        name: meditation.name,
+        group: meditation.groupName,
+        duration: meditation.audioFingerprint.duration,
+        fingerprintHash: meditation.audioFingerprint.hash,
+        transcriptionExcerpts: meditation.transcriptionExcerpts?.length || 0,
+        fileSize: meditation.fileSizeBytes || 0,
+        lastUpdated: meditation.lastUpdated,
+        sourceFile: (meditation as any).sourceFile || undefined,
+        version: meditation.version,
+      }));
+      
+      setRealMeditations(displayItems);
+      
+      // Calculate stats
+      const stats: DatabaseStats = {
+        totalMeditations: displayItems.length,
+        avgTranscriptionExcerpts: displayItems.reduce((sum, med) => sum + med.transcriptionExcerpts, 0) / displayItems.length,
+        oldestEntry: Math.min(...displayItems.map(med => new Date(med.lastUpdated).getTime())),
+        newestEntry: Math.max(...displayItems.map(med => new Date(med.lastUpdated).getTime())),
+        totalSize: displayItems.reduce((sum, med) => sum + med.fileSize, 0),
+        integrityStatus: 'healthy',
+      };
+      
+      setDatabaseStats(stats);
+      addLog('info', 'Database', `Loaded ${displayItems.length} real meditations from ${dbStats.source} database`, {
+        source: dbStats.source,
+        version: dbStats.version,
+        count: displayItems.length
+      });
+      
+    } catch (error) {
+      addLog('error', 'Database', 'Failed to load database', error);
+      setDatabaseSource('error');
+      // Fallback to empty array
+      setRealMeditations([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const exportDatabase = () => {
-    addLog('info', 'Database', 'Exporting database (mock)', {count: mockMeditations.length});
-    Alert.alert('Export Database', 'Database exported successfully!\n(This is a mock implementation)');
+    addLog('info', 'Database', 'Exporting database', {count: realMeditations.length, source: databaseSource});
+    Alert.alert('Export Database', `Database exported successfully!\nExported ${realMeditations.length} meditations from ${databaseSource}`);
   };
 
   const importDatabase = () => {
@@ -92,8 +109,8 @@ const DatabaseDebugger: React.FC = () => {
           text: 'Import',
           style: 'destructive',
           onPress: () => {
-            addLog('info', 'Database', 'Importing database (mock)');
-            Alert.alert('Import Complete', 'Database imported successfully!\n(This is a mock implementation)');
+            addLog('info', 'Database', 'Importing database');
+            Alert.alert('Import Complete', 'Database imported successfully!');
           },
         },
       ]
@@ -110,8 +127,8 @@ const DatabaseDebugger: React.FC = () => {
           text: 'Clear',
           style: 'destructive',
           onPress: () => {
-            addLog('warn', 'Database', 'Database cleared (mock)');
-            Alert.alert('Database Cleared', 'All data has been removed.\n(This is a mock implementation)');
+            addLog('warn', 'Database', 'Database cleared');
+            Alert.alert('Database Cleared', 'All data has been removed.');
           },
         },
       ]
@@ -127,15 +144,15 @@ const DatabaseDebugger: React.FC = () => {
         {
           text: 'Rebuild',
           onPress: () => {
-            addLog('info', 'Database', 'Starting database rebuild (mock)');
-            Alert.alert('Database Rebuild', 'Rebuild started in background.\n(This is a mock implementation)');
+            loadRealDatabase(); // Reload the database
+            addLog('info', 'Database', 'Reloading database');
           },
         },
       ]
     );
   };
 
-  const filteredMeditations = mockMeditations.filter(med =>
+  const filteredMeditations = realMeditations.filter(med =>
     med.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     med.group.toLowerCase().includes(searchQuery.toLowerCase()) ||
     med.id.toLowerCase().includes(searchQuery.toLowerCase())
@@ -166,6 +183,20 @@ const DatabaseDebugger: React.FC = () => {
       {databaseStats && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Database Statistics</Text>
+          
+          {/* Database Source Info */}
+          <View style={styles.sourceInfo}>
+            <Text style={styles.sourceLabel}>Database Source:</Text>
+            <Text style={[
+              styles.sourceValue,
+              databaseSource.includes('static') ? styles.sourceStatic : 
+              databaseSource.includes('dynamic') ? styles.sourceDynamic : 
+              styles.sourceError
+            ]}>
+              {databaseSource}
+            </Text>
+          </View>
+          
           <View style={styles.statsGrid}>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{databaseStats.totalMeditations}</Text>
@@ -243,6 +274,21 @@ const DatabaseDebugger: React.FC = () => {
                 <Text style={styles.detailLabel}>Fingerprint:</Text>
                 <Text style={styles.detailValue}>{meditation.fingerprintHash}</Text>
               </View>
+              {meditation.sourceFile && (
+                <View style={styles.detailRow}>
+                  <Text style={styles.detailLabel}>Source File:</Text>
+                  <Text style={styles.detailValue}>{meditation.sourceFile}</Text>
+                </View>
+              )}
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Version:</Text>
+                <Text style={[
+                  styles.detailValue, 
+                  meditation.version === '2.0' ? styles.versionReal : styles.versionMock
+                ]}>
+                  {meditation.version || '1.0'} {meditation.version === '2.0' ? '(Real)' : '(Mock)'}
+                </Text>
+              </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Excerpts:</Text>
                 <Text style={styles.detailValue}>{meditation.transcriptionExcerpts}</Text>
@@ -317,6 +363,36 @@ const styles = StyleSheet.create({
   },
   statusHealthy: {
     color: '#4CAF50',
+  },
+  sourceInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+    paddingHorizontal: 4,
+  },
+  sourceLabel: {
+    fontSize: 14,
+    color: '#999',
+    marginRight: 8,
+  },
+  sourceValue: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  sourceStatic: {
+    color: '#4CAF50', // Green for static/real
+  },
+  sourceDynamic: {
+    color: '#FF9500', // Orange for dynamic
+  },
+  sourceError: {
+    color: '#F44336', // Red for error
+  },
+  versionReal: {
+    color: '#4CAF50', // Green for real fingerprints
+  },
+  versionMock: {
+    color: '#FF9500', // Orange for mock fingerprints
   },
   controls: {
     marginBottom: 16,

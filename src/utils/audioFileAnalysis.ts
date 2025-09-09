@@ -31,21 +31,24 @@ export const analyzeAudioFile = async (
   const config = {...DEFAULT_OPTIONS, ...options};
   
   try {
+    // Decode URL-encoded file path
+    const decodedFilePath = decodeURIComponent(filePath);
+    
     // Get file info
-    const fileInfo = await RNFS.stat(filePath);
-    const fileName = filePath.split('/').pop() || 'unknown';
+    const fileInfo = await RNFS.stat(decodedFilePath);
+    const fileName = decodedFilePath.split('/').pop() || 'unknown';
     
     // For now, generate deterministic fingerprint based on file characteristics
     // TODO: Replace with actual audio analysis once we have proper audio decoding
     const fingerprint = await generateFileFingerprintFromMetadata(
-      filePath,
+      decodedFilePath,
       fileInfo.size,
       config
     );
     
     return {
       fingerprint,
-      filePath,
+      filePath: decodedFilePath,
       fileName,
       fileSize: fileInfo.size,
     };
@@ -63,9 +66,8 @@ const generateFileFingerprintFromMetadata = async (
   fileSize: number,
   options: AudioFileAnalysisOptions
 ): Promise<AudioFingerprint> => {
-  // Generate deterministic hash based on file characteristics
-  const fileName = filePath.split('/').pop() || '';
-  const seedString = `${fileName}-${fileSize}-${options.sampleRate}`;
+  // Generate deterministic hash based on file content characteristics only (filename-independent)
+  const seedString = `${fileSize}-${options.sampleRate}-${options.analysisWindowSize}`;
   
   // Create deterministic peaks based on file characteristics
   const peaks = generateDeterministicPeaks(seedString, options.peakCount);
