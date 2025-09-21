@@ -2,6 +2,7 @@ import {DocumentPickerResponse} from 'react-native-document-picker';
 import {AudioFingerprint} from '../utils/meditationFingerprintStorage';
 import {analyzeAudioFile} from '../utils/audioFileAnalysis';
 import {
+  findBestNameMatch,
   findBestFingerprintMatch,
   FingerprintMatchResult,
   MatchingOptions,
@@ -16,7 +17,7 @@ export interface MeditationMatchResult {
     name: string;
     confidence: number;
   } | null;
-  matchMethod: 'fingerprint' | 'size' | 'manual' | 'failed';
+  matchMethod: 'name' | 'fingerprint' | 'size' | 'manual' | 'failed';
   fingerprint?: AudioFingerprint;
   fingerprintMatch?: FingerprintMatchResult;
   sizeMatch?: any;
@@ -32,17 +33,24 @@ export interface MatchingProgress {
 }
 
 export interface MeditationMatcherOptions {
+  enableNameMatching: boolean;
   enableFingerprinting: boolean;
   enableSizeMatching: boolean;
+  nameMatchingOptions: Partial<MatchingOptions>;
   fingerprintOptions: Partial<MatchingOptions>;
   processingTimeout: number; // milliseconds
 }
 
 const DEFAULT_MATCHER_OPTIONS: MeditationMatcherOptions = {
-  enableFingerprinting: true,
+  enableNameMatching: true, // Name matching is now primary method
+  enableFingerprinting: false, // Fingerprinting is now secondary/legacy
   enableSizeMatching: true,
+  nameMatchingOptions: {
+    confidenceThreshold: 0.5, // Lower threshold for name matching (more permissive)
+    maxResults: 5,
+  },
   fingerprintOptions: {
-    confidenceThreshold: 0.75,
+    confidenceThreshold: 0.75, // Higher threshold for fingerprint fallback
     maxResults: 3,
   },
   processingTimeout: 30000, // 30 seconds max per file
@@ -71,7 +79,37 @@ export class MeditationMatcher {
     };
 
     try {
-      // Phase 1: Try fingerprint matching first (if enabled)
+      // Phase 1: Try name-based matching first (primary method)
+      if (this.options.enableNameMatching && file.name) {
+        progressCallback?.('Analyzing file name...');
+        
+        try {
+          const nameMatches = await findBestNameMatch(
+            file.name,
+            this.options.nameMatchingOptions
+          );
+          
+          if (nameMatches.length > 0) {
+            const bestMatch = nameMatches[0];
+            result.fingerprintMatch = bestMatch; // Reusing this field for consistency
+            result.meditation = {
+              baseKey: bestMatch.meditationId,
+              name: bestMatch.meditationId, // TODO: Get actual name from database
+              confidence: bestMatch.confidence,
+            };
+            result.matchMethod = 'name';
+            result.processingTime = Date.now() - startTime;
+            console.log(`✅ Name match found for "${file.name}": ${bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
+            return result;
+          } else {
+            console.log(`❌ No name matches found for "${file.name}"`);
+          }
+        } catch (nameError) {
+          console.warn(`Name matching failed for ${file.name}:`, nameError);
+        }
+      }
+
+      // Phase 2: Try fingerprint matching (fallback method)
       if (this.options.enableFingerprinting && file.fileCopyUri) {
         progressCallback?.('Analyzing audio fingerprint...');
         
@@ -104,6 +142,7 @@ export class MeditationMatcher {
               };
               result.matchMethod = 'fingerprint';
               result.processingTime = Date.now() - startTime;
+              console.log(`✅ Fingerprint match found for "${file.name}": ${bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
               return result;
             }
           } else {
@@ -114,7 +153,7 @@ export class MeditationMatcher {
         }
       }
 
-      // Phase 2: Fall back to size matching (if enabled)
+      // Phase 3: Fall back to size matching (if enabled)
       if (this.options.enableSizeMatching) {
         progressCallback?.('Trying size-based matching...');
         
@@ -133,7 +172,7 @@ export class MeditationMatcher {
         }
       }
 
-      // Phase 3: No automatic match found
+      // Phase 4: No automatic match found
       progressCallback?.('No automatic match found');
       result.matchMethod = 'manual';
       result.processingTime = Date.now() - startTime;
@@ -166,12 +205,21 @@ export class MeditationMatcher {
       });
       
       const fileProgressCallback = (phase: string) => {
+        let phaseType: 'analyzing' | 'fingerprinting' | 'size_matching' | 'complete' = 'analyzing';
+        
+        if (phase.includes('fingerprint')) {
+          phaseType = 'fingerprinting';
+        } else if (phase.includes('size')) {
+          phaseType = 'size_matching';
+        } else if (phase.includes('name') || phase.includes('Analyzing file name')) {
+          phaseType = 'analyzing'; // Name analysis is fast, keep as analyzing
+        }
+        
         progressCallback?.({
           current: i + 1,
           total: files.length,
           currentFile: file.name || 'Unknown file',
-          phase: phase.includes('fingerprint') ? 'fingerprinting' : 
-                  phase.includes('size') ? 'size_matching' : 'analyzing',
+          phase: phaseType,
         });
       };
       
@@ -194,6 +242,7 @@ export class MeditationMatcher {
    */
   getMatchingStats(results: MeditationMatchResult[]): {
     total: number;
+    name: number;
     fingerprint: number;
     size: number;
     manual: number;
@@ -203,6 +252,7 @@ export class MeditationMatcher {
   } {
     const stats = {
       total: results.length,
+      name: 0,
       fingerprint: 0,
       size: 0,
       manual: 0,
@@ -216,6 +266,9 @@ export class MeditationMatcher {
     
     results.forEach(result => {
       switch (result.matchMethod) {
+        case 'name':
+          stats.name++;
+          break;
         case 'fingerprint':
           stats.fingerprint++;
           break;

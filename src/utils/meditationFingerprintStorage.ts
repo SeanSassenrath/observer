@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const FINGERPRINT_STORAGE_KEY = '@meditation_fingerprints';
 const TRANSCRIPTION_STORAGE_KEY = '@meditation_transcriptions';
 
-// Audio fingerprint data structure
+// Simplified audio fingerprint data structure (kept for legacy compatibility)
 export interface AudioFingerprint {
   hash: string; // Primary fingerprint hash
   duration: number; // Duration in seconds
@@ -13,33 +13,27 @@ export interface AudioFingerprint {
   createdAt: string; // ISO timestamp
 }
 
-// Transcription excerpts for text matching
-export interface TranscriptionExcerpt {
-  startTime: number; // Start time in seconds
-  endTime: number; // End time in seconds
-  text: string; // Transcribed text
-  confidence: number; // Transcription confidence (0-1)
-}
-
-// Combined meditation reference data
+// Streamlined meditation reference data focused on name-based matching
 export interface MeditationFingerprint {
   meditationBaseId: string; // Links to existing BotecBaseKeys, etc.
-  name: string; // Human readable name
-  groupName: string; // Meditation group
+  name: string; // Human readable name - PRIMARY MATCHING FIELD
+  groupName: string; // Meditation group (e.g., "Blessing of Energy Centers")
+  sourceFile?: string; // Original source filename for enhanced matching
   
-  // Audio fingerprinting data
-  audioFingerprint: AudioFingerprint;
+  // Legacy compatibility (optional - only needed for fallback methods)
+  audioFingerprint?: AudioFingerprint; // Optional legacy fingerprint
   
-  // Transcription samples (first 30s, middle 30s, last 30s)
-  transcriptionExcerpts: TranscriptionExcerpt[];
-  
-  // Fallback data
-  fileSizeBytes?: number; // Keep size as fallback
-  fileSizeString?: string; // Keep string size as fallback (first 5 digits)
+  // Simple fallback data
+  fileSizeBytes?: number; // File size for basic matching
   
   // Metadata
-  version: string; // Schema version for future migrations
+  version: string; // Schema version: "3.0" = name-based, "2.0" = fingerprint, "1.0" = legacy
   lastUpdated: string; // ISO timestamp
+  
+  // Series information for enhanced matching
+  seriesName?: string; // e.g., "Blessing of Energy Centers"
+  seriesNumber?: number; // e.g., 3 for "Part 3"
+  isUpdated?: boolean; // true if this is an updated version
 }
 
 // Storage interface for all meditation fingerprints

@@ -4,6 +4,7 @@ import {
   loadMeditationFingerprints,
 } from './meditationFingerprintStorage';
 import {loadStaticFingerprintDatabase} from './staticFingerprintDatabase';
+import {calculateNameSimilarity} from './fuzzyMeditationMatching';
 
 export interface FingerprintMatchResult {
   meditationId: string;
@@ -176,7 +177,66 @@ export const compareFingerprintsDetailed = (
 };
 
 /**
- * Find best matching meditation from reference database
+ * Find best matching meditation using name-based fuzzy matching
+ */
+export const findBestNameMatch = async (
+  userFileName: string,
+  options: Partial<MatchingOptions> = {}
+): Promise<FingerprintMatchResult[]> => {
+  const config = {...DEFAULT_MATCHING_OPTIONS, ...options};
+  
+  try {
+    const referenceDatabase = await loadStaticFingerprintDatabase();
+    const results: FingerprintMatchResult[] = [];
+    
+    console.log(`🔍 Name-based matching for: "${userFileName}"`);
+    console.log(`📚 Database has ${Object.keys(referenceDatabase).length} entries`);
+    
+    // Compare with each meditation in database using name similarity
+    for (const [meditationId, meditation] of Object.entries(referenceDatabase)) {
+      const nameSimilarity = calculateNameSimilarity(userFileName, meditation.name, meditation.sourceFile);
+      
+      console.log(`📝 Checking "${meditation.name}": ${(nameSimilarity * 100).toFixed(1)}% similarity`);
+      
+      // Only include if similarity is above threshold AND greater than 0
+      if (nameSimilarity > 0 && nameSimilarity >= config.confidenceThreshold) {
+        const result: FingerprintMatchResult = {
+          meditationId,
+          confidence: nameSimilarity,
+          matchType: 'combined', // Using 'combined' to represent name-based matching
+          details: {
+            hashSimilarity: nameSimilarity,
+            spectralSimilarity: nameSimilarity,
+            peaksSimilarity: nameSimilarity,
+            durationSimilarity: nameSimilarity,
+            combinedScore: nameSimilarity,
+          },
+        };
+        
+        results.push(result);
+      }
+    }
+    
+    // Sort by confidence (highest first) and limit results
+    const finalResults = results
+      .sort((a, b) => b.confidence - a.confidence)
+      .slice(0, config.maxResults);
+      
+    console.log(`🏁 Found ${finalResults.length} name-based matches`);
+    if (finalResults.length > 0) {
+      console.log(`  Best match: "${referenceDatabase[finalResults[0].meditationId]?.name}" (${(finalResults[0].confidence * 100).toFixed(1)}%)`);
+    }
+    
+    return finalResults;
+      
+  } catch (error) {
+    console.error('Error finding name matches:', error);
+    return [];
+  }
+};
+
+/**
+ * Find best matching meditation from reference database (legacy fingerprint method)
  */
 export const findBestFingerprintMatch = async (
   userFingerprint: AudioFingerprint,

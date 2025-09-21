@@ -8,6 +8,7 @@ import {
   safeFileTranscription,
 } from '../utils/speechTranscriptionSafe';
 import {
+  findBestNameMatch,
   findBestFingerprintMatch,
   debugFingerprintComparison,
   validateFingerprintQuality,
@@ -22,6 +23,7 @@ export const AudioAnalysisTest = () => {
   const [transcriptionResult, setTranscriptionResult] = useState<string>('');
   const [matchingResult, setMatchingResult] = useState<string>('');
   const [databaseStatus, setDatabaseStatus] = useState<string>('Checking...');
+  const [confidenceThreshold, setConfidenceThreshold] = useState<number>(0.5);
 
   const testFileAnalysis = async () => {
     try {
@@ -145,6 +147,92 @@ Real speech analysis will be added in future phases.
         setTranscriptionResult('File selection cancelled');
       } else {
         setTranscriptionResult(`Error: ${error}`);
+      }
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const testNameBasedMatching = async () => {
+    try {
+      setIsAnalyzing(true);
+      setMatchingResult('Picking audio file for name-based matching...');
+
+      const file = await DocumentPicker.pick({
+        type: [DocumentPicker.types.audio],
+        copyTo: 'documentDirectory',
+      });
+
+      if (file[0]) {
+        setMatchingResult('Running enhanced name-based fuzzy matching...');
+        
+        // Capture console logs to show detailed matching process
+        const originalLog = console.log;
+        const debugLogs: string[] = [];
+        console.log = (...args) => {
+          debugLogs.push(args.map(arg => typeof arg === 'string' ? arg : JSON.stringify(arg)).join(' '));
+          originalLog(...args);
+        };
+        
+        // Use name-based matching with adjustable confidence
+        const nameMatches = await findBestNameMatch(file[0].name, {
+          confidenceThreshold: confidenceThreshold,
+          maxResults: 5,
+        });
+        
+        // Restore original console.log
+        console.log = originalLog;
+        
+        // Add confidence explanations
+        const getConfidenceExplanation = (confidence: number): string => {
+          if (confidence >= 0.95) return '🟢 Excellent - Exact or near-exact match';
+          if (confidence >= 0.85) return '🟢 High - Series + number match';
+          if (confidence >= 0.70) return '🟡 Good - Strong name similarity';
+          if (confidence >= 0.50) return '🟠 Moderate - Partial match';
+          return '🔴 Low - Manual review recommended';
+        };
+        
+        const resultText = `
+📁 File: ${file[0].name}
+🎯 Enhanced Name-Based Fuzzy Matching Results:
+⚙️ Confidence Threshold: ${(confidenceThreshold * 100).toFixed(0)}%
+
+${nameMatches.length > 0 ? 
+  nameMatches.map((match, index) => {
+    const explanation = getConfidenceExplanation(match.confidence);
+    return `${index + 1}. Match: ${match.meditationId}
+   🎯 Confidence: ${(match.confidence * 100).toFixed(1)}% - ${explanation}
+   📊 Similarity Score: ${(match.details.hashSimilarity * 100).toFixed(1)}%`;
+  }).join('\n\n') : 
+  `❌ NO MATCHES FOUND at ${(confidenceThreshold * 100).toFixed(0)}% threshold
+   💡 Try lowering the confidence threshold or check file naming`}
+
+🔍 Detailed Matching Process:
+${debugLogs.length > 0 ? debugLogs.slice(-20).join('\n') : 'No debug logs captured'}
+
+💡 Enhanced Name-Based Matching Features:
+- 🏷️ Series abbreviations (BOTEC → Blessing of Energy Centers)
+- 🔢 Number variations (1 = Part 1 = I = One = Session 1)
+- 🔄 Update intelligence ("Updated" matches "Updated" versions)
+- 📝 Word overlap analysis (Jaccard similarity)
+- ✂️ Edit distance (handles typos and variations)
+- 🎯 Multi-tier confidence scoring
+
+📊 Confidence Levels:
+- 95-100%: Exact or near-exact match
+- 85-94%: High confidence (series + number match)
+- 70-84%: Good confidence (strong name similarity)
+- 50-69%: Moderate confidence (partial matches)
+- <50%: Low confidence (manual review recommended)
+        `;
+        
+        setMatchingResult(resultText);
+      }
+    } catch (error) {
+      if (DocumentPicker.isCancel(error)) {
+        setMatchingResult('File selection cancelled');
+      } else {
+        setMatchingResult(`Name matching error: ${error}`);
       }
     } finally {
       setIsAnalyzing(false);
@@ -329,11 +417,47 @@ ${matchResult.error ? `❌ Error: ${matchResult.error}` : ''}
         🎯 Meditation Matching
       </Text>
       
+      <Text style={{marginBottom: 10, fontSize: 12, opacity: 0.8}}>
+        Confidence Threshold: {(confidenceThreshold * 100).toFixed(0)}%
+      </Text>
+      
+      <View style={{flexDirection: 'row', marginBottom: 10}}>
+        <Button
+          onPress={() => setConfidenceThreshold(0.3)}
+          size="tiny"
+          appearance={confidenceThreshold === 0.3 ? 'filled' : 'outline'}
+          style={{marginRight: 5, flex: 1}}>
+          Permissive (30%)
+        </Button>
+        <Button
+          onPress={() => setConfidenceThreshold(0.5)}
+          size="tiny"
+          appearance={confidenceThreshold === 0.5 ? 'filled' : 'outline'}
+          style={{marginRight: 5, flex: 1}}>
+          Balanced (50%)
+        </Button>
+        <Button
+          onPress={() => setConfidenceThreshold(0.7)}
+          size="tiny"
+          appearance={confidenceThreshold === 0.7 ? 'filled' : 'outline'}
+          style={{flex: 1}}>
+          Strict (70%)
+        </Button>
+      </View>
+      
+      <Button
+        onPress={testNameBasedMatching}
+        disabled={isAnalyzing}
+        style={{marginBottom: 10, backgroundColor: '#2E7D32'}}>
+        🏷️ Test Name-Based Fuzzy Matching (Recommended)
+      </Button>
+      
       <Button
         onPress={testMeditationMatching}
         disabled={isAnalyzing}
+        appearance="outline"
         style={{marginBottom: 20}}>
-        Test Complete Matching Algorithm
+        Test Complete Matching Algorithm (Legacy)
       </Button>
       
       {/* File Transcription Section */}
