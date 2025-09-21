@@ -12,6 +12,9 @@ import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import UserContext from '../contexts/userData';
 
+// Empty component for Add tab since it's handled by custom tab bar
+const AddScreen = () => <View />;
+
 const Tab = createBottomTabNavigator<TabParamList>();
 
 const getTabBarIcon = (routeName: string) => {
@@ -134,7 +137,7 @@ const TabNavigator = () => (
       headerShown: false,
     }}>
     <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Add" component={() => <View />} />
+    <Tab.Screen name="Add" component={AddScreen} />
     <Tab.Screen name="Files" component={LibraryScreen} />
     <Tab.Screen name="Insights" component={InsightScreen} />
   </Tab.Navigator>

@@ -28,6 +28,7 @@ import TermsAgreementScreen from '../screens/TermsAgreement';
 import PurchaseOnboarding from '../screens/PurchaseOnboarding';
 import WelcomeScreen from '../screens/Welcome';
 import EmailSignInScreen from '../screens/EmailSignIn';
+import ReassignFileScreen from '../screens/ReassignFile';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -93,6 +94,7 @@ const StackNavigator = () => {
         <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
         <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
         <Screen name="Feedback" component={FeedbackScreen} />
+        <Screen name="ReassignFile" component={ReassignFileScreen} />
         <Screen name="TermsAgreement" component={TermsAgreementScreen} />
       </Navigator>
     </NavigationContainer>

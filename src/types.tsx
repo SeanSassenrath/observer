@@ -32,6 +32,7 @@ export type StackParamList = {
   LimitedVersion: undefined;
   PurchaseOnboarding: undefined;
   // Purchase: PurchaseParams;
+  ReassignFile: ReassignFileParams;
   SignIn: undefined;
   Subscriptions: undefined;
   TabNavigation: undefined;
@@ -48,6 +49,12 @@ interface MeditationParams {
 interface AddMedsMatchingParams {
   medsSuccess: MeditationBaseId[];
   medsFail: UnknownFileData[];
+}
+
+interface ReassignFileParams {
+  meditationId: string;
+  filePath: string;
+  fileName: string;
 }
 
 // interface PurchaseParams {
