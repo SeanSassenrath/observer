@@ -23,6 +23,7 @@ const ClearButton = (props: ClearButton) => (
 export const SearchBar = (props: SearchBarProps) => (
   <Input
     placeholder={props.placeholder ? props.placeholder : 'Search'}
+    placeholderTextColor="#9CA3AF"
     value={props.input}
     onChangeText={nextInput => props.onChangeText(nextInput)}
     accessoryRight={
@@ -45,12 +46,14 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     backgroundColor: '#1B2237',
-    borderRadius: 10,
+    borderRadius: 30,
     borderColor: 'transparent',
+    height: 60,
   },
   textStyle: {
-    paddingVertical: 8,
-    fontSize: 18,
-    borderRadius: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    fontSize: 20,
+    fontWeight: '600',
   },
 });
