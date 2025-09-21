@@ -131,20 +131,20 @@ export type PurchaseScreenNavigationProp = PurchaseProps['navigation'];
 // Tab Navigation
 export type TabParamList = {
   Home: undefined;
-  Insight: undefined;
-  Library: undefined;
-  Learn: undefined;
+  Add: undefined;
+  Files: undefined;
+  Insights: undefined;
 };
 
 type HomeProps = BottomTabNavigationProp<TabParamList, 'Home'>;
-type InsightProps = BottomTabNavigationProp<TabParamList, 'Insight'>;
-type LibraryProps = BottomTabNavigationProp<TabParamList, 'Library'>;
-type LearnProps = BottomTabNavigationProp<TabParamList, 'Learn'>;
+type AddProps = BottomTabNavigationProp<TabParamList, 'Add'>;
+type FilesProps = BottomTabNavigationProp<TabParamList, 'Files'>;
+type InsightsProps = BottomTabNavigationProp<TabParamList, 'Insights'>;
 
 export type HomeScreenNavigationProp = HomeProps['navigate'];
-export type InsightScreenNavigationProp = InsightProps['navigate'];
-export type LibraryScreenNavigationProp = LibraryProps[];
-export type LearnScreenNavigationProp = LearnProps['navigate'];
+export type AddScreenNavigationProp = AddProps['navigate'];
+export type FilesScreenNavigationProp = FilesProps['navigate'];
+export type InsightsScreenNavigationProp = InsightsProps['navigate'];
 
 // File Picker
 export interface PickedFile extends DocumentPickerResponse {

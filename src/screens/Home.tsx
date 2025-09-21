@@ -74,9 +74,6 @@ const UserIcon = () => (
   <Icon style={themedStyles.userIcon} fill={brightWhite} name="person" />
 );
 
-const PlusIcon = () => (
-  <Icon style={themedStyles.plusIcon} fill={brightWhite} name="plus-outline" />
-);
 
 const HomeScreen = () => {
   const {user, setUser} = useContext(UserContext);
@@ -276,11 +273,6 @@ const HomeScreen = () => {
               <StreakPill streaks={streakData} />
             </Pressable>
             <Layout style={styles.topBarActionItemsContainer}>
-              <Pressable onPress={onAddMeditationsPress}>
-                <Layout style={styles.plusIconContainer}>
-                  <PlusIcon />
-                </Layout>
-              </Pressable>
               <Pressable onPress={onAvatarPress}>
                 {user.profile && user.profile.photoURL ? (
                   <Avatar source={{uri: user.profile.photoURL}} />
@@ -429,15 +421,6 @@ const themedStyles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
   },
-  plusIconContainer: {
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    marginRight: 20,
-    width: 40,
-    height: 40,
-  },
   modalContainer: {
     height: 300,
     width: 300,
@@ -492,10 +475,6 @@ const themedStyles = StyleSheet.create({
   userIcon: {
     height: 25,
     width: 25,
-  },
-  plusIcon: {
-    height: 30,
-    width: 30,
   },
   thinkBoxLabel: {
     paddingHorizontal: 20,
