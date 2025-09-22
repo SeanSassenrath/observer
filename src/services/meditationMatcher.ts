@@ -9,6 +9,7 @@ import {
   validateFingerprintQuality,
 } from '../utils/fingerprintMatching';
 import {makeFilePathData} from '../utils/filePicker';
+import {meditationBaseMap} from '../constants/meditation-data';
 
 export interface MeditationMatchResult {
   file: DocumentPickerResponse;
@@ -91,15 +92,16 @@ export class MeditationMatcher {
           
           if (nameMatches.length > 0) {
             const bestMatch = nameMatches[0];
+            const matchedMeditation = meditationBaseMap[bestMatch.meditationId];
             result.fingerprintMatch = bestMatch; // Reusing this field for consistency
             result.meditation = {
               baseKey: bestMatch.meditationId,
-              name: bestMatch.meditationId, // TODO: Get actual name from database
+              name: matchedMeditation?.name || bestMatch.meditationId,
               confidence: bestMatch.confidence,
             };
             result.matchMethod = 'name';
             result.processingTime = Date.now() - startTime;
-            console.log(`✅ Name match found for "${file.name}": ${bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
+            console.log(`✅ Name match found for "${file.name}": ${matchedMeditation?.name || bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
             return result;
           } else {
             console.log(`❌ No name matches found for "${file.name}"`);
@@ -134,15 +136,16 @@ export class MeditationMatcher {
             
             if (fingerprintMatches.length > 0) {
               const bestMatch = fingerprintMatches[0];
+              const matchedMeditation = meditationBaseMap[bestMatch.meditationId];
               result.fingerprintMatch = bestMatch;
               result.meditation = {
                 baseKey: bestMatch.meditationId,
-                name: bestMatch.meditationId, // TODO: Get actual name from database
+                name: matchedMeditation?.name || bestMatch.meditationId,
                 confidence: bestMatch.confidence,
               };
               result.matchMethod = 'fingerprint';
               result.processingTime = Date.now() - startTime;
-              console.log(`✅ Fingerprint match found for "${file.name}": ${bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
+              console.log(`✅ Fingerprint match found for "${file.name}": ${matchedMeditation?.name || bestMatch.meditationId} (${(bestMatch.confidence * 100).toFixed(1)}%)`);
               return result;
             }
           } else {
@@ -160,10 +163,11 @@ export class MeditationMatcher {
         const sizeMatch = makeFilePathData(file);
         if (sizeMatch) {
           const baseKey = Object.keys(sizeMatch)[0];
+          const matchedMeditation = meditationBaseMap[baseKey];
           result.sizeMatch = sizeMatch;
           result.meditation = {
             baseKey,
-            name: baseKey, // TODO: Get actual name from meditation data
+            name: matchedMeditation?.name || baseKey,
             confidence: 0.95, // High confidence for exact size matches
           };
           result.matchMethod = 'size';

@@ -5,6 +5,8 @@ import {
 } from './meditationFingerprintStorage';
 import {loadStaticFingerprintDatabase} from './staticFingerprintDatabase';
 import {calculateNameSimilarity} from './fuzzyMeditationMatching';
+import {meditationBaseMap} from '../constants/meditation-data';
+import {MeditationBase} from '../types';
 
 export interface FingerprintMatchResult {
   meditationId: string;
@@ -177,7 +179,7 @@ export const compareFingerprintsDetailed = (
 };
 
 /**
- * Find best matching meditation using name-based fuzzy matching
+ * Find best matching meditation using name-based fuzzy matching against complete meditation database
  */
 export const findBestNameMatch = async (
   userFileName: string,
@@ -186,15 +188,14 @@ export const findBestNameMatch = async (
   const config = {...DEFAULT_MATCHING_OPTIONS, ...options};
   
   try {
-    const referenceDatabase = await loadStaticFingerprintDatabase();
     const results: FingerprintMatchResult[] = [];
     
     console.log(`🔍 Name-based matching for: "${userFileName}"`);
-    console.log(`📚 Database has ${Object.keys(referenceDatabase).length} entries`);
+    console.log(`📚 Searching against ${Object.keys(meditationBaseMap).length} total supported meditations`);
     
-    // Compare with each meditation in database using name similarity
-    for (const [meditationId, meditation] of Object.entries(referenceDatabase)) {
-      const nameSimilarity = calculateNameSimilarity(userFileName, meditation.name, meditation.sourceFile);
+    // Compare with each meditation in the complete meditation base map
+    for (const [meditationId, meditation] of Object.entries(meditationBaseMap) as [string, MeditationBase][]) {
+      const nameSimilarity = calculateNameSimilarity(userFileName, meditation.name);
       
       console.log(`📝 Checking "${meditation.name}": ${(nameSimilarity * 100).toFixed(1)}% similarity`);
       
@@ -222,9 +223,10 @@ export const findBestNameMatch = async (
       .sort((a, b) => b.confidence - a.confidence)
       .slice(0, config.maxResults);
       
-    console.log(`🏁 Found ${finalResults.length} name-based matches`);
+    console.log(`🏁 Found ${finalResults.length} name-based matches from complete meditation database`);
     if (finalResults.length > 0) {
-      console.log(`  Best match: "${referenceDatabase[finalResults[0].meditationId]?.name}" (${(finalResults[0].confidence * 100).toFixed(1)}%)`);
+      const bestMatch = meditationBaseMap[finalResults[0].meditationId];
+      console.log(`  Best match: "${bestMatch?.name}" (${(finalResults[0].confidence * 100).toFixed(1)}%)`);
     }
     
     return finalResults;
