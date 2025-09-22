@@ -127,121 +127,78 @@ const getCardNameStyles = (props: CardStyleProps) => {
   }
 };
 
-export const CardV4 = (props: CardProps) => {
-  // Check if this is an updated version by looking for "updated" in the meditation ID or name
-  const isUpdatedVersion = props.meditationId.toLowerCase().includes('updated') || 
-                           props.name.toLowerCase().includes('updated');
-
-  return (
-    <Pressable
-      key={props.meditationId}
-      onPress={() => props.onPress(props.meditationId)}>
-      <ImageBackground
-        source={props.backgroundImage}
-        style={getCardStyles(props)}>
-        {/* Duration pill in top-right corner */}
-        <Layout style={stylesV4.durationPill}>
-          <Text style={stylesV4.durationText}>{`${props.formattedDuration}m`}</Text>
-        </Layout>
-        
-        {/* Title overlay at bottom */}
-        <Layout style={stylesV4.titleOverlay}>
-          <Text style={stylesV4.titleText}>{props.name}</Text>
-          {isUpdatedVersion && (
-            <Text style={stylesV4.subtitleText}>Updated Version</Text>
-          )}
-        </Layout>
-      </ImageBackground>
-    </Pressable>
-  );
-};
+export const CardV4 = (props: CardProps) => (
+  <Pressable
+    key={props.meditationId}
+    onPress={() => props.onPress(props.meditationId)}>
+    <ImageBackground
+      source={props.backgroundImage}
+      style={getCardStyles(props)}>
+      <Layout level={props.level} style={stylesV4.formattedDurationContainer}>
+        <Text category="s2">{`${props.formattedDuration}m`}</Text>
+      </Layout>
+    </ImageBackground>
+    <Layout style={getCardNameStyles(props)}>
+      <Text category="s1">{props.name}</Text>
+    </Layout>
+  </Pressable>
+);
 
 const stylesV4 = StyleSheet.create({
   card: {
-    borderRadius: 16,
-    height: 200,
+    borderRadius: 10,
+    height: 140,
     marginRight: 20,
-    width: 320,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  selectedCard: {
-    borderRadius: 16,
-    height: 200,
-    marginRight: 20,
-    width: 320,
+    width: 200,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: '#9C4DCC',
+    borderColor: 'rgba(50, 50, 50, 50.3)',
+  },
+  selectedCard: {
+    borderRadius: 10,
+    height: 140,
+    marginRight: 20,
+    width: 200,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#CBF6A1',
   },
   disabledCard: {
-    borderRadius: 16,
-    height: 200,
+    borderRadius: 10,
+    height: 140,
     marginRight: 20,
-    width: 320,
+    width: 200,
     overflow: 'hidden',
     opacity: 0.4,
   },
   miniCard: {
-    borderRadius: 12,
-    height: 140,
-    marginRight: 16,
-    width: 220,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  miniSelectedCard: {
-    borderRadius: 12,
-    height: 140,
-    marginRight: 16,
-    width: 220,
+    borderRadius: 10,
+    height: 100,
+    marginRight: 20,
+    width: 140,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: '#9C4DCC',
+    borderColor: 'rgba(90, 90, 90, 0.9)',
+  },
+  miniSelectedCard: {
+    borderRadius: 10,
+    height: 100,
+    marginRight: 20,
+    width: 140,
+    overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: '#CBF6A1',
   },
   miniDisabledCard: {
-    borderRadius: 12,
-    height: 140,
-    marginRight: 16,
-    width: 220,
+    borderRadius: 10,
+    height: 100,
+    marginRight: 20,
+    width: 140,
     overflow: 'hidden',
+    borderWidth: 2,
+    borderColor: 'rgba(90, 90, 90, 0.9)',
     opacity: 0.4,
   },
-  durationPill: {
-    position: 'absolute',
-    top: 16,
-    right: 16,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-  },
-  durationText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  titleOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-  },
-  titleText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 4,
-  },
-  subtitleText: {
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 14,
-    fontWeight: '400',
-  },
-  // Legacy styles for backward compatibility
   formattedDurationContainer: {
     alignItems: 'flex-end',
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
