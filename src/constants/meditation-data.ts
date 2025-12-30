@@ -1832,28 +1832,6 @@ export const otherMap = {
     type: MeditationTypes.Meditation,
     url: placeholder,
   },
-  [OtherBaseKeys.MedMorningMeditation]: {
-    artist,
-    backgroundImage: require('../assets/present_moment.jpg'),
-    formattedDuration: '0',
-    id: placeholder,
-    groupName: MeditationGroupName.Other,
-    meditationBaseId: OtherBaseKeys.MedMorningMeditation,
-    name: 'Morning Meditation',
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
-  [OtherBaseKeys.MedEveningMeditation]: {
-    artist,
-    backgroundImage: require('../assets/present_moment.jpg'),
-    formattedDuration: '0',
-    id: placeholder,
-    groupName: MeditationGroupName.Other,
-    meditationBaseId: OtherBaseKeys.MedEveningMeditation,
-    name: 'Evening Meditation',
-    type: MeditationTypes.Meditation,
-    url: placeholder,
-  },
 };
 
 export const meditationBaseMap: MeditationBaseMap = {
