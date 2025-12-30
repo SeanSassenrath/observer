@@ -5,4 +5,11 @@ module.exports = {
     android: {},
   },
   assets: ['./assets'],
+  dependencies: {
+    'react-native-purchases': {
+      platforms: {
+        ios: null,  // Excludes from iOS autolinking
+      },
+    },
+  },
 };
