@@ -26,6 +26,10 @@ const UnrecognizedFilesScreen = (props: Props) => {
     });
   };
 
+  const onSkipPress = () => {
+    navigation.navigate('TabNavigation');
+  };
+
   const unrecognizedFilesCount = medsFail.length;
   const isLengthOne = unrecognizedFilesCount === 1;
 
@@ -47,6 +51,14 @@ const UnrecognizedFilesScreen = (props: Props) => {
             onPress={onContinuePress}
             style={styles.addButton}>
             Continue
+          </Button>
+          <Button
+            size="large"
+            appearance="ghost"
+            status="basic"
+            onPress={onSkipPress}
+            style={styles.skipButton}>
+            Skip
           </Button>
         </View>
       </SafeAreaView>
