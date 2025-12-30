@@ -45,7 +45,7 @@ export interface MeditationMatcherOptions {
 const DEFAULT_MATCHER_OPTIONS: MeditationMatcherOptions = {
   enableNameMatching: true, // Name matching is now primary method
   enableFingerprinting: false, // Fingerprinting is now secondary/legacy
-  enableSizeMatching: true,
+  enableSizeMatching: false, // Disabled to avoid size=0 collisions (can re-enable with actual sizes)
   nameMatchingOptions: {
     confidenceThreshold: 0.5, // Lower threshold for name matching (more permissive)
     maxResults: 5,
