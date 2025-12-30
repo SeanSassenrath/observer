@@ -102,6 +102,19 @@ target 'Unlimited' do
       target.build_configurations.each do |config|
         config.build_settings['ENABLE_BITCODE'] = 'NO'
       end
+        # Optional: Explicitly strip bitcode from frameworks (especially Hermes)
+      bitcode_strip_path = `xcrun --find bitcode_strip`.chop!
+      framework_paths = [
+        "Pods/hermes-engine/destroot/Library/Frameworks/universal/hermes.xcframework/ios-arm64/hermes.framework/hermes",
+        # Add other paths if other frameworks cause issues
+      ]
+      framework_paths.each do |framework_relative_path|
+        framework_path = File.join(Dir.pwd, framework_relative_path)
+        if File.exist?(framework_path)
+          puts "Stripping bitcode: #{framework_path}"
+          system("#{bitcode_strip_path} -r #{framework_path} -o #{framework_path}")
+        end
+      end
     end
 
     use_frameworks! :linkage => :static
