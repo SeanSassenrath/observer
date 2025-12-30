@@ -12,6 +12,11 @@ export interface SeriesAbbreviation {
 // Common Dr. Joe Dispenza series abbreviations and patterns
 const DR_JOE_SERIES: SeriesAbbreviation[] = [
   {
+    abbreviation: 'BEC',
+    fullName: 'Blessing of the Energy Centers',
+    aliases: ['blessing energy centers', 'energy centers blessing', 'blessing of energy centers', 'bec']
+  },
+  {
     abbreviation: 'BOTEC',
     fullName: 'Blessing of the Energy Centers',
     aliases: ['blessing energy centers', 'energy centers blessing', 'blessing of energy centers']
@@ -45,15 +50,15 @@ const DR_JOE_SERIES: SeriesAbbreviation[] = [
 
 // Number variations for series matching
 const NUMBER_VARIATIONS: Record<string, string[]> = {
-  '1': ['1', 'one', 'i', 'part 1', 'session 1', 'chapter 1'],
-  '2': ['2', 'two', 'ii', 'part 2', 'session 2', 'chapter 2'],
-  '3': ['3', 'three', 'iii', 'part 3', 'session 3', 'chapter 3'],
-  '4': ['4', 'four', 'iv', 'part 4', 'session 4', 'chapter 4'],
-  '5': ['5', 'five', 'v', 'part 5', 'session 5', 'chapter 5'],
-  '6': ['6', 'six', 'vi', 'part 6', 'session 6', 'chapter 6'],
-  '7': ['7', 'seven', 'vii', 'part 7', 'session 7', 'chapter 7'],
-  '8': ['8', 'eight', 'viii', 'part 8', 'session 8', 'chapter 8'],
-  '9': ['9', 'nine', 'ix', 'part 9', 'session 9', 'chapter 9'],
+  '1': ['1', '01', 'one', 'i', 'part 1', 'session 1', 'chapter 1'],
+  '2': ['2', '02', 'two', 'ii', 'part 2', 'session 2', 'chapter 2'],
+  '3': ['3', '03', 'three', 'iii', 'part 3', 'session 3', 'chapter 3'],
+  '4': ['4', '04', 'four', 'iv', 'part 4', 'session 4', 'chapter 4'],
+  '5': ['5', '05', 'five', 'v', 'part 5', 'session 5', 'chapter 5'],
+  '6': ['6', '06', 'six', 'vi', 'part 6', 'session 6', 'chapter 6'],
+  '7': ['7', '07', 'seven', 'vii', 'part 7', 'session 7', 'chapter 7'],
+  '8': ['8', '08', 'eight', 'viii', 'part 8', 'session 8', 'chapter 8'],
+  '9': ['9', '09', 'nine', 'ix', 'part 9', 'session 9', 'chapter 9'],
   '10': ['10', 'ten', 'x', 'part 10', 'session 10', 'chapter 10'],
 };
 
@@ -123,13 +128,17 @@ export function calculateNameSimilarity(
   // 4. Updated meditation handling
   const updateScore = calculateUpdateScore(userNormalized, meditationNormalized);
   console.log(`  Update score: ${(updateScore * 100).toFixed(1)}%`);
-  
-  // 5. Traditional fuzzy matching
+
+  // 5. Exact keyword matching
+  const keywordScore = calculateExactKeywordScore(userNormalized, meditationNormalized);
+  console.log(`  Keyword score: ${(keywordScore * 100).toFixed(1)}%`);
+
+  // 6. Traditional fuzzy matching
   const fuzzyScore = calculateTraditionalFuzzy(userNormalized, meditationNormalized, sourceNormalized);
   console.log(`  Fuzzy score: ${(fuzzyScore * 100).toFixed(1)}%`);
-  
+
   // Return the best score from all methods
-  const bestScore = Math.max(seriesScore, updateScore, fuzzyScore);
+  const bestScore = Math.max(seriesScore, updateScore, keywordScore, fuzzyScore);
   console.log(`  🎯 Best score: ${(bestScore * 100).toFixed(1)}%`);
   
   // Safety check - ensure we don't return invalid scores
@@ -199,34 +208,75 @@ function calculateSeriesScore(userText: string, meditationText: string): number 
 }
 
 /**
+ * Convert roman numeral to arabic number
+ */
+function romanToArabic(roman: string): number | null {
+  const romanMap: Record<string, number> = {
+    'i': 1, 'ii': 2, 'iii': 3, 'iv': 4, 'v': 5,
+    'vi': 6, 'vii': 7, 'viii': 8, 'ix': 9, 'x': 10
+  };
+  return romanMap[roman.toLowerCase()] || null;
+}
+
+/**
+ * Convert number word to arabic number
+ */
+function wordToArabic(word: string): number | null {
+  const wordMap: Record<string, number> = {
+    'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,
+    'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10
+  };
+  return wordMap[word.toLowerCase()] || null;
+}
+
+/**
  * Extract numbers and number-like words from text
+ * Normalizes all number formats to canonical arabic form
  */
 function extractNumbers(text: string): string[] {
   const numbers: string[] = [];
-  const words = text.toLowerCase().split(/\s+/);
-  
-  for (const word of words) {
-    // Check for digit
+  // Split on both spaces and hyphens to handle "BEC-II" format
+  const tokens = text.toLowerCase().split(/[\s\-]+/);
+
+  for (const word of tokens) {
+    // Check for digit (including zero-padded)
     if (/^\d+$/.test(word)) {
-      numbers.push(word);
+      // Normalize by removing leading zeros
+      const normalized = word.replace(/^0+/, '') || '0';
+      if (!numbers.includes(normalized)) {
+        numbers.push(normalized);
+      }
     }
     // Check for roman numerals
     else if (/^[ivxlcdm]+$/.test(word) && word.length <= 4) {
-      numbers.push(word);
+      const arabic = romanToArabic(word);
+      if (arabic && !numbers.includes(arabic.toString())) {
+        numbers.push(arabic.toString());
+      }
     }
     // Check for number words
     else if (['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'].includes(word)) {
-      numbers.push(word);
+      const arabic = wordToArabic(word);
+      if (arabic && !numbers.includes(arabic.toString())) {
+        numbers.push(arabic.toString());
+      }
     }
     // Check for part/session/chapter patterns
     else if (word.includes('part') || word.includes('session') || word.includes('chapter')) {
       const match = word.match(/(part|session|chapter)\s*(\d+|[ivxlcdm]+|one|two|three|four|five|six|seven|eight|nine|ten)/);
       if (match) {
-        numbers.push(match[2]);
+        const numStr = match[2];
+        // Recursively normalize this number
+        const extracted = extractNumbers(numStr);
+        for (const num of extracted) {
+          if (!numbers.includes(num)) {
+            numbers.push(num);
+          }
+        }
       }
     }
   }
-  
+
   return numbers;
 }
 
@@ -305,6 +355,78 @@ function removeUpdateIndicators(text: string): string {
     cleaned = cleaned.replace(pattern, '');
   }
   return cleaned.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Remove keywords from text for base comparison
+ */
+function removeKeywords(text: string, keywords: string[]): string {
+  let cleaned = text;
+  for (const keyword of keywords) {
+    const pattern = new RegExp(`\\b${keyword}\\b`, 'gi');
+    cleaned = cleaned.replace(pattern, '');
+  }
+  return cleaned.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Calculate exact keyword match score for important distinguishing terms
+ * Prioritizes meditations that contain exact keyword matches like "breath", "walking", "music only"
+ */
+function calculateExactKeywordScore(userText: string, meditationText: string): number {
+  // Important keywords that distinguish meditation variants
+  const CRITICAL_KEYWORDS = [
+    'breath', 'breathwork',
+    'walking', 'walk',
+    'music', 'music only',
+    'updated', 'update',
+    'morning', 'evening',
+    'short', 'long',
+  ];
+
+  const userWords = userText.toLowerCase().split(/\s+/);
+  const meditationWords = meditationText.toLowerCase().split(/\s+/);
+
+  let matchedKeywords = 0;
+  let totalKeywordsInUser = 0;
+
+  // Count how many critical keywords appear in user text
+  for (const keyword of CRITICAL_KEYWORDS) {
+    const keywordParts = keyword.split(/\s+/);
+    const userHasKeyword = keywordParts.every(part => userWords.includes(part));
+    const meditationHasKeyword = keywordParts.every(part => meditationWords.includes(part));
+
+    if (userHasKeyword) {
+      totalKeywordsInUser++;
+      if (meditationHasKeyword) {
+        matchedKeywords++;
+      }
+    }
+  }
+
+  // If user has critical keywords, they MUST match
+  if (totalKeywordsInUser > 0) {
+    const keywordMatchRate = matchedKeywords / totalKeywordsInUser;
+
+    // Perfect keyword match + high base similarity = excellent match
+    if (keywordMatchRate === 1.0) {
+      // Check base similarity (without keywords)
+      const userWithoutKeywords = removeKeywords(userText, CRITICAL_KEYWORDS);
+      const meditationWithoutKeywords = removeKeywords(meditationText, CRITICAL_KEYWORDS);
+      const baseSimilarity = calculateEditDistanceSimilarity(userWithoutKeywords, meditationWithoutKeywords);
+
+      if (baseSimilarity > 0.7) {
+        console.log(`    🎯 KEYWORD MATCH: All ${totalKeywordsInUser} keywords matched, base similarity: ${(baseSimilarity * 100).toFixed(1)}%`);
+        return 0.95; // Very high score for exact keyword + good base match
+      }
+    } else {
+      // Keywords present but DON'T match = penalty
+      console.log(`    ⚠️ KEYWORD MISMATCH: Only ${matchedKeywords}/${totalKeywordsInUser} keywords matched`);
+      return 0.3; // Low score for keyword mismatch
+    }
+  }
+
+  return 0; // No critical keywords in user text, skip this strategy
 }
 
 /**
@@ -396,15 +518,15 @@ function calculateEditDistanceSimilarity(str1: string, str2: string): number {
  */
 function levenshteinDistance(str1: string, str2: string): number {
   const matrix = [];
-  
+
   for (let i = 0; i <= str2.length; i++) {
     matrix[i] = [i];
   }
-  
+
   for (let j = 0; j <= str1.length; j++) {
     matrix[0][j] = j;
   }
-  
+
   for (let i = 1; i <= str2.length; i++) {
     for (let j = 1; j <= str1.length; j++) {
       if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
@@ -418,6 +540,9 @@ function levenshteinDistance(str1: string, str2: string): number {
       }
     }
   }
-  
+
   return matrix[str2.length][str1.length];
 }
+
+// Export helper functions for testing
+export { expandSeriesAbbreviations, numbersMatch, romanToArabic };
