@@ -375,7 +375,8 @@ const themedStyles = StyleSheet.create({
   },
   footer: {
     backgroundColor: 'transparent',
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 60,
   },
   subscribeContainer: {
     backgroundColor: 'rgba(48,55,75, 0.6)',
