@@ -5,11 +5,13 @@ import {MeditationBase} from '../types';
 
 export const convertMeditationToTrack = (
   meditationBase: MeditationBase,
+  filePath?: string,
 ): Track => {
   if (meditationBase) {
-    const relativeFilePath = `${RNFS.DocumentDirectoryPath}/${meditationBase.url}`;
+    // Use provided filePath if available, otherwise fall back to constructed path
+    const trackUrl = filePath || `${RNFS.DocumentDirectoryPath}/${meditationBase.url}`;
     return {
-      url: relativeFilePath,
+      url: trackUrl,
       title: meditationBase.name,
     };
   }

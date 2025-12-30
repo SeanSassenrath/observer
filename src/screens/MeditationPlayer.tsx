@@ -21,6 +21,7 @@ import {
 } from '../types';
 import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
@@ -79,6 +80,7 @@ const MeditationPlayer = ({
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
+  const {meditationFilePaths} = useContext(MeditationFilePathsContext);
   const [playerState, setPlayerState] = useState(TrackPlayerState.None);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
@@ -120,11 +122,16 @@ const MeditationPlayer = ({
 
   const makeTrackList = () => {
     const _tracks = [];
-    _tracks.push(convertMeditationToTrack(meditation));
+
+    // Get the actual stored file path for the main meditation
+    const meditationFilePath = meditationFilePaths[meditation.meditationBaseId];
+    _tracks.push(convertMeditationToTrack(meditation, meditationFilePath));
 
     if (meditationBreathId) {
       const meditationBreath = meditationBaseData[meditationBreathId];
-      _tracks.unshift(convertMeditationToTrack(meditationBreath));
+      // Get the actual stored file path for the breath track
+      const breathFilePath = meditationFilePaths[meditationBreathId];
+      _tracks.unshift(convertMeditationToTrack(meditationBreath, breathFilePath));
     }
 
     return _tracks;
@@ -178,7 +185,8 @@ const MeditationPlayer = ({
       setPosition(_position);
       setDuration(_duration);
 
-      const endOfTrack = _position === _duration;
+      // Only check for completion if duration has loaded (> 0) and position has reached it
+      const endOfTrack = _duration > 0 && _position >= _duration;
 
       if (endOfTrack) {
         const trackQueue = await TrackPlayer.getQueue();
