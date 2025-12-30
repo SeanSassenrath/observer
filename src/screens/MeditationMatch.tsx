@@ -228,11 +228,11 @@ const MeditationMatchScreen = (props: Props) => {
       <SafeAreaView style={styles.safeArea}>
         <Layout level="4" style={styles.topContainer}>
           <Layout level="4" style={styles.topBarContainer}>
-            <Text category="s2" style={styles.fileCount}>
+            <Text category="s1" style={styles.fileCount}>
               File {currentFileIndex + 1} of {fileCount}
             </Text>
             <Pressable onPress={onSkipPress}>
-              <Text category="s2" style={styles.topSkipText}>
+              <Text category="s1" style={styles.topSkipText}>
                 Skip
               </Text>
             </Pressable>
