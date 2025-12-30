@@ -1,32 +1,16 @@
-import React, {useContext, useState} from 'react';
-import {Pressable, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
-import {Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
+import React, {useContext, useMemo, useState} from 'react';
+import {FlatList, Pressable, SafeAreaView, TouchableOpacity, StyleSheet} from 'react-native';
+import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {
-  MeditationBase,
-  MeditationBaseMap,
   MeditationId,
   MeditationMatchScreenNavigationProp,
   MeditationMatchScreenRouteProp,
 } from '../types';
 import {SearchBar} from '../components/SearchBar';
-import {_MeditationListSection} from '../components/MeditationList';
 import {sortBy} from 'lodash';
-import {
-  MeditationGroupName,
-  botecMap,
-  breakingHabitMap,
-  breathMap,
-  dailyMeditationsMap,
-  foundationalMap,
-  generatingMap,
-  meditationBaseMap,
-  otherMap,
-  synchronizeMap,
-  unlockedMap,
-  walkingMap,
-} from '../constants/meditation-data';
+import {meditationBaseMap} from '../constants/meditation-data';
 import Button from '../components/Button';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
@@ -58,6 +42,26 @@ const MeditationMatchScreen = (props: Props) => {
   const styles = useStyleSheet(themedStyles);
 
   const navigation = useNavigation();
+
+  // Flatten all meditations into single array, sorted alphabetically
+  const flattenedMeditations = useMemo(() => {
+    const meditationArray = Object.keys(meditationBaseMap).map(key => ({
+      id: key,
+      name: meditationBaseMap[key].name,
+      formattedDuration: meditationBaseMap[key].formattedDuration,
+    }));
+    return sortBy(meditationArray, 'name');
+  }, []);
+
+  // Filter based on search input
+  const filteredMeditations = useMemo(() => {
+    if (searchInput.length === 0) {
+      return flattenedMeditations;
+    }
+    return flattenedMeditations.filter(meditation =>
+      meditation.name.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  }, [searchInput, flattenedMeditations]);
 
   const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
 
@@ -162,44 +166,62 @@ const MeditationMatchScreen = (props: Props) => {
     }
   };
 
-  const renderMeditationGroupSection = (
-    header: string,
-    meditationGroupMap: MeditationBaseMap,
-  ) => {
-    const meditationList = [] as MeditationBase[];
-    const meditationGroupKeys = Object.keys(meditationGroupMap);
-    meditationGroupKeys.forEach(key => {
-      if (meditationBaseMap[key]) {
-        if (searchInput.length > 0) {
-          if (
-            meditationBaseMap[key].name
-              .toLowerCase()
-              .includes(searchInput.toLowerCase())
-          ) {
-            return meditationList.push(meditationBaseMap[key]);
-          }
-        } else {
-          meditationList.push(meditationBaseMap[key]);
-        }
-      }
-    });
-
-    if (meditationList.length <= 0) {
-      return null;
-    }
-
-    const sortedMeditationList = sortBy(meditationList, 'name');
+  const renderMeditationItem = ({item, index}: {item: any; index: number}) => {
+    const isSelected = item.id === selectedMedId;
+    const isLastItem = index === filteredMeditations.length - 1;
 
     return (
-      <_MeditationListSection
-        key={header}
-        header={header}
-        meditationList={sortedMeditationList}
-        onMeditationPress={onMeditationPress}
-        selectedCardId={selectedMedId}
-      />
+      <TouchableOpacity
+        style={[
+          styles.meditationItem,
+          isSelected && styles.selectedMeditationItem,
+          isLastItem && styles.lastMeditationItem,
+        ]}
+        onPress={() => onMeditationPress(item.id)}>
+        <Layout level="4" style={styles.meditationItemContent}>
+          <Layout level="4" style={styles.meditationTextContainer}>
+            <Text
+              category="s1"
+              style={[
+                styles.meditationName,
+                isSelected && styles.selectedMeditationName,
+              ]}>
+              {item.name}
+            </Text>
+          </Layout>
+          {isSelected && (
+            <Icon name="checkmark" style={styles.checkIcon} fill="#9C4DCC" />
+          )}
+        </Layout>
+      </TouchableOpacity>
     );
   };
+
+  const renderEmptyState = () => (
+    <Layout level="4" style={styles.emptyStateContainer}>
+      <Text category="h6" style={styles.emptyStateTitle}>
+        No meditations found
+      </Text>
+      <Text category="s2" style={styles.emptyStateDescription}>
+        Try adjusting your search terms
+      </Text>
+    </Layout>
+  );
+
+  const renderSkipSection = () => (
+    <Layout style={styles.skipContainer}>
+      <Text category="s1" style={styles.skipHeader}>
+        Unable to find the meditation?
+      </Text>
+      <Text category="s2" style={styles.skipDescription}>
+        The meditation you are adding might not be supported yet. We will try
+        and get it added soon. Please skip to continue.
+      </Text>
+      <Button onPress={onSkipPress} size="small" style={styles.skipButton}>
+        Skip
+      </Button>
+    </Layout>
+  );
 
   return (
     <Layout level="4" style={styles.screenContainer}>
@@ -230,67 +252,20 @@ const MeditationMatchScreen = (props: Props) => {
               onClearPress={onClearSearchPress}
             />
           </Layout>
-          <ScrollView style={styles.scrollContainer}>
-            <Layout level="4">
-              {renderMeditationGroupSection(
-                MeditationGroupName.BlessingEnergyCenter,
-                botecMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.BreakingHabit,
-                breakingHabitMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.BreathTracks,
-                breathMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Daily,
-                dailyMeditationsMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Foundational,
-                foundationalMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Generating,
-                generatingMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Other,
-                otherMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Synchronize,
-                synchronizeMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Walking,
-                walkingMap,
-              )}
-              {renderMeditationGroupSection(
-                MeditationGroupName.Unlocked,
-                unlockedMap,
-              )}
-              {selectedMedId.length <= 0 ? (
-                <Layout style={styles.skipContainer}>
-                  <Text category="s1" style={styles.skipHeader}>
-                    Unable to find the meditation?
-                  </Text>
-                  <Text category="s2" style={styles.skipDescription}>
-                    The meditation you are adding might not be supported yet. We
-                    will try and get it added soon. Please skip to continue.
-                  </Text>
-                  <Button
-                    onPress={onSkipPress}
-                    size="small"
-                    style={styles.skipButton}>
-                    Skip
-                  </Button>
-                </Layout>
-              ) : null}
-            </Layout>
-          </ScrollView>
+          <FlatList
+            data={filteredMeditations}
+            keyExtractor={item => item.id}
+            renderItem={renderMeditationItem}
+            style={styles.meditationList}
+            contentContainerStyle={styles.meditationListContent}
+            ListFooterComponent={
+              selectedMedId.length <= 0 ? renderSkipSection : null
+            }
+            ListEmptyComponent={renderEmptyState}
+            initialNumToRender={20}
+            maxToRenderPerBatch={20}
+            windowSize={10}
+          />
           <LinearGradient
             colors={['transparent', 'transparent', '#0B0E18']}
             style={styles.bottomBarGradient}
@@ -401,9 +376,6 @@ const themedStyles = StyleSheet.create({
   screenContainer: {
     flex: 1,
   },
-  scrollContainer: {
-    flex: 1,
-  },
   searchContainer: {
     paddingHorizontal: 20,
     marginBottom: 30,
@@ -436,6 +408,72 @@ const themedStyles = StyleSheet.create({
   topSkipText: {
     paddingHorizontal: 10,
     opacity: 0.7,
+  },
+  meditationList: {
+    flex: 1,
+    backgroundColor: '#1F2937',
+    borderRadius: 12,
+    marginHorizontal: 20,
+    overflow: 'hidden',
+  },
+  meditationListContent: {
+    paddingBottom: 100,
+  },
+  meditationItem: {
+    backgroundColor: 'transparent',
+    borderBottomWidth: 1,
+    borderBottomColor: '#374151',
+  },
+  lastMeditationItem: {
+    borderBottomWidth: 0,
+  },
+  selectedMeditationItem: {
+    backgroundColor: '#374151',
+  },
+  meditationItemContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    backgroundColor: 'transparent',
+  },
+  meditationTextContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  meditationName: {
+    fontSize: 16,
+    color: '#FFFFFF',
+    marginBottom: 4,
+  },
+  selectedMeditationName: {
+    fontWeight: '600',
+    color: '#9C4DCC',
+  },
+  meditationDuration: {
+    fontSize: 14,
+    color: '#9CA3AF',
+    opacity: 0.8,
+  },
+  checkIcon: {
+    width: 20,
+    height: 20,
+    marginLeft: 12,
+  },
+  emptyStateContainer: {
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+  },
+  emptyStateTitle: {
+    marginBottom: 8,
+    color: '#FFFFFF',
+    opacity: 0.8,
+  },
+  emptyStateDescription: {
+    color: '#9CA3AF',
+    textAlign: 'center',
   },
 });
 
