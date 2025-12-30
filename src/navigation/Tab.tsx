@@ -138,7 +138,7 @@ const TabNavigator = () => (
     }}>
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="Add" component={AddScreen} />
-    <Tab.Screen name="Files" component={LibraryScreen} />
+    {/* <Tab.Screen name="Files" component={LibraryScreen} /> */}
     <Tab.Screen name="Insights" component={InsightScreen} />
   </Tab.Navigator>
 );
