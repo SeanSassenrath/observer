@@ -239,7 +239,7 @@ export const botecMap = {
   [BotecBaseKeys.MedBotec11]: {
     artist,
     backgroundImage: require('../assets/blessings-from-the-brain.png'),
-    formattedDuration: '0',
+    formattedDuration: '73',
     id: placeholder,
     groupName: MeditationGroupName.BlessingEnergyCenter,
     meditationBaseId: BotecBaseKeys.MedBotec11,
@@ -765,7 +765,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2WarmthSun]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '7',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2WarmthSun,
@@ -776,7 +776,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2Olorum]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '6',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2Olorum,
@@ -787,7 +787,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2RidingThrough]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '7',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2RidingThrough,
@@ -798,7 +798,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2Merging]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '7',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2Merging,
@@ -809,7 +809,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2Overgrown]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '9',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2Overgrown,
@@ -820,7 +820,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2Moyayaj]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '7',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2Moyayaj,
@@ -831,7 +831,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2Inhalation]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '6',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2Inhalation,
@@ -842,7 +842,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2FireGathering]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '6',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2FireGathering,
@@ -853,7 +853,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2CosmicHeart]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '6',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2CosmicHeart,
@@ -864,7 +864,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2PranaSoundscapes]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '7',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2PranaSoundscapes,
@@ -875,7 +875,7 @@ export const breathMap = {
   [BreathBaseKeys.BreathInspireV2ContinuousMix]: {
     artist,
     backgroundImage: require('../assets/inspire-v2.png'),
-    formattedDuration: '0',
+    formattedDuration: '65',
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2ContinuousMix,
@@ -1204,7 +1204,7 @@ export const walkingMap = {
   [WalkingBaseKeys.MedWalkingChangingBoxes]: {
     artist,
     backgroundImage: require('../assets/changing-boxes-walking.png'),
-    formattedDuration: '0',
+    formattedDuration: '75',
     id: placeholder,
     groupName: MeditationGroupName.Walking,
     meditationBaseId: WalkingBaseKeys.MedWalkingChangingBoxes,
@@ -1407,7 +1407,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings1]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '29',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings1,
@@ -1418,7 +1418,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings2]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '26',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings2,
@@ -1429,7 +1429,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings3]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '30',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings3,
@@ -1440,7 +1440,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings4]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '26',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings4,
@@ -1451,7 +1451,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings5]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '23',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings5,
@@ -1462,7 +1462,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings6]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '30',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings6,
@@ -1473,7 +1473,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings7]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '30',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings7,
@@ -1484,7 +1484,7 @@ export const countYourBlessingsMap = {
   [CountYourBlessingsBaseKeys.MedCountYourBlessings8]: {
     artist,
     backgroundImage: require('../assets/count-your-blessings.png'),
-    formattedDuration: '0',
+    formattedDuration: '25',
     id: placeholder,
     groupName: MeditationGroupName.CountYourBlessings,
     meditationBaseId: CountYourBlessingsBaseKeys.MedCountYourBlessings8,
@@ -1780,7 +1780,7 @@ export const otherMap = {
   [OtherBaseKeys.MedOutpicturing]: {
     artist,
     backgroundImage: require('../assets/outpicturing.png'),
-    formattedDuration: '0',
+    formattedDuration: '28',
     id: placeholder,
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedOutpicturing,
@@ -1791,7 +1791,7 @@ export const otherMap = {
   [OtherBaseKeys.MedLifeLoveMystical]: {
     artist,
     backgroundImage: require('../assets/life-love-and-the-mystical.png'),
-    formattedDuration: '0',
+    formattedDuration: '24',
     id: placeholder,
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedLifeLoveMystical,
@@ -1802,7 +1802,7 @@ export const otherMap = {
   [OtherBaseKeys.MedChangingBoxesLiveMeilan]: {
     artist,
     backgroundImage: require('../assets/changing-boxes-short-mei-lan.png'),
-    formattedDuration: '0',
+    formattedDuration: '29',
     id: placeholder,
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedChangingBoxesLiveMeilan,
@@ -1813,7 +1813,7 @@ export const otherMap = {
   [OtherBaseKeys.MedWholyDays]: {
     artist,
     backgroundImage: require('../assets/wholly-days.png'),
-    formattedDuration: '0',
+    formattedDuration: '17',
     id: placeholder,
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedWholyDays,
@@ -1824,7 +1824,7 @@ export const otherMap = {
   [OtherBaseKeys.MedLoveYourBody]: {
     artist,
     backgroundImage: require('../assets/love-your-body.png'),
-    formattedDuration: '0',
+    formattedDuration: '29',
     id: placeholder,
     groupName: MeditationGroupName.Other,
     meditationBaseId: OtherBaseKeys.MedLoveYourBody,
