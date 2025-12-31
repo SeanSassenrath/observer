@@ -50,6 +50,10 @@ import {getMeditationFilePathDataInAsyncStorage} from './src/utils/asyncStorageM
 import Splash from './src/screens/Splash';
 import UnknownFilesContext from './src/contexts/unknownFiles';
 import {DebugProvider, DebugButton, DebugPanel} from './src/debug';
+import PlaylistContext, {PlaylistProvider} from './src/contexts/playlist';
+import {fbGetUserPlaylists} from './src/fb/playlists';
+import {getPlaylistsFromAsyncStorage} from './src/utils/asyncStoragePlaylists';
+import {Playlist, PlaylistId} from './src/types';
 
 const googleWebClientId =
   '859830619066-3iasok69fiujoak3vlcrq3lsjevo65rg.apps.googleusercontent.com';
@@ -72,6 +76,7 @@ const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
   const [unknownFiles, setUnknownFiles] = useState([] as UnknownFileData[]);
+  const [playlists, setPlaylists] = useState({} as Record<PlaylistId, Playlist>);
 
   const getFirstName = (firebaseUser: any) => {
     if (firebaseUser.displayName) {
@@ -231,6 +236,13 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (user && user.uid) {
+      loadPlaylists();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.uid]);
+
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();
     if (unmounted) {
@@ -259,6 +271,21 @@ const App = () => {
     }
   };
 
+  const loadPlaylists = async () => {
+    if (user && user.uid) {
+      try {
+        const playlistsFromFirebase = await fbGetUserPlaylists(user.uid);
+        const playlistsFromStorage = await getPlaylistsFromAsyncStorage();
+
+        // Merge Firebase (source of truth) with local cache
+        const mergedPlaylists = {...playlistsFromStorage, ...playlistsFromFirebase};
+        setPlaylists(mergedPlaylists);
+      } catch (error) {
+        console.error('Error loading playlists:', error);
+      }
+    }
+  };
+
   if (initializing) {
     return <Splash />;
   }
@@ -274,24 +301,26 @@ const App = () => {
       >
         <DebugProvider>
           <UserContext.Provider value={{user, setUser}}>
-            <MeditationHistoryContext.Provider
-              value={{meditationHistory, setMeditationHistory}}>
-              <MeditationBaseDataContext.Provider
-                value={{meditationBaseData, setMeditationBaseData}}>
-                <MeditationInstanceDataContext.Provider
-                  value={{meditationInstanceData, setMeditationInstanceData}}>
-                  <MeditationFilePathsContext.Provider
-                    value={{meditationFilePaths, setMeditationFilePaths}}>
-                    <UnknownFilesContext.Provider
-                      value={{unknownFiles, setUnknownFiles}}>
-                      <StackNavigator />
-                      {__DEV__ && <DebugButton />}
-                      {__DEV__ && <DebugPanel />}
-                    </UnknownFilesContext.Provider>
-                  </MeditationFilePathsContext.Provider>
-                </MeditationInstanceDataContext.Provider>
-              </MeditationBaseDataContext.Provider>
-            </MeditationHistoryContext.Provider>
+            <PlaylistContext.Provider value={{playlists, setPlaylists}}>
+              <MeditationHistoryContext.Provider
+                value={{meditationHistory, setMeditationHistory}}>
+                <MeditationBaseDataContext.Provider
+                  value={{meditationBaseData, setMeditationBaseData}}>
+                  <MeditationInstanceDataContext.Provider
+                    value={{meditationInstanceData, setMeditationInstanceData}}>
+                    <MeditationFilePathsContext.Provider
+                      value={{meditationFilePaths, setMeditationFilePaths}}>
+                      <UnknownFilesContext.Provider
+                        value={{unknownFiles, setUnknownFiles}}>
+                        <StackNavigator />
+                        {__DEV__ && <DebugButton />}
+                        {__DEV__ && <DebugPanel />}
+                      </UnknownFilesContext.Provider>
+                    </MeditationFilePathsContext.Provider>
+                  </MeditationInstanceDataContext.Provider>
+                </MeditationBaseDataContext.Provider>
+              </MeditationHistoryContext.Provider>
+            </PlaylistContext.Provider>
           </UserContext.Provider>
         </DebugProvider>
       </ApplicationProvider>

@@ -27,7 +27,11 @@ export type StackParamList = {
   Meditation: MeditationParams;
   MeditationFinish: undefined;
   MeditationMatch: UnrecognizedFilesParams;
-  MeditationPlayer: MeditationParams;
+  MeditationPlayer: MeditationPlayerParams;
+  Playlists: undefined;
+  CreatePlaylist: undefined;
+  EditPlaylist: EditPlaylistParams;
+  PlaylistPreparation: PlaylistPreparationParams;
   Profile: UserParams;
   LimitedVersion: undefined;
   PurchaseOnboarding: undefined;
@@ -44,6 +48,20 @@ export type StackParamList = {
 interface MeditationParams {
   id: MeditationId;
   meditationBreathId?: MeditationId;
+}
+
+interface MeditationPlayerParams {
+  id: MeditationId;
+  meditationBreathId?: MeditationId;
+  playlistId?: PlaylistId;
+}
+
+interface EditPlaylistParams {
+  playlistId: PlaylistId;
+}
+
+interface PlaylistPreparationParams {
+  playlistId: PlaylistId;
 }
 
 interface AddMedsMatchingParams {
@@ -250,4 +268,23 @@ export interface UnknownFileData {
   size: number | null;
   type: string | null;
   uri: string | null;
+}
+
+// Playlist
+export type PlaylistId = string;
+
+export interface Playlist {
+  playlistId: PlaylistId;
+  name: string;
+  description?: string;
+  notes?: string;
+  meditationIds: MeditationId[];
+  createdAt: number;
+  updatedAt: number;
+  totalDuration?: number;
+}
+
+export interface PlaylistContextType {
+  playlists: Record<PlaylistId, Playlist>;
+  setPlaylists: React.Dispatch<React.SetStateAction<Record<PlaylistId, Playlist>>>;
 }
