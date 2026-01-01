@@ -29,6 +29,10 @@ import PurchaseOnboarding from '../screens/PurchaseOnboarding';
 import WelcomeScreen from '../screens/Welcome';
 import EmailSignInScreen from '../screens/EmailSignIn';
 import ReassignFileScreen from '../screens/ReassignFile';
+import PlaylistsScreen from '../screens/Playlists';
+import CreatePlaylistScreen from '../screens/CreatePlaylist';
+import EditPlaylistScreen from '../screens/EditPlaylist';
+import PlaylistPreparationScreen from '../screens/PlaylistPreparation';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -96,6 +100,10 @@ const StackNavigator = () => {
         <Screen name="Feedback" component={FeedbackScreen} />
         <Screen name="ReassignFile" component={ReassignFileScreen} />
         <Screen name="TermsAgreement" component={TermsAgreementScreen} />
+        <Screen name="Playlists" component={PlaylistsScreen} />
+        <Screen name="CreatePlaylist" component={CreatePlaylistScreen} />
+        <Screen name="EditPlaylist" component={EditPlaylistScreen} />
+        <Screen name="PlaylistPreparation" component={PlaylistPreparationScreen} />
       </Navigator>
     </NavigationContainer>
   );

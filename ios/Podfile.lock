@@ -1341,6 +1341,9 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
+  - RNGestureHandler (2.30.0):
+    - RCT-Folly (= 2021.07.22.00)
+    - React-Core
   - RNGoogleSignin (9.0.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
@@ -1430,6 +1433,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNFS (from `../node_modules/react-native-fs`)
+  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -1594,6 +1598,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/storage"
   RNFS:
     :path: "../node_modules/react-native-fs"
+  RNGestureHandler:
+    :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-google-signin/google-signin"
   RNImageCropPicker:
@@ -1701,6 +1707,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 4ac153fe2d13b52ba821203ecce0801bf54da629
   RNFBStorage: bf65ec6df0761f7af08ac630deb55e69265610e9
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
+  RNGestureHandler: acc6fde05436bed8a7844706262eae22019e915c
   RNGoogleSignin: b906dc34ae02bfbebeeb0df17c93e6e8c10ef17b
   RNImageCropPicker: 30d770b383d84e1067d82ea7b5ed4fff851bbbb2
   RNReanimated: d83efe340a314047b8308b3b8003dcdb1133a1be
@@ -1712,6 +1719,6 @@ SPEC CHECKSUMS:
   TOCropViewController: 9002a9b12d8104d7478cdc306d80f0efea7fe2c5
   Yoga: eddf2bbe4a896454c248a8f23b4355891eb720a6
 
-PODFILE CHECKSUM: 0287dd9ff5bcb6e461b87fffb92826baa61a1a97
+PODFILE CHECKSUM: e5dae3a66cad598087356d43a2d5dd62291cecdf
 
 COCOAPODS: 1.16.2

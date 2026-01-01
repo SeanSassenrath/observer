@@ -6,6 +6,7 @@ import {View, TouchableOpacity, Text} from 'react-native';
 import HomeScreen from '../screens/Home';
 import LibraryScreen from '../screens/Library';
 import InsightScreen from '../screens/Insight';
+import PlaylistsScreen from '../screens/Playlists';
 import {TabParamList} from '../types';
 import {onAddMeditations} from '../utils/addMeditations';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
@@ -27,6 +28,8 @@ const getTabBarIcon = (routeName: string) => {
       return 'folder-outline';
     case 'Insights':
       return 'bar-chart-outline';
+    case 'Playlists':
+      return 'list-outline';
     default:
       break;
   }
@@ -138,6 +141,7 @@ const TabNavigator = () => (
     }}>
     <Tab.Screen name="Home" component={HomeScreen} />
     <Tab.Screen name="Add" component={AddScreen} />
+    <Tab.Screen name="Playlists" component={PlaylistsScreen} />
     {/* <Tab.Screen name="Files" component={LibraryScreen} /> */}
     <Tab.Screen name="Insights" component={InsightScreen} />
   </Tab.Navigator>

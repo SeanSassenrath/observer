@@ -15,6 +15,7 @@ import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 import StackNavigator from './src/navigation/Stack';
 import {
@@ -291,7 +292,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <GestureHandlerRootView style={{flex: 1}}>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider
         {...eva}
@@ -325,7 +326,7 @@ const App = () => {
         </DebugProvider>
       </ApplicationProvider>
       <Toast config={toastConfig as any} />
-    </>
+    </GestureHandlerRootView>
   );
 };
 

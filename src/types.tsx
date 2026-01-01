@@ -159,6 +159,7 @@ export type TabParamList = {
   Add: undefined;
   Files: undefined;
   Insights: undefined;
+  Playlists: undefined;
 };
 
 type HomeProps = BottomTabNavigationProp<TabParamList, 'Home'>;
