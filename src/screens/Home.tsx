@@ -21,6 +21,7 @@ import {
   MeditationList,
   _MeditationListSection,
 } from '../components/MeditationList';
+import {PlaylistList} from '../components/PlaylistList';
 import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {AddMeditationsPill} from '../components/AddMeditationsPill';
@@ -30,6 +31,7 @@ import {fbUpdateUser} from '../fb/user';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationHistoryContext from '../contexts/meditationHistory';
+import PlaylistContext from '../contexts/playlist';
 import {getRecentMeditationBaseIds} from '../utils/meditation';
 import {Inspiration} from '../components/Inspiration';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
@@ -87,6 +89,7 @@ const HomeScreen = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
+  const {playlists} = useContext(PlaylistContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
@@ -226,6 +229,11 @@ const HomeScreen = () => {
 
   const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
 
+  const onPlaylistPress = (playlistId: string) => {
+    // @ts-ignore
+    navigation.navigate('PlaylistPreparation', {playlistId});
+  };
+
   const renderMeditationGroupSection = (
     header: string,
     meditationGroupMap: MeditationBaseMap,
@@ -300,6 +308,13 @@ const HomeScreen = () => {
               meditationBaseIds={recentMeditationBaseIds}
               onMeditationPress={onMeditationPress}
               existingMeditationFilePathData={meditationFilePaths}
+            />
+          ) : null}
+          {Object.values(playlists).length > 0 && searchInput.length === 0 ? (
+            <PlaylistList
+              header="Playlists"
+              playlists={Object.values(playlists)}
+              onPlaylistPress={onPlaylistPress}
             />
           ) : null}
           {topMeditations.length > 3 && searchInput.length === 0 ? (

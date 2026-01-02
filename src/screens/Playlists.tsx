@@ -30,16 +30,25 @@ const Playlists = () => {
     playlist.meditationIds.forEach(medId => {
       const meditation = meditationBaseData[medId];
       if (meditation && meditation.formattedDuration) {
-        // Parse duration like "45 min" or "1 hr 15 min"
         const duration = meditation.formattedDuration;
+
+        // Try to match formatted duration (e.g., "45 min" or "1 hr 15 min")
         const minutesMatch = duration.match(/(\d+)\s*min/);
         const hoursMatch = duration.match(/(\d+)\s*hr/);
 
-        if (minutesMatch) {
-          totalMinutes += parseInt(minutesMatch[1], 10);
-        }
-        if (hoursMatch) {
-          totalMinutes += parseInt(hoursMatch[1], 10) * 60;
+        if (minutesMatch || hoursMatch) {
+          if (minutesMatch) {
+            totalMinutes += parseInt(minutesMatch[1], 10);
+          }
+          if (hoursMatch) {
+            totalMinutes += parseInt(hoursMatch[1], 10) * 60;
+          }
+        } else {
+          // Handle plain number format (e.g., "45")
+          const plainNumber = parseInt(duration, 10);
+          if (!isNaN(plainNumber)) {
+            totalMinutes += plainNumber;
+          }
         }
       }
     });

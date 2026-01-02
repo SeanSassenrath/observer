@@ -65,14 +65,24 @@ const EditPlaylist = () => {
       const meditation = meditationBaseData[medId];
       if (meditation && meditation.formattedDuration) {
         const duration = meditation.formattedDuration;
+
+        // Try to match formatted duration (e.g., "45 min" or "1 hr 15 min")
         const minutesMatch = duration.match(/(\d+)\s*min/);
         const hoursMatch = duration.match(/(\d+)\s*hr/);
 
-        if (minutesMatch) {
-          totalMinutes += parseInt(minutesMatch[1], 10);
-        }
-        if (hoursMatch) {
-          totalMinutes += parseInt(hoursMatch[1], 10) * 60;
+        if (minutesMatch || hoursMatch) {
+          if (minutesMatch) {
+            totalMinutes += parseInt(minutesMatch[1], 10);
+          }
+          if (hoursMatch) {
+            totalMinutes += parseInt(hoursMatch[1], 10) * 60;
+          }
+        } else {
+          // Handle plain number format (e.g., "45")
+          const plainNumber = parseInt(duration, 10);
+          if (!isNaN(plainNumber)) {
+            totalMinutes += plainNumber;
+          }
         }
       }
     });
@@ -251,8 +261,8 @@ const EditPlaylist = () => {
   const totalDuration = calculateTotalDuration();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Layout style={styles.layout}>
+    <Layout style={styles.layout} level="4">
+      <SafeAreaView style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity
@@ -274,68 +284,35 @@ const EditPlaylist = () => {
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}>
           {/* Playlist Name Input */}
-          <View style={styles.section}>
-            <Text category="label" style={styles.label}>
-              Playlist Name *
+          <Layout level="2" style={styles.playlistNameSection}>
+            <Text category="s1" style={styles.label}>
+              Playlist Name
             </Text>
             <Input
               placeholder="e.g., Morning Routine"
               value={playlistName}
               onChangeText={setPlaylistName}
               style={styles.input}
+              textStyle={styles.textStyle}
             />
-          </View>
-
-          {/* Description Input */}
-          <View style={styles.section}>
-            <Text category="label" style={styles.label}>
-              Description
-            </Text>
-            <Input
-              placeholder="What's this playlist for?"
-              value={description}
-              onChangeText={setDescription}
-              multiline
-              textStyle={{minHeight: 64}}
-              style={styles.input}
-            />
-          </View>
-
-          {/* Notes Input */}
-          <View style={styles.section}>
-            <Text category="label" style={styles.label}>
-              Notes
-            </Text>
-            <Input
-              placeholder="Any notes or intentions for this playlist?"
-              value={notes}
-              onChangeText={setNotes}
-              multiline
-              textStyle={{minHeight: 64}}
-              style={styles.input}
-            />
-          </View>
+          </Layout>
 
           {/* Meditations Section */}
           <View style={styles.section}>
             <View style={styles.meditationsHeader}>
               <View>
-                <Text category="label" style={styles.label}>
-                  Meditations *
+                <Text category="h6" style={styles.label}>
+                  Meditations
                 </Text>
-                {selectedMeditationIds.length > 0 && (
-                  <Text category="c1" style={styles.meditationsMeta}>
-                    {selectedMeditationIds.length}{' '}
-                    {selectedMeditationIds.length === 1 ? 'track' : 'tracks'} •{' '}
-                    {formatDuration(totalDuration)}
-                  </Text>
-                )}
+                <Text category="s2" style={styles.meditationsMeta}>
+                  {selectedMeditationIds.length} {selectedMeditationIds.length === 1 ? 'track' : 'tracks'} • {formatDuration(totalDuration)}
+                </Text>
               </View>
               <Button
-                size="small"
+                size="medium"
                 onPress={() => setIsSelectorModalVisible(true)}
                 appearance="outline">
-                Manage
+                {selectedMeditationIds.length > 0 ? 'Manage' : 'Add Meditations'}
               </Button>
             </View>
 
@@ -387,8 +364,8 @@ const EditPlaylist = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      </Layout>
-
+      </SafeAreaView>
+      
       {/* Meditation Selector Modal */}
       <MeditationSelectorModal
         visible={isSelectorModalVisible}
@@ -396,7 +373,7 @@ const EditPlaylist = () => {
         onSelect={handleAddMeditations}
         initialSelectedIds={selectedMeditationIds}
       />
-    </SafeAreaView>
+    </Layout>
   );
 };
 
@@ -413,11 +390,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.1)',
   },
   backButton: {
-    padding: 8,
+    paddingRight: 8,
   },
   headerIcon: {
     width: 24,
@@ -426,7 +401,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     color: brightWhite,
     flex: 1,
-    textAlign: 'center',
   },
   headerSpacer: {
     width: 40,
@@ -461,10 +435,14 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#9CA3AF',
-    marginBottom: 8,
+    marginBottom: 6,
   },
   input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    backgroundColor: 'rgba(48,55,75,0.6)',
+    borderRadius: 10,
+    marginBottom: 20,
+    marginTop: 10,
+    height: 60,
   },
   meditationsHeader: {
     flexDirection: 'row',
@@ -474,7 +452,6 @@ const styles = StyleSheet.create({
   },
   meditationsMeta: {
     color: '#6B7280',
-    marginTop: 4,
   },
   meditationsList: {
     marginTop: 8,
@@ -530,6 +507,7 @@ const styles = StyleSheet.create({
     borderColor: '#6B7280',
     borderRadius: 12,
     marginHorizontal: 8,
+    marginTop: 20,
   },
   emptyIcon: {
     width: 48,
@@ -550,6 +528,16 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: brightWhite,
+  },
+  textStyle: {
+    paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  playlistNameSection: {
+    marginBottom: 24,
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
