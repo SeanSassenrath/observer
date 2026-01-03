@@ -12,11 +12,9 @@ import {
 import {useDebug} from './DebugContext';
 import {DebugTab} from './types';
 import FileAnalysisDebugger from './FileAnalysisDebugger';
-import DatabaseDebugger from './DatabaseDebugger';
 import PerformanceMonitor from './PerformanceMonitor';
 import SettingsDebugger from './SettingsDebugger';
 import LogViewer from './LogViewer';
-import {AudioAnalysisTest} from './AudioAnalysisTest';
 
 const {height: screenHeight} = Dimensions.get('window');
 

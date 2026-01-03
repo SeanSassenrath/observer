@@ -9,7 +9,8 @@ export const convertMeditationToTrack = (
 ): Track => {
   if (meditationBase) {
     // Use provided filePath if available, otherwise fall back to constructed path
-    const trackUrl = filePath || `${RNFS.DocumentDirectoryPath}/${meditationBase.url}`;
+    const trackUrl = `${RNFS.DocumentDirectoryPath}/${meditationBase.url}`;
+    console.log('player debugging - trackURL', trackUrl)
     return {
       url: trackUrl,
       title: meditationBase.name,
