@@ -12,6 +12,7 @@ import {
   BreathBaseKeys,
   BreathSizes,
   BreathStringSizes,
+  CountYourBlessingsBaseKeys,
   DailyMeditationBaseKeys,
   DailyMeditationSizes,
   DailyMeditationStringSizes,
@@ -60,6 +61,7 @@ export const makeFilePathDataList = (
 const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
+  const fileName = file.name;
 
   console.log(' -- ');
   console.log(' ');
@@ -166,6 +168,186 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
+  }
+
+  // For meditations that we don't have file size for
+  // Outpicturing
+  if (fileName) {
+    // Outpicturing
+    if (/out[\s\-_]*picturing/i.test(fileName)) {
+      return {
+        [OtherBaseKeys.MedOutpicturing]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Life, Love, and the Mystical
+    if (/life[\s\-_,]*(love|&)[\s\-_,]*(and[\s\-_]*)?(the[\s\-_]*)?mystical/i.test(fileName)) {
+      return {
+        [OtherBaseKeys.MedLifeLoveMystical]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Changing Boxes - Short - Live with Mei-lan (in Cancun)
+    if (/changing[\s\-_]*boxes[\s\-_]*(short|live)[\s\-_]*(version[\s\-_]*)?(live[\s\-_]*)?(with[\s\-_]*)?mei[\s\-_]*lan/i.test(fileName)) {
+      return {
+        [OtherBaseKeys.MedChangingBoxesLiveMeilan]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Wholly Days
+    if (/whol(l)?y[\s\-_]*days/i.test(fileName)) {
+      return {
+        [OtherBaseKeys.MedWholyDays]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Love Your Body (avoid matching "Falling in Love with Your Body")
+    if (/^(?!.*falling).*love[\s\-_]*(your[\s\-_]*)?body/i.test(fileName)) {
+      return {
+        [OtherBaseKeys.MedLoveYourBody]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // ===== BOTEC SERIES =====
+
+    // Blessings From the Brain - Blessing of the Energy Centers 11
+    if (/blessings?[\s\-_]*from[\s\-_]*(the[\s\-_]*)?brain|blessings?[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?energy[\s\-_]*centers?[\s\-_]*(11|xi|eleven)/i.test(fileName)) {
+      return {
+        [BotecBaseKeys.MedBotec11]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // ===== WALKING SERIES =====
+
+    // Changing Boxes Walking Meditation
+    if (/changing[\s\-_]*boxes[\s\-_]*walking/i.test(fileName)) {
+      return {
+        [WalkingBaseKeys.MedWalkingChangingBoxes]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // ===== BREATHWORK SERIES =====
+
+    // Warmth of the Sun's Rays
+    if (/warmth[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?sun('?s)?[\s\-_]*rays?/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2WarmthSun]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Inspire V2 Continuous Breath Mix (check before single-word matches)
+    if (/inspire[\s\-_]*v?2[\s\-_]*continuous[\s\-_]*(breath[\s\-_]*)?mix/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2ContinuousMix]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Opening the Cosmic Heart
+    if (/opening[\s\-_]*(the[\s\-_]*)?cosmic[\s\-_]*heart/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2CosmicHeart]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Fire Gathering
+    if (/fire[\s\-_]*gathering/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2FireGathering]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Prana Soundscapes
+    if (/prana[\s\-_]*soundscapes?/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2PranaSoundscapes]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Riding Through
+    if (/riding[\s\-_]*through/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2RidingThrough]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Olorum
+    if (/\bolorum\b/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2Olorum]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Merging
+    if (/\bmerging\b/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2Merging]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Overgrown
+    if (/\bovergrown\b/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2Overgrown]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Moyayaj
+    if (/\bmoyayaj\b/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2Moyayaj]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // Inhalation
+    if (/\binhalation\b/i.test(fileName)) {
+      return {
+        [BreathBaseKeys.BreathInspireV2Inhalation]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+
+    // ===== COUNT YOUR BLESSINGS SERIES =====
+    // Check in descending order (VIII to I) to avoid partial matches
+
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(viii|8|eight)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings8]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vii|7|seven)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings7]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vi|6|six)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings6]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(v(?![i])|5|five)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings5]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iv|4|four)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings4]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iii|3|three)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings3]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(ii(?![i])|2|two)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings2]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
+    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(i(?![ivx])|1|one)(\b|[\s\-_.])/i.test(fileName)) {
+      return {
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings1]: makeRelativeFilePath(file.fileCopyUri)
+      }
+    }
   }
 
   // For meditations that have large size differences
@@ -1034,6 +1216,7 @@ const makeFilePathData = (file: DocumentPickerResponse) => {
         ),
       };
     }
+    // Matching based on FileName until we have file size
 
     default:
       break;
