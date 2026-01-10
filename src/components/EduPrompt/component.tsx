@@ -69,7 +69,7 @@ export const EduPromptComponent = (props: Props) => {
 const styles = StyleSheet.create({
   animatedPromptContainer: {
     position: 'absolute',
-    bottom: 40,
+    bottom: 100,
     width: 350,
   },
   animatedPromptContainerTop: {
