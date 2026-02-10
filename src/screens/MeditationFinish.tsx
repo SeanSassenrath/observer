@@ -11,7 +11,9 @@ import _ from 'lodash';
 import _Button from '../components/Button';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import MeditationSessionContext from '../contexts/meditationSession';
 import UserContext from '../contexts/userData';
+import PlaylistContext from '../contexts/playlist';
 import {
   getLastMeditationFromMeditationHistory,
   makeTotalMeditationTime,
@@ -40,113 +42,186 @@ const EMPTY_INPUT = '';
 
 const MeditationFinishScreen = () => {
   const navigation = useNavigation();
-  const {meditationInstanceData} = useContext(MeditationInstanceDataContext);
+  const {meditationSession} = useContext(MeditationSessionContext);
   const {meditationHistory, setMeditationHistory} = useContext(
     MeditationHistoryContext,
   );
   const {user, setUser} = useContext(UserContext);
+  const {playlists} = useContext(PlaylistContext);
   const [firstInput, setFirstInput] = useState(EMPTY_INPUT);
   const [secondInput, setSecondInput] = useState(EMPTY_INPUT);
   const [meditationInstanceDoc, setMeditationInstanceDoc] = useState(
     {} as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>,
+  );
+  const [meditationInstanceDocs, setMeditationInstanceDocs] = useState(
+    [] as FirebaseFirestoreTypes.DocumentReference<FirebaseFirestoreTypes.DocumentData>[],
   );
   const [updatedStreaksData, setUpdatedStreaksData] = useState(
     {} as UpdatedStreakData,
   );
 
   useEffect(() => {
-    thinkboxSendEvent(Action.VIEW, Noun.ON_MOUNT, {
-      meditationName: meditationInstanceData.name,
-      meditationBaseId: meditationInstanceData.meditationBaseId,
-    });
+    // thinkboxSendEvent(Action.VIEW, Noun.ON_MOUNT, {
+    //   meditationName: meditationInstanceData.name,
+    //   meditationBaseId: meditationInstanceData.meditationBaseId,
+    // });
     updateUserMeditationData();
     addFbMeditationInstance();
   }, []);
 
   const updateUserMeditationData = async () => {
-    const updatedMeditationInstanceCount = makeUpdatedMeditationCountData(
-      user,
-      meditationInstanceData,
-    );
-    const updatedBreathMeditationCountData =
-      makeUpdatedBreathMeditationCountData(user, meditationInstanceData);
-    const updatedRecentUserMeditationData = makeUpdatedRecentUserMeditationData(
-      user,
-      meditationInstanceData,
-    );
-    const lastMeditation =
-      getLastMeditationFromMeditationHistory(meditationHistory);
-    const _updatedStreaksData = makeUpdatedStreakData(user, lastMeditation);
-    setUpdatedStreaksData(_updatedStreaksData);
-    const totalMeditationTime = makeTotalMeditationTime(
-      user,
-      meditationInstanceData,
+    // Update stats for each meditation in the session
+    for (const instance of meditationSession.instances) {
+      const tempInstance: MeditationInstance = {
+        meditationBaseId: instance.meditationBaseId,
+        name: instance.name,
+        timeMeditated: instance.timeMeditated,
+        type: instance.type,
+      };
+
+      const updatedCount = makeUpdatedMeditationCountData(user, tempInstance);
+      const totalTime = meditationSession.timeMeditated;
+
+      await fbUpdateUser(user.uid, {
+        [`meditationUserData.meditationCounts.${instance.meditationBaseId}.count`]: updatedCount,
+        [`meditationUserData.meditationCounts.${instance.meditationBaseId}.name`]: instance.name,
+        [`meditationUserData.meditationCounts.${instance.meditationBaseId}.id`]: instance.meditationBaseId,
+        'meditationUserData.totalMeditationTime': totalTime,
+      });
+
+      // Update local context
+      if (user.meditationUserData.meditationCounts) {
+        user.meditationUserData.meditationCounts[instance.meditationBaseId] = {
+          count: updatedCount,
+          name: instance.name,
+          id: instance.meditationBaseId,
+        };
+      }
+      if (totalTime) {
+        user.meditationUserData.totalMeditationTime = totalTime;
+      }
+    }
+
+    // Update streaks once for the session
+    const lastMed = getLastMeditationFromMeditationHistory(meditationHistory);
+    const streakData = makeUpdatedStreakData(user, lastMed);
+    setUpdatedStreaksData(streakData);
+
+    if (streakData.current || streakData.longest) {
+      const streakUpdate: any = {};
+      if (streakData.current) streakUpdate['meditationUserData.streaks.current'] = streakData.current;
+      if (streakData.longest) streakUpdate['meditationUserData.streaks.longest'] = streakData.longest;
+
+      await fbUpdateUser(user.uid, streakUpdate);
+      user.meditationUserData.streaks = {
+        current: streakData.current || user.meditationUserData.streaks.current,
+        longest: streakData.longest || user.meditationUserData.streaks.longest,
+      };
+    }
+
+    // Update recent meditations - add all meditations from this session
+    const currentRecentMeditationBaseIds =
+      user?.meditationUserData?.recentMeditationBaseIds?.slice(0, 5) || [];
+
+    // Collect all meditation IDs from the session
+    const sessionMeditationIds = meditationSession.instances.map(
+      instance => instance.meditationBaseId
     );
 
-    const updatedFbUserMeditationData = makeUpdatedFbUserMeditationData(
-      updatedMeditationInstanceCount,
-      updatedBreathMeditationCountData,
-      updatedRecentUserMeditationData,
-      _updatedStreaksData,
-      meditationInstanceData,
-      totalMeditationTime,
-    );
+    // Prepend session meditations to recent list, keep unique, limit to 6
+    const updatedRecentMeditationBaseIds = _.uniq([
+      ...sessionMeditationIds,
+      ...currentRecentMeditationBaseIds,
+    ]).slice(0, 6);
 
-    await fbUpdateUser(user.uid, updatedFbUserMeditationData);
+    await fbUpdateUser(user.uid, {
+      'meditationUserData.recentMeditationBaseIds': updatedRecentMeditationBaseIds,
+    });
 
-    const updatedContextMeditationData = makeUpdatedContextMeditationData(
-      updatedMeditationInstanceCount,
-      updatedBreathMeditationCountData,
-      updatedRecentUserMeditationData,
-      _updatedStreaksData,
-      meditationInstanceData,
-      totalMeditationTime,
-      user,
-    );
+    user.meditationUserData.recentMeditationBaseIds = updatedRecentMeditationBaseIds;
 
-    setUser(updatedContextMeditationData);
+    setUser({...user});
   };
 
   const addFbMeditationInstance = async () => {
-    const doc = await fbAddMeditationHistory(user.uid, {
-      ...meditationInstanceData,
-      creationTime: firestore.FieldValue.serverTimestamp(),
+    if (meditationSession.instances.length === 0) {
+      console.warn('No meditation instances in session');
+      return;
+    }
+
+    // Save all instances in the session
+    const savePromises = meditationSession.instances.map(async (instance) => {
+      return fbAddMeditationHistory(user.uid, {
+        creationTime: firestore.FieldValue.serverTimestamp(),
+        meditationBaseId: instance.meditationBaseId,
+        name: instance.name,
+        timeMeditated: instance.timeMeditated,
+        type: instance.type,
+        intention: meditationSession.intention,
+        notes: '', // Will be updated when user adds notes
+        feedback: '', // Will be updated when user adds feedback
+        playlistId: meditationSession.playlistId,
+        playlistName: meditationSession.playlistName,
+      });
     });
-    if (doc && !Object.keys(meditationInstanceDoc).length) {
-      setMeditationInstanceDoc(doc);
+
+    const docs = await Promise.all(savePromises);
+
+    // Store doc references for later updates
+    if (meditationSession.instances.length === 1) {
+      // Single meditation: use existing single doc state
+      if (docs[0]) {
+        setMeditationInstanceDoc(docs[0]);
+      }
+    } else {
+      // Multiple meditations: use array state
+      setMeditationInstanceDocs(docs.filter(doc => doc !== undefined));
     }
   };
 
   const updateFbMeditationInstance = async () => {
-    const updatedMeditationInstanceData = {
-      ...meditationInstanceData,
+    const updateData = {
       notes: firstInput,
       feedback: secondInput,
-    };
-    const meditationInstanceId = meditationInstanceDoc.id;
+    } as MeditationInstance;
 
-    if (meditationInstanceId) {
-      await fbUpdateMeditationHistory(
-        user.uid,
-        meditationInstanceId,
-        updatedMeditationInstanceData,
-      );
+    if (meditationSession.instances.length === 1) {
+      // SINGLE MEDITATION: Use existing single doc flow
+      const instanceId = meditationInstanceDoc.id;
+      if (instanceId) {
+        await fbUpdateMeditationHistory(user.uid, instanceId, updateData);
+      }
+    } else {
+      // MULTIPLE MEDITATIONS: Update all with same notes/feedback
+      const updatePromises = meditationInstanceDocs.map(async (doc) => {
+        return fbUpdateMeditationHistory(user.uid, doc.id, updateData);
+      });
+      await Promise.all(updatePromises);
     }
     // TODO: Add error toast here
   };
 
   const updateMeditationHistoryContext = () => {
-    const updatedMeditationInstanceData: MeditationInstance = {
-      ...meditationInstanceData,
-      notes: firstInput,
-      feedback: secondInput,
-    };
-    const currentMeditationHistory =
-      meditationHistory.meditationInstances || [];
-    const updatedMeditationHistory = [updatedMeditationInstanceData].concat(
-      currentMeditationHistory,
+    const currentHistory = meditationHistory.meditationInstances || [];
+
+    // Create full MeditationInstance objects from session
+    const completedInstances: MeditationInstance[] = meditationSession.instances.map(
+      (instance) => ({
+        meditationBaseId: instance.meditationBaseId,
+        name: instance.name,
+        timeMeditated: instance.timeMeditated,
+        type: instance.type,
+        intention: meditationSession.intention,
+        notes: firstInput,
+        feedback: secondInput,
+        playlistId: meditationSession.playlistId,
+        playlistName: meditationSession.playlistName,
+      })
     );
-    setMeditationHistory({meditationInstances: updatedMeditationHistory});
+
+    setMeditationHistory({
+      meditationInstances: completedInstances.concat(currentHistory)
+    });
   };
 
   const onDonePress = () => {
@@ -157,13 +232,23 @@ const MeditationFinishScreen = () => {
   };
 
   const streaks = getUserStreakData(user);
+  const isPlaylist = !!meditationSession.playlistId;
+  const playlist = isPlaylist
+    ? playlists[meditationSession.playlistId!]
+    : null;
 
   return (
     <Layout level="4" style={styles.rootContainer}>
       <KeyboardAwareScrollView style={styles.scrollContainer}>
         <Text category="h5" style={styles.text}>
-          Thinkbox
+          'Thinkbox'
         </Text>
+        {isPlaylist && playlist && (
+          <Text category="s1" style={styles.playlistStats}>
+            {playlist.meditationIds.length} meditations completed •{' '}
+            {Math.round(meditationSession.timeMeditated! / 60)} minutes
+          </Text>
+        )}
         {updatedStreaksData.streakUpdated ? (
           <StreakUpdate current={streaks.current} longest={streaks.longest} />
         ) : null}
@@ -224,6 +309,10 @@ const styles = StyleSheet.create({
   },
   text: {
     marginVertical: 20,
+  },
+  playlistStats: {
+    color: '#9CA3AF',
+    marginBottom: 20,
   },
   inputContainer: {
     marginTop: 60,

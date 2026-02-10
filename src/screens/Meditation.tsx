@@ -18,6 +18,7 @@ import {
 } from '../constants/meditation-data';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import MeditationSessionContext from '../contexts/meditationSession';
 import {_MeditationListSection} from '../components/MeditationList';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {sortBy} from 'lodash';
@@ -64,6 +65,7 @@ const MeditationScreen = ({
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
+  const {meditationSession, setMeditationSession} = useContext(MeditationSessionContext);
   const {setMeditationBaseData, meditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const {setMeditationFilePaths, meditationFilePaths} = useContext(MeditationFilePathsContext);
@@ -73,7 +75,7 @@ const MeditationScreen = ({
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isSubscribeModalVisible, setIsSubscribeModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const {id} = route.params;
+  const {id, playlistId} = route.params;
   const styles = useStyleSheet(themedStyles);
 
   const meditation = meditationBaseMap[id];
@@ -87,30 +89,35 @@ const MeditationScreen = ({
     meditationBaseMap[lastMeditationInstance.meditationBaseId];
 
   useEffect(() => {
-    setInitialMeditationInstanceData();
+    setInitialMeditationSession();
     //@ts-ignore
   }, []);
 
-  const setInitialMeditationInstanceData = () => {
+  const setInitialMeditationSession = () => {
     const now = new Date();
-    const meditationStartTime = now.getTime() / oneSecond;
-    setMeditationInstanceData({
-      ...meditationInstanceData,
-      meditationStartTime,
-    });
-  };
+    const sessionStartTime = now.getTime() / oneSecond;
+
+    const initialInstance = {
+      meditationBaseId: meditation.meditationBaseId,
+      name: meditation.name,
+      type: meditation.type,
+    }
+
+    setMeditationSession({
+      instances: [initialInstance],
+      sessionStartTime,
+    })
+  }
 
   const onBackPress = () => {
     navigation.goBack();
   };
 
   const onStartPress = () => {
-    setMeditationInstanceData({
-      ...meditationInstanceData,
-      name: meditation.name,
-      meditationBaseId: meditation.meditationBaseId,
+    // Initialize MeditationSession for single meditation
+    setMeditationSession({
+      ...meditationSession,
       intention: inputValue,
-      type: meditation.type,
     });
 
     navigation.navigate('MeditationPlayer', {
@@ -122,21 +129,39 @@ const MeditationScreen = ({
   const onBreathMeditationPress = (
     meditationBaseBreathId: MeditationBaseId,
   ) => {
+    const isSelected = selectedBreathCardId === meditationBaseBreathId;
+
     const shouldUnselect = selectedBreathCardId === meditationBaseBreathId;
-    const _meditationBaseBreathId = shouldUnselect
-      ? EMPTY_STRING
-      : meditationBaseBreathId;
-    setMeditationBreathId(_meditationBaseBreathId);
-    const selectedCardId = shouldUnselect
-      ? EMPTY_STRING
-      : meditationBaseBreathId;
 
-    setMeditationInstanceData({
-      ...meditationInstanceData,
-      meditationBaseBreathId: _meditationBaseBreathId,
-    });
+    if (isSelected) {
+      setMeditationBreathId(EMPTY_STRING);
+      setSelectedBreathCardId(EMPTY_STRING);
 
-    setSelectedBreathCardId(selectedCardId);
+      const initialInstance = {
+        meditationBaseId: meditation.meditationBaseId,
+        name: meditation.name,
+        type: meditation.type,
+      }
+
+      setMeditationSession({
+        ...meditationSession,
+        instances: [initialInstance],
+      })
+    } else {
+      setMeditationBreathId(meditationBaseBreathId);
+      setSelectedBreathCardId(meditationBaseBreathId);
+
+      const breathwork = meditationBaseMap[meditationBaseBreathId]
+
+      setMeditationSession({
+        ...meditationSession,
+        instances: [{
+          meditationBaseId: meditationBaseBreathId,
+          name: breathwork.name,
+          type: breathwork.type,
+        }, ...meditationSession.instances],
+      })
+    }
   };
 
   const onEduClosePress = async () => {

@@ -98,6 +98,8 @@ export const makeMeditationBaseData = async () => {
     const parsedFilePathData = JSON.parse(filePathData);
     const filePathDataKeys = Object.keys(parsedFilePathData);
 
+    console.log('makeMeditationBaseData - filePathDataKeys:', filePathDataKeys);
+
     filePathDataKeys.forEach(key => {
       const meditationFilePath = parsedFilePathData[key];
       const meditationBase = {
@@ -106,6 +108,9 @@ export const makeMeditationBaseData = async () => {
       };
       meditationBaseData = {[key]: meditationBase, ...meditationBaseData};
     });
+
+    console.log('makeMeditationBaseData - built meditationBaseData keys:', Object.keys(meditationBaseData));
+    console.log('makeMeditationBaseData - is array?', Array.isArray(meditationBaseData));
 
     return meditationBaseData;
   }

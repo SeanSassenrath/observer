@@ -34,6 +34,9 @@ import {
   updateAsyncStorageMeditationData as _updateAsyncStorageMeditationData,
 } from './src/utils/meditation';
 import MeditationInstanceDataContext from './src/contexts/meditationInstanceData';
+import MeditationSessionContext, {
+  MeditationSession,
+} from './src/contexts/meditationSession';
 import toastConfig from './src/toastConfig';
 import {SetupService} from './src/services/setupService';
 import MeditationHistoryContext from './src/contexts/meditationHistory';
@@ -68,6 +71,9 @@ const App = () => {
   const [meditationInstanceData, setMeditationInstanceData] = useState(
     {} as MeditationInstance,
   );
+  const [meditationSession, setMeditationSession] = useState<MeditationSession>({
+    instances: [],
+  });
   const [meditationHistory, setMeditationHistory] = useState({});
   const [meditationFilePaths, setMeditationFilePaths] = useState(
     {} as MeditationFilePath,
@@ -307,18 +313,21 @@ const App = () => {
                 value={{meditationHistory, setMeditationHistory}}>
                 <MeditationBaseDataContext.Provider
                   value={{meditationBaseData, setMeditationBaseData}}>
-                  <MeditationInstanceDataContext.Provider
-                    value={{meditationInstanceData, setMeditationInstanceData}}>
-                    <MeditationFilePathsContext.Provider
-                      value={{meditationFilePaths, setMeditationFilePaths}}>
-                      <UnknownFilesContext.Provider
-                        value={{unknownFiles, setUnknownFiles}}>
-                        <StackNavigator />
-                        {__DEV__ && <DebugButton />}
-                        {__DEV__ && <DebugPanel />}
-                      </UnknownFilesContext.Provider>
-                    </MeditationFilePathsContext.Provider>
-                  </MeditationInstanceDataContext.Provider>
+                  <MeditationSessionContext.Provider
+                    value={{meditationSession, setMeditationSession}}>
+                    <MeditationInstanceDataContext.Provider
+                      value={{meditationInstanceData, setMeditationInstanceData}}>
+                      <MeditationFilePathsContext.Provider
+                        value={{meditationFilePaths, setMeditationFilePaths}}>
+                        <UnknownFilesContext.Provider
+                          value={{unknownFiles, setUnknownFiles}}>
+                          <StackNavigator />
+                          {__DEV__ && <DebugButton />}
+                          {__DEV__ && <DebugPanel />}
+                        </UnknownFilesContext.Provider>
+                      </MeditationFilePathsContext.Provider>
+                    </MeditationInstanceDataContext.Provider>
+                  </MeditationSessionContext.Provider>
                 </MeditationBaseDataContext.Provider>
               </MeditationHistoryContext.Provider>
             </PlaylistContext.Provider>

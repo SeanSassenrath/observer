@@ -251,7 +251,7 @@ const CreatePlaylist = () => {
                 <DraggableFlatList
                   data={selectedMeditationIds}
                   renderItem={renderMeditationItem}
-                  keyExtractor={item => item}
+                  keyExtractor={(item, index) => item || `meditation-${index}`}
                   onDragEnd={handleDragEnd}
                   containerStyle={styles.draggableContainer}
                   scrollEnabled={false}

@@ -48,6 +48,7 @@ export type StackParamList = {
 interface MeditationParams {
   id: MeditationId;
   meditationBreathId?: MeditationId;
+  playlistId?: PlaylistId;
 }
 
 interface MeditationPlayerParams {
@@ -258,6 +259,8 @@ export interface MeditationInstance {
   notes?: string;
   feedback?: string;
   type: MeditationTypes;
+  playlistId?: PlaylistId;
+  playlistName?: string;
 }
 
 export type MeditationFilePath = {

@@ -15,17 +15,20 @@ import {Icon, Layout, Modal, Text} from '@ui-kitten/components';
 
 import _Button from '../components/Button';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import PlaylistContext from '../contexts/playlist';
 import {
   MeditationPlayerScreenNavigationProp,
   MeditationPlayerStackScreenProps,
 } from '../types';
 import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import MeditationSessionContext from '../contexts/meditationSession';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
 import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
+import UserContext from '../contexts/userData';
 import {
   getActiveTrackIndex,
   getPlaybackState,
@@ -77,10 +80,13 @@ const MeditationPlayer = ({
   route,
 }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {playlists} = useContext(PlaylistContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
-  const {meditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {meditationSession, setMeditationSession} = useContext(
+    MeditationSessionContext,
+  );
   const [playerState, setPlayerState] = useState(TrackPlayerState.None);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
@@ -97,7 +103,7 @@ const MeditationPlayer = ({
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
-
+const playlist = meditationSession.playlistId ? playlists[meditationSession.playlistId] : null;
   useEffect(() => {
     meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
       meditationName: meditation.name,
@@ -123,15 +129,23 @@ const MeditationPlayer = ({
   const makeTrackList = () => {
     const _tracks = [];
 
-    // Get the actual stored file path for the main meditation
-    const meditationFilePath = meditationFilePaths[meditation.meditationBaseId];
-    _tracks.push(convertMeditationToTrack(meditation, meditationFilePath));
+    // PLAYLIST MODE: Load all meditations from playlist
+    if (playlist) {
+      playlist.meditationIds.forEach(medId => {
+        const med = meditationBaseData[medId];
+        if (med) {
+          _tracks.push(convertMeditationToTrack(med));
+        }
+      });
+      return _tracks;
+    }
+
+    // SINGLE/BREATHWORK MODE: Original logic
+    _tracks.push(convertMeditationToTrack(meditation));
 
     if (meditationBreathId) {
       const meditationBreath = meditationBaseData[meditationBreathId];
-      // Get the actual stored file path for the breath track
-      const breathFilePath = meditationFilePaths[meditationBreathId];
-      _tracks.unshift(convertMeditationToTrack(meditationBreath, breathFilePath));
+      _tracks.unshift(convertMeditationToTrack(meditationBreath));
     }
 
     return _tracks;
@@ -185,22 +199,50 @@ const MeditationPlayer = ({
       setPosition(_position);
       setDuration(_duration);
 
-      // Only check for completion if duration has loaded (> 0) and position has reached it
       const endOfTrack = _duration > 0 && _position >= _duration;
 
       if (endOfTrack) {
         const trackQueue = await TrackPlayer.getQueue();
         const numberOfTracks = trackQueue.length;
+        const isLastTrack = activeTrackIndex === numberOfTracks - 1;
 
-        if (numberOfTracks > 1 && activeTrackIndex === 0) {
-          setMeditationTime(_position);
-        } else {
+        // Update the current meditation instance with timeMeditated
+        const currentMeditationId = playlist && activeTrackIndex
+          ? playlist.meditationIds[activeTrackIndex]
+          : meditation.meditationBaseId;
+
+        // Find the instance in the session and update its timeMeditated
+        const updatedInstances = meditationSession.instances.map((instance, idx) => {
+          // For playlist: match by index, for single: it's the only instance
+          if ((playlist && idx === activeTrackIndex) ||
+              (!playlist && instance.meditationBaseId === currentMeditationId)) {
+            return {
+              ...instance,
+              timeMeditated: _position,
+            };
+          }
+          return instance;
+        });
+
+        setMeditationSession({
+          ...meditationSession,
+          instances: updatedInstances,
+          timeMeditated: meditationTime + position,
+        });
+
+        if (isLastTrack) {
+          // Last track completed - navigate to finish screen
+          const totalTime = meditationTime + _position;
+
           setMeditationInstanceData({
             ...meditationInstanceData,
-            timeMeditated: meditationTime + _position,
+            timeMeditated: totalTime,
           });
           navigation.pop();
           navigation.navigate('MeditationFinish');
+        } else {
+          // Not last track - continue playing
+          setMeditationTime(meditationTime + _position);
         }
       }
     }, 1000);
@@ -223,6 +265,29 @@ const MeditationPlayer = ({
   };
 
   const onFinishPress = () => {
+    // Update current meditation instance with partial time before navigating
+    const currentMeditationId = playlist
+      ? playlist.meditationIds[currentTrackIndex]
+      : meditation.meditationBaseId;
+
+    // Find and update the current instance with timeMeditated
+    const updatedInstances = meditationSession.instances.map((instance, idx) => {
+      if ((playlist && idx === currentTrackIndex) ||
+          (!playlist && instance.meditationBaseId === currentMeditationId)) {
+        return {
+          ...instance,
+          timeMeditated: position,  // Update with current position
+        };
+      }
+      return instance;
+    });
+
+    setMeditationSession({
+      ...meditationSession,
+      instances: updatedInstances,
+      timeMeditated: meditationTime + position,
+    });
+
     setMeditationInstanceData({
       ...meditationInstanceData,
       timeMeditated: meditationTime + position,
@@ -280,6 +345,11 @@ const MeditationPlayer = ({
             <Text category="h6" style={styles.meditationNameText}>
               {trackTitle}
             </Text>
+            {playlist && (
+              <Text category="s1" style={styles.trackIndicatorText}>
+                Meditation {currentTrackIndex + 1} of {tracks.length}
+              </Text>
+            )}
           </View>
         </View>
         <View style={styles.bottomBarContainer}>
@@ -443,6 +513,11 @@ const styles = StyleSheet.create({
   meditationNameText: {
     color: '#fcfcfc',
     textAlign: 'center',
+  },
+  trackIndicatorText: {
+    color: '#9CA3AF',
+    textAlign: 'center',
+    marginTop: 8,
   },
   modalBackdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',

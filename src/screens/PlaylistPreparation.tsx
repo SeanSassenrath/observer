@@ -13,6 +13,7 @@ import _Button from '../components/Button';
 import {StackParamList} from '../types';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
+import MeditationSessionContext from '../contexts/meditationSession';
 import PlaylistContext from '../contexts/playlist';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {brightWhite} from '../constants/colors';
@@ -50,6 +51,7 @@ const PlaylistPreparation = () => {
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
+  const {setMeditationSession} = useContext(MeditationSessionContext);
 
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const styles = useStyleSheet(themedStyles);
@@ -76,15 +78,39 @@ const PlaylistPreparation = () => {
   };
 
   const onBeginPress = () => {
+    // Create meditation instances for all meditations in playlist
+    const meditationInstances = playlist.meditationIds.map(medId => {
+      const med = meditationBaseData[medId];
+      return {
+        meditationBaseId: med.meditationBaseId,
+        name: med.name,
+        type: med.type,
+        // timeMeditated will be added in MeditationPlayer
+      };
+    });
+
+    // Initialize MeditationSession for playlist
+    setMeditationSession({
+      intention: inputValue,
+      playlistId,
+      playlistName: playlist?.name,
+      sessionStartTime: meditationInstanceData.meditationStartTime,
+      instances: meditationInstances,  // Pre-populate with all meditations
+    });
+
+    // Keep existing for backward compatibility
     setMeditationInstanceData({
       ...meditationInstanceData,
       intention: inputValue,
       playlistId,
     });
 
-    // TODO: Navigate to MeditationPlayer with playlistId
-    // navigation.navigate('MeditationPlayer', {playlistId});
-    console.log('Begin playlist:', playlistId, 'with intention:', inputValue);
+    const firstMeditationId = playlist.meditationIds[0];
+    // @ts-ignore
+    navigation.navigate('MeditationPlayer', {
+      id: firstMeditationId,
+      playlistId,
+    });
   };
 
   const calculateTotalDuration = (): number => {
