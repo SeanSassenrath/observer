@@ -9,6 +9,7 @@ import InsightScreen from '../screens/Insight';
 import PlaylistsScreen from '../screens/Playlists';
 import {TabParamList} from '../types';
 import {onAddMeditations} from '../utils/addMeditations';
+import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
 import UserContext from '../contexts/userData';
@@ -37,6 +38,7 @@ const getTabBarIcon = (routeName: string) => {
 
 const CustomTabBar = ({state, descriptors, navigation}: any) => {
   const {user} = useContext(UserContext);
+  const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
   const {setUnknownFiles} = useContext(UnknownFilesContext);
 
@@ -47,6 +49,7 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
         setMeditationFilePaths,
         setUnknownFiles,
         user,
+        setMeditationBaseData,
       );
 
       // Navigate to the matching results screen

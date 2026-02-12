@@ -16,7 +16,7 @@ const FilesScreen = () => {
   const {user} = useContext(UserContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
-  const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {meditationBaseData, setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const navigation = useNavigation();
 
   const formatFileName = (filePath: string): string => {
@@ -78,6 +78,7 @@ const FilesScreen = () => {
         setMeditationFilePaths,
         setUnknownFiles,
         user,
+        setMeditationBaseData,
       );
 
       // Navigate to the matching results screen

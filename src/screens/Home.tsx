@@ -177,6 +177,7 @@ const HomeScreen = () => {
       setMeditationFilePaths,
       setUnknownFiles,
       user,
+      setMeditationBaseData,
     );
 
     navigation.navigate('AddMedsMatching', {

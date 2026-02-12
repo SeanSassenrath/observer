@@ -12,8 +12,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 
 const AddMeditationsScreen = () => {
   const {user} = useContext(UserContext);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
   );
@@ -33,6 +32,7 @@ const AddMeditationsScreen = () => {
       setMeditationFilePaths,
       setUnknownFiles,
       user,
+      setMeditationBaseData,
     );
 
     navigation.navigate('AddMedsMatching', {

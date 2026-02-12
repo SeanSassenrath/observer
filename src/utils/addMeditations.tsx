@@ -10,7 +10,7 @@ import {
 import {makeFilePathDataList} from './filePicker';
 import {makeMeditationBaseData} from './meditation';
 import {meditationAddSendEvent, Action, Noun} from '../analytics';
-import {UnknownFileData} from '../types';
+import {MeditationBaseMap, UnknownFileData} from '../types';
 import {fbAddUnsupportedFiles} from '../fb/unsupportedFiles';
 import {User} from '../contexts/userData';
 
@@ -49,6 +49,7 @@ export const onAddMeditations = async (
   >,
   setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
+  setMeditationBaseData: React.Dispatch<React.SetStateAction<MeditationBaseMap>>,
 ) => {
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
   let meditationBaseData = {} as any;
@@ -75,6 +76,9 @@ export const onAddMeditations = async (
     setMeditationFilePathDataInAsyncStorage(filePathDataList);
     setExistingMeditationFilePathData(filePathDataList);
     meditationBaseData = await makeMeditationBaseData();
+    if (meditationBaseData && Object.keys(meditationBaseData).length > 0) {
+      setMeditationBaseData(meditationBaseData);
+    }
   }
 
   return {
