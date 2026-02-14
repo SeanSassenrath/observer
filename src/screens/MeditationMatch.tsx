@@ -232,13 +232,14 @@ const MeditationMatchScreen = (props: Props) => {
               File {currentFileIndex + 1} of {fileCount}
             </Text>
             <Pressable onPress={onSkipPress}>
-              <Text category="s1" style={styles.topSkipText}>
+              <Text category="s1" style={styles.skipText}>
                 Skip
               </Text>
             </Pressable>
           </Layout>
-          <Text category="s1" style={styles.instructionText}>
-            Select the meditation that matches this file:
+          <Text category='h5' style={styles.instructionText}>Idenfity Meditation</Text>
+          <Text category="s2" style={styles.instructionText}>
+            We couldn't find a match. Please select the correct meditation.
             <Text category="s1" style={styles.fileName}>
               {` ${fileName}`}
             </Text>
@@ -405,7 +406,7 @@ const themedStyles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 20,
   },
-  topSkipText: {
+  skipText: {
     paddingHorizontal: 10,
     opacity: 0.7,
   },
@@ -434,7 +435,7 @@ const themedStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 24,
+    paddingVertical: 16,
     paddingHorizontal: 20,
     backgroundColor: 'transparent',
   },
