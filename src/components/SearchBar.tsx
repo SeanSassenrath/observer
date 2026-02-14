@@ -22,10 +22,11 @@ const ClearButton = (props: ClearButton) => (
 
 export const SearchBar = (props: SearchBarProps) => (
   <Input
-    placeholder={props.placeholder ? props.placeholder : 'Search'}
+    placeholder={props.placeholder ? props.placeholder : 'Search meditations'}
     placeholderTextColor="#9CA3AF"
     value={props.input}
     onChangeText={nextInput => props.onChangeText(nextInput)}
+    accessoryLeft={<Icon style={styles.searchIcon} fill="#9CA3AF" name="search" />}
     accessoryRight={
       props.input.length ? (
         <ClearButton onClearPress={props.onClearPress} />
@@ -43,6 +44,12 @@ const styles = StyleSheet.create({
     height: 20,
     width: 20,
     opacity: 0.7,
+    marginRight: 10,
+  },
+  searchIcon: {
+    height: 10,
+    width: 10,
+    opacity: 0.3,
   },
   searchInput: {
     backgroundColor: '#1B2237',
@@ -51,9 +58,8 @@ const styles = StyleSheet.create({
     height: 60,
   },
   textStyle: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    fontSize: 20,
+    paddingVertical: 8,
+    fontSize: 16,
     fontWeight: '600',
   },
 });
