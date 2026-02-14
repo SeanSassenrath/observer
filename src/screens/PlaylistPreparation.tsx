@@ -133,6 +133,16 @@ const PlaylistPreparation = () => {
   };
 
   const onBeginPress = () => {
+    // Update lastInteractedAt for sorting
+    const now = Date.now();
+    const updatedPlaylist = {...playlist, lastInteractedAt: now};
+    const updatedPlaylists = {...playlists, [playlistId]: updatedPlaylist};
+    setPlaylists(updatedPlaylists);
+    setPlaylistsInAsyncStorage(updatedPlaylists);
+    if (user?.uid) {
+      fbUpdatePlaylist(user.uid, playlistId, {lastInteractedAt: now});
+    }
+
     // Create meditation instances for all meditations in playlist
     const meditationInstances = playlist.meditationIds.map(medId => {
       const med = meditationBaseData[medId];

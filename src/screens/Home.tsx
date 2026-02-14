@@ -314,7 +314,11 @@ const HomeScreen = () => {
           {Object.values(playlists).length > 0 && searchInput.length === 0 ? (
             <PlaylistList
               header="Playlists"
-              playlists={Object.values(playlists)}
+              playlists={Object.values(playlists).sort(
+                (a, b) =>
+                  (b.lastInteractedAt ?? b.updatedAt ?? b.createdAt ?? 0) -
+                  (a.lastInteractedAt ?? a.updatedAt ?? a.createdAt ?? 0),
+              )}
               onPlaylistPress={onPlaylistPress}
             />
           ) : null}

@@ -46,6 +46,7 @@ export const fbCreatePlaylist = async (
         ...playlist,
         createdAt: timestamp,
         updatedAt: timestamp,
+        lastInteractedAt: timestamp,
       });
 
     return docRef.id;

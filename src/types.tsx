@@ -285,6 +285,7 @@ export interface Playlist {
   meditationIds: MeditationId[];
   createdAt: number;
   updatedAt: number;
+  lastInteractedAt?: number;
   totalDuration?: number;
   gradientIndex?: number;
 }

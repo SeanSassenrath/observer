@@ -114,6 +114,7 @@ const EditPlaylist = () => {
         meditationIds: selectedMeditationIds,
         totalDuration: calculateTotalDuration(),
         gradientIndex: selectedGradientIndex,
+        lastInteractedAt: Date.now(),
       };
 
       await fbUpdatePlaylist(user.uid, playlistId, updates);

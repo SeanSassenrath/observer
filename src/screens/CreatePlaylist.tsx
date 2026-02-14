@@ -107,6 +107,7 @@ const CreatePlaylist = () => {
           playlistId,
           createdAt: Date.now(),
           updatedAt: Date.now(),
+          lastInteractedAt: Date.now(),
         },
       };
 

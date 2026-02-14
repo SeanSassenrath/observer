@@ -22,7 +22,11 @@ const Playlists = () => {
   const {playlists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
 
-  const playlistsArray = Object.values(playlists);
+  const playlistsArray = Object.values(playlists).sort(
+    (a, b) =>
+      (b.lastInteractedAt ?? b.updatedAt ?? b.createdAt ?? 0) -
+      (a.lastInteractedAt ?? a.updatedAt ?? a.createdAt ?? 0),
+  );
 
   const calculatePlaylistDuration = (playlist: Playlist): number => {
     // Calculate total duration in minutes from meditation IDs
