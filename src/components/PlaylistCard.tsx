@@ -1,6 +1,7 @@
 import React from 'react';
-import {Pressable, StyleSheet} from 'react-native';
-import {Layout, Text} from '@ui-kitten/components';
+import {Pressable, StyleSheet, View} from 'react-native';
+import {Text} from '@ui-kitten/components';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {PlaylistId} from '../types';
 
@@ -9,6 +10,7 @@ interface PlaylistCardProps {
   name: string;
   trackCount: number;
   totalDuration: string;
+  gradientColors: string[];
   onPress(id: PlaylistId): void;
 }
 
@@ -16,18 +18,22 @@ export const PlaylistCard = (props: PlaylistCardProps) => (
   <Pressable
     key={props.playlistId}
     onPress={() => props.onPress(props.playlistId)}>
-    <Layout level="2" style={styles.card}>
-      <Layout level="2" style={styles.nameContainer}>
+    <LinearGradient
+      colors={props.gradientColors}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={styles.card}>
+      <View style={styles.nameContainer}>
         <Text category="s1" style={styles.nameText}>
           {props.name}
         </Text>
-      </Layout>
-      <Layout level="2" style={styles.metaContainer}>
-        <Text category="c1" style={styles.metaText}>
+      </View>
+      <View style={styles.metaContainer}>
+        <Text category="s2" style={styles.metaText}>
           {props.trackCount} {props.trackCount === 1 ? 'track' : 'tracks'} • {props.totalDuration}
         </Text>
-      </Layout>
-    </Layout>
+      </View>
+    </LinearGradient>
   </Pressable>
 );
 
@@ -51,6 +57,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   metaText: {
-    opacity: 0.7,
+    opacity: 0.6,
   },
 });

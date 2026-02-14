@@ -5,6 +5,7 @@ import {Layout, Text} from '@ui-kitten/components';
 import {PlaylistCard} from './PlaylistCard';
 import {Playlist, PlaylistId} from '../types';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import {playlistGradients} from '../constants/colors';
 
 interface PlaylistListProps {
   header: string;
@@ -68,7 +69,7 @@ export const PlaylistList = ({
         {header}
       </Text>
       <ScrollView horizontal={true} style={styles.horizontalContainer} showsHorizontalScrollIndicator={false}>
-        {displayedPlaylists.map(playlist => {
+        {displayedPlaylists.map((playlist, index) => {
           const duration = calculateTotalDuration(playlist.meditationIds);
           const trackCount = playlist.meditationIds.length;
 
@@ -79,6 +80,7 @@ export const PlaylistList = ({
               name={playlist.name}
               trackCount={trackCount}
               totalDuration={formatDuration(duration)}
+              gradientColors={playlistGradients[index % playlistGradients.length]}
               onPress={onPlaylistPress}
             />
           );
