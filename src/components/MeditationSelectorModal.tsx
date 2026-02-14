@@ -35,10 +35,17 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const meditationsArray: MeditationBase[] = useMemo(() => {
-    return Object.values(meditationBaseData).sort((a, b) => {
+    const meditations = Object.values(meditationBaseData);
+    console.log('MeditationSelectorModal - Available meditations:', meditations.length);
+    console.log('MeditationSelectorModal - meditationBaseData keys:', Object.keys(meditationBaseData));
+
+    return meditations.sort((a, b) => {
       if (a.groupName < b.groupName) return -1;
       if (a.groupName > b.groupName) return 1;
-      return a.name.localeCompare(b.name);
+      // Handle undefined names gracefully
+      const aName = a.name || '';
+      const bName = b.name || '';
+      return aName.localeCompare(bName);
     });
   }, [meditationBaseData]);
 
@@ -49,7 +56,7 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
     const query = searchQuery.toLowerCase();
     return meditationsArray.filter(
       med =>
-        med.name.toLowerCase().includes(query) ||
+        med.name?.toLowerCase().includes(query) ||
         med.groupName?.toString().toLowerCase().includes(query),
     );
   }, [meditationsArray, searchQuery]);
@@ -170,7 +177,7 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
           <FlatList
             data={filteredMeditations}
             renderItem={renderMeditationItem}
-            keyExtractor={item => item.meditationBaseId}
+            keyExtractor={(item, index) => item.meditationBaseId || `meditation-${index}`}
             contentContainerStyle={styles.listContainer}
             ListEmptyComponent={
               <View style={styles.emptyContainer}>
