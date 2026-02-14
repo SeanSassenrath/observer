@@ -61,12 +61,12 @@ const MeditationFinishScreen = () => {
   );
 
   useEffect(() => {
-    // thinkboxSendEvent(Action.VIEW, Noun.ON_MOUNT, {
-    //   meditationName: meditationInstanceData.name,
-    //   meditationBaseId: meditationInstanceData.meditationBaseId,
-    // });
-    updateUserMeditationData();
-    addFbMeditationInstance();
+    updateUserMeditationData().catch(e =>
+      console.error('Failed to update user meditation data:', e),
+    );
+    addFbMeditationInstance().catch(e =>
+      console.error('Failed to save meditation history:', e),
+    );
   }, []);
 
   const updateUserMeditationData = async () => {
@@ -80,7 +80,7 @@ const MeditationFinishScreen = () => {
       };
 
       const updatedCount = makeUpdatedMeditationCountData(user, tempInstance);
-      const totalTime = meditationSession.timeMeditated;
+      const totalTime = meditationSession.timeMeditated || 0;
 
       await fbUpdateUser(user.uid, {
         [`meditationUserData.meditationCounts.${instance.meditationBaseId}.count`]: updatedCount,
@@ -154,8 +154,9 @@ const MeditationFinishScreen = () => {
       return fbAddMeditationHistory(user.uid, {
         creationTime: firestore.FieldValue.serverTimestamp(),
         meditationBaseId: instance.meditationBaseId,
+        meditationStartTime: meditationSession.sessionStartTime,
         name: instance.name,
-        timeMeditated: instance.timeMeditated,
+        timeMeditated: instance.timeMeditated || 0,
         type: instance.type,
         intention: meditationSession.intention,
         notes: '', // Will be updated when user adds notes
@@ -208,6 +209,7 @@ const MeditationFinishScreen = () => {
     const completedInstances: MeditationInstance[] = meditationSession.instances.map(
       (instance) => ({
         meditationBaseId: instance.meditationBaseId,
+        meditationStartTime: meditationSession.sessionStartTime,
         name: instance.name,
         timeMeditated: instance.timeMeditated,
         type: instance.type,
@@ -228,7 +230,7 @@ const MeditationFinishScreen = () => {
     updateFbMeditationInstance();
     updateMeditationHistoryContext();
     //@ts-ignore
-    navigation.navigate('TabNavigation', {screen: 'Insight'});
+    navigation.navigate('TabNavigation', {screen: 'Insights'});
   };
 
   const streaks = getUserStreakData(user);

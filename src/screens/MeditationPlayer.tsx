@@ -98,6 +98,7 @@ const MeditationPlayer = ({
   const [duration, setDuration] = useState(0);
 
   const timerRef = React.useRef(time);
+  const meditationTimeRef = React.useRef(0);
 
   const navigation = useNavigation<MeditationPlayerScreenNavigationProp>();
 
@@ -207,32 +208,29 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
         const isLastTrack = activeTrackIndex === numberOfTracks - 1;
 
         // Update the current meditation instance with timeMeditated
-        const currentMeditationId = playlist && activeTrackIndex
-          ? playlist.meditationIds[activeTrackIndex]
-          : meditation.meditationBaseId;
+        // Use functional updates to avoid stale closure values
+        setMeditationSession(prev => {
+          const updatedInstances = prev.instances.map((instance, idx) => {
+            if ((playlist && idx === activeTrackIndex) ||
+                (!playlist && instance.meditationBaseId === meditation.meditationBaseId)) {
+              return {
+                ...instance,
+                timeMeditated: _position,
+              };
+            }
+            return instance;
+          });
 
-        // Find the instance in the session and update its timeMeditated
-        const updatedInstances = meditationSession.instances.map((instance, idx) => {
-          // For playlist: match by index, for single: it's the only instance
-          if ((playlist && idx === activeTrackIndex) ||
-              (!playlist && instance.meditationBaseId === currentMeditationId)) {
-            return {
-              ...instance,
-              timeMeditated: _position,
-            };
-          }
-          return instance;
-        });
-
-        setMeditationSession({
-          ...meditationSession,
-          instances: updatedInstances,
-          timeMeditated: meditationTime + position,
+          return {
+            ...prev,
+            instances: updatedInstances,
+            timeMeditated: meditationTimeRef.current + _position,
+          };
         });
 
         if (isLastTrack) {
           // Last track completed - navigate to finish screen
-          const totalTime = meditationTime + _position;
+          const totalTime = meditationTimeRef.current + _position;
 
           setMeditationInstanceData({
             ...meditationInstanceData,
@@ -241,8 +239,9 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
           navigation.pop();
           navigation.navigate('MeditationFinish');
         } else {
-          // Not last track - continue playing
-          setMeditationTime(meditationTime + _position);
+          // Not last track - accumulate time
+          meditationTimeRef.current += _position;
+          setMeditationTime(meditationTimeRef.current);
         }
       }
     }, 1000);
