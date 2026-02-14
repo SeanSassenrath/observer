@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useRef, useState, useEffect} from 'react';
 import {
   StyleSheet,
   TouchableWithoutFeedback,
@@ -16,7 +16,12 @@ import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import MeditationSessionContext from '../contexts/meditationSession';
 import PlaylistContext from '../contexts/playlist';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import UserContext from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
+import {meditationBaseMap} from '../constants/meditation-data';
+import {fbUpdatePlaylist} from '../fb/playlists';
+import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -46,15 +51,19 @@ const PlaylistPreparation = () => {
   const route = useRoute<PlaylistPreparationRouteProp>();
   const {playlistId} = route.params;
 
-  const {playlists} = useContext(PlaylistContext);
+  const {playlists, setPlaylists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {meditationFilePaths} = useContext(MeditationFilePathsContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
   const {setMeditationSession} = useContext(MeditationSessionContext);
+  const {user} = useContext(UserContext);
 
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
+  const [removedMeditationNames, setRemovedMeditationNames] = useState<string[]>([]);
   const styles = useStyleSheet(themedStyles);
+  const hasCleanedUp = useRef(false);
 
   const playlist = playlists[playlistId];
 
@@ -67,6 +76,52 @@ const PlaylistPreparation = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-clean stale meditation references
+  useEffect(() => {
+    if (!playlist || hasCleanedUp.current) {
+      return;
+    }
+
+    const validIds = playlist.meditationIds.filter(
+      medId => meditationBaseData[medId] && meditationFilePaths[medId],
+    );
+
+    const removedCount = playlist.meditationIds.length - validIds.length;
+    if (removedCount === 0) {
+      return;
+    }
+
+    hasCleanedUp.current = true;
+
+    // Capture names of removed meditations before cleaning up
+    const removedIds = playlist.meditationIds.filter(
+      medId => !meditationBaseData[medId] || !meditationFilePaths[medId],
+    );
+    const removedNames = removedIds.map(
+      medId => meditationBaseMap[medId]?.name || 'Unknown Meditation',
+    );
+    setRemovedMeditationNames(removedNames);
+
+    const updatedPlaylist = {
+      ...playlist,
+      meditationIds: validIds,
+      updatedAt: Date.now(),
+    };
+
+    const updatedPlaylists = {
+      ...playlists,
+      [playlistId]: updatedPlaylist,
+    };
+
+    setPlaylists(updatedPlaylists);
+    setPlaylistsInAsyncStorage(updatedPlaylists);
+
+    if (user?.uid) {
+      fbUpdatePlaylist(user.uid, playlistId, {meditationIds: validIds});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playlist]);
 
   const onBackPress = () => {
     navigation.goBack();
@@ -205,49 +260,93 @@ const PlaylistPreparation = () => {
             </Text>
           </View>
 
+          {/* Removed Meditations Warning */}
+          {removedMeditationNames.length > 0 && (
+            <View style={styles.warningBanner}>
+              <View style={styles.warningHeaderRow}>
+                <Icon
+                  style={styles.warningIcon}
+                  fill="#E28E69"
+                  name="alert-circle-outline"
+                />
+                <Text category="s1" style={styles.warningTitle}>
+                  The following meditations were removed from this playlist:
+                </Text>
+              </View>
+              {removedMeditationNames.map((name, index) => (
+                <Text key={index} category="c1" style={styles.warningItemText}>
+                  {'\u2022'} {name}
+                </Text>
+              ))}
+            </View>
+          )}
+
           {/* Meditations Preview */}
           <View style={styles.meditationsPreviewContainer}>
             <Text category="h6" style={styles.sectionLabel}>
               Meditations
             </Text>
-            {playlist.meditationIds.map((medId, index) => {
-              const meditation = meditationBaseData[medId];
-              if (!meditation) {
-                return null;
-              }
-              return (
-                <View key={medId} style={styles.meditationPreviewItem}>
-                  <View style={styles.meditationNumberContainer}>
-                    <Text category="c1" style={styles.meditationNumber}>
-                      {index + 1}
-                    </Text>
+            {trackCount === 0 ? (
+              <View style={styles.emptyPlaylistContainer}>
+                <Icon
+                  style={styles.emptyPlaylistIcon}
+                  fill="#9CA3AF"
+                  name="music-outline"
+                />
+                <Text category="s1" style={styles.emptyPlaylistText}>
+                  All meditations in this playlist have been removed
+                </Text>
+                <_Button
+                  appearance="outline"
+                  status="basic"
+                  size="small"
+                  onPress={onEditPress}
+                  style={styles.emptyPlaylistButton}>
+                  Edit Playlist
+                </_Button>
+              </View>
+            ) : (
+              playlist.meditationIds.map((medId, index) => {
+                const meditation = meditationBaseData[medId];
+                if (!meditation) {
+                  return null;
+                }
+                return (
+                  <View key={medId} style={styles.meditationPreviewItem}>
+                    <View style={styles.meditationNumberContainer}>
+                      <Text category="c1" style={styles.meditationNumber}>
+                        {index + 1}
+                      </Text>
+                    </View>
+                    <View style={styles.meditationPreviewInfo}>
+                      <Text category="p2" style={styles.meditationPreviewName}>
+                        {meditation.name}
+                      </Text>
+                      <Text category="c1" style={styles.meditationPreviewDuration}>
+                        {formatDuration(parseInt(meditation.formattedDuration, 10))}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.meditationPreviewInfo}>
-                    <Text category="p2" style={styles.meditationPreviewName}>
-                      {meditation.name}
-                    </Text>
-                    <Text category="c1" style={styles.meditationPreviewDuration}>
-                      {formatDuration(parseInt(meditation.formattedDuration, 10))}
-                    </Text>
-                  </View>
-                </View>
-              );
-            })}
+                );
+              })
+            )}
           </View>
 
           {/* Intention Input */}
-          <View style={styles.intentionContainer}>
-            <Text category="h6" style={styles.thinkBoxLabel}>
-              Set an Intention
-            </Text>
-            <MultiLineInput
-              onChangeText={setInputValue}
-              placeholder="Set an intention for this playlist session"
-              value={inputValue}
-              style={styles.thinkBoxStyles}
-              textStyle={styles.thinkBoxTextStyles}
-            />
-          </View>
+          {trackCount > 0 && (
+            <View style={styles.intentionContainer}>
+              <Text category="h6" style={styles.thinkBoxLabel}>
+                Set an Intention
+              </Text>
+              <MultiLineInput
+                onChangeText={setInputValue}
+                placeholder="Set an intention for this playlist session"
+                value={inputValue}
+                style={styles.thinkBoxStyles}
+                textStyle={styles.thinkBoxTextStyles}
+              />
+            </View>
+          )}
         </View>
       </KeyboardAwareScrollView>
 
@@ -257,6 +356,7 @@ const PlaylistPreparation = () => {
           style={styles.bottomBarGradient}>
           <_Button
             onPress={onBeginPress}
+            disabled={trackCount === 0}
             size="large"
             style={styles.startButton}>
             BEGIN PLAYLIST
@@ -326,6 +426,35 @@ const themedStyles = StyleSheet.create({
   metaText: {
     color: '#9CA3AF',
   },
+  warningBanner: {
+    marginHorizontal: 20,
+    marginBottom: 24,
+    backgroundColor: 'rgba(226, 142, 105, 0.12)',
+    borderRadius: 8,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(226, 142, 105, 0.25)',
+  },
+  warningHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 8,
+  },
+  warningIcon: {
+    height: 20,
+    width: 20,
+    marginRight: 8,
+    marginTop: 2,
+  },
+  warningTitle: {
+    color: '#E28E69',
+    flex: 1,
+  },
+  warningItemText: {
+    color: '#E28E69',
+    marginLeft: 28,
+    marginBottom: 2,
+  },
   meditationsPreviewContainer: {
     paddingHorizontal: 20,
     marginBottom: 40,
@@ -392,6 +521,23 @@ const themedStyles = StyleSheet.create({
   startButton: {
     marginBottom: 40,
     marginHorizontal: 20,
+  },
+  emptyPlaylistContainer: {
+    alignItems: 'center',
+    paddingVertical: 40,
+  },
+  emptyPlaylistIcon: {
+    height: 48,
+    width: 48,
+    marginBottom: 16,
+  },
+  emptyPlaylistText: {
+    color: '#9CA3AF',
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  emptyPlaylistButton: {
+    marginTop: 4,
   },
   errorContainer: {
     flex: 1,

@@ -18,6 +18,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {brightWhite} from '../constants/colors';
 import {meditationBaseMap} from '../constants/meditation-data';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
+import PlaylistContext from '../contexts/playlist';
 
 interface ReassignFileParams {
   meditationId: string;
@@ -49,6 +50,11 @@ const ReassignFileScreen = () => {
     MeditationFilePathsContext,
   );
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {playlists} = useContext(PlaylistContext);
+
+  const affectedPlaylists = Object.values(playlists).filter(p =>
+    p.meditationIds.includes(meditationId),
+  );
 
   // Get current meditation name (try context first, then fallback to full map)
   const currentMeditation =
@@ -277,6 +283,11 @@ const ReassignFileScreen = () => {
               <Text style={styles.modalMessage}>
                 Are you sure you want to remove "{fileName}" from your meditation library? This action cannot be undone.
               </Text>
+              {affectedPlaylists.length > 0 && (
+                <Text style={styles.playlistWarning}>
+                  This meditation is used in: {affectedPlaylists.map(p => p.name).join(', ')}. It will be automatically removed from {affectedPlaylists.length === 1 ? 'this playlist' : 'these playlists'}.
+                </Text>
+              )}
 
               <View style={styles.modalButtons}>
                 <TouchableOpacity style={styles.modalCancelButton} onPress={cancelDelete}>
@@ -464,7 +475,14 @@ const styles = StyleSheet.create({
     color: '#9CA3AF',
     textAlign: 'center',
     lineHeight: 24,
-    marginBottom: 24,
+    marginBottom: 16,
+  },
+  playlistWarning: {
+    fontSize: 14,
+    color: '#E28E69',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 16,
   },
   modalButtons: {
     flexDirection: 'row',

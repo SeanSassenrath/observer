@@ -35,6 +35,7 @@ import SubscribeModal from '../components/SubscribeModal';
 import Toast from 'react-native-toast-message';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
+import PlaylistContext from '../contexts/playlist';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -69,6 +70,7 @@ const MeditationScreen = ({
   const {setMeditationBaseData, meditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const {setMeditationFilePaths, meditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {playlists} = useContext(PlaylistContext);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
   const [meditationBreathId, setMeditationBreathId] = useState('');
@@ -79,6 +81,11 @@ const MeditationScreen = ({
   const styles = useStyleSheet(themedStyles);
 
   const meditation = meditationBaseMap[id];
+
+  const affectedPlaylists = Object.values(playlists).filter(p =>
+    p.meditationIds.includes(id),
+  );
+
 
   const lastMeditationInstance =
     meditationHistory &&
@@ -342,6 +349,11 @@ const MeditationScreen = ({
         <Layout level="2">
           <Text category="h5" style={styles.modalTitle}>Delete Meditation</Text>
           <Text category="s1" style={styles.modalDescription}>Are you sure you want to delete this meditation?</Text>
+          {affectedPlaylists.length > 0 && (
+            <Text category="c1" style={styles.playlistWarning}>
+              This meditation is used in: {affectedPlaylists.map(p => p.name).join(', ')}. It will be automatically removed from {affectedPlaylists.length === 1 ? 'this playlist' : 'these playlists'}.
+            </Text>
+          )}
           <_Button style={styles.deleteButton} onPress={onDeletePress}>Delete</_Button>
           <_Button status='basic' appearance='outline' onPress={() => setIsDeleteModalVisible(false)}>Cancel</_Button>
         </Layout>
@@ -412,11 +424,15 @@ const themedStyles = StyleSheet.create({
     height: 20,
   },
   modalDescription: {
-    marginBottom: 40,
+    marginBottom: 16,
+  },
+  playlistWarning: {
+    color: '#E28E69',
+    marginBottom: 24,
   },
   modalRootContainer: {
     borderRadius: 10,
-    height: 250,
+    height: 300,
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingTop: 20,
