@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {AppState, Pressable, ScrollView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import _, {sortBy} from 'lodash';
 import Toast from 'react-native-toast-message';
@@ -13,6 +14,7 @@ import {
   Button,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
+import {usePostHog} from 'posthog-react-native';
 // import messaging from '@react-native-firebase/messaging';
 
 import _Button from '../components/Button';
@@ -76,8 +78,8 @@ const UserIcon = () => (
   <Icon style={themedStyles.userIcon} fill={brightWhite} name="person" />
 );
 
-
 const HomeScreen = () => {
+  const posthog = usePostHog();
   const {user, setUser} = useContext(UserContext);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {meditationBaseData, setMeditationBaseData} = useContext(
@@ -190,6 +192,11 @@ const HomeScreen = () => {
     meditationId: MeditationId,
     isDisabled: boolean,
   ) => {
+    posthog.debug();
+    posthog.capture('button_pressed', {
+      button_name: 'start_meditation',
+    });
+
     if (meditationId) {
       if (isDisabled) {
         Toast.show({

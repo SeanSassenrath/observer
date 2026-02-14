@@ -8,7 +8,11 @@
  * @format
  */
 
+import 'fast-text-encoding';
 import React, {useState, useEffect} from 'react';
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs(['EXNativeModulesProxy']);
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
@@ -16,6 +20,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import StackNavigator from './src/navigation/Stack';
 import {
@@ -298,44 +303,44 @@ const App = () => {
   }
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider
-        {...eva}
-        theme={{...eva.dark, ...theme}}
-        // @ts-ignore
-        // customMapping={mapping}
-      >
-        <DebugProvider>
-          <UserContext.Provider value={{user, setUser}}>
-            <PlaylistContext.Provider value={{playlists, setPlaylists}}>
-              <MeditationHistoryContext.Provider
-                value={{meditationHistory, setMeditationHistory}}>
-                <MeditationBaseDataContext.Provider
-                  value={{meditationBaseData, setMeditationBaseData}}>
-                  <MeditationSessionContext.Provider
-                    value={{meditationSession, setMeditationSession}}>
-                    <MeditationInstanceDataContext.Provider
-                      value={{meditationInstanceData, setMeditationInstanceData}}>
-                      <MeditationFilePathsContext.Provider
-                        value={{meditationFilePaths, setMeditationFilePaths}}>
-                        <UnknownFilesContext.Provider
-                          value={{unknownFiles, setUnknownFiles}}>
-                          <StackNavigator />
-                          {__DEV__ && <DebugButton />}
-                          {__DEV__ && <DebugPanel />}
-                        </UnknownFilesContext.Provider>
-                      </MeditationFilePathsContext.Provider>
-                    </MeditationInstanceDataContext.Provider>
-                  </MeditationSessionContext.Provider>
-                </MeditationBaseDataContext.Provider>
-              </MeditationHistoryContext.Provider>
-            </PlaylistContext.Provider>
-          </UserContext.Provider>
-        </DebugProvider>
-      </ApplicationProvider>
-      <Toast config={toastConfig as any} />
-    </GestureHandlerRootView>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <IconRegistry icons={EvaIconsPack} />
+          <ApplicationProvider
+            {...eva}
+            theme={{...eva.dark, ...theme}}
+            // @ts-ignore
+            // customMapping={mapping}
+          >
+            <DebugProvider>
+              <UserContext.Provider value={{user, setUser}}>
+                <PlaylistContext.Provider value={{playlists, setPlaylists}}>
+                  <MeditationHistoryContext.Provider
+                    value={{meditationHistory, setMeditationHistory}}>
+                    <MeditationBaseDataContext.Provider
+                      value={{meditationBaseData, setMeditationBaseData}}>
+                      <MeditationSessionContext.Provider
+                        value={{meditationSession, setMeditationSession}}>
+                        <MeditationInstanceDataContext.Provider
+                          value={{meditationInstanceData, setMeditationInstanceData}}>
+                          <MeditationFilePathsContext.Provider
+                            value={{meditationFilePaths, setMeditationFilePaths}}>
+                            <UnknownFilesContext.Provider
+                              value={{unknownFiles, setUnknownFiles}}>
+                              <StackNavigator />
+                              {__DEV__ && <DebugButton />}
+                              {__DEV__ && <DebugPanel />}
+                            </UnknownFilesContext.Provider>
+                          </MeditationFilePathsContext.Provider>
+                        </MeditationInstanceDataContext.Provider>
+                      </MeditationSessionContext.Provider>
+                    </MeditationBaseDataContext.Provider>
+                  </MeditationHistoryContext.Provider>
+                </PlaylistContext.Provider>
+              </UserContext.Provider>
+            </DebugProvider>
+          </ApplicationProvider>
+        <Toast config={toastConfig as any} />
+      </GestureHandlerRootView> 
   );
 };
 

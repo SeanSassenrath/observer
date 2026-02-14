@@ -2,6 +2,9 @@ import React, {useContext, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
+import {PostHogProvider} from 'posthog-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {POSTHOG_API_KEY} from '@env';
 
 import {myTheme} from '../constants/navTheme';
 import MeditationFinishScreen from '../screens/MeditationFinish';
@@ -75,6 +78,13 @@ const StackNavigator = () => {
         routeNameRef.current = currentRouteName;
       }}
       theme={myTheme}>
+      <PostHogProvider apiKey={POSTHOG_API_KEY}
+        autocapture
+        options={{
+          host: "https://us.i.posthog.com",
+          customStorage: AsyncStorage,
+        }}
+      >
       <Navigator
         initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>
@@ -105,6 +115,7 @@ const StackNavigator = () => {
         <Screen name="EditPlaylist" component={EditPlaylistScreen} />
         <Screen name="PlaylistPreparation" component={PlaylistPreparationScreen} />
       </Navigator>
+      </PostHogProvider>
     </NavigationContainer>
   );
 };
