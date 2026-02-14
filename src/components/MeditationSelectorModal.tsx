@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Text, Icon, Input} from '@ui-kitten/components';
+import {Text, Icon} from '@ui-kitten/components';
+import {SearchBar} from './SearchBar';
 
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {MeditationId, MeditationBase} from '../types';
@@ -86,7 +87,7 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
 
     return (
       <TouchableOpacity
-        style={[styles.item, isSelected && styles.itemSelected]}
+        style={isSelected ? styles.itemSelected : styles.item}
         onPress={() => toggleMeditation(item.meditationBaseId)}>
         <View style={styles.itemContent}>
           <View style={styles.itemInfo}>
@@ -129,6 +130,7 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
       presentationStyle="pageSheet"
       onRequestClose={handleCancel}>
       <SafeAreaView style={styles.container}>
+        <View style={styles.accentLine} />
         <View style={styles.layout}>
           {/* Header */}
           <View style={styles.header}>
@@ -153,25 +155,20 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
 
           {/* Search Bar */}
           <View style={styles.searchContainer}>
-            <Input
+            <SearchBar
+              input={searchQuery}
               placeholder="Search meditations..."
-              value={searchQuery}
               onChangeText={setSearchQuery}
-              accessoryLeft={props => (
-                <Icon {...props} name="search-outline" />
-              )}
-              style={styles.searchInput}
+              onClearPress={() => setSearchQuery('')}
             />
           </View>
 
           {/* Selection Count */}
-          {selectedIds.size > 0 && (
-            <View style={styles.selectionCount}>
-              <Text category="c1" style={styles.selectionText}>
-                {selectedIds.size} {selectedIds.size === 1 ? 'meditation' : 'meditations'} selected
-              </Text>
-            </View>
-          )}
+          <View style={styles.selectionCount}>
+            <Text category="c1" style={[styles.selectionText, selectedIds.size === 0 && {opacity: 0}]}>
+              {selectedIds.size || 0} {selectedIds.size === 1 ? 'meditation' : 'meditations'} selected
+            </Text>
+          </View>
 
           {/* Meditations List */}
           <FlatList
@@ -198,7 +195,11 @@ const MeditationSelectorModal: React.FC<MeditationSelectorModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#0B0E18',
+  },
+  accentLine: {
+    height: 2,
+    backgroundColor: COLOR_PRIMARY,
   },
   layout: {
     flex: 1,
@@ -230,9 +231,6 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 8,
   },
-  searchInput: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-  },
   selectionCount: {
     paddingHorizontal: 16,
     paddingBottom: 8,
@@ -245,15 +243,20 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   item: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 12,
+    backgroundColor: 'transparent',
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderBottomColor: 'rgba(156, 77, 204, 0.2)',
     overflow: 'hidden',
   },
   itemSelected: {
     backgroundColor: 'rgba(156, 77, 204, 0.15)',
+    borderRadius: 12,
+    marginBottom: 8,
     borderWidth: 1,
     borderColor: COLOR_PRIMARY,
+    borderBottomColor: COLOR_PRIMARY,
   },
   itemContent: {
     flexDirection: 'row',
