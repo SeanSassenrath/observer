@@ -22,8 +22,7 @@ import {brightWhite} from '../constants/colors';
 import {fbUpdatePlaylist, fbDeletePlaylist} from '../fb/playlists';
 import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
 import MeditationSelectorModal from '../components/MeditationSelectorModal';
-
-const COLOR_PRIMARY = '#9C4DCC';
+import {GradientPicker} from '../components/GradientPicker';
 
 type EditPlaylistRouteProp = RouteProp<StackParamList, 'EditPlaylist'>;
 
@@ -44,6 +43,7 @@ const EditPlaylist = () => {
   const [selectedMeditationIds, setSelectedMeditationIds] = useState<
     MeditationId[]
   >([]);
+  const [selectedGradientIndex, setSelectedGradientIndex] = useState(0);
   const [isSelectorModalVisible, setIsSelectorModalVisible] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -54,6 +54,7 @@ const EditPlaylist = () => {
       setDescription(playlist.description || '');
       setNotes(playlist.notes || '');
       setSelectedMeditationIds(playlist.meditationIds);
+      setSelectedGradientIndex(playlist.gradientIndex ?? 0);
     }
   }, [playlist]);
 
@@ -112,6 +113,7 @@ const EditPlaylist = () => {
         notes: notes.trim(),
         meditationIds: selectedMeditationIds,
         totalDuration: calculateTotalDuration(),
+        gradientIndex: selectedGradientIndex,
       };
 
       await fbUpdatePlaylist(user.uid, playlistId, updates);
@@ -234,12 +236,12 @@ const EditPlaylist = () => {
 
   const renderEmptyState = () => (
     <View style={styles.emptyMeditations}>
-      <Icon name="music-outline" fill="#6B7280" style={styles.emptyIcon} />
-      <Text category="p2" style={styles.emptyText}>
-        No meditations added yet
+      <Icon name="list-outline" fill="#4B5563" style={styles.emptyIcon} />
+      <Text category="s1" style={styles.emptyText}>
+        No meditations yet
       </Text>
-      <Text category="c1" style={styles.emptySubtext}>
-        Tap the button above to add meditations
+      <Text category="p2" style={styles.emptySubtext}>
+        Tap the button above to start{'\n'}building your journey.
       </Text>
     </View>
   );
@@ -283,8 +285,16 @@ const EditPlaylist = () => {
         <KeyboardAwareScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}>
+          {/* Gradient Theme Picker */}
+          <View style={styles.gradientPickerSection}>
+            <GradientPicker
+              selectedIndex={selectedGradientIndex}
+              onSelect={setSelectedGradientIndex}
+            />
+          </View>
+
           {/* Playlist Name Input */}
-          <Layout level="2" style={styles.playlistNameSection}>
+          <View style={styles.playlistNameSection}>
             <Text category="s1" style={styles.label}>
               Playlist Name
             </Text>
@@ -295,24 +305,32 @@ const EditPlaylist = () => {
               style={styles.input}
               textStyle={styles.textStyle}
             />
-          </Layout>
+          </View>
 
           {/* Meditations Section */}
           <View style={styles.section}>
             <View style={styles.meditationsHeader}>
               <View>
-                <Text category="h6" style={styles.label}>
+                <Text category="h6" style={styles.sectionTitle}>
                   Meditations
                 </Text>
                 <Text category="s2" style={styles.meditationsMeta}>
-                  {selectedMeditationIds.length} {selectedMeditationIds.length === 1 ? 'track' : 'tracks'} • {formatDuration(totalDuration)}
+                  {selectedMeditationIds.length} {selectedMeditationIds.length === 1 ? 'track' : 'tracks'} {'\u00B7'} {formatDuration(totalDuration)}
                 </Text>
               </View>
               <Button
                 size="medium"
                 onPress={() => setIsSelectorModalVisible(true)}
-                appearance="outline">
-                {selectedMeditationIds.length > 0 ? 'Manage' : 'Add Meditations'}
+                appearance="outline"
+                style={{borderColor: '#9C4DCC'}}
+                accessoryLeft={selectedMeditationIds.length === 0 ? (props) => (
+                  <Icon {...props} name="plus-outline" fill="#9C4DCC" />
+                ) : undefined}>
+                {evaProps => (
+                  <Text {...evaProps} style={[evaProps?.style, {color: '#9C4DCC'}]}>
+                    {selectedMeditationIds.length > 0 ? 'Manage' : 'Add Tracks'}
+                  </Text>
+                )}
               </Button>
             </View>
 
@@ -365,7 +383,7 @@ const EditPlaylist = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      
+
       {/* Meditation Selector Modal */}
       <MeditationSelectorModal
         visible={isSelectorModalVisible}
@@ -405,12 +423,38 @@ const styles = StyleSheet.create({
   headerSpacer: {
     width: 40,
   },
+  gradientPickerSection: {
+    marginBottom: 24,
+    marginHorizontal: -16,
+  },
+  playlistNameSection: {
+    marginBottom: 24,
+  },
+  label: {
+    color: '#9CA3AF',
+    marginBottom: 6,
+  },
+  sectionTitle: {
+    color: brightWhite,
+    marginBottom: 4,
+  },
+  input: {
+    backgroundColor: 'rgba(48,55,75,0.6)',
+    borderRadius: 10,
+    marginTop: 10,
+    height: 60,
+  },
+  textStyle: {
+    paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: '600',
+  },
   bottomButtonContainer: {
     padding: 16,
     paddingBottom: 8,
   },
   saveButton: {
-    backgroundColor: COLOR_PRIMARY,
+    backgroundColor: '#9C4DCC',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
@@ -432,17 +476,6 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 24,
-  },
-  label: {
-    color: '#9CA3AF',
-    marginBottom: 6,
-  },
-  input: {
-    backgroundColor: 'rgba(48,55,75,0.6)',
-    borderRadius: 10,
-    marginBottom: 20,
-    marginTop: 10,
-    height: 60,
   },
   meditationsHeader: {
     flexDirection: 'row',
@@ -502,12 +535,11 @@ const styles = StyleSheet.create({
   emptyMeditations: {
     alignItems: 'center',
     paddingVertical: 48,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#6B7280',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 12,
-    marginHorizontal: 8,
-    marginTop: 20,
+    marginTop: 12,
   },
   emptyIcon: {
     width: 48,
@@ -515,11 +547,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   emptyText: {
-    color: '#9CA3AF',
+    color: brightWhite,
     marginBottom: 4,
   },
   emptySubtext: {
     color: '#6B7280',
+    textAlign: 'center',
   },
   errorContainer: {
     flex: 1,
@@ -528,16 +561,6 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: brightWhite,
-  },
-  textStyle: {
-    paddingVertical: 10,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  playlistNameSection: {
-    marginBottom: 24,
-    padding: 10,
-    borderRadius: 10,
   },
 });
 

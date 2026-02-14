@@ -80,7 +80,7 @@ export const PlaylistList = ({
               name={playlist.name}
               trackCount={trackCount}
               totalDuration={formatDuration(duration)}
-              gradientColors={playlistGradients[index % playlistGradients.length]}
+              gradientColors={playlistGradients[playlist.gradientIndex ?? (index % playlistGradients.length)].colors}
               onPress={onPlaylistPress}
             />
           );

@@ -286,6 +286,7 @@ export interface Playlist {
   createdAt: number;
   updatedAt: number;
   totalDuration?: number;
+  gradientIndex?: number;
 }
 
 export interface PlaylistContextType {
