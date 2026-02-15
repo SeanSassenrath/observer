@@ -40,7 +40,8 @@ const CreatePlaylist = () => {
   const [isSelectorModalVisible, setIsSelectorModalVisible] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
-  const isValid = playlistName.trim().length > 0 && selectedMeditationIds.length > 0;
+  const isValid =
+    playlistName.trim().length > 0 && selectedMeditationIds.length > 0;
 
   const calculateTotalDuration = (): number => {
     let totalMinutes = 0;
@@ -89,7 +90,10 @@ const CreatePlaylist = () => {
     try {
       setIsSaving(true);
 
-      const newPlaylist: Omit<Playlist, 'playlistId' | 'createdAt' | 'updatedAt'> = {
+      const newPlaylist: Omit<
+        Playlist,
+        'playlistId' | 'createdAt' | 'updatedAt'
+      > = {
         name: playlistName.trim(),
         description: description.trim(),
         notes: notes.trim(),
@@ -129,14 +133,20 @@ const CreatePlaylist = () => {
   };
 
   const handleRemoveMeditation = (meditationId: MeditationId) => {
-    setSelectedMeditationIds(selectedMeditationIds.filter(id => id !== meditationId));
+    setSelectedMeditationIds(
+      selectedMeditationIds.filter(id => id !== meditationId),
+    );
   };
 
   const handleDragEnd = ({data}: {data: MeditationId[]}) => {
     setSelectedMeditationIds(data);
   };
 
-  const renderMeditationItem = ({item, drag, isActive}: RenderItemParams<MeditationId>) => {
+  const renderMeditationItem = ({
+    item,
+    drag,
+    isActive,
+  }: RenderItemParams<MeditationId>) => {
     const meditation = meditationBaseData[item];
     if (!meditation) {
       return null;
@@ -152,11 +162,7 @@ const CreatePlaylist = () => {
             isActive && styles.meditationItemActive,
           ]}>
           <View style={styles.dragHandle}>
-            <Icon
-              name="menu-outline"
-              fill="#6B7280"
-              style={styles.dragIcon}
-            />
+            <Icon name="menu-outline" fill="#6B7280" style={styles.dragIcon} />
           </View>
           <View style={styles.meditationInfo}>
             <Text category="p1" style={styles.meditationName}>
@@ -216,18 +222,10 @@ const CreatePlaylist = () => {
         <KeyboardAwareScrollView
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}>
-          {/* Gradient Theme Picker */}
-          <View style={styles.gradientPickerSection}>
-            <GradientPicker
-              selectedIndex={selectedGradientIndex}
-              onSelect={setSelectedGradientIndex}
-            />
-          </View>
-
           {/* Playlist Name */}
           <View style={styles.playlistNameSection}>
             <Text category="s1" style={styles.label}>
-              Playlist Name
+              Name Your Playlist
             </Text>
             <Input
               placeholder="e.g., Morning Routine"
@@ -235,6 +233,17 @@ const CreatePlaylist = () => {
               onChangeText={setPlaylistName}
               style={styles.input}
               textStyle={styles.textStyle}
+            />
+          </View>
+
+          {/* Gradient Theme Picker */}
+          <View style={styles.gradientPickerSection}>
+            <Text category="s1" style={styles.playlistColorLabel}>
+              Choose a Color
+            </Text>
+            <GradientPicker
+              selectedIndex={selectedGradientIndex}
+              onSelect={setSelectedGradientIndex}
             />
           </View>
 
@@ -246,7 +255,9 @@ const CreatePlaylist = () => {
                   Meditations
                 </Text>
                 <Text category="s2" style={styles.meditationsMeta}>
-                  {selectedMeditationIds.length} {selectedMeditationIds.length === 1 ? 'track' : 'tracks'} {'\u00B7'} {formatDuration(totalDuration)}
+                  {selectedMeditationIds.length}{' '}
+                  {selectedMeditationIds.length === 1 ? 'track' : 'tracks'}{' '}
+                  {'\u00B7'} {formatDuration(totalDuration)}
                 </Text>
               </View>
               <Button
@@ -254,11 +265,17 @@ const CreatePlaylist = () => {
                 onPress={() => setIsSelectorModalVisible(true)}
                 appearance="outline"
                 style={{borderColor: '#9C4DCC', borderRadius: 10}}
-                accessoryLeft={selectedMeditationIds.length === 0 ? (props) => (
-                  <Icon {...props} name="plus-outline" fill="#9C4DCC" />
-                ) : undefined}>
+                accessoryLeft={
+                  selectedMeditationIds.length === 0
+                    ? props => (
+                        <Icon {...props} name="plus-outline" fill="#9C4DCC" />
+                      )
+                    : undefined
+                }>
                 {evaProps => (
-                  <Text {...evaProps} style={[evaProps?.style, {color: '#9C4DCC'}]}>
+                  <Text
+                    {...evaProps}
+                    style={[evaProps?.style, {color: '#9C4DCC'}]}>
                     {selectedMeditationIds.length > 0 ? 'Manage' : 'Add'}
                   </Text>
                 )}
@@ -341,15 +358,20 @@ const styles = StyleSheet.create({
     width: 40,
   },
   gradientPickerSection: {
-    marginBottom: 24,
+    marginBottom: 40,
     marginHorizontal: -16,
   },
   playlistNameSection: {
-    marginBottom: 24,
+    marginBottom: 40,
   },
   label: {
     color: '#9CA3AF',
     marginBottom: 6,
+  },
+  playlistColorLabel: {
+    color: '#9CA3AF',
+    marginBottom: 6,
+    paddingLeft: 15,
   },
   sectionTitle: {
     color: brightWhite,

@@ -6,15 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Icon, Text} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 import {playlistGradients, PlaylistGradient} from '../constants/colors';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-const SELECTED_WIDTH = 160;
-const SELECTED_HEIGHT = 160;
-const UNSELECTED_SIZE = 80;
-const TILE_GAP = 12;
+const SELECTED_WIDTH = 100;
+const SELECTED_HEIGHT = 100;
+const UNSELECTED_SIZE = 60;
+const TILE_GAP = 20;
 
 interface GradientPickerProps {
   selectedIndex: number;
@@ -22,7 +21,10 @@ interface GradientPickerProps {
 }
 
 const calculateScrollOffset = (selectedIndex: number): number => {
-  return Math.max(0, TILE_GAP / 2 + selectedIndex * (UNSELECTED_SIZE + TILE_GAP));
+  return Math.max(
+    0,
+    TILE_GAP / 2 + selectedIndex * (UNSELECTED_SIZE + TILE_GAP),
+  );
 };
 
 export const GradientPicker = ({
@@ -69,22 +71,7 @@ export const GradientPicker = ({
             styles.tile,
             {width: tileWidth, height: tileHeight},
             isSelected && styles.selectedTile,
-          ]}>
-          {isSelected && (
-            <>
-              <View style={styles.iconCircle}>
-                <Icon
-                  name="music-outline"
-                  fill="#FFFFFF"
-                  style={styles.musicIcon}
-                />
-              </View>
-              <View style={styles.namePill}>
-                <Text style={styles.nameText}>{item.name}</Text>
-              </View>
-            </>
-          )}
-        </LinearGradient>
+          ]}></LinearGradient>
       </TouchableOpacity>
     );
   };
@@ -125,30 +112,5 @@ const styles = StyleSheet.create({
   selectedTile: {
     borderWidth: 2,
     borderColor: '#9C4DCC',
-  },
-  iconCircle: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12,
-  },
-  musicIcon: {
-    width: 24,
-    height: 24,
-  },
-  namePill: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 10,
-  },
-  nameText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    fontSize: 10,
-    letterSpacing: 1,
   },
 });
