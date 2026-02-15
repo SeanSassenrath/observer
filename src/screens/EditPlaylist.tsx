@@ -163,7 +163,7 @@ const EditPlaylist = () => {
               setPlaylists(updatedPlaylists);
               await setPlaylistsInAsyncStorage(updatedPlaylists);
 
-              navigation.goBack();
+              navigation.navigate('TabNavigation');
             } catch (error) {
               console.error('Error deleting playlist:', error);
               Alert.alert('Error', 'Failed to delete playlist. Please try again.');
