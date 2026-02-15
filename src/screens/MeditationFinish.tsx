@@ -37,10 +37,13 @@ import {
 import {StreakUpdate} from '../components/StreakUpdate';
 import {Action, Noun, thinkboxSendEvent} from '../analytics';
 import {MeditationInstance} from '../types';
+import {usePostHog} from 'posthog-react-native';
+import {capturePlayFlowEvent} from '../analytics/posthog';
 
 const EMPTY_INPUT = '';
 
 const MeditationFinishScreen = () => {
+  const posthog = usePostHog();
   const navigation = useNavigation();
   const {meditationSession} = useContext(MeditationSessionContext);
   const {meditationHistory, setMeditationHistory} = useContext(
@@ -61,6 +64,11 @@ const MeditationFinishScreen = () => {
   );
 
   useEffect(() => {
+    capturePlayFlowEvent(posthog, 'play_meditation_completed', {
+      meditation_id: meditationSession.instances[0]?.meditationBaseId,
+      time_meditated: meditationSession.timeMeditated,
+      playlist_id: meditationSession.playlistId,
+    });
     updateUserMeditationData().catch(e =>
       console.error('Failed to update user meditation data:', e),
     );
@@ -158,11 +166,11 @@ const MeditationFinishScreen = () => {
         name: instance.name,
         timeMeditated: instance.timeMeditated || 0,
         type: instance.type,
-        intention: meditationSession.intention,
+        intention: meditationSession.intention || '',
         notes: '', // Will be updated when user adds notes
         feedback: '', // Will be updated when user adds feedback
-        playlistId: meditationSession.playlistId,
-        playlistName: meditationSession.playlistName,
+        playlistId: meditationSession.playlistId || '',
+        playlistName: meditationSession.playlistName || '',
       });
     });
 
@@ -213,11 +221,11 @@ const MeditationFinishScreen = () => {
         name: instance.name,
         timeMeditated: instance.timeMeditated,
         type: instance.type,
-        intention: meditationSession.intention,
+        intention: meditationSession.intention || '',
         notes: firstInput,
         feedback: secondInput,
-        playlistId: meditationSession.playlistId,
-        playlistName: meditationSession.playlistName,
+        playlistId: meditationSession.playlistId || '',
+        playlistName: meditationSession.playlistName || '',
       })
     );
 

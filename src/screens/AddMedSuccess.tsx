@@ -1,12 +1,14 @@
 import React, {useContext, useEffect} from 'react';
 import {Layout, Icon, Text, useStyleSheet} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {usePostHog} from 'posthog-react-native';
 
 import Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
 import {successGreen} from '../constants/colors';
 import {makeMeditationBaseData} from '../utils/meditation';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
+import {captureAddFlowEvent} from '../analytics/posthog';
 
 const SuccessIcon = (props: any) => (
   <Icon
@@ -26,6 +28,7 @@ const iconStyles = StyleSheet.create({
 });
 
 const AddMedsSuccessScreen = () => {
+  const posthog = usePostHog();
   const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const styles = useStyleSheet(themedStyles);
 
@@ -39,6 +42,7 @@ const AddMedsSuccessScreen = () => {
   };
 
   useEffect(() => {
+    captureAddFlowEvent(posthog, 'add_meditation_completed');
     addMeditationsToContext();
   }, []);
 

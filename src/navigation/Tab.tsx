@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from '@ui-kitten/components';
 import {View, TouchableOpacity, Text} from 'react-native';
+import {usePostHog} from 'posthog-react-native';
 
 import HomeScreen from '../screens/Home';
 import LibraryScreen from '../screens/Library';
@@ -9,6 +10,7 @@ import InsightScreen from '../screens/Insight';
 import PlaylistsScreen from '../screens/Playlists';
 import {TabParamList} from '../types';
 import {onAddMeditations} from '../utils/addMeditations';
+import {captureAddFlowEvent} from '../analytics/posthog';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
@@ -37,6 +39,7 @@ const getTabBarIcon = (routeName: string) => {
 };
 
 const CustomTabBar = ({state, descriptors, navigation}: any) => {
+  const posthog = usePostHog();
   const {user} = useContext(UserContext);
   const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
   const {meditationFilePaths, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
@@ -51,6 +54,12 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
         user,
         setMeditationBaseData,
       );
+
+      captureAddFlowEvent(posthog, 'add_meditation_started', {
+        files_selected: Object.keys(_meditations).length + _unknownFiles.length,
+        matched_count: Object.keys(_meditations).length,
+        unmatched_count: _unknownFiles.length,
+      });
 
       // Navigate to the matching results screen
       navigation.navigate('AddMedsMatching', {

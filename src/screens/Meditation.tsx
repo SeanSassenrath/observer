@@ -36,6 +36,8 @@ import Toast from 'react-native-toast-message';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import PlaylistContext from '../contexts/playlist';
+import {usePostHog} from 'posthog-react-native';
+import {capturePlayFlowEvent} from '../analytics/posthog';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -61,6 +63,7 @@ const TrashIcon = (props: any) => (
 const MeditationScreen = ({
   route,
 }: MeditationStackScreenProps<'Meditation'>) => {
+  const posthog = usePostHog();
   const {user, setUser} = useContext(UserContext);
   const navigation = useNavigation<MeditationScreenNavigationProp>();
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
@@ -97,6 +100,11 @@ const MeditationScreen = ({
 
   useEffect(() => {
     setInitialMeditationSession();
+    capturePlayFlowEvent(posthog, 'play_meditation_intention_viewed', {
+      meditation_id: id,
+      meditation_name: meditation.name,
+      source: playlistId ? 'playlist' : 'library',
+    });
     //@ts-ignore
   }, []);
 

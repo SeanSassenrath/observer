@@ -1,8 +1,8 @@
-import React, {useContext, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
-import {PostHogProvider} from 'posthog-react-native';
+import {PostHogProvider, usePostHog} from 'posthog-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {POSTHOG_API_KEY} from '@env';
 
@@ -38,6 +38,22 @@ import EditPlaylistScreen from '../screens/EditPlaylist';
 import PlaylistPreparationScreen from '../screens/PlaylistPreparation';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
+
+const PostHogIdentifier = () => {
+  const posthog = usePostHog();
+  const {user} = useContext(UserContext);
+
+  useEffect(() => {
+    if (user.uid) {
+      posthog.identify(user.uid, {
+        email: user.profile?.email,
+        name: user.profile?.displayName,
+      });
+    }
+  }, [user.uid]);
+
+  return null;
+};
 
 const StackNavigator = () => {
   const {user} = useContext(UserContext);
@@ -85,6 +101,7 @@ const StackNavigator = () => {
           customStorage: AsyncStorage,
         }}
       >
+      <PostHogIdentifier />
       <Navigator
         initialRouteName={getInitialRouteName()}
         screenOptions={{headerShown: false}}>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Layout, Text} from '@ui-kitten/components';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {usePostHog} from 'posthog-react-native';
+import {captureAddFlowEvent} from '../analytics/posthog';
 
 import Button from '../components/Button';
 import {
@@ -15,10 +17,17 @@ interface Props {
 }
 
 const UnrecognizedFilesScreen = (props: Props) => {
+  const posthog = usePostHog();
   const {route} = props;
   const {medsFail} = route.params;
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    captureAddFlowEvent(posthog, 'add_meditation_partial', {
+      unmatched_count: medsFail.length,
+    });
+  }, []);
 
   const onContinuePress = () => {
     navigation.navigate('MeditationMatch', {

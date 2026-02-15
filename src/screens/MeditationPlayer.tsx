@@ -29,6 +29,8 @@ import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
 import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
 import UserContext from '../contexts/userData';
+import {usePostHog} from 'posthog-react-native';
+import {capturePlayFlowEvent} from '../analytics/posthog';
 import {
   getActiveTrackIndex,
   getPlaybackState,
@@ -104,11 +106,16 @@ const MeditationPlayer = ({
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
+const posthog = usePostHog();
 const playlist = meditationSession.playlistId ? playlists[meditationSession.playlistId] : null;
   useEffect(() => {
     meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
       meditationName: meditation.name,
       meditationBaseId: meditation.meditationBaseId,
+    });
+    capturePlayFlowEvent(posthog, 'play_meditation_started', {
+      meditation_id: meditation.meditationBaseId,
+      meditation_name: meditation.name,
     });
     addTracks();
     const countDownTimer = setCountDownTimer();
@@ -309,6 +316,10 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
   };
 
   const onCancelMeditationModalPress = () => {
+    capturePlayFlowEvent(posthog, 'play_meditation_abandoned', {
+      meditation_id: meditation.meditationBaseId,
+      last_position: position,
+    });
     resetMeditationInstanceData(setMeditationInstanceData);
     resetTrackPlayer();
     // @ts-ignore

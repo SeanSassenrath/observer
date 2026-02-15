@@ -2,6 +2,8 @@ import React, {useEffect} from 'react';
 import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {usePostHog} from 'posthog-react-native';
+import {captureAddFlowEvent} from '../analytics/posthog';
 
 import {
   AddMedsMatchingScreenRouteProp,
@@ -15,8 +17,9 @@ interface Props {
 
 const AddMedsMatchingScreen = (props: Props) => {
   const styles = useStyleSheet(themedStyles);
+  const posthog = usePostHog();
   const {route} = props;
-  const {medsFail} = route.params;
+  const {medsFail, medsSuccess} = route.params;
   const navigation = useNavigation();
   // const [barWidth, setBarWidth] = useState(0);
 
@@ -35,6 +38,10 @@ const AddMedsMatchingScreen = (props: Props) => {
   };
 
   useEffect(() => {
+    captureAddFlowEvent(posthog, 'add_meditation_matching', {
+      matched_count: medsSuccess.length,
+      unmatched_count: medsFail.length,
+    });
     setTimeout(() => {
       chooseNavigator();
     }, 3000);
