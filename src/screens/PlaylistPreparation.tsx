@@ -19,7 +19,7 @@ import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UserContext from '../contexts/userData';
 import {brightWhite} from '../constants/colors';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {fbUpdatePlaylist} from '../fb/playlists';
 import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
 
@@ -99,7 +99,7 @@ const PlaylistPreparation = () => {
       medId => !meditationBaseData[medId] || !meditationFilePaths[medId],
     );
     const removedNames = removedIds.map(
-      medId => meditationBaseMap[medId]?.name || 'Unknown Meditation',
+      medId => getFullMeditationCatalogSync()[medId]?.name || 'Unknown Meditation',
     );
     setRemovedMeditationNames(removedNames);
 

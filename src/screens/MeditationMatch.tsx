@@ -10,7 +10,7 @@ import {
 } from '../types';
 import {SearchBar} from '../components/SearchBar';
 import {sortBy} from 'lodash';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import Button from '../components/Button';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
@@ -45,6 +45,7 @@ const MeditationMatchScreen = (props: Props) => {
 
   // Flatten all meditations into single array, sorted alphabetically
   const flattenedMeditations = useMemo(() => {
+    const meditationBaseMap = getFullMeditationCatalogSync();
     const meditationArray = Object.keys(meditationBaseMap).map(key => ({
       id: key,
       name: meditationBaseMap[key].name,

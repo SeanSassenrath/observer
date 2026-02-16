@@ -1,7 +1,7 @@
 import {uniq} from 'lodash';
 
 import {oldMeditationBaseMap} from '../constants/meditation';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {MeditationHistoryData} from '../contexts/meditationHistory';
 import {User} from '../contexts/userData';
 import {
@@ -22,6 +22,7 @@ export const getMeditation = (id: string, meditations: Meditation[]) =>
   meditations.find(meditation => meditation.id === id);
 
 export const checkMeditationBaseId = (meditationBaseId: MeditationBaseId) => {
+  const meditationBaseMap = getFullMeditationCatalogSync();
   if (meditationBaseMap.hasOwnProperty(meditationBaseId)) {
     return meditationBaseId;
   } else if (oldMeditationBaseMap.hasOwnProperty(meditationBaseId)) {
@@ -62,6 +63,7 @@ export const updateAsyncStorageMeditationData = async () => {
   const filePathData = await getMeditationFilePathDataInAsyncStorage();
 
   if (filePathData) {
+    const meditationBaseMap = getFullMeditationCatalogSync();
     const parsedFilePathData = JSON.parse(filePathData);
     const filePathDataKeys = Object.keys(parsedFilePathData);
     const oldMeditationIds = [] as MeditationId[];
@@ -94,6 +96,7 @@ export const makeMeditationBaseData = async () => {
   console.log('File Data Path >>>', filePathData);
 
   if (filePathData) {
+    const meditationBaseMap = getFullMeditationCatalogSync();
     let meditationBaseData = {} as MeditationBaseMap;
     const parsedFilePathData = JSON.parse(filePathData);
     const filePathDataKeys = Object.keys(parsedFilePathData);
@@ -161,7 +164,7 @@ export const makeUpdatedBreathMeditationCountData = (
   if (!meditationBaseBreathId) {
     return;
   }
-  const meditationBaseData = meditationBaseMap[meditationBaseBreathId];
+  const meditationBaseData = getFullMeditationCatalogSync()[meditationBaseBreathId];
   const meditationBreathCount = getMeditationBreathCountFromUserData(
     user,
     meditationInstanceData,

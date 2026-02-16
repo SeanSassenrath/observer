@@ -2,10 +2,10 @@ import {sortBy, takeRight, values} from 'lodash';
 import {MeditationCountsMap} from '../../contexts/userData';
 import {MeditationHistoryData} from '../../contexts/meditationHistory';
 import {MeditationBaseId} from '../../types';
-import {meditationBaseMap} from '../../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../../services/meditationCatalog';
 
 export const getMeditationFromId = (meditationBaseId: MeditationBaseId) =>
-  meditationBaseMap[meditationBaseId];
+  getFullMeditationCatalogSync()[meditationBaseId];
 
 export const getLastMeditationInstance = (
   meditationHistory: MeditationHistoryData,

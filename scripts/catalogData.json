@@ -1,0 +1,1175 @@
+{
+  "version": 1,
+  "updatedAt": "2026-02-16T17:33:04.105Z",
+  "groups": {
+    "blessing-of-the-energy-centers": {
+      "groupName": "Blessing of the Energy Centers",
+      "displayOrder": 1,
+      "meditationIds": [
+        "m-botec-1",
+        "m-botec-1-updated",
+        "m-botec-2",
+        "m-botec-2-updated",
+        "m-botec-3",
+        "m-botec-3-updated",
+        "m-botec-4",
+        "m-botec-5",
+        "m-botec-6",
+        "m-botec-7",
+        "m-botec-8",
+        "m-botec-9",
+        "m-botec-10",
+        "m-botec-11"
+      ]
+    },
+    "breaking-the-habit-of-being-yourself": {
+      "groupName": "Breaking the Habit of Being Yourself",
+      "displayOrder": 2,
+      "meditationIds": [
+        "m-breaking-habit-space",
+        "m-breaking-habit-water",
+        "m-breaking-habit-water-updated",
+        "m-breaking-habit-placebo"
+      ]
+    },
+    "daily-meditations": {
+      "groupName": "Daily Meditations",
+      "displayOrder": 5,
+      "meditationIds": [
+        "m-morning",
+        "m-morning-updated",
+        "m-evening",
+        "m-evening-updated"
+      ]
+    },
+    "generating-series": {
+      "groupName": "Generating Series",
+      "displayOrder": 7,
+      "meditationIds": [
+        "m-generating-abundance",
+        "m-generating-flow",
+        "m-generating-gratitude",
+        "m-generating-empowerment",
+        "m-generating-change",
+        "m-generating-inspiration",
+        "m-generating-joy"
+      ]
+    },
+    "breathwork": {
+      "groupName": "Breathwork",
+      "displayOrder": 3,
+      "meditationIds": [
+        "b-new-potentials",
+        "b-new-potentials-updated",
+        "b-reconditioning",
+        "b-changing-beliefs-and-perceptions",
+        "b-inspire-tribal-trance",
+        "b-inspire-emerging-heart",
+        "b-inspire-suenos-selva",
+        "b-inspire-inferno",
+        "b-inspire-refuge",
+        "b-inspire-king-fisher",
+        "b-inspire-shaman-goddess",
+        "b-inspire-cleansing",
+        "b-inspire-breathing-life",
+        "b-inspire-v2-warmth-sun",
+        "b-inspire-v2-olorum",
+        "b-inspire-v2-riding-through",
+        "b-inspire-v2-merging",
+        "b-inspire-v2-overgrown",
+        "b-inspire-v2-moyayaj",
+        "b-inspire-v2-inhalation",
+        "b-inspire-v2-fire-gathering",
+        "b-inspire-v2-cosmic-heart",
+        "b-inspire-v2-prana-soundscapes",
+        "b-inspire-v2-continuous-mix"
+      ]
+    },
+    "foundational-progressive": {
+      "groupName": "Foundational - Progressive",
+      "displayOrder": 6,
+      "meditationIds": [
+        "m-new-potentials",
+        "m-new-potentials-updated",
+        "m-present-moment",
+        "m-recondition",
+        "m-changing-beliefs-and-perceptions",
+        "m-changing-beliefs-and-perceptions-full"
+      ]
+    },
+    "walking": {
+      "groupName": "Walking",
+      "displayOrder": 10,
+      "meditationIds": [
+        "m-walking-stepping-into-your-future",
+        "m-walking-stepping-into-your-future-updated",
+        "m-walking-with-the-devine",
+        "m-walking-with-the-devine-updated",
+        "m-walking-with-heart-full-mind",
+        "m-walking-body-electric",
+        "m-walking-conditioning-body",
+        "m-walking-noble-walk",
+        "m-walking-unlocking-code",
+        "m-walking-prayer-evocation-invocation",
+        "m-walking-radiant-light",
+        "m-walking-running",
+        "m-walking-for-the-world",
+        "m-walking-changing-boxes"
+      ]
+    },
+    "synchronize-series": {
+      "groupName": "Synchronize Series",
+      "displayOrder": 8,
+      "meditationIds": [
+        "m-sync-health",
+        "m-sync-energy-to-new-life",
+        "m-sync-abundance",
+        "m-sync-energy-to-love"
+      ]
+    },
+    "unlocked-series": {
+      "groupName": "Unlocked Series",
+      "displayOrder": 9,
+      "meditationIds": [
+        "m-unlocked-s1-p3",
+        "m-unlocked-s2-p3",
+        "m-unlocked-s3-p3",
+        "m-unlocked-s4-p3"
+      ]
+    },
+    "count-your-blessings": {
+      "groupName": "Count Your Blessings",
+      "displayOrder": 4,
+      "meditationIds": [
+        "m-count-your-blessings-1",
+        "m-count-your-blessings-2",
+        "m-count-your-blessings-3",
+        "m-count-your-blessings-4",
+        "m-count-your-blessings-5",
+        "m-count-your-blessings-6",
+        "m-count-your-blessings-7",
+        "m-count-your-blessings-8"
+      ]
+    },
+    "other": {
+      "groupName": "Other",
+      "displayOrder": 11,
+      "meditationIds": [
+        "m-alchemist",
+        "m-changing-boxes",
+        "m-changing-boxes-sv",
+        "m-go-love",
+        "m-higher-love-couples",
+        "m-love-life-you-love",
+        "m-turning-your-love-inward",
+        "m-heart-brain-sync",
+        "m-courageous-heart",
+        "m-breaking-habits-addictions",
+        "m-empowering-within",
+        "m-pineal-gland-long",
+        "m-pineal-gland-short",
+        "m-falling-into-love-body",
+        "m-tune-in-with-your-heart",
+        "m-center-of-the-magnet",
+        "m-outpicturing",
+        "m-life-love-mystical",
+        "m-changing-boxes-live-meilan",
+        "m-wholy-days",
+        "m-love-your-body"
+      ]
+    }
+  },
+  "meditations": {
+    "m-botec-1": {
+      "meditationBaseId": "m-botec-1",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-1",
+      "formattedDuration": "42",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 01",
+      "type": 0
+    },
+    "m-botec-1-updated": {
+      "meditationBaseId": "m-botec-1-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-1",
+      "formattedDuration": "48",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 01 - Updated",
+      "type": 0
+    },
+    "m-botec-2": {
+      "meditationBaseId": "m-botec-2",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-2",
+      "formattedDuration": "47",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 02",
+      "type": 0
+    },
+    "m-botec-2-updated": {
+      "meditationBaseId": "m-botec-2-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-2",
+      "formattedDuration": "49",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 02 - Updated",
+      "type": 0
+    },
+    "m-botec-3": {
+      "meditationBaseId": "m-botec-3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-3",
+      "formattedDuration": "54",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 03",
+      "type": 0
+    },
+    "m-botec-3-updated": {
+      "meditationBaseId": "m-botec-3-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-3",
+      "formattedDuration": "54",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 03 - Updated",
+      "type": 0
+    },
+    "m-botec-4": {
+      "meditationBaseId": "m-botec-4",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-4",
+      "formattedDuration": "65",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 04",
+      "type": 0
+    },
+    "m-botec-5": {
+      "meditationBaseId": "m-botec-5",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-5",
+      "formattedDuration": "71",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 05",
+      "type": 0
+    },
+    "m-botec-6": {
+      "meditationBaseId": "m-botec-6",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-6",
+      "formattedDuration": "75",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 06",
+      "type": 0
+    },
+    "m-botec-7": {
+      "meditationBaseId": "m-botec-7",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-7",
+      "formattedDuration": "74",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 07",
+      "type": 0
+    },
+    "m-botec-8": {
+      "meditationBaseId": "m-botec-8",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-8",
+      "formattedDuration": "94",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 08",
+      "type": 0
+    },
+    "m-botec-9": {
+      "meditationBaseId": "m-botec-9",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-9",
+      "formattedDuration": "88",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 09",
+      "type": 0
+    },
+    "m-botec-10": {
+      "meditationBaseId": "m-botec-10",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "bec-10",
+      "formattedDuration": "62",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessing of the Energy Centers 10",
+      "type": 0
+    },
+    "m-botec-11": {
+      "meditationBaseId": "m-botec-11",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "blessings-from-the-brain",
+      "formattedDuration": "73",
+      "groupName": "Blessing of the Energy Centers",
+      "name": "Blessings From the Brain - Blessing of the Energy Centers 11",
+      "type": 0
+    },
+    "m-breaking-habit-space": {
+      "meditationBaseId": "m-breaking-habit-space",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "breaking_habit",
+      "formattedDuration": "74",
+      "groupName": "Breaking the Habit of Being Yourself",
+      "name": "Breaking The Habit Of Being Yourself",
+      "type": 0
+    },
+    "m-breaking-habit-water": {
+      "meditationBaseId": "m-breaking-habit-water",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "breaking_habit",
+      "formattedDuration": "70",
+      "groupName": "Breaking the Habit of Being Yourself",
+      "name": "Breaking The Habit Of Being Yourself - Water",
+      "type": 0
+    },
+    "m-breaking-habit-water-updated": {
+      "meditationBaseId": "m-breaking-habit-water-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "breaking_habit",
+      "formattedDuration": "70",
+      "groupName": "Breaking the Habit of Being Yourself",
+      "name": "Breaking The Habit Of Being Yourself - Water - Updated",
+      "type": 0
+    },
+    "m-breaking-habit-placebo": {
+      "meditationBaseId": "m-breaking-habit-placebo",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "placebo",
+      "formattedDuration": "69",
+      "groupName": "Breaking the Habit of Being Yourself",
+      "name": "You are the Placebo",
+      "type": 0
+    },
+    "m-morning": {
+      "meditationBaseId": "m-morning",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "daily",
+      "formattedDuration": "24",
+      "groupName": "Daily Meditations",
+      "name": "Daily Morning",
+      "type": 0
+    },
+    "m-morning-updated": {
+      "meditationBaseId": "m-morning-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "daily",
+      "formattedDuration": "24",
+      "groupName": "Daily Meditations",
+      "name": "Daily Morning - Updated",
+      "type": 0
+    },
+    "m-evening": {
+      "meditationBaseId": "m-evening",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "daily",
+      "formattedDuration": "24",
+      "groupName": "Daily Meditations",
+      "name": "Daily Evening",
+      "type": 0
+    },
+    "m-evening-updated": {
+      "meditationBaseId": "m-evening-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "daily",
+      "formattedDuration": "23",
+      "groupName": "Daily Meditations",
+      "name": "Daily Evening - Updated",
+      "type": 0
+    },
+    "m-generating-abundance": {
+      "meditationBaseId": "m-generating-abundance",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "abundance",
+      "formattedDuration": "60",
+      "groupName": "Generating Series",
+      "name": "Generating Abundance",
+      "type": 0
+    },
+    "m-generating-flow": {
+      "meditationBaseId": "m-generating-flow",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "flow",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Flow",
+      "type": 0
+    },
+    "m-generating-gratitude": {
+      "meditationBaseId": "m-generating-gratitude",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "gratitude",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Gratitude",
+      "type": 0
+    },
+    "m-generating-empowerment": {
+      "meditationBaseId": "m-generating-empowerment",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "empowerment",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Empowerment",
+      "type": 0
+    },
+    "m-generating-change": {
+      "meditationBaseId": "m-generating-change",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "change",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Change",
+      "type": 0
+    },
+    "m-generating-inspiration": {
+      "meditationBaseId": "m-generating-inspiration",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspiration",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Inspiration",
+      "type": 0
+    },
+    "m-generating-joy": {
+      "meditationBaseId": "m-generating-joy",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "generate-joy",
+      "formattedDuration": "15",
+      "groupName": "Generating Series",
+      "name": "Generating Joy",
+      "type": 0
+    },
+    "b-new-potentials": {
+      "meditationBaseId": "b-new-potentials",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "new_potential",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Tuning Into New Potentials - Breath",
+      "type": 1
+    },
+    "b-new-potentials-updated": {
+      "meditationBaseId": "b-new-potentials-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "new_potential",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Tuning Into New Potentials - Breath - Updated",
+      "type": 1
+    },
+    "b-reconditioning": {
+      "meditationBaseId": "b-reconditioning",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "recondition",
+      "formattedDuration": "8",
+      "groupName": "Breathwork",
+      "name": "Tuning Into New Potentials - Breath - Updated",
+      "type": 1
+    },
+    "b-changing-beliefs-and-perceptions": {
+      "meditationBaseId": "b-changing-beliefs-and-perceptions",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-beliefs-and-perceptions",
+      "formattedDuration": "12",
+      "groupName": "Breathwork",
+      "name": "Changing Beliefs and Perceptions - Breath",
+      "type": 1
+    },
+    "b-inspire-tribal-trance": {
+      "meditationBaseId": "b-inspire-tribal-trance",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "5",
+      "groupName": "Breathwork",
+      "name": "Inspire - Tribal Trance",
+      "type": 1
+    },
+    "b-inspire-emerging-heart": {
+      "meditationBaseId": "b-inspire-emerging-heart",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "8",
+      "groupName": "Breathwork",
+      "name": "Inspire - Emerging Heart",
+      "type": 1
+    },
+    "b-inspire-suenos-selva": {
+      "meditationBaseId": "b-inspire-suenos-selva",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "5",
+      "groupName": "Breathwork",
+      "name": "Inspire - Sueños de la Selva",
+      "type": 1
+    },
+    "b-inspire-inferno": {
+      "meditationBaseId": "b-inspire-inferno",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "5",
+      "groupName": "Breathwork",
+      "name": "Inspire - Inferno",
+      "type": 1
+    },
+    "b-inspire-refuge": {
+      "meditationBaseId": "b-inspire-refuge",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "8",
+      "groupName": "Breathwork",
+      "name": "Inspire - Refuge",
+      "type": 1
+    },
+    "b-inspire-king-fisher": {
+      "meditationBaseId": "b-inspire-king-fisher",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Inspire - Kingfisher",
+      "type": 1
+    },
+    "b-inspire-shaman-goddess": {
+      "meditationBaseId": "b-inspire-shaman-goddess",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "5",
+      "groupName": "Breathwork",
+      "name": "Inspire - Shaman Goddess",
+      "type": 1
+    },
+    "b-inspire-cleansing": {
+      "meditationBaseId": "b-inspire-cleansing",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Inspire - Cleansing",
+      "type": 1
+    },
+    "b-inspire-breathing-life": {
+      "meditationBaseId": "b-inspire-breathing-life",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-breath",
+      "formattedDuration": "6",
+      "groupName": "Breathwork",
+      "name": "Inspire - Breathing Life",
+      "type": 1
+    },
+    "b-inspire-v2-warmth-sun": {
+      "meditationBaseId": "b-inspire-v2-warmth-sun",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Warmth of the Sun\\",
+      "type": 1
+    },
+    "b-inspire-v2-olorum": {
+      "meditationBaseId": "b-inspire-v2-olorum",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "6",
+      "groupName": "Breathwork",
+      "name": "Olorum",
+      "type": 1
+    },
+    "b-inspire-v2-riding-through": {
+      "meditationBaseId": "b-inspire-v2-riding-through",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Riding Through",
+      "type": 1
+    },
+    "b-inspire-v2-merging": {
+      "meditationBaseId": "b-inspire-v2-merging",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Merging",
+      "type": 1
+    },
+    "b-inspire-v2-overgrown": {
+      "meditationBaseId": "b-inspire-v2-overgrown",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "9",
+      "groupName": "Breathwork",
+      "name": "Overgrown",
+      "type": 1
+    },
+    "b-inspire-v2-moyayaj": {
+      "meditationBaseId": "b-inspire-v2-moyayaj",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Moyayaj",
+      "type": 1
+    },
+    "b-inspire-v2-inhalation": {
+      "meditationBaseId": "b-inspire-v2-inhalation",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "6",
+      "groupName": "Breathwork",
+      "name": "Inhalation",
+      "type": 1
+    },
+    "b-inspire-v2-fire-gathering": {
+      "meditationBaseId": "b-inspire-v2-fire-gathering",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "6",
+      "groupName": "Breathwork",
+      "name": "Fire Gathering",
+      "type": 1
+    },
+    "b-inspire-v2-cosmic-heart": {
+      "meditationBaseId": "b-inspire-v2-cosmic-heart",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "6",
+      "groupName": "Breathwork",
+      "name": "Opening the Cosmic Heart",
+      "type": 1
+    },
+    "b-inspire-v2-prana-soundscapes": {
+      "meditationBaseId": "b-inspire-v2-prana-soundscapes",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "7",
+      "groupName": "Breathwork",
+      "name": "Prana Soundscapes",
+      "type": 1
+    },
+    "b-inspire-v2-continuous-mix": {
+      "meditationBaseId": "b-inspire-v2-continuous-mix",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "inspire-v2",
+      "formattedDuration": "65",
+      "groupName": "Breathwork",
+      "name": "Inspire V2 Continuous Breath Mix",
+      "type": 1
+    },
+    "m-new-potentials": {
+      "meditationBaseId": "m-new-potentials",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "new_potential",
+      "formattedDuration": "45",
+      "groupName": "Foundational - Progressive",
+      "name": "Tuning Into New Potentials",
+      "type": 0
+    },
+    "m-new-potentials-updated": {
+      "meditationBaseId": "m-new-potentials-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "new_potential",
+      "formattedDuration": "45",
+      "groupName": "Foundational - Progressive",
+      "name": "Tuning Into New Potentials - Updated",
+      "type": 0
+    },
+    "m-present-moment": {
+      "meditationBaseId": "m-present-moment",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "present_moment",
+      "formattedDuration": "47",
+      "groupName": "Foundational - Progressive",
+      "name": "Generous Present Moment",
+      "type": 0
+    },
+    "m-recondition": {
+      "meditationBaseId": "m-recondition",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "recondition",
+      "formattedDuration": "46",
+      "groupName": "Foundational - Progressive",
+      "name": "Reconditioning the Body to a New Mind",
+      "type": 0
+    },
+    "m-changing-beliefs-and-perceptions": {
+      "meditationBaseId": "m-changing-beliefs-and-perceptions",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-beliefs-and-perceptions",
+      "formattedDuration": "44",
+      "groupName": "Foundational - Progressive",
+      "name": "Changing Beliefs and Perceptions - Meditation",
+      "type": 0
+    },
+    "m-changing-beliefs-and-perceptions-full": {
+      "meditationBaseId": "m-changing-beliefs-and-perceptions-full",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-beliefs-and-perceptions",
+      "formattedDuration": "57",
+      "groupName": "Foundational - Progressive",
+      "name": "Changing Beliefs and Perceptions - Breath and Meditation",
+      "type": 0
+    },
+    "m-walking-stepping-into-your-future": {
+      "meditationBaseId": "m-walking-stepping-into-your-future",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-1",
+      "formattedDuration": "76",
+      "groupName": "Walking",
+      "name": "Walking Meditation 01 - Stepping into Your Future",
+      "type": 0
+    },
+    "m-walking-stepping-into-your-future-updated": {
+      "meditationBaseId": "m-walking-stepping-into-your-future-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-1",
+      "formattedDuration": "76",
+      "groupName": "Walking",
+      "name": "Walking Meditation 01 - Stepping Into Your Future - Updated",
+      "type": 0
+    },
+    "m-walking-with-the-devine": {
+      "meditationBaseId": "m-walking-with-the-devine",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-2",
+      "formattedDuration": "61",
+      "groupName": "Walking",
+      "name": "Walking Meditation 02 - Walking with the Divine",
+      "type": 0
+    },
+    "m-walking-with-the-devine-updated": {
+      "meditationBaseId": "m-walking-with-the-devine-updated",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-2",
+      "formattedDuration": "61",
+      "groupName": "Walking",
+      "name": "Walking Meditation 02 - Walking with the Divine - Updated",
+      "type": 0
+    },
+    "m-walking-with-heart-full-mind": {
+      "meditationBaseId": "m-walking-with-heart-full-mind",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-generic",
+      "formattedDuration": "61",
+      "groupName": "Walking",
+      "name": "Walking Meditation 02 - Walking with the Divine - Updated",
+      "type": 0
+    },
+    "m-walking-body-electric": {
+      "meditationBaseId": "m-walking-body-electric",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-generic",
+      "formattedDuration": "77",
+      "groupName": "Walking",
+      "name": "Walking Meditation 11 - Body Electric",
+      "type": 0
+    },
+    "m-walking-conditioning-body": {
+      "meditationBaseId": "m-walking-conditioning-body",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-condition-body",
+      "formattedDuration": "77",
+      "groupName": "Walking",
+      "name": "Walking Meditation 04 - Conditioning the Body to a New Mind",
+      "type": 0
+    },
+    "m-walking-noble-walk": {
+      "meditationBaseId": "m-walking-noble-walk",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-condition-body",
+      "formattedDuration": "67",
+      "groupName": "Walking",
+      "name": "Walking Meditation 09 - The Noble Walk",
+      "type": 0
+    },
+    "m-walking-unlocking-code": {
+      "meditationBaseId": "m-walking-unlocking-code",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-unlocking-code",
+      "formattedDuration": "73",
+      "groupName": "Walking",
+      "name": "Walking Meditation 05 - Unlocking the Code",
+      "type": 0
+    },
+    "m-walking-prayer-evocation-invocation": {
+      "meditationBaseId": "m-walking-prayer-evocation-invocation",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-prayer-evo-invo",
+      "formattedDuration": "75",
+      "groupName": "Walking",
+      "name": "Walking Meditation 06 - Prayer of Evocation & Invocation",
+      "type": 0
+    },
+    "m-walking-radiant-light": {
+      "meditationBaseId": "m-walking-radiant-light",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-generic",
+      "formattedDuration": "68",
+      "groupName": "Walking",
+      "name": "Walking Meditation 12 - Walking In Radiant Light",
+      "type": 0
+    },
+    "m-walking-running": {
+      "meditationBaseId": "m-walking-running",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-generic",
+      "formattedDuration": "45",
+      "groupName": "Walking",
+      "name": "Walking Meditation - Running",
+      "type": 0
+    },
+    "m-walking-for-the-world": {
+      "meditationBaseId": "m-walking-for-the-world",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wm-walk-for-the-world",
+      "formattedDuration": "50",
+      "groupName": "Walking",
+      "name": "Walking Meditation - Walk for the World",
+      "type": 0
+    },
+    "m-walking-changing-boxes": {
+      "meditationBaseId": "m-walking-changing-boxes",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-boxes-walking",
+      "formattedDuration": "75",
+      "groupName": "Walking",
+      "name": "Changing Boxes Walking Meditation",
+      "type": 0
+    },
+    "m-sync-health": {
+      "meditationBaseId": "m-sync-health",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "sync-energy-to-health",
+      "formattedDuration": "79",
+      "groupName": "Synchronize Series",
+      "name": "Synchronizing Your Energy To Health",
+      "type": 0
+    },
+    "m-sync-energy-to-new-life": {
+      "meditationBaseId": "m-sync-energy-to-new-life",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "sync-new-life",
+      "formattedDuration": "85",
+      "groupName": "Synchronize Series",
+      "name": "Synchronizing Your Energy To New Life",
+      "type": 0
+    },
+    "m-sync-abundance": {
+      "meditationBaseId": "m-sync-abundance",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "sync-to-abundance",
+      "formattedDuration": "74",
+      "groupName": "Synchronize Series",
+      "name": "Synchronizing Your Energy To Abundance",
+      "type": 0
+    },
+    "m-sync-energy-to-love": {
+      "meditationBaseId": "m-sync-energy-to-love",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "sync-energy-to-love",
+      "formattedDuration": "82",
+      "groupName": "Synchronize Series",
+      "name": "Synchronizing Your Energy To Love",
+      "type": 0
+    },
+    "m-unlocked-s1-p3": {
+      "meditationBaseId": "m-unlocked-s1-p3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "unlocked",
+      "formattedDuration": "",
+      "groupName": "Unlocked Series",
+      "name": "Unlocked - Session 1 - Part 3",
+      "type": 0
+    },
+    "m-unlocked-s2-p3": {
+      "meditationBaseId": "m-unlocked-s2-p3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "unlocked",
+      "formattedDuration": "",
+      "groupName": "Unlocked Series",
+      "name": "Unlocked- Session 2 - Part 3",
+      "type": 0
+    },
+    "m-unlocked-s3-p3": {
+      "meditationBaseId": "m-unlocked-s3-p3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "unlocked",
+      "formattedDuration": "",
+      "groupName": "Unlocked Series",
+      "name": "Unlocked - Session 3 - Part 3",
+      "type": 0
+    },
+    "m-unlocked-s4-p3": {
+      "meditationBaseId": "m-unlocked-s4-p3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "unlocked",
+      "formattedDuration": "",
+      "groupName": "Unlocked Series",
+      "name": "Unlocked - Session 4 - Part 3",
+      "type": 0
+    },
+    "m-count-your-blessings-1": {
+      "meditationBaseId": "m-count-your-blessings-1",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "29",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 1",
+      "type": 0
+    },
+    "m-count-your-blessings-2": {
+      "meditationBaseId": "m-count-your-blessings-2",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "26",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 2",
+      "type": 0
+    },
+    "m-count-your-blessings-3": {
+      "meditationBaseId": "m-count-your-blessings-3",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "30",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 3",
+      "type": 0
+    },
+    "m-count-your-blessings-4": {
+      "meditationBaseId": "m-count-your-blessings-4",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "26",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 4",
+      "type": 0
+    },
+    "m-count-your-blessings-5": {
+      "meditationBaseId": "m-count-your-blessings-5",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "23",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 5",
+      "type": 0
+    },
+    "m-count-your-blessings-6": {
+      "meditationBaseId": "m-count-your-blessings-6",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "30",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 6",
+      "type": 0
+    },
+    "m-count-your-blessings-7": {
+      "meditationBaseId": "m-count-your-blessings-7",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "30",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 7",
+      "type": 0
+    },
+    "m-count-your-blessings-8": {
+      "meditationBaseId": "m-count-your-blessings-8",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "count-your-blessings",
+      "formattedDuration": "25",
+      "groupName": "Count Your Blessings",
+      "name": "Count Your Blessings 8",
+      "type": 0
+    },
+    "m-alchemist": {
+      "meditationBaseId": "m-alchemist",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "alchemist",
+      "formattedDuration": "61",
+      "groupName": "Other",
+      "name": "The Alchemist",
+      "type": 0
+    },
+    "m-changing-boxes": {
+      "meditationBaseId": "m-changing-boxes",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-boxes",
+      "formattedDuration": "63",
+      "groupName": "Other",
+      "name": "Changing Boxes",
+      "type": 0
+    },
+    "m-changing-boxes-sv": {
+      "meditationBaseId": "m-changing-boxes-sv",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-boxes-short-version",
+      "formattedDuration": "21",
+      "groupName": "Other",
+      "name": "Changing Boxes - Short Version",
+      "type": 0
+    },
+    "m-go-love": {
+      "meditationBaseId": "m-go-love",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "go-love",
+      "formattedDuration": "16",
+      "groupName": "Other",
+      "name": "Go Love 20",
+      "type": 0
+    },
+    "m-higher-love-couples": {
+      "meditationBaseId": "m-higher-love-couples",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "higher-love-couples",
+      "formattedDuration": "33",
+      "groupName": "Other",
+      "name": "Higher Love for Couples",
+      "type": 0
+    },
+    "m-love-life-you-love": {
+      "meditationBaseId": "m-love-life-you-love",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "lovelifeyoulove",
+      "formattedDuration": "31",
+      "groupName": "Other",
+      "name": "Love The Life You Love",
+      "type": 0
+    },
+    "m-turning-your-love-inward": {
+      "meditationBaseId": "m-turning-your-love-inward",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "turning-love-inward",
+      "formattedDuration": "20",
+      "groupName": "Other",
+      "name": "Turning Your Love Inward",
+      "type": 0,
+      "color": "#003E54"
+    },
+    "m-heart-brain-sync": {
+      "meditationBaseId": "m-heart-brain-sync",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "heart-brain",
+      "formattedDuration": "34",
+      "groupName": "Other",
+      "name": "Heart and Brain Sync",
+      "type": 0
+    },
+    "m-courageous-heart": {
+      "meditationBaseId": "m-courageous-heart",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "courageous-heart",
+      "formattedDuration": "37",
+      "groupName": "Other",
+      "name": "Courageous Heart",
+      "type": 0
+    },
+    "m-breaking-habits-addictions": {
+      "meditationBaseId": "m-breaking-habits-addictions",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "habits-addictions",
+      "formattedDuration": "60",
+      "groupName": "Other",
+      "name": "Breaking Habits and Addictions",
+      "type": 0
+    },
+    "m-empowering-within": {
+      "meditationBaseId": "m-empowering-within",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "empower-within",
+      "formattedDuration": "39",
+      "groupName": "Other",
+      "name": "Empowering the Power Within",
+      "type": 0
+    },
+    "m-pineal-gland-long": {
+      "meditationBaseId": "m-pineal-gland-long",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "pineal-gland",
+      "formattedDuration": "83",
+      "groupName": "Other",
+      "name": "Pineal Gland - Long",
+      "type": 0
+    },
+    "m-pineal-gland-short": {
+      "meditationBaseId": "m-pineal-gland-short",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "pineal-gland",
+      "formattedDuration": "64",
+      "groupName": "Other",
+      "name": "Pineal Gland - Short",
+      "type": 0
+    },
+    "m-falling-into-love-body": {
+      "meditationBaseId": "m-falling-into-love-body",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "falling-into-love-body",
+      "formattedDuration": "36",
+      "groupName": "Other",
+      "name": "Falling into Love with Your Body",
+      "type": 0
+    },
+    "m-tune-in-with-your-heart": {
+      "meditationBaseId": "m-tune-in-with-your-heart",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "tune-in-with-your-heart",
+      "formattedDuration": "30",
+      "groupName": "Other",
+      "name": "Tuning In With Your Heart",
+      "type": 0
+    },
+    "m-center-of-the-magnet": {
+      "meditationBaseId": "m-center-of-the-magnet",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "center-of-the-magnet",
+      "formattedDuration": "160",
+      "groupName": "Other",
+      "name": "Center of the Magnet",
+      "type": 0
+    },
+    "m-outpicturing": {
+      "meditationBaseId": "m-outpicturing",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "outpicturing",
+      "formattedDuration": "28",
+      "groupName": "Other",
+      "name": "Outpicturing",
+      "type": 0
+    },
+    "m-life-love-mystical": {
+      "meditationBaseId": "m-life-love-mystical",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "life-love-and-the-mystical",
+      "formattedDuration": "24",
+      "groupName": "Other",
+      "name": "Life, Love, and the Mystical",
+      "type": 0
+    },
+    "m-changing-boxes-live-meilan": {
+      "meditationBaseId": "m-changing-boxes-live-meilan",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "changing-boxes-short-mei-lan",
+      "formattedDuration": "29",
+      "groupName": "Other",
+      "name": "Changing Boxes - Short - Live with Mei-lan",
+      "type": 0
+    },
+    "m-wholy-days": {
+      "meditationBaseId": "m-wholy-days",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "wholly-days",
+      "formattedDuration": "17",
+      "groupName": "Other",
+      "name": "Wholly Days",
+      "type": 0
+    },
+    "m-love-your-body": {
+      "meditationBaseId": "m-love-your-body",
+      "artist": "Dr. Joe Dispenza",
+      "backgroundImageKey": "love-your-body",
+      "formattedDuration": "29",
+      "groupName": "Other",
+      "name": "Love Your Body",
+      "type": 0
+    }
+  }
+}

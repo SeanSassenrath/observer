@@ -16,7 +16,7 @@ import Toast from 'react-native-toast-message';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {brightWhite} from '../constants/colors';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import PlaylistContext from '../contexts/playlist';
 
@@ -55,6 +55,8 @@ const ReassignFileScreen = () => {
   const affectedPlaylists = Object.values(playlists).filter(p =>
     p.meditationIds.includes(meditationId),
   );
+
+  const meditationBaseMap = getFullMeditationCatalogSync();
 
   // Get current meditation name (try context first, then fallback to full map)
   const currentMeditation =

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
-import {MeditationBase, MeditationBaseMap} from '../types';
+import {MeditationBaseMap} from '../types';
 import {meditationBaseMap as staticFallback} from '../constants/meditation-data';
 import {getBackgroundImage} from '../constants/meditationImageRegistry';
 

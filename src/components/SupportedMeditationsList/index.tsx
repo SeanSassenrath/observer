@@ -2,10 +2,11 @@ import {FlatList, StyleSheet} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components/ui';
 import {uniq} from 'lodash';
 
-import {meditationBaseMap} from '../../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../../services/meditationCatalog';
 
 const SupportedMeditationsList = () => {
   const makeSupportedMeditationData = () => {
+    const meditationBaseMap = getFullMeditationCatalogSync();
     const nameList = [];
 
     for (const key in meditationBaseMap) {

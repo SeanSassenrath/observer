@@ -3,7 +3,7 @@ import {ScrollView, StyleSheet} from 'react-native';
 import {Layout, Text} from '@ui-kitten/components';
 
 import {CardV4, EmptyCard} from './Card';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {MeditationBase, MeditationId} from '../types';
 import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
 
@@ -47,6 +47,7 @@ export const MeditationList = ({
   selectedCardId,
   existingMeditationFilePathData,
 }: MeditationListProps) => {
+  const meditationBaseMap = getFullMeditationCatalogSync();
   return (
     <Layout
       style={isMini ? styles.containerMini : styles.container}

@@ -7,7 +7,7 @@ import * as StoreReview from 'react-native-store-review';
 import {TopMeditations} from '../components/TopMeditations';
 import {TimeInMeditationChart} from '../components/TimeInMeditationChart';
 import UserContext from '../contexts/userData';
-import {meditationBaseMap} from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {Streaks} from '../components/Streaks';
 import {
   checkStreakData,
@@ -182,7 +182,7 @@ const InsightScreen = () => {
   }
 
   const renderListItem = ({item, index}: ListItem) => {
-    const meditation = meditationBaseMap[item.meditationBaseId];
+    const meditation = getFullMeditationCatalogSync()[item.meditationBaseId];
 
     return (
       <Layout style={styles.listItem} key={index}>

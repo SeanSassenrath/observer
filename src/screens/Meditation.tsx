@@ -14,8 +14,8 @@ import {
 import {
   MeditationGroupName,
   breathMap,
-  meditationBaseMap,
 } from '../constants/meditation-data';
+import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import MeditationSessionContext from '../contexts/meditationSession';
@@ -83,6 +83,7 @@ const MeditationScreen = ({
   const {id, playlistId} = route.params;
   const styles = useStyleSheet(themedStyles);
 
+  const meditationBaseMap = getFullMeditationCatalogSync();
   const meditation = meditationBaseMap[id];
 
   const affectedPlaylists = Object.values(playlists).filter(p =>
