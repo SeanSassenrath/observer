@@ -7,7 +7,7 @@ import {
   MeditationFilePathData,
   setMeditationFilePathDataInAsyncStorage,
 } from './asyncStorageMeditation';
-import {makeFilePathDataList} from './filePicker';
+import {makeFilePathDataList} from '../services/matchingService';
 import {makeMeditationBaseData} from './meditation';
 import {meditationAddSendEvent, Action, Noun} from '../analytics';
 import {MeditationBaseMap, UnknownFileData} from '../types';

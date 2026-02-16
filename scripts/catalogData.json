@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "updatedAt": "2026-02-16T17:33:04.105Z",
+  "version": 2,
+  "updatedAt": "2026-02-16T18:58:06.208Z",
   "groups": {
     "blessing-of-the-energy-centers": {
       "groupName": "Blessing of the Energy Centers",
@@ -187,7 +187,12 @@
       "formattedDuration": "42",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 01",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "61719"
+        ]
+      }
     },
     "m-botec-1-updated": {
       "meditationBaseId": "m-botec-1-updated",
@@ -196,7 +201,13 @@
       "formattedDuration": "48",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 01 - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "46805",
+          "69591"
+        ]
+      }
     },
     "m-botec-2": {
       "meditationBaseId": "m-botec-2",
@@ -205,7 +216,12 @@
       "formattedDuration": "47",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 02",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "69705"
+        ]
+      }
     },
     "m-botec-2-updated": {
       "meditationBaseId": "m-botec-2-updated",
@@ -214,7 +230,13 @@
       "formattedDuration": "49",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 02 - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "48109",
+          "71520"
+        ]
+      }
     },
     "m-botec-3": {
       "meditationBaseId": "m-botec-3",
@@ -223,7 +245,12 @@
       "formattedDuration": "54",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 03",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "77717"
+        ]
+      }
     },
     "m-botec-3-updated": {
       "meditationBaseId": "m-botec-3-updated",
@@ -232,7 +259,12 @@
       "formattedDuration": "54",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 03 - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "52464"
+        ]
+      }
     },
     "m-botec-4": {
       "meditationBaseId": "m-botec-4",
@@ -241,7 +273,13 @@
       "formattedDuration": "65",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 04",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "93864",
+          "63072"
+        ]
+      }
     },
     "m-botec-5": {
       "meditationBaseId": "m-botec-5",
@@ -250,7 +288,13 @@
       "formattedDuration": "71",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 05",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10421",
+          "68575"
+        ]
+      }
     },
     "m-botec-6": {
       "meditationBaseId": "m-botec-6",
@@ -259,7 +303,14 @@
       "formattedDuration": "75",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 06",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "11010",
+          "73078",
+          "93829"
+        ]
+      }
     },
     "m-botec-7": {
       "meditationBaseId": "m-botec-7",
@@ -268,7 +319,13 @@
       "formattedDuration": "74",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 07",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10765",
+          "72338"
+        ]
+      }
     },
     "m-botec-8": {
       "meditationBaseId": "m-botec-8",
@@ -277,7 +334,13 @@
       "formattedDuration": "94",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 08",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "13596",
+          "91332"
+        ]
+      }
     },
     "m-botec-9": {
       "meditationBaseId": "m-botec-9",
@@ -286,7 +349,14 @@
       "formattedDuration": "88",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 09",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "21175",
+          "14923",
+          "85552"
+        ]
+      }
     },
     "m-botec-10": {
       "meditationBaseId": "m-botec-10",
@@ -295,7 +365,13 @@
       "formattedDuration": "62",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessing of the Energy Centers 10",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "13820",
+          "55797"
+        ]
+      }
     },
     "m-botec-11": {
       "meditationBaseId": "m-botec-11",
@@ -304,7 +380,12 @@
       "formattedDuration": "73",
       "groupName": "Blessing of the Energy Centers",
       "name": "Blessings From the Brain - Blessing of the Energy Centers 11",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/blessings?[\\s\\-_]*from[\\s\\-_]*(the[\\s\\-_]*)?brain|blessings?[\\s\\-_]*(of[\\s\\-_]*)?(the[\\s\\-_]*)?energy[\\s\\-_]*centers?[\\s\\-_]*(11|xi|eleven)/i"
+        ]
+      }
     },
     "m-breaking-habit-space": {
       "meditationBaseId": "m-breaking-habit-space",
@@ -313,7 +394,12 @@
       "formattedDuration": "74",
       "groupName": "Breaking the Habit of Being Yourself",
       "name": "Breaking The Habit Of Being Yourself",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          149360649
+        ]
+      }
     },
     "m-breaking-habit-water": {
       "meditationBaseId": "m-breaking-habit-water",
@@ -322,7 +408,12 @@
       "formattedDuration": "70",
       "groupName": "Breaking the Habit of Being Yourself",
       "name": "Breaking The Habit Of Being Yourself - Water",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          140710975
+        ]
+      }
     },
     "m-breaking-habit-water-updated": {
       "meditationBaseId": "m-breaking-habit-water-updated",
@@ -331,7 +422,12 @@
       "formattedDuration": "70",
       "groupName": "Breaking the Habit of Being Yourself",
       "name": "Breaking The Habit Of Being Yourself - Water - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          169398605
+        ]
+      }
     },
     "m-breaking-habit-placebo": {
       "meditationBaseId": "m-breaking-habit-placebo",
@@ -340,7 +436,12 @@
       "formattedDuration": "69",
       "groupName": "Breaking the Habit of Being Yourself",
       "name": "You are the Placebo",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "58249"
+        ]
+      }
     },
     "m-morning": {
       "meditationBaseId": "m-morning",
@@ -349,7 +450,15 @@
       "formattedDuration": "24",
       "groupName": "Daily Meditations",
       "name": "Daily Morning",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          34907925
+        ],
+        "knownStringSizes": [
+          "23187"
+        ]
+      }
     },
     "m-morning-updated": {
       "meditationBaseId": "m-morning-updated",
@@ -358,7 +467,13 @@
       "formattedDuration": "24",
       "groupName": "Daily Meditations",
       "name": "Daily Morning - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "33578",
+          "57534"
+        ]
+      }
     },
     "m-evening": {
       "meditationBaseId": "m-evening",
@@ -367,7 +482,15 @@
       "formattedDuration": "24",
       "groupName": "Daily Meditations",
       "name": "Daily Evening",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          34099801
+        ],
+        "knownStringSizes": [
+          "22604"
+        ]
+      }
     },
     "m-evening-updated": {
       "meditationBaseId": "m-evening-updated",
@@ -376,7 +499,15 @@
       "formattedDuration": "23",
       "groupName": "Daily Meditations",
       "name": "Daily Evening - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "29178",
+          "56234",
+          "88207",
+          "77225"
+        ]
+      }
     },
     "m-generating-abundance": {
       "meditationBaseId": "m-generating-abundance",
@@ -385,7 +516,13 @@
       "formattedDuration": "60",
       "groupName": "Generating Series",
       "name": "Generating Abundance",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "86671",
+          "58213"
+        ]
+      }
     },
     "m-generating-flow": {
       "meditationBaseId": "m-generating-flow",
@@ -394,7 +531,13 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Flow",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          14599092,
+          36484250
+        ]
+      }
     },
     "m-generating-gratitude": {
       "meditationBaseId": "m-generating-gratitude",
@@ -403,7 +546,14 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Gratitude",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "14594",
+          "36493",
+          "27173"
+        ]
+      }
     },
     "m-generating-empowerment": {
       "meditationBaseId": "m-generating-empowerment",
@@ -412,7 +562,14 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Empowerment",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "14596",
+          "14578",
+          "36498"
+        ]
+      }
     },
     "m-generating-change": {
       "meditationBaseId": "m-generating-change",
@@ -421,7 +578,13 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Change",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          14599015,
+          36503450
+        ]
+      }
     },
     "m-generating-inspiration": {
       "meditationBaseId": "m-generating-inspiration",
@@ -430,7 +593,13 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Inspiration",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "15099",
+          "37713"
+        ]
+      }
     },
     "m-generating-joy": {
       "meditationBaseId": "m-generating-joy",
@@ -439,7 +608,13 @@
       "formattedDuration": "15",
       "groupName": "Generating Series",
       "name": "Generating Joy",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "14593",
+          "36479"
+        ]
+      }
     },
     "b-new-potentials": {
       "meditationBaseId": "b-new-potentials",
@@ -448,7 +623,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Tuning Into New Potentials - Breath",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownFileSizes": [
+          9674897
+        ]
+      }
     },
     "b-new-potentials-updated": {
       "meditationBaseId": "b-new-potentials-updated",
@@ -457,7 +637,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Tuning Into New Potentials - Breath - Updated",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "17014"
+        ]
+      }
     },
     "b-reconditioning": {
       "meditationBaseId": "b-reconditioning",
@@ -466,7 +651,12 @@
       "formattedDuration": "8",
       "groupName": "Breathwork",
       "name": "Tuning Into New Potentials - Breath - Updated",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownFileSizes": [
+          9503256
+        ]
+      }
     },
     "b-changing-beliefs-and-perceptions": {
       "meditationBaseId": "b-changing-beliefs-and-perceptions",
@@ -475,7 +665,13 @@
       "formattedDuration": "12",
       "groupName": "Breathwork",
       "name": "Changing Beliefs and Perceptions - Breath",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "18036",
+          "11743"
+        ]
+      }
     },
     "b-inspire-tribal-trance": {
       "meditationBaseId": "b-inspire-tribal-trance",
@@ -484,7 +680,12 @@
       "formattedDuration": "5",
       "groupName": "Breathwork",
       "name": "Inspire - Tribal Trance",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "12921"
+        ]
+      }
     },
     "b-inspire-emerging-heart": {
       "meditationBaseId": "b-inspire-emerging-heart",
@@ -493,7 +694,12 @@
       "formattedDuration": "8",
       "groupName": "Breathwork",
       "name": "Inspire - Emerging Heart",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "20626"
+        ]
+      }
     },
     "b-inspire-suenos-selva": {
       "meditationBaseId": "b-inspire-suenos-selva",
@@ -502,7 +708,12 @@
       "formattedDuration": "5",
       "groupName": "Breathwork",
       "name": "Inspire - Sueños de la Selva",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "12733"
+        ]
+      }
     },
     "b-inspire-inferno": {
       "meditationBaseId": "b-inspire-inferno",
@@ -511,7 +722,12 @@
       "formattedDuration": "5",
       "groupName": "Breathwork",
       "name": "Inspire - Inferno",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "12909"
+        ]
+      }
     },
     "b-inspire-refuge": {
       "meditationBaseId": "b-inspire-refuge",
@@ -520,7 +736,12 @@
       "formattedDuration": "8",
       "groupName": "Breathwork",
       "name": "Inspire - Refuge",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "18921"
+        ]
+      }
     },
     "b-inspire-king-fisher": {
       "meditationBaseId": "b-inspire-king-fisher",
@@ -529,7 +750,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Inspire - Kingfisher",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "17862"
+        ]
+      }
     },
     "b-inspire-shaman-goddess": {
       "meditationBaseId": "b-inspire-shaman-goddess",
@@ -538,7 +764,12 @@
       "formattedDuration": "5",
       "groupName": "Breathwork",
       "name": "Inspire - Shaman Goddess",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "11812"
+        ]
+      }
     },
     "b-inspire-cleansing": {
       "meditationBaseId": "b-inspire-cleansing",
@@ -547,7 +778,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Inspire - Cleansing",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "18238"
+        ]
+      }
     },
     "b-inspire-breathing-life": {
       "meditationBaseId": "b-inspire-breathing-life",
@@ -556,7 +792,12 @@
       "formattedDuration": "6",
       "groupName": "Breathwork",
       "name": "Inspire - Breathing Life",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "knownStringSizes": [
+          "15436"
+        ]
+      }
     },
     "b-inspire-v2-warmth-sun": {
       "meditationBaseId": "b-inspire-v2-warmth-sun",
@@ -565,7 +806,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Warmth of the Sun\\",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/warmth[\\s\\-_]*(of[\\s\\-_]*)?(the[\\s\\-_]*)?sun('?s)?[\\s\\-_]*rays?/i"
+        ]
+      }
     },
     "b-inspire-v2-olorum": {
       "meditationBaseId": "b-inspire-v2-olorum",
@@ -574,7 +820,12 @@
       "formattedDuration": "6",
       "groupName": "Breathwork",
       "name": "Olorum",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/\\bolorum\\b/i"
+        ]
+      }
     },
     "b-inspire-v2-riding-through": {
       "meditationBaseId": "b-inspire-v2-riding-through",
@@ -583,7 +834,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Riding Through",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/riding[\\s\\-_]*through/i"
+        ]
+      }
     },
     "b-inspire-v2-merging": {
       "meditationBaseId": "b-inspire-v2-merging",
@@ -592,7 +848,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Merging",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/\\bmerging\\b/i"
+        ]
+      }
     },
     "b-inspire-v2-overgrown": {
       "meditationBaseId": "b-inspire-v2-overgrown",
@@ -601,7 +862,12 @@
       "formattedDuration": "9",
       "groupName": "Breathwork",
       "name": "Overgrown",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/\\bovergrown\\b/i"
+        ]
+      }
     },
     "b-inspire-v2-moyayaj": {
       "meditationBaseId": "b-inspire-v2-moyayaj",
@@ -610,7 +876,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Moyayaj",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/\\bmoyayaj\\b/i"
+        ]
+      }
     },
     "b-inspire-v2-inhalation": {
       "meditationBaseId": "b-inspire-v2-inhalation",
@@ -619,7 +890,12 @@
       "formattedDuration": "6",
       "groupName": "Breathwork",
       "name": "Inhalation",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/\\binhalation\\b/i"
+        ]
+      }
     },
     "b-inspire-v2-fire-gathering": {
       "meditationBaseId": "b-inspire-v2-fire-gathering",
@@ -628,7 +904,12 @@
       "formattedDuration": "6",
       "groupName": "Breathwork",
       "name": "Fire Gathering",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/fire[\\s\\-_]*gathering/i"
+        ]
+      }
     },
     "b-inspire-v2-cosmic-heart": {
       "meditationBaseId": "b-inspire-v2-cosmic-heart",
@@ -637,7 +918,12 @@
       "formattedDuration": "6",
       "groupName": "Breathwork",
       "name": "Opening the Cosmic Heart",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/opening[\\s\\-_]*(the[\\s\\-_]*)?cosmic[\\s\\-_]*heart/i"
+        ]
+      }
     },
     "b-inspire-v2-prana-soundscapes": {
       "meditationBaseId": "b-inspire-v2-prana-soundscapes",
@@ -646,7 +932,12 @@
       "formattedDuration": "7",
       "groupName": "Breathwork",
       "name": "Prana Soundscapes",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/prana[\\s\\-_]*soundscapes?/i"
+        ]
+      }
     },
     "b-inspire-v2-continuous-mix": {
       "meditationBaseId": "b-inspire-v2-continuous-mix",
@@ -655,7 +946,12 @@
       "formattedDuration": "65",
       "groupName": "Breathwork",
       "name": "Inspire V2 Continuous Breath Mix",
-      "type": 1
+      "type": 1,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/inspire[\\s\\-_]*v?2[\\s\\-_]*continuous[\\s\\-_]*(breath[\\s\\-_]*)?mix/i"
+        ]
+      }
     },
     "m-new-potentials": {
       "meditationBaseId": "m-new-potentials",
@@ -664,7 +960,15 @@
       "formattedDuration": "45",
       "groupName": "Foundational - Progressive",
       "name": "Tuning Into New Potentials",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          56004113
+        ],
+        "knownStringSizes": [
+          "56004113"
+        ]
+      }
     },
     "m-new-potentials-updated": {
       "meditationBaseId": "m-new-potentials-updated",
@@ -673,7 +977,13 @@
       "formattedDuration": "45",
       "groupName": "Foundational - Progressive",
       "name": "Tuning Into New Potentials - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "17014",
+          "10954"
+        ]
+      }
     },
     "m-present-moment": {
       "meditationBaseId": "m-present-moment",
@@ -682,7 +992,16 @@
       "formattedDuration": "47",
       "groupName": "Foundational - Progressive",
       "name": "Generous Present Moment",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          68710984
+        ],
+        "knownStringSizes": [
+          "45584",
+          "45619"
+        ]
+      }
     },
     "m-recondition": {
       "meditationBaseId": "m-recondition",
@@ -691,7 +1010,12 @@
       "formattedDuration": "46",
       "groupName": "Foundational - Progressive",
       "name": "Reconditioning the Body to a New Mind",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          55295394
+        ]
+      }
     },
     "m-changing-beliefs-and-perceptions": {
       "meditationBaseId": "m-changing-beliefs-and-perceptions",
@@ -700,7 +1024,13 @@
       "formattedDuration": "44",
       "groupName": "Foundational - Progressive",
       "name": "Changing Beliefs and Perceptions - Meditation",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "64867",
+          "43092"
+        ]
+      }
     },
     "m-changing-beliefs-and-perceptions-full": {
       "meditationBaseId": "m-changing-beliefs-and-perceptions-full",
@@ -709,7 +1039,12 @@
       "formattedDuration": "57",
       "groupName": "Foundational - Progressive",
       "name": "Changing Beliefs and Perceptions - Breath and Meditation",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "82233"
+        ]
+      }
     },
     "m-walking-stepping-into-your-future": {
       "meditationBaseId": "m-walking-stepping-into-your-future",
@@ -718,7 +1053,13 @@
       "formattedDuration": "76",
       "groupName": "Walking",
       "name": "Walking Meditation 01 - Stepping into Your Future",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10961",
+          "19389"
+        ]
+      }
     },
     "m-walking-stepping-into-your-future-updated": {
       "meditationBaseId": "m-walking-stepping-into-your-future-updated",
@@ -727,7 +1068,12 @@
       "formattedDuration": "76",
       "groupName": "Walking",
       "name": "Walking Meditation 01 - Stepping Into Your Future - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "18218"
+        ]
+      }
     },
     "m-walking-with-the-devine": {
       "meditationBaseId": "m-walking-with-the-devine",
@@ -736,7 +1082,12 @@
       "formattedDuration": "61",
       "groupName": "Walking",
       "name": "Walking Meditation 02 - Walking with the Divine",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "88295"
+        ]
+      }
     },
     "m-walking-with-the-devine-updated": {
       "meditationBaseId": "m-walking-with-the-devine-updated",
@@ -745,7 +1096,12 @@
       "formattedDuration": "61",
       "groupName": "Walking",
       "name": "Walking Meditation 02 - Walking with the Divine - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "14689"
+        ]
+      }
     },
     "m-walking-with-heart-full-mind": {
       "meditationBaseId": "m-walking-with-heart-full-mind",
@@ -754,7 +1110,13 @@
       "formattedDuration": "61",
       "groupName": "Walking",
       "name": "Walking Meditation 02 - Walking with the Divine - Updated",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "16874",
+          "14102"
+        ]
+      }
     },
     "m-walking-body-electric": {
       "meditationBaseId": "m-walking-body-electric",
@@ -763,7 +1125,12 @@
       "formattedDuration": "77",
       "groupName": "Walking",
       "name": "Walking Meditation 11 - Body Electric",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "16865"
+        ]
+      }
     },
     "m-walking-conditioning-body": {
       "meditationBaseId": "m-walking-conditioning-body",
@@ -772,7 +1139,12 @@
       "formattedDuration": "77",
       "groupName": "Walking",
       "name": "Walking Meditation 04 - Conditioning the Body to a New Mind",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "55287"
+        ]
+      }
     },
     "m-walking-noble-walk": {
       "meditationBaseId": "m-walking-noble-walk",
@@ -781,7 +1153,12 @@
       "formattedDuration": "67",
       "groupName": "Walking",
       "name": "Walking Meditation 09 - The Noble Walk",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "64241"
+        ]
+      }
     },
     "m-walking-unlocking-code": {
       "meditationBaseId": "m-walking-unlocking-code",
@@ -790,7 +1167,14 @@
       "formattedDuration": "73",
       "groupName": "Walking",
       "name": "Walking Meditation 05 - Unlocking the Code",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "35271",
+          "70655",
+          "87701"
+        ]
+      }
     },
     "m-walking-prayer-evocation-invocation": {
       "meditationBaseId": "m-walking-prayer-evocation-invocation",
@@ -799,7 +1183,16 @@
       "formattedDuration": "75",
       "groupName": "Walking",
       "name": "Walking Meditation 06 - Prayer of Evocation & Invocation",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "72485",
+          "72817",
+          "10845",
+          "10985",
+          "18080"
+        ]
+      }
     },
     "m-walking-radiant-light": {
       "meditationBaseId": "m-walking-radiant-light",
@@ -808,7 +1201,12 @@
       "formattedDuration": "68",
       "groupName": "Walking",
       "name": "Walking Meditation 12 - Walking In Radiant Light",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "12375"
+        ]
+      }
     },
     "m-walking-running": {
       "meditationBaseId": "m-walking-running",
@@ -817,7 +1215,12 @@
       "formattedDuration": "45",
       "groupName": "Walking",
       "name": "Walking Meditation - Running",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "24162"
+        ]
+      }
     },
     "m-walking-for-the-world": {
       "meditationBaseId": "m-walking-for-the-world",
@@ -835,7 +1238,12 @@
       "formattedDuration": "75",
       "groupName": "Walking",
       "name": "Changing Boxes Walking Meditation",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/changing[\\s\\-_]*boxes[\\s\\-_]*walking/i"
+        ]
+      }
     },
     "m-sync-health": {
       "meditationBaseId": "m-sync-health",
@@ -844,7 +1252,13 @@
       "formattedDuration": "79",
       "groupName": "Synchronize Series",
       "name": "Synchronizing Your Energy To Health",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "71508",
+          "65433"
+        ]
+      }
     },
     "m-sync-energy-to-new-life": {
       "meditationBaseId": "m-sync-energy-to-new-life",
@@ -853,7 +1267,13 @@
       "formattedDuration": "85",
       "groupName": "Synchronize Series",
       "name": "Synchronizing Your Energy To New Life",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "75116",
+          "79596"
+        ]
+      }
     },
     "m-sync-abundance": {
       "meditationBaseId": "m-sync-abundance",
@@ -862,7 +1282,14 @@
       "formattedDuration": "74",
       "groupName": "Synchronize Series",
       "name": "Synchronizing Your Energy To Abundance",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "98396",
+          "99503",
+          "66027"
+        ]
+      }
     },
     "m-sync-energy-to-love": {
       "meditationBaseId": "m-sync-energy-to-love",
@@ -871,7 +1298,15 @@
       "formattedDuration": "82",
       "groupName": "Synchronize Series",
       "name": "Synchronizing Your Energy To Love",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10475",
+          "96788",
+          "69555",
+          "13261"
+        ]
+      }
     },
     "m-unlocked-s1-p3": {
       "meditationBaseId": "m-unlocked-s1-p3",
@@ -880,7 +1315,12 @@
       "formattedDuration": "",
       "groupName": "Unlocked Series",
       "name": "Unlocked - Session 1 - Part 3",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "82333"
+        ]
+      }
     },
     "m-unlocked-s2-p3": {
       "meditationBaseId": "m-unlocked-s2-p3",
@@ -889,7 +1329,12 @@
       "formattedDuration": "",
       "groupName": "Unlocked Series",
       "name": "Unlocked- Session 2 - Part 3",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10683"
+        ]
+      }
     },
     "m-unlocked-s3-p3": {
       "meditationBaseId": "m-unlocked-s3-p3",
@@ -898,7 +1343,12 @@
       "formattedDuration": "",
       "groupName": "Unlocked Series",
       "name": "Unlocked - Session 3 - Part 3",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "12146"
+        ]
+      }
     },
     "m-unlocked-s4-p3": {
       "meditationBaseId": "m-unlocked-s4-p3",
@@ -907,7 +1357,12 @@
       "formattedDuration": "",
       "groupName": "Unlocked Series",
       "name": "Unlocked - Session 4 - Part 3",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "10736"
+        ]
+      }
     },
     "m-count-your-blessings-1": {
       "meditationBaseId": "m-count-your-blessings-1",
@@ -916,7 +1371,12 @@
       "formattedDuration": "29",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 1",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(i(?![ivx])|1|one)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-2": {
       "meditationBaseId": "m-count-your-blessings-2",
@@ -925,7 +1385,12 @@
       "formattedDuration": "26",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 2",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(ii(?![i])|2|two)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-3": {
       "meditationBaseId": "m-count-your-blessings-3",
@@ -934,7 +1399,12 @@
       "formattedDuration": "30",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 3",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(iii|3|three)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-4": {
       "meditationBaseId": "m-count-your-blessings-4",
@@ -943,7 +1413,12 @@
       "formattedDuration": "26",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 4",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(iv|4|four)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-5": {
       "meditationBaseId": "m-count-your-blessings-5",
@@ -952,7 +1427,12 @@
       "formattedDuration": "23",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 5",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(v(?![i])|5|five)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-6": {
       "meditationBaseId": "m-count-your-blessings-6",
@@ -961,7 +1441,12 @@
       "formattedDuration": "30",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 6",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(vi|6|six)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-7": {
       "meditationBaseId": "m-count-your-blessings-7",
@@ -970,7 +1455,12 @@
       "formattedDuration": "30",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 7",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(vii|7|seven)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-count-your-blessings-8": {
       "meditationBaseId": "m-count-your-blessings-8",
@@ -979,7 +1469,12 @@
       "formattedDuration": "25",
       "groupName": "Count Your Blessings",
       "name": "Count Your Blessings 8",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/count[\\s\\-_]*(your[\\s\\-_]*)?blessings[\\s\\-_]*(viii|8|eight)(\\b|[\\s\\-_.])/i"
+        ]
+      }
     },
     "m-alchemist": {
       "meditationBaseId": "m-alchemist",
@@ -988,7 +1483,13 @@
       "formattedDuration": "61",
       "groupName": "Other",
       "name": "The Alchemist",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "14699",
+          "59139"
+        ]
+      }
     },
     "m-changing-boxes": {
       "meditationBaseId": "m-changing-boxes",
@@ -997,7 +1498,14 @@
       "formattedDuration": "63",
       "groupName": "Other",
       "name": "Changing Boxes",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "75996",
+          "85420",
+          "50937"
+        ]
+      }
     },
     "m-changing-boxes-sv": {
       "meditationBaseId": "m-changing-boxes-sv",
@@ -1006,7 +1514,12 @@
       "formattedDuration": "21",
       "groupName": "Other",
       "name": "Changing Boxes - Short Version",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "51829"
+        ]
+      }
     },
     "m-go-love": {
       "meditationBaseId": "m-go-love",
@@ -1015,7 +1528,14 @@
       "formattedDuration": "16",
       "groupName": "Other",
       "name": "Go Love 20",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "12546",
+          "30196",
+          "22640"
+        ]
+      }
     },
     "m-higher-love-couples": {
       "meditationBaseId": "m-higher-love-couples",
@@ -1024,7 +1544,12 @@
       "formattedDuration": "33",
       "groupName": "Other",
       "name": "Higher Love for Couples",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "78649"
+        ]
+      }
     },
     "m-love-life-you-love": {
       "meditationBaseId": "m-love-life-you-love",
@@ -1033,7 +1558,13 @@
       "formattedDuration": "31",
       "groupName": "Other",
       "name": "Love The Life You Love",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownFileSizes": [
+          74235672,
+          29873657
+        ]
+      }
     },
     "m-turning-your-love-inward": {
       "meditationBaseId": "m-turning-your-love-inward",
@@ -1043,7 +1574,13 @@
       "groupName": "Other",
       "name": "Turning Your Love Inward",
       "type": 0,
-      "color": "#003E54"
+      "color": "#003E54",
+      "matchingData": {
+        "knownStringSizes": [
+          "30255",
+          "19411"
+        ]
+      }
     },
     "m-heart-brain-sync": {
       "meditationBaseId": "m-heart-brain-sync",
@@ -1052,7 +1589,13 @@
       "formattedDuration": "34",
       "groupName": "Other",
       "name": "Heart and Brain Sync",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "81972",
+          "32977"
+        ]
+      }
     },
     "m-courageous-heart": {
       "meditationBaseId": "m-courageous-heart",
@@ -1061,7 +1604,13 @@
       "formattedDuration": "37",
       "groupName": "Other",
       "name": "Courageous Heart",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "89041",
+          "35990"
+        ]
+      }
     },
     "m-breaking-habits-addictions": {
       "meditationBaseId": "m-breaking-habits-addictions",
@@ -1070,7 +1619,12 @@
       "formattedDuration": "60",
       "groupName": "Other",
       "name": "Breaking Habits and Addictions",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "86646"
+        ]
+      }
     },
     "m-empowering-within": {
       "meditationBaseId": "m-empowering-within",
@@ -1079,7 +1633,13 @@
       "formattedDuration": "39",
       "groupName": "Other",
       "name": "Empowering the Power Within",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "56628",
+          "59375"
+        ]
+      }
     },
     "m-pineal-gland-long": {
       "meditationBaseId": "m-pineal-gland-long",
@@ -1088,7 +1648,12 @@
       "formattedDuration": "83",
       "groupName": "Other",
       "name": "Pineal Gland - Long",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "12129"
+        ]
+      }
     },
     "m-pineal-gland-short": {
       "meditationBaseId": "m-pineal-gland-short",
@@ -1097,7 +1662,13 @@
       "formattedDuration": "64",
       "groupName": "Other",
       "name": "Pineal Gland - Short",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "61080",
+          "80798"
+        ]
+      }
     },
     "m-falling-into-love-body": {
       "meditationBaseId": "m-falling-into-love-body",
@@ -1106,7 +1677,14 @@
       "formattedDuration": "36",
       "groupName": "Other",
       "name": "Falling into Love with Your Body",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "24779",
+          "62889",
+          "37064"
+        ]
+      }
     },
     "m-tune-in-with-your-heart": {
       "meditationBaseId": "m-tune-in-with-your-heart",
@@ -1115,7 +1693,12 @@
       "formattedDuration": "30",
       "groupName": "Other",
       "name": "Tuning In With Your Heart",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "73866"
+        ]
+      }
     },
     "m-center-of-the-magnet": {
       "meditationBaseId": "m-center-of-the-magnet",
@@ -1124,7 +1707,12 @@
       "formattedDuration": "160",
       "groupName": "Other",
       "name": "Center of the Magnet",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "knownStringSizes": [
+          "15554"
+        ]
+      }
     },
     "m-outpicturing": {
       "meditationBaseId": "m-outpicturing",
@@ -1133,7 +1721,12 @@
       "formattedDuration": "28",
       "groupName": "Other",
       "name": "Outpicturing",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/out[\\s\\-_]*picturing/i"
+        ]
+      }
     },
     "m-life-love-mystical": {
       "meditationBaseId": "m-life-love-mystical",
@@ -1142,7 +1735,12 @@
       "formattedDuration": "24",
       "groupName": "Other",
       "name": "Life, Love, and the Mystical",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/life[\\s\\-_,]*(love|&)[\\s\\-_,]*(and[\\s\\-_]*)?(the[\\s\\-_]*)?mystical/i"
+        ]
+      }
     },
     "m-changing-boxes-live-meilan": {
       "meditationBaseId": "m-changing-boxes-live-meilan",
@@ -1151,7 +1749,12 @@
       "formattedDuration": "29",
       "groupName": "Other",
       "name": "Changing Boxes - Short - Live with Mei-lan",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/changing[\\s\\-_]*boxes[\\s\\-_]*(short|live)[\\s\\-_]*(version[\\s\\-_]*)?(live[\\s\\-_]*)?(with[\\s\\-_]*)?mei[\\s\\-_]*lan/i"
+        ]
+      }
     },
     "m-wholy-days": {
       "meditationBaseId": "m-wholy-days",
@@ -1160,7 +1763,12 @@
       "formattedDuration": "17",
       "groupName": "Other",
       "name": "Wholly Days",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/whol(l)?y[\\s\\-_]*days/i"
+        ]
+      }
     },
     "m-love-your-body": {
       "meditationBaseId": "m-love-your-body",
@@ -1169,7 +1777,12 @@
       "formattedDuration": "29",
       "groupName": "Other",
       "name": "Love Your Body",
-      "type": 0
+      "type": 0,
+      "matchingData": {
+        "fileNamePatterns": [
+          "/^(?!.*falling).*love[\\s\\-_]*(your[\\s\\-_]*)?body/i"
+        ]
+      }
     }
   }
 }

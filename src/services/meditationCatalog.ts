@@ -8,7 +8,13 @@ const CATALOG_CACHE_KEY = '@meditation_catalog_cache';
 const CATALOG_COLLECTION = 'catalog';
 const CATALOG_DOC_ID = 'meditations';
 
-interface FirestoreMeditation {
+export interface MatchingData {
+  knownFileSizes?: number[];
+  knownStringSizes?: string[];
+  fileNamePatterns?: string[];
+}
+
+export interface FirestoreMeditation {
   artist: string;
   backgroundImageKey: string;
   color?: string;
@@ -18,6 +24,7 @@ interface FirestoreMeditation {
   name: string;
   type: number;
   updatedId?: string;
+  matchingData?: MatchingData;
 }
 
 interface MeditationCatalogDocument {
@@ -111,13 +118,18 @@ async function fetchCatalogFromFirestore(): Promise<MeditationCatalogDocument | 
   return null;
 }
 
+interface CatalogResult {
+  map: MeditationBaseMap;
+  doc: MeditationCatalogDocument | null;
+}
+
 /**
  * Main entry point. Returns MeditationBaseMap using this priority:
  * 1. Firestore (if newer version than cache)
  * 2. AsyncStorage cache
  * 3. Static fallback (bundled meditation-data.ts)
  */
-async function getMeditationCatalog(): Promise<MeditationBaseMap> {
+async function getMeditationCatalog(): Promise<CatalogResult> {
   try {
     const cached = await getCachedCatalog();
     const firestoreDoc = await fetchCatalogFromFirestore();
@@ -129,31 +141,34 @@ async function getMeditationCatalog(): Promise<MeditationBaseMap> {
           firestoreDoc.version,
         );
         await setCachedCatalog(firestoreDoc);
-        return transformToMeditationBaseMap(firestoreDoc);
+        return {map: transformToMeditationBaseMap(firestoreDoc), doc: firestoreDoc};
       }
       console.log('Catalog: Firestore version matches cache, using cache');
     }
 
     if (cached) {
       console.log('Catalog: using cached data, version', cached.version);
-      return transformToMeditationBaseMap(cached.data);
+      return {map: transformToMeditationBaseMap(cached.data), doc: cached.data};
     }
   } catch (e) {
     console.log('Error in getMeditationCatalog, using static fallback:', e);
   }
 
   console.log('Catalog: using static fallback');
-  return staticFallback;
+  return {map: staticFallback, doc: null};
 }
 
 let _catalogSingleton: MeditationBaseMap | null = null;
+let _rawCatalogDoc: MeditationCatalogDocument | null = null;
 
 /**
  * Call during app initialization to pre-load the catalog.
  * Must be awaited before any sync access.
  */
 export async function initMeditationCatalog(): Promise<MeditationBaseMap> {
-  _catalogSingleton = await getMeditationCatalog();
+  const result = await getMeditationCatalog();
+  _catalogSingleton = result.map;
+  _rawCatalogDoc = result.doc;
   return _catalogSingleton;
 }
 
@@ -163,4 +178,12 @@ export async function initMeditationCatalog(): Promise<MeditationBaseMap> {
  */
 export function getFullMeditationCatalogSync(): MeditationBaseMap {
   return _catalogSingleton || staticFallback;
+}
+
+/**
+ * Synchronous access to the raw catalog document (includes matchingData).
+ * Returns null if catalog hasn't been loaded from Firestore/cache.
+ */
+export function getRawCatalogSync(): Record<string, FirestoreMeditation> | null {
+  return _rawCatalogDoc?.meditations ?? null;
 }
