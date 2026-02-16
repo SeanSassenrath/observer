@@ -36,6 +36,7 @@ import PlaylistsScreen from '../screens/Playlists';
 import CreatePlaylistScreen from '../screens/CreatePlaylist';
 import EditPlaylistScreen from '../screens/EditPlaylist';
 import PlaylistPreparationScreen from '../screens/PlaylistPreparation';
+import SubmitMeditationScreen from '../screens/SubmitMeditation';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
@@ -131,6 +132,7 @@ const StackNavigator = () => {
         <Screen name="CreatePlaylist" component={CreatePlaylistScreen} />
         <Screen name="EditPlaylist" component={EditPlaylistScreen} />
         <Screen name="PlaylistPreparation" component={PlaylistPreparationScreen} />
+        <Screen name="SubmitMeditation" component={SubmitMeditationScreen} />
       </Navigator>
       </PostHogProvider>
     </NavigationContainer>

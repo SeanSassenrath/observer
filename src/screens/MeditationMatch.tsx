@@ -1,5 +1,11 @@
-import React, {useContext, useMemo, useState} from 'react';
-import {FlatList, Pressable, SafeAreaView, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {
+  FlatList,
+  Pressable,
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import {Icon, Layout, Modal, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -34,7 +40,17 @@ const MeditationMatchScreen = (props: Props) => {
     MeditationFilePathsContext,
   );
 
-  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  const [currentFileIndex, setCurrentFileIndex] = useState(
+    params?.startIndex ?? 0,
+  );
+
+  useEffect(() => {
+    if (params?.startIndex !== undefined) {
+      setCurrentFileIndex(params.startIndex);
+      setSearchInput(EMPTY_SEARCH);
+      setSelectedMedId(EMPTY_ID);
+    }
+  }, [params?.startIndex]);
   const [searchInput, setSearchInput] = useState(EMPTY_SEARCH);
   const [selectedMedId, setSelectedMedId] = useState(EMPTY_ID);
   const [existingMedLink, setExistingMedLink] = useState(EMPTY_ID);
@@ -60,7 +76,7 @@ const MeditationMatchScreen = (props: Props) => {
       return flattenedMeditations;
     }
     return flattenedMeditations.filter(meditation =>
-      meditation.name.toLowerCase().includes(searchInput.toLowerCase())
+      meditation.name.toLowerCase().includes(searchInput.toLowerCase()),
     );
   }, [searchInput, flattenedMeditations]);
 
@@ -198,6 +214,16 @@ const MeditationMatchScreen = (props: Props) => {
     );
   };
 
+  const onCantFindPress = () => {
+    navigation.navigate('SubmitMeditation', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      medsFail,
+      currentFileIndex,
+    });
+  };
+
   const renderEmptyState = () => (
     <Layout level="4" style={styles.emptyStateContainer}>
       <Text category="h6" style={styles.emptyStateTitle}>
@@ -206,21 +232,6 @@ const MeditationMatchScreen = (props: Props) => {
       <Text category="s2" style={styles.emptyStateDescription}>
         Try adjusting your search terms
       </Text>
-    </Layout>
-  );
-
-  const renderSkipSection = () => (
-    <Layout style={styles.skipContainer}>
-      <Text category="s1" style={styles.skipHeader}>
-        Unable to find the meditation?
-      </Text>
-      <Text category="s2" style={styles.skipDescription}>
-        The meditation you are adding might not be supported yet. We will try
-        and get it added soon. Please skip to continue.
-      </Text>
-      <Button onPress={onSkipPress} size="small" style={styles.skipButton}>
-        Skip
-      </Button>
     </Layout>
   );
 
@@ -238,17 +249,21 @@ const MeditationMatchScreen = (props: Props) => {
               </Text>
             </Pressable>
           </Layout>
-          <Text category='h5' style={styles.instructionText}>Idenfity Meditation</Text>
+          <Text category="h5" style={styles.instructionText}>
+            Help us match your file
+          </Text>
           <Text category="s2" style={styles.instructionText}>
-            We couldn't find a match. Please select the correct meditation.
+            We couldn't recognize this file
             <Text category="s1" style={styles.fileName}>
-              {` ${fileName}`}
+              {` ${fileName}. `}
             </Text>
+            Select the correct meditation below.
           </Text>
         </Layout>
         <Layout style={styles.mainContainer}>
           <Layout level="4" style={styles.searchContainer}>
             <SearchBar
+              placeholder="Search Supported Meditations"
               input={searchInput}
               onChangeText={setSearchInput}
               onClearPress={onClearSearchPress}
@@ -260,9 +275,7 @@ const MeditationMatchScreen = (props: Props) => {
             renderItem={renderMeditationItem}
             style={styles.meditationList}
             contentContainerStyle={styles.meditationListContent}
-            ListFooterComponent={
-              selectedMedId.length <= 0 ? renderSkipSection : null
-            }
+            ListFooterComponent={null}
             ListEmptyComponent={renderEmptyState}
             initialNumToRender={20}
             maxToRenderPerBatch={20}
@@ -274,6 +287,11 @@ const MeditationMatchScreen = (props: Props) => {
           />
         </Layout>
         <Layout level="4" style={styles.bottomContainer}>
+          <Pressable onPress={onCantFindPress} style={styles.cantFindContainer}>
+            <Text category="s1" style={styles.cantFindText}>
+              Can’t find it? Submit it for support.
+            </Text>
+          </Pressable>
           <Button
             disabled={selectedMedId === EMPTY_ID}
             onPress={onContinuePress}
@@ -340,7 +358,8 @@ const themedStyles = StyleSheet.create({
     opacity: 0.7,
   },
   fileName: {
-    color: 'color-primary-200',
+    fontWeight: 'bold',
+    opacity: 0.75,
   },
   gradientContainer: {
     height: 40,
@@ -380,7 +399,7 @@ const themedStyles = StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 10,
   },
   skipButton: {
     marginTop: 20,
@@ -476,6 +495,14 @@ const themedStyles = StyleSheet.create({
   emptyStateDescription: {
     color: '#9CA3AF',
     textAlign: 'center',
+  },
+  cantFindContainer: {
+    paddingBottom: 30,
+    paddingTop: 10,
+    alignItems: 'center',
+  },
+  cantFindText: {
+    color: 'color-primary-200',
   },
 });
 

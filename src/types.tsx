@@ -26,7 +26,7 @@ export type StackParamList = {
   Feedback: undefined;
   Meditation: MeditationParams;
   MeditationFinish: undefined;
-  MeditationMatch: UnrecognizedFilesParams;
+  MeditationMatch: MeditationMatchParams;
   MeditationPlayer: MeditationPlayerParams;
   Playlists: undefined;
   CreatePlaylist: undefined;
@@ -38,6 +38,7 @@ export type StackParamList = {
   // Purchase: PurchaseParams;
   ReassignFile: ReassignFileParams;
   SignIn: undefined;
+  SubmitMeditation: SubmitMeditationParams;
   Subscriptions: undefined;
   TabNavigation: undefined;
   TermsAgreement: undefined;
@@ -79,6 +80,19 @@ interface ReassignFileParams {
 // interface PurchaseParams {
 //   offering: PurchasesOffering;
 // }
+
+interface SubmitMeditationParams {
+  fileName: string | null;
+  fileSize: number | null;
+  fileType: string | null;
+  medsFail?: UnknownFileData[];
+  currentFileIndex?: number;
+}
+
+interface MeditationMatchParams {
+  medsFail: UnknownFileData[];
+  startIndex?: number;
+}
 
 interface UnrecognizedFilesParams {
   medsFail: UnknownFileData[];
