@@ -29,8 +29,9 @@ export type StackParamList = {
   MeditationMatch: MeditationMatchParams;
   MeditationPlayer: MeditationPlayerParams;
   Playlists: undefined;
-  CreatePlaylist: undefined;
+  CreatePlaylist: CreatePlaylistParams | undefined;
   EditPlaylist: EditPlaylistParams;
+  MeditationSelector: MeditationSelectorParams;
   PlaylistPreparation: PlaylistPreparationParams;
   Profile: UserParams;
   LimitedVersion: undefined;
@@ -58,8 +59,18 @@ interface MeditationPlayerParams {
   playlistId?: PlaylistId;
 }
 
+interface MeditationSelectorParams {
+  initialSelectedIds: MeditationId[];
+  returnScreen: 'CreatePlaylist' | 'EditPlaylist';
+}
+
+interface CreatePlaylistParams {
+  returnedMeditationIds?: MeditationId[];
+}
+
 interface EditPlaylistParams {
   playlistId: PlaylistId;
+  returnedMeditationIds?: MeditationId[];
 }
 
 interface PlaylistPreparationParams {

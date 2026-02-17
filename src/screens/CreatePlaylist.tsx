@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,7 +7,7 @@ import {
   Alert,
 } from 'react-native';
 import {Layout, Text, Icon, Input, Button} from '@ui-kitten/components';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DraggableFlatList, {
   RenderItemParams,
@@ -17,15 +17,17 @@ import DraggableFlatList, {
 import PlaylistContext from '../contexts/playlist';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import UserContext from '../contexts/userData';
-import {MeditationId, Playlist} from '../types';
+import {MeditationId, Playlist, StackParamList} from '../types';
 import {brightWhite} from '../constants/colors';
 import {fbCreatePlaylist} from '../fb/playlists';
 import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
-import MeditationSelectorModal from '../components/MeditationSelectorModal';
 import {GradientPicker} from '../components/GradientPicker';
+
+type CreatePlaylistRouteProp = RouteProp<StackParamList, 'CreatePlaylist'>;
 
 const CreatePlaylist = () => {
   const navigation = useNavigation();
+  const route = useRoute<CreatePlaylistRouteProp>();
   const {user} = useContext(UserContext);
   const {playlists, setPlaylists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
@@ -37,8 +39,14 @@ const CreatePlaylist = () => {
     MeditationId[]
   >([]);
   const [selectedGradientIndex, setSelectedGradientIndex] = useState(0);
-  const [isSelectorModalVisible, setIsSelectorModalVisible] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.returnedMeditationIds) {
+      setSelectedMeditationIds(route.params.returnedMeditationIds);
+      navigation.setParams({returnedMeditationIds: undefined} as any);
+    }
+  }, [route.params?.returnedMeditationIds]);
 
   const isValid =
     playlistName.trim().length > 0 && selectedMeditationIds.length > 0;
@@ -127,11 +135,6 @@ const CreatePlaylist = () => {
     }
   };
 
-  const handleAddMeditations = (meditationIds: MeditationId[]) => {
-    setSelectedMeditationIds(meditationIds);
-    setIsSelectorModalVisible(false);
-  };
-
   const handleRemoveMeditation = (meditationId: MeditationId) => {
     setSelectedMeditationIds(
       selectedMeditationIds.filter(id => id !== meditationId),
@@ -146,6 +149,7 @@ const CreatePlaylist = () => {
     item,
     drag,
     isActive,
+    getIndex,
   }: RenderItemParams<MeditationId>) => {
     const meditation = meditationBaseData[item];
     if (!meditation) {
@@ -164,12 +168,12 @@ const CreatePlaylist = () => {
           <View style={styles.dragHandle}>
             <Icon name="menu-outline" fill="#6B7280" style={styles.dragIcon} />
           </View>
+          <Text category="c1" style={styles.orderNumber}>
+            {(getIndex() ?? 0) + 1}
+          </Text>
           <View style={styles.meditationInfo}>
             <Text category="p1" style={styles.meditationName}>
               {meditation.name}
-            </Text>
-            <Text category="c1" style={styles.meditationDuration}>
-              {meditation.formattedDuration}
             </Text>
           </View>
           <TouchableOpacity
@@ -262,7 +266,12 @@ const CreatePlaylist = () => {
               </View>
               <Button
                 size="medium"
-                onPress={() => setIsSelectorModalVisible(true)}
+                onPress={() =>
+                  navigation.navigate('MeditationSelector', {
+                    initialSelectedIds: selectedMeditationIds,
+                    returnScreen: 'CreatePlaylist',
+                  })
+                }
                 appearance="outline"
                 style={{borderColor: '#9C4DCC', borderRadius: 10}}
                 accessoryLeft={
@@ -276,7 +285,7 @@ const CreatePlaylist = () => {
                   <Text
                     {...evaProps}
                     style={[evaProps?.style, {color: '#9C4DCC'}]}>
-                    {selectedMeditationIds.length > 0 ? 'Manage' : 'Add'}
+                    {selectedMeditationIds.length > 0 ? 'Edit' : 'Add'}
                   </Text>
                 )}
               </Button>
@@ -318,13 +327,6 @@ const CreatePlaylist = () => {
         </View>
       </SafeAreaView>
 
-      {/* Meditation Selector Modal */}
-      <MeditationSelectorModal
-        visible={isSelectorModalVisible}
-        onClose={() => setIsSelectorModalVisible(false)}
-        onSelect={handleAddMeditations}
-        initialSelectedIds={selectedMeditationIds}
-      />
     </Layout>
   );
 };
@@ -461,8 +463,11 @@ const styles = StyleSheet.create({
     color: brightWhite,
     marginBottom: 2,
   },
-  meditationDuration: {
+  orderNumber: {
     color: '#9CA3AF',
+    width: 24,
+    textAlign: 'center',
+    marginRight: 8,
   },
   removeButton: {
     padding: 4,

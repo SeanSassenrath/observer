@@ -21,7 +21,6 @@ import {MeditationId, StackParamList} from '../types';
 import {brightWhite} from '../constants/colors';
 import {fbUpdatePlaylist, fbDeletePlaylist} from '../fb/playlists';
 import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
-import MeditationSelectorModal from '../components/MeditationSelectorModal';
 import {GradientPicker} from '../components/GradientPicker';
 
 type EditPlaylistRouteProp = RouteProp<StackParamList, 'EditPlaylist'>;
@@ -44,7 +43,6 @@ const EditPlaylist = () => {
     MeditationId[]
   >([]);
   const [selectedGradientIndex, setSelectedGradientIndex] = useState(0);
-  const [isSelectorModalVisible, setIsSelectorModalVisible] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -57,6 +55,13 @@ const EditPlaylist = () => {
       setSelectedGradientIndex(playlist.gradientIndex ?? 0);
     }
   }, [playlist]);
+
+  useEffect(() => {
+    if (route.params?.returnedMeditationIds) {
+      setSelectedMeditationIds(route.params.returnedMeditationIds);
+      navigation.setParams({returnedMeditationIds: undefined} as any);
+    }
+  }, [route.params?.returnedMeditationIds]);
 
   const isValid =
     playlistName.trim().length > 0 && selectedMeditationIds.length > 0;
@@ -178,11 +183,6 @@ const EditPlaylist = () => {
         },
       ],
     );
-  };
-
-  const handleAddMeditations = (meditationIds: MeditationId[]) => {
-    setSelectedMeditationIds(meditationIds);
-    setIsSelectorModalVisible(false);
   };
 
   const handleRemoveMeditation = (meditationId: MeditationId) => {
@@ -331,7 +331,12 @@ const EditPlaylist = () => {
               </View>
               <Button
                 size="medium"
-                onPress={() => setIsSelectorModalVisible(true)}
+                onPress={() =>
+                  navigation.navigate('MeditationSelector', {
+                    initialSelectedIds: selectedMeditationIds,
+                    returnScreen: 'EditPlaylist',
+                  })
+                }
                 appearance="outline"
                 style={{borderColor: '#9C4DCC', borderRadius: 10}}
                 accessoryLeft={
@@ -399,13 +404,6 @@ const EditPlaylist = () => {
         </View>
       </SafeAreaView>
 
-      {/* Meditation Selector Modal */}
-      <MeditationSelectorModal
-        visible={isSelectorModalVisible}
-        onClose={() => setIsSelectorModalVisible(false)}
-        onSelect={handleAddMeditations}
-        initialSelectedIds={selectedMeditationIds}
-      />
     </Layout>
   );
 };
