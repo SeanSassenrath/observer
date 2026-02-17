@@ -218,8 +218,7 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
         // Use functional updates to avoid stale closure values
         setMeditationSession(prev => {
           const updatedInstances = prev.instances.map((instance, idx) => {
-            if ((playlist && idx === activeTrackIndex) ||
-                (!playlist && instance.meditationBaseId === meditation.meditationBaseId)) {
+            if (idx === activeTrackIndex) {
               return {
                 ...instance,
                 timeMeditated: _position,
@@ -272,14 +271,9 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
 
   const onFinishPress = () => {
     // Update current meditation instance with partial time before navigating
-    const currentMeditationId = playlist
-      ? playlist.meditationIds[currentTrackIndex]
-      : meditation.meditationBaseId;
-
     // Find and update the current instance with timeMeditated
     const updatedInstances = meditationSession.instances.map((instance, idx) => {
-      if ((playlist && idx === currentTrackIndex) ||
-          (!playlist && instance.meditationBaseId === currentMeditationId)) {
+      if (idx === currentTrackIndex) {
         return {
           ...instance,
           timeMeditated: position,  // Update with current position
