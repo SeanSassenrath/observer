@@ -260,10 +260,9 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     paddingHorizontal: 16,
-    paddingBottom: 8,
   },
   pillsContainer: {
-    maxHeight: 44,
+    maxHeight: 48,
     paddingHorizontal: 16,
     marginBottom: 4,
   },
