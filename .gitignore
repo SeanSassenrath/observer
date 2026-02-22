@@ -66,5 +66,8 @@ buck-out/
 .vscode/
 .env
 
+# Audio tracks
+src/tracks/
+
 # AI Development Notes
 ai_notes.txt
