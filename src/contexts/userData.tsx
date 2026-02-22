@@ -43,6 +43,7 @@ interface Onboarding {
   hasSeenLibraryOnboarding: boolean;
   hasSeenHomeOnboarding: boolean;
   hasSeenInsightsOnboarding: boolean;
+  hasSeenPlaylistOnboarding: boolean;
 }
 
 export interface User {
@@ -89,6 +90,7 @@ export const initialUserState = {
     hasSeenHomeOnboarding: false,
     hasSeenInsightsOnboarding: false,
     hasSeenBreathworkOnboarding: false,
+    hasSeenPlaylistOnboarding: false,
   },
   meditationHistoryIds: [],
   meditationUserData: {

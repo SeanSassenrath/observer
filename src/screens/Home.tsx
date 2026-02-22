@@ -235,6 +235,19 @@ const HomeScreen = () => {
     });
   };
 
+  const onPlaylistEduClosePress = async () => {
+    await fbUpdateUser(user.uid, {
+      'onboarding.hasSeenPlaylistOnboarding': true,
+    });
+    setUser({
+      ...user,
+      onboarding: {
+        ...user.onboarding,
+        hasSeenPlaylistOnboarding: true,
+      },
+    });
+  };
+
   const onClearSearchPress = () => setSearchInput(EMPTY_SEARCH);
 
   const onPlaylistPress = (playlistId: string) => {
@@ -385,6 +398,17 @@ const HomeScreen = () => {
           onPress={onEduClosePress}
           renderIcon={(props: any) => <HomeIcon {...props} />}
           title="Your Home"
+        />
+      ) : null}
+      {user.onboarding.hasSeenHomeOnboarding &&
+      !user.onboarding.hasSeenPlaylistOnboarding ? (
+        <EduPromptComponent
+          description="Sequence your meditations into playlists for a seamless practice. Head to the Playlists tab to create your first one!"
+          onPress={onPlaylistEduClosePress}
+          renderIcon={(props: any) => (
+            <Icon {...props} name="list-outline" />
+          )}
+          title="Playlists"
         />
       ) : null}
       <Modal
