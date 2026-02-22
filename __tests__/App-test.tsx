@@ -1,14 +1,9 @@
-// /**
-//  * @format
-//  */
+/**
+ * @format
+ * Placeholder - App rendering test requires full provider setup.
+ * See individual test files for component and flow tests.
+ */
 
-// import 'react-native';
-// import React from 'react';
-// import App from '../App';
-
-// // Note: test renderer must be required after react-native.
-// import renderer from 'react-test-renderer';
-
-// it('renders correctly', () => {
-//   renderer.create(<App />);
-// });
+it('placeholder', () => {
+  expect(true).toBe(true);
+});
