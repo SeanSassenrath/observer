@@ -262,13 +262,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   pillsContainer: {
-    maxHeight: 48,
+    maxHeight: 60,
     paddingHorizontal: 16,
     marginBottom: 4,
   },
   pillsContent: {
     alignItems: 'center',
     gap: 8,
+    paddingVertical: 4,
   },
   pill: {
     flexDirection: 'row',
