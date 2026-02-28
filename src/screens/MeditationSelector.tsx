@@ -1,4 +1,4 @@
-import React, {useContext, useState, useMemo} from 'react';
+import React, {useContext, useState, useMemo, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -10,12 +10,19 @@ import {
 import {Layout, Text, Icon} from '@ui-kitten/components';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {SearchBar} from '../components/SearchBar';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
 
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {MeditationId, MeditationBase, StackParamList} from '../types';
 import {brightWhite} from '../constants/colors';
 
 const COLOR_PRIMARY = '#9C4DCC';
+const PILL_ROW_HEIGHT = 52;
 
 type MeditationSelectorRouteProp = RouteProp<
   StackParamList,
@@ -76,6 +83,19 @@ const MeditationSelectorScreen = () => {
 
   const selectedArray = useMemo(() => Array.from(selectedIds), [selectedIds]);
   const isDoneEnabled = selectedIds.size > 0;
+
+  const pillsHeight = useSharedValue(
+    initialSelectedIds.length > 0 ? PILL_ROW_HEIGHT : 0,
+  );
+  useEffect(() => {
+    pillsHeight.value = withTiming(
+      selectedArray.length > 0 ? PILL_ROW_HEIGHT : 0,
+      {duration: 200, easing: Easing.inOut(Easing.quad)},
+    );
+  }, [selectedArray.length, pillsHeight]);
+  const pillsAnimatedStyle = useAnimatedStyle(() => ({
+    height: pillsHeight.value,
+  }));
 
   const renderPill = (meditationId: MeditationId) => {
     const meditation = meditationBaseData[meditationId];
@@ -171,13 +191,15 @@ const MeditationSelectorScreen = () => {
         </View>
 
         {/* Selected Pills */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.pillsContainer}
-          contentContainerStyle={styles.pillsContent}>
-          {selectedArray.map(renderPill)}
-        </ScrollView>
+        <Animated.View style={[styles.pillsWrapper, pillsAnimatedStyle]}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.pillsContainer}
+            contentContainerStyle={styles.pillsContent}>
+            {selectedArray.map(renderPill)}
+          </ScrollView>
+        </Animated.View>
 
         {/* Meditations List */}
         <FlatList
@@ -261,10 +283,12 @@ const styles = StyleSheet.create({
   searchContainer: {
     paddingHorizontal: 16,
   },
-  pillsContainer: {
-    maxHeight: 60,
-    paddingHorizontal: 16,
+  pillsWrapper: {
+    overflow: 'hidden',
     marginBottom: 4,
+  },
+  pillsContainer: {
+    paddingHorizontal: 16,
   },
   pillsContent: {
     alignItems: 'center',
