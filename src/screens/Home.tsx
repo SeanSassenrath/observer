@@ -24,6 +24,7 @@ import {
   _MeditationListSection,
 } from '../components/MeditationList';
 import {PlaylistList} from '../components/PlaylistList';
+import {useFeatureFlag} from '../hooks/useFeatureFlag';
 import UserContext, {initialUserState} from '../contexts/userData';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {AddMeditationsPill} from '../components/AddMeditationsPill';
@@ -92,6 +93,7 @@ const HomeScreen = () => {
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
   const {meditationHistory} = useContext(MeditationHistoryContext);
   const {playlists} = useContext(PlaylistContext);
+  const playlistsEnabled = useFeatureFlag('enable-playlists');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
@@ -331,7 +333,7 @@ const HomeScreen = () => {
               existingMeditationFilePathData={meditationFilePaths}
             />
           ) : null}
-          {Object.values(playlists).length > 0 && searchInput.length === 0 ? (
+          {playlistsEnabled && Object.values(playlists).length > 0 && searchInput.length === 0 ? (
             <PlaylistList
               header="Playlists"
               playlists={Object.values(playlists).sort(
@@ -400,7 +402,7 @@ const HomeScreen = () => {
           title="Your Home"
         />
       ) : null}
-      {user.onboarding.hasSeenHomeOnboarding &&
+      {playlistsEnabled && user.onboarding.hasSeenHomeOnboarding &&
       !user.onboarding.hasSeenPlaylistOnboarding ? (
         <EduPromptComponent
           description="Sequence your meditations into playlists for a seamless practice. Head to the Playlists tab to create your first one!"

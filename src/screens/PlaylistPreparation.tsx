@@ -9,7 +9,10 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
 
+import {usePostHog} from 'posthog-react-native';
+
 import _Button from '../components/Button';
+import {capturePlaylistFlowEvent} from '../analytics/posthog';
 import {StackParamList} from '../types';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
@@ -49,6 +52,7 @@ type PlaylistPreparationRouteProp = RouteProp<StackParamList, 'PlaylistPreparati
 const PlaylistPreparation = () => {
   const navigation = useNavigation();
   const route = useRoute<PlaylistPreparationRouteProp>();
+  const posthog = usePostHog();
   const {playlistId} = route.params;
 
   const {playlists, setPlaylists} = useContext(PlaylistContext);
@@ -169,6 +173,13 @@ const PlaylistPreparation = () => {
       intention: inputValue,
       playlistId,
     });
+
+    if (posthog) {
+      capturePlaylistFlowEvent(posthog, 'playlist_started', {
+        playlist_id: playlistId,
+        meditation_count: playlist.meditationIds.length,
+      });
+    }
 
     const firstMeditationId = playlist.meditationIds[0];
     // @ts-ignore

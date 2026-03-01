@@ -14,9 +14,12 @@ import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 
+import {usePostHog} from 'posthog-react-native';
+
 import PlaylistContext from '../contexts/playlist';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import UserContext from '../contexts/userData';
+import {capturePlaylistFlowEvent} from '../analytics/posthog';
 import {MeditationId, Playlist, StackParamList} from '../types';
 import {brightWhite} from '../constants/colors';
 import {fbCreatePlaylist} from '../fb/playlists';
@@ -28,6 +31,7 @@ type CreatePlaylistRouteProp = RouteProp<StackParamList, 'CreatePlaylist'>;
 const CreatePlaylist = () => {
   const navigation = useNavigation();
   const route = useRoute<CreatePlaylistRouteProp>();
+  const posthog = usePostHog();
   const {user} = useContext(UserContext);
   const {playlists, setPlaylists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
@@ -125,6 +129,12 @@ const CreatePlaylist = () => {
 
       setPlaylists(updatedPlaylists);
       await setPlaylistsInAsyncStorage(updatedPlaylists);
+
+      if (posthog) {
+        capturePlaylistFlowEvent(posthog, 'playlist_created', {
+          meditation_count: selectedMeditationIds.length,
+        });
+      }
 
       navigation.goBack();
     } catch (error) {

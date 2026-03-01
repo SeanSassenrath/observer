@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -8,8 +8,10 @@ import {
 } from 'react-native';
 import {Layout, Text, Icon, Button} from '@ui-kitten/components';
 import {useNavigation} from '@react-navigation/native';
+import {usePostHog} from 'posthog-react-native';
 
 import PlaylistContext from '../contexts/playlist';
+import {capturePlaylistFlowEvent} from '../analytics/posthog';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import {Playlist, PlaylistId} from '../types';
 import {brightWhite} from '../constants/colors';
@@ -19,8 +21,15 @@ const COLOR_PRIMARY = '#9C4DCC';
 
 const Playlists = () => {
   const navigation = useNavigation();
+  const posthog = usePostHog();
   const {playlists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
+
+  useEffect(() => {
+    if (posthog) {
+      capturePlaylistFlowEvent(posthog, 'playlist_tab_viewed');
+    }
+  }, [posthog]);
 
   const playlistsArray = Object.values(playlists).sort(
     (a, b) =>

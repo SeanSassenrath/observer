@@ -45,6 +45,7 @@ import MeditationSessionContext, {
 import toastConfig from './src/toastConfig';
 import {SetupService} from './src/services/setupService';
 import {initMeditationCatalog} from './src/services/meditationCatalog';
+import {posthogClient} from './src/services/posthogClient';
 import MeditationHistoryContext from './src/contexts/meditationHistory';
 import {fbAddUser, fbGetUser, fbUpdateUser} from './src/fb/user';
 import {
@@ -269,7 +270,7 @@ const App = () => {
   };
 
   const setMeditationBaseDataToContext = async () => {
-    await initMeditationCatalog();
+    await initMeditationCatalog(posthogClient);
     const _meditationBaseData = await makeMeditationBaseData();
     if (_meditationBaseData) {
       setMeditationBaseData(_meditationBaseData);

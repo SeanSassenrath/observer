@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from '@ui-kitten/components';
 import {View, TouchableOpacity, Text} from 'react-native';
@@ -10,7 +10,8 @@ import InsightScreen from '../screens/Insight';
 import PlaylistsScreen from '../screens/Playlists';
 import {TabParamList} from '../types';
 import {onAddMeditations} from '../utils/addMeditations';
-import {captureAddFlowEvent} from '../analytics/posthog';
+import {captureAddFlowEvent, captureFeatureFlagExposure} from '../analytics/posthog';
+import {useFeatureFlag} from '../hooks/useFeatureFlag';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
 import UnknownFilesContext from '../contexts/unknownFiles';
@@ -145,18 +146,31 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
   );
 };
 
-const TabNavigator = () => (
-  <Tab.Navigator
-    tabBar={props => <CustomTabBar {...props} />}
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Add" component={AddScreen} />
-    <Tab.Screen name="Playlists" component={PlaylistsScreen} />
-    {/* <Tab.Screen name="Files" component={LibraryScreen} /> */}
-    <Tab.Screen name="Insights" component={InsightScreen} />
-  </Tab.Navigator>
-);
+const TabNavigator = () => {
+  const posthog = usePostHog();
+  const playlistsEnabled = useFeatureFlag('enable-playlists');
+
+  useEffect(() => {
+    if (posthog) {
+      captureFeatureFlagExposure(posthog, 'enable-playlists', playlistsEnabled);
+    }
+  }, [posthog, playlistsEnabled]);
+
+  return (
+    <Tab.Navigator
+      tabBar={props => <CustomTabBar {...props} />}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Add" component={AddScreen} />
+      {playlistsEnabled && (
+        <Tab.Screen name="Playlists" component={PlaylistsScreen} />
+      )}
+      {/* <Tab.Screen name="Files" component={LibraryScreen} /> */}
+      <Tab.Screen name="Insights" component={InsightScreen} />
+    </Tab.Navigator>
+  );
+};
 
 export default TabNavigator;

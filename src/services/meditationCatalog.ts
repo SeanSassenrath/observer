@@ -1,8 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
+import PostHog from 'posthog-react-native';
 import {MeditationBaseMap} from '../types';
 import {meditationBaseMap as staticFallback} from '../constants/meditation-data';
 import {getBackgroundImage} from '../constants/meditationImageRegistry';
+import {captureFeatureFlagExposure} from '../analytics/posthog';
 
 const CATALOG_CACHE_KEY = '@meditation_catalog_cache';
 const CATALOG_COLLECTION = 'catalog';
@@ -125,13 +127,38 @@ interface CatalogResult {
 
 /**
  * Main entry point. Returns MeditationBaseMap using this priority:
- * 1. Firestore (if newer version than cache)
+ * 1. Firestore (if newer version than cache, and feature flag enabled)
  * 2. AsyncStorage cache
  * 3. Static fallback (bundled meditation-data.ts)
  */
-async function getMeditationCatalog(): Promise<CatalogResult> {
+async function getMeditationCatalog(
+  posthog?: PostHog,
+): Promise<CatalogResult> {
   try {
+    // Check feature flag — skip Firestore if disabled
+    const flagValue = posthog?.getFeatureFlag('enable-firebase-catalog');
+    const firebaseCatalogEnabled = Boolean(flagValue);
+
+    if (posthog) {
+      captureFeatureFlagExposure(
+        posthog,
+        'enable-firebase-catalog',
+        firebaseCatalogEnabled,
+      );
+    }
+
     const cached = await getCachedCatalog();
+
+    if (!firebaseCatalogEnabled) {
+      console.log('Catalog: Firebase catalog flag disabled, skipping Firestore fetch');
+      if (cached) {
+        console.log('Catalog: using cached data, version', cached.version);
+        return {map: transformToMeditationBaseMap(cached.data), doc: cached.data};
+      }
+      console.log('Catalog: using static fallback');
+      return {map: staticFallback, doc: null};
+    }
+
     const firestoreDoc = await fetchCatalogFromFirestore();
 
     if (firestoreDoc) {
@@ -165,8 +192,10 @@ let _rawCatalogDoc: MeditationCatalogDocument | null = null;
  * Call during app initialization to pre-load the catalog.
  * Must be awaited before any sync access.
  */
-export async function initMeditationCatalog(): Promise<MeditationBaseMap> {
-  const result = await getMeditationCatalog();
+export async function initMeditationCatalog(
+  posthog?: PostHog,
+): Promise<MeditationBaseMap> {
+  const result = await getMeditationCatalog(posthog);
   _catalogSingleton = result.map;
   _rawCatalogDoc = result.doc;
   return _catalogSingleton;

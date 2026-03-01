@@ -3,8 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
 import {PostHogProvider, usePostHog} from 'posthog-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {POSTHOG_API_KEY} from '@env';
+
+import {posthogClient} from '../services/posthogClient';
 
 import {myTheme} from '../constants/navTheme';
 import MeditationFinishScreen from '../screens/MeditationFinish';
@@ -96,13 +96,7 @@ const StackNavigator = () => {
         routeNameRef.current = currentRouteName;
       }}
       theme={myTheme}>
-      <PostHogProvider apiKey={POSTHOG_API_KEY}
-        autocapture
-        options={{
-          host: "https://us.i.posthog.com",
-          customStorage: AsyncStorage,
-        }}
-      >
+      <PostHogProvider client={posthogClient} autocapture>
       <PostHogIdentifier />
       <Navigator
         initialRouteName={getInitialRouteName()}
