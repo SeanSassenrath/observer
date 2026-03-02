@@ -14,6 +14,7 @@ import SignInScreen from '../screens/SignIn';
 import TabNavigator from './Tab';
 import {StackParamList} from '../types';
 import UserContext from '../contexts/userData';
+import PlaylistContext from '../contexts/playlist';
 import BetaAgreement from '../screens/BetaAgreement';
 import AddMeditationsScreen from '../screens/AddMeditations';
 import Profile from '../screens/Profile';
@@ -44,15 +45,19 @@ const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 const PostHogIdentifier = () => {
   const posthog = usePostHog();
   const {user} = useContext(UserContext);
+  const {playlists} = useContext(PlaylistContext);
 
   useEffect(() => {
     if (user.uid) {
+      const playlistCount = Object.keys(playlists).length;
       posthog.identify(user.uid, {
         email: user.profile?.email,
         name: user.profile?.displayName,
+        has_created_playlist: playlistCount > 0,
+        playlist_count: playlistCount,
       });
     }
-  }, [user.uid]);
+  }, [user.uid, Object.keys(playlists).length]);
 
   return null;
 };

@@ -14,9 +14,12 @@ import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 
+import {usePostHog} from 'posthog-react-native';
+
 import PlaylistContext from '../contexts/playlist';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import UserContext from '../contexts/userData';
+import {capturePlaylistFlowEvent} from '../analytics/posthog';
 import {MeditationId, StackParamList} from '../types';
 import {brightWhite} from '../constants/colors';
 import {fbUpdatePlaylist, fbDeletePlaylist} from '../fb/playlists';
@@ -30,6 +33,7 @@ const EditPlaylist = () => {
   const route = useRoute<EditPlaylistRouteProp>();
   const {playlistId} = route.params;
 
+  const posthog = usePostHog();
   const {user} = useContext(UserContext);
   const {playlists, setPlaylists} = useContext(PlaylistContext);
   const {meditationBaseData} = useContext(MeditationBaseDataContext);
@@ -137,6 +141,12 @@ const EditPlaylist = () => {
       setPlaylists(updatedPlaylists);
       await setPlaylistsInAsyncStorage(updatedPlaylists);
 
+      if (posthog) {
+        capturePlaylistFlowEvent(posthog, 'playlist_updated', {
+          meditation_count: selectedMeditationIds.length,
+        });
+      }
+
       navigation.goBack();
     } catch (error) {
       console.error('Error updating playlist:', error);
@@ -168,6 +178,10 @@ const EditPlaylist = () => {
 
               setPlaylists(updatedPlaylists);
               await setPlaylistsInAsyncStorage(updatedPlaylists);
+
+              if (posthog) {
+                capturePlaylistFlowEvent(posthog, 'playlist_deleted');
+              }
 
               navigation.navigate('TabNavigation');
             } catch (error) {

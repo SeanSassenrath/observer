@@ -134,6 +134,10 @@ const CreatePlaylist = () => {
         capturePlaylistFlowEvent(posthog, 'playlist_created', {
           meditation_count: selectedMeditationIds.length,
         });
+        posthog.identify(user.uid, {
+          has_created_playlist: true,
+          playlist_count: Object.keys(updatedPlaylists).length,
+        });
       }
 
       navigation.goBack();
