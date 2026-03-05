@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
+  AppState,
   SafeAreaView,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -121,7 +122,24 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
     const countDownTimer = setCountDownTimer();
     const trackStateInterval = getTrackState();
 
+    const appStateSubscription = AppState.addEventListener(
+      'change',
+      nextAppState => {
+        if (
+          (nextAppState === 'background' || nextAppState === 'inactive') &&
+          timerRef.current > 0
+        ) {
+          // Phone locked during countdown — start playback immediately so
+          // the native audio layer begins while JS is about to be suspended.
+          playTrackPlayer();
+          timerRef.current = -1; // Prevent the interval from triggering play again
+          clearInterval(countDownTimer);
+        }
+      },
+    );
+
     return () => {
+      appStateSubscription.remove();
       clearInterval(countDownTimer);
       clearInterval(trackStateInterval);
       resetTrackPlayer();
