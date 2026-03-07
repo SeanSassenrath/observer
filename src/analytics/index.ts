@@ -22,6 +22,7 @@ export enum Action {
 
 export enum Noun {
   'BUTTON' = 'button',
+  'FILE_NOT_FOUND' = 'file_not_found',
   'ON_MOUNT' = 'on_mount',
   'ON_PLAY' = 'on_play',
 }
