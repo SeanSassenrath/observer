@@ -12,16 +12,13 @@ import {
   Avatar,
   Icon,
   Button,
-  Text,
 } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 import {usePostHog} from 'posthog-react-native';
 // import messaging from '@react-native-firebase/messaging';
 
-import RNFS from 'react-native-fs';
-
 import _Button from '../components/Button';
-import {MeditationBase, MeditationBaseMap, MeditationFilePath, MeditationId} from '../types';
+import {MeditationBase, MeditationBaseMap, MeditationId} from '../types';
 import {
   MeditationList,
   _MeditationListSection,
@@ -39,7 +36,6 @@ import UnknownFilesContext from '../contexts/unknownFiles';
 import MeditationHistoryContext from '../contexts/meditationHistory';
 import PlaylistContext from '../contexts/playlist';
 import {getRecentMeditationBaseIds} from '../utils/meditation';
-import {setMeditationFilePathDataInAsyncStorage} from '../utils/asyncStorageMeditation';
 import {Inspiration} from '../components/Inspiration';
 import MeditationNotesDrawer from '../components/MeditationNotesDrawer';
 import {brightWhite} from '../constants/colors';
@@ -102,7 +98,6 @@ const HomeScreen = () => {
   const [isNotesModalVisible, setIsNotesModalVisible] = useState(false);
   const [isNotifModalVisible, setIsNotifModalVisible] = useState(false);
   const [isSubscribeModalVisible, setIsSubscribeModalVisible] = useState(false);
-  const [staleFileNames, setStaleFileNames] = useState<string[]>([]);
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
 
@@ -167,39 +162,6 @@ const HomeScreen = () => {
     return () => {
       subscription.remove();
     };
-  }, []);
-
-  useEffect(() => {
-    const validateFilePaths = async () => {
-      if (!meditationFilePaths || Object.keys(meditationFilePaths).length === 0) {
-        return;
-      }
-
-      const staleIds: string[] = [];
-      const validPaths: MeditationFilePath = {};
-
-      for (const [medId, filePath] of Object.entries(meditationFilePaths)) {
-        const exists = await RNFS.exists(`${RNFS.DocumentDirectoryPath}/${filePath}`);
-        if (exists) {
-          validPaths[medId] = filePath;
-        } else {
-          staleIds.push(medId);
-        }
-      }
-
-      if (staleIds.length > 0) {
-        setMeditationFilePaths(validPaths);
-        setMeditationFilePathDataInAsyncStorage(validPaths);
-
-        const staleNames = staleIds
-          .map(id => meditationBaseData[id]?.name)
-          .filter(Boolean);
-
-        setStaleFileNames(staleNames);
-      }
-    };
-
-    validateFilePaths();
   }, []);
 
   const onSignOut = () => {
@@ -485,45 +447,6 @@ const HomeScreen = () => {
         isVisible={isSubscribeModalVisible}
         onClose={() => setIsSubscribeModalVisible(false)}
       />
-      <Modal
-        visible={staleFileNames.length > 0}
-        backdropStyle={styles.backdrop}>
-        <Layout level="3" style={styles.staleFilesModalContainer}>
-          <Text category="h6" style={styles.staleFilesTitle}>
-            {staleFileNames.length === 1
-              ? 'Meditation File Not Found'
-              : `${staleFileNames.length} Meditation Files Not Found`}
-          </Text>
-          <ScrollView style={styles.staleFilesScrollView}>
-            {staleFileNames.length === 1 ? (
-              <Text category="s1" style={styles.staleFilesBody}>
-                "{staleFileNames[0]}" could not be located on this device.
-              </Text>
-            ) : (
-              <>
-                <Text category="s1" style={styles.staleFilesBody}>
-                  The following meditations could not be located on this device:
-                </Text>
-                {staleFileNames.map((name, i) => (
-                  <Text key={i} category="s1" style={styles.staleFilesListItem}>
-                    • {name}
-                  </Text>
-                ))}
-              </>
-            )}
-          </ScrollView>
-          <_Button onPress={() => { setStaleFileNames([]); onAddMeditationsPress(); }}>
-            Re-add Files
-          </_Button>
-          <Button
-            appearance="ghost"
-            onPress={() => setStaleFileNames([])}
-            status="basic"
-            style={styles.staleFilesCloseButton}>
-            Close
-          </Button>
-        </Layout>
-      </Modal>
       <MeditationNotesDrawer
         visible={isNotesModalVisible}
         onClosePress={() => setIsNotesModalVisible(false)}
@@ -615,33 +538,6 @@ const themedStyles = StyleSheet.create({
     marginHorizontal: 20,
     marginBottom: 40,
     backgroundColor: 'transparent',
-  },
-  staleFilesModalContainer: {
-    borderRadius: 16,
-    padding: 20,
-    width: 350,
-  },
-  staleFilesTitle: {
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  staleFilesScrollView: {
-    maxHeight: 300,
-    marginBottom: 20,
-  },
-  staleFilesBody: {
-    textAlign: 'center',
-    lineHeight: 22,
-    opacity: 0.8,
-  },
-  staleFilesListItem: {
-    lineHeight: 22,
-    opacity: 0.8,
-    paddingLeft: 8,
-    marginTop: 4,
-  },
-  staleFilesCloseButton: {
-    marginTop: 8,
   },
 });
 
