@@ -5,7 +5,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import RNFS from 'react-native-fs';
 import {useNavigation} from '@react-navigation/native';
 import TrackPlayer, {
   Track,
@@ -25,13 +24,11 @@ import {convertMeditationToTrack} from '../utils/track';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
 import MeditationSessionContext from '../contexts/meditationSession';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
-import UnknownFilesContext from '../contexts/unknownFiles';
 import Button from '../components/Button';
 import {meditationPlayerSendEvent, Action, Noun} from '../analytics';
 import {MeditationPlayerCancelModal} from '../components/MeditationPlayerCancelModal/component';
 import {resetMeditationInstanceData} from '../utils/meditationInstance/meditationInstance';
 import UserContext from '../contexts/userData';
-import {onAddMeditations} from '../utils/addMeditations';
 import {usePostHog} from 'posthog-react-native';
 import {capturePlayFlowEvent} from '../analytics/posthog';
 import {
@@ -84,9 +81,7 @@ const RestartIcon = (props: any) => (
 const MeditationPlayer = ({
   route,
 }: MeditationPlayerStackScreenProps<'MeditationPlayer'>) => {
-  const {meditationBaseData, setMeditationBaseData} = useContext(
-    MeditationBaseDataContext,
-  );
+  const {meditationBaseData} = useContext(MeditationBaseDataContext);
   const {playlists} = useContext(PlaylistContext);
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
@@ -94,11 +89,6 @@ const MeditationPlayer = ({
   const {meditationSession, setMeditationSession} = useContext(
     MeditationSessionContext,
   );
-  const {user} = useContext(UserContext);
-  const {meditationFilePaths, setMeditationFilePaths} = useContext(
-    MeditationFilePathsContext,
-  );
-  const {setUnknownFiles} = useContext(UnknownFilesContext);
   const [playerState, setPlayerState] = useState(TrackPlayerState.None);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [time, setTime] = React.useState(countDownInSeconds);
@@ -106,8 +96,6 @@ const MeditationPlayer = ({
   const [tracks, setTracks] = useState([] as Track[]);
   const [meditationTime, setMeditationTime] = useState(0);
   const [isCancelModalVisible, setIsCancelModalVisible] = useState(false);
-  const [isFileNotFoundModalVisible, setIsFileNotFoundModalVisible] =
-    useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
@@ -118,10 +106,8 @@ const MeditationPlayer = ({
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
-  const posthog = usePostHog();
-  const playlist = meditationSession.playlistId
-    ? playlists[meditationSession.playlistId]
-    : null;
+const posthog = usePostHog();
+const playlist = meditationSession.playlistId ? playlists[meditationSession.playlistId] : null;
   useEffect(() => {
     meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
       meditationName: meditation.name,
@@ -144,24 +130,6 @@ const MeditationPlayer = ({
 
   const addTracks = async () => {
     const _tracks = makeTrackList();
-
-    // Check that all track files exist before adding to player
-    for (const track of _tracks) {
-      const fileExists = await RNFS.exists(track.url);
-      if (!fileExists) {
-        meditationPlayerSendEvent(Action.FAIL, Noun.FILE_NOT_FOUND, {
-          meditationName: meditation.name,
-          meditationBaseId: meditation.meditationBaseId,
-        });
-        capturePlayFlowEvent(posthog, 'play_meditation_file_not_found', {
-          meditation_id: meditation.meditationBaseId,
-          meditation_name: meditation.name,
-        });
-        setIsFileNotFoundModalVisible(true);
-        return;
-      }
-    }
-
     setTracks(_tracks);
     await TrackPlayer.add(_tracks);
   };
@@ -304,17 +272,15 @@ const MeditationPlayer = ({
   const onFinishPress = () => {
     // Update current meditation instance with partial time before navigating
     // Find and update the current instance with timeMeditated
-    const updatedInstances = meditationSession.instances.map(
-      (instance, idx) => {
-        if (idx === currentTrackIndex) {
-          return {
-            ...instance,
-            timeMeditated: position, // Update with current position
-          };
-        }
-        return instance;
-      },
-    );
+    const updatedInstances = meditationSession.instances.map((instance, idx) => {
+      if (idx === currentTrackIndex) {
+        return {
+          ...instance,
+          timeMeditated: position,  // Update with current position
+        };
+      }
+      return instance;
+    });
 
     setMeditationSession({
       ...meditationSession,
@@ -352,30 +318,6 @@ const MeditationPlayer = ({
     resetTrackPlayer();
     // @ts-ignore
     navigation.navigate('TabNavigation', {screen: 'Home'});
-  };
-
-  const onFileNotFoundReAdd = async () => {
-    setIsFileNotFoundModalVisible(false);
-    resetTrackPlayer();
-    const {_meditations, _unknownFiles} = await onAddMeditations(
-      meditationFilePaths,
-      setMeditationFilePaths,
-      setUnknownFiles,
-      user,
-      setMeditationBaseData,
-    );
-    navigation.pop();
-    // @ts-ignore
-    navigation.navigate('AddMedsMatching', {
-      medsSuccess: _meditations,
-      medsFail: _unknownFiles,
-    });
-  };
-
-  const onFileNotFoundGoBack = () => {
-    setIsFileNotFoundModalVisible(false);
-    resetTrackPlayer();
-    navigation.goBack();
   };
 
   const isPlaying = playerState === TrackPlayerState.Playing;
@@ -469,30 +411,6 @@ const MeditationPlayer = ({
         onCancel={onCancelMeditationModalPress}
         onContinue={() => setIsCancelModalVisible(false)}
       />
-      <Modal
-        visible={isFileNotFoundModalVisible}
-        backdropStyle={styles.modalBackdrop}>
-        <Layout level="3" style={styles.modalContainer}>
-          <Text category="h6" style={styles.fileNotFoundTitle}>
-            Meditation File Not Found
-          </Text>
-          <Text category="s1" style={styles.fileNotFoundBody}>
-            This meditation's audio couldn't be located. Please re-add the file
-            to continue your practice.
-          </Text>
-          <Button
-            onPress={onFileNotFoundReAdd}
-            style={styles.fileNotFoundButton}>
-            Re-add Files
-          </Button>
-          <Button
-            appearance="ghost"
-            onPress={onFileNotFoundGoBack}
-            status="control">
-            Go Back
-          </Button>
-        </Layout>
-      </Modal>
       <Modal
         visible={isModalVisible}
         backdropStyle={styles.modalBackdrop}
@@ -638,20 +556,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 80,
     color: lightestWhite,
-  },
-  fileNotFoundTitle: {
-    color: brightWhite,
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  fileNotFoundBody: {
-    color: lightWhite,
-    textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 20,
-  },
-  fileNotFoundButton: {
-    marginBottom: 8,
   },
   topBarContainer: {
     alignItems: 'center',
