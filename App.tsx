@@ -10,7 +10,7 @@
 
 import 'fast-text-encoding';
 import React, {useState, useEffect} from 'react';
-import {LogBox} from 'react-native';
+import {LogBox, Linking} from 'react-native';
 
 LogBox.ignoreLogs(['EXNativeModulesProxy']);
 import * as eva from '@eva-design/eva';
@@ -22,7 +22,7 @@ import Toast from 'react-native-toast-message';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import StackNavigator from './src/navigation/Stack';
+import StackNavigator, {navigationRef} from './src/navigation/Stack';
 import {
   MeditationBaseMap,
   MeditationFilePath,
@@ -91,6 +91,7 @@ const App = () => {
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
   const [unknownFiles, setUnknownFiles] = useState([] as UnknownFileData[]);
   const [playlists, setPlaylists] = useState({} as Record<PlaylistId, Playlist>);
+  const [pendingDeepLink, setPendingDeepLink] = useState<string | null>(null);
 
   const getFirstName = (firebaseUser: any) => {
     if (firebaseUser.displayName) {
@@ -256,6 +257,26 @@ const App = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.uid]);
+
+  useEffect(() => {
+    const handleUrl = (url: string | null) => {
+      if (url?.startsWith('unlimitedmeditations://import-playlist')) {
+        setPendingDeepLink(url);
+      }
+    };
+
+    Linking.getInitialURL().then(handleUrl);
+    const linkSub = Linking.addEventListener('url', ({url}) => handleUrl(url));
+    return () => linkSub.remove();
+  }, []);
+
+  useEffect(() => {
+    if (!initializing && pendingDeepLink) {
+      setPendingDeepLink(null);
+      navigationRef.current?.navigate('ImportPlaylist', {encodedData: pendingDeepLink});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initializing, pendingDeepLink]);
 
   const setupPlayerService = async (unmounted: boolean) => {
     const isSetup = await SetupService();

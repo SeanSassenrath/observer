@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationContainerRef} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
 import {PostHogProvider, usePostHog} from 'posthog-react-native';
@@ -39,8 +39,11 @@ import EditPlaylistScreen from '../screens/EditPlaylist';
 import PlaylistPreparationScreen from '../screens/PlaylistPreparation';
 import SubmitMeditationScreen from '../screens/SubmitMeditation';
 import MeditationSelectorScreen from '../screens/MeditationSelector';
+import ImportPlaylistScreen from '../screens/ImportPlaylist';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
+
+export const navigationRef = React.createRef<NavigationContainerRef<StackParamList>>();
 
 const PostHogIdentifier = () => {
   const posthog = usePostHog();
@@ -65,7 +68,6 @@ const PostHogIdentifier = () => {
 const StackNavigator = () => {
   const {user} = useContext(UserContext);
   const routeNameRef: any = useRef({});
-  const navigationRef: any = useRef({});
 
   const getInitialRouteName = () => {
     if (user.uid.length <= 0) {
@@ -81,11 +83,11 @@ const StackNavigator = () => {
     <NavigationContainer
       ref={navigationRef}
       onReady={() => {
-        routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+        routeNameRef.current = navigationRef.current?.getCurrentRoute()?.name;
       }}
       onStateChange={async () => {
         const previousRouteName = routeNameRef.current;
-        const currentRouteName = navigationRef.current.getCurrentRoute().name;
+        const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
 
         if (
           previousRouteName !== currentRouteName &&
@@ -134,6 +136,7 @@ const StackNavigator = () => {
         <Screen name="PlaylistPreparation" component={PlaylistPreparationScreen} />
         <Screen name="SubmitMeditation" component={SubmitMeditationScreen} />
         <Screen name="MeditationSelector" component={MeditationSelectorScreen} />
+        <Screen name="ImportPlaylist" component={ImportPlaylistScreen} />
       </Navigator>
       </PostHogProvider>
     </NavigationContainer>

@@ -45,7 +45,12 @@ export type StackParamList = {
   TermsAgreement: undefined;
   UnrecognizedFiles: UnrecognizedFilesParams;
   Welcome: undefined;
+  ImportPlaylist: ImportPlaylistParams;
 };
+
+interface ImportPlaylistParams {
+  encodedData: string;
+}
 
 interface MeditationParams {
   id: MeditationId;
@@ -318,4 +323,12 @@ export interface Playlist {
 export interface PlaylistContextType {
   playlists: Record<PlaylistId, Playlist>;
   setPlaylists: React.Dispatch<React.SetStateAction<Record<PlaylistId, Playlist>>>;
+}
+
+export interface ShareablePlaylist {
+  v: 1;
+  name: string;
+  description?: string;
+  meditationIds: string[];
+  gradientIndex?: number;
 }

@@ -30,6 +30,16 @@
 				<string>com.googleusercontent.apps.859830619066-cqlevj9krap1l8649uq9806lr2tdo5ra</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.unlimited.meditations</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>unlimitedmeditations</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

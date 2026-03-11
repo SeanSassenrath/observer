@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
@@ -25,6 +26,7 @@ import {brightWhite} from '../constants/colors';
 import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {fbUpdatePlaylist} from '../fb/playlists';
 import {setPlaylistsInAsyncStorage} from '../utils/asyncStoragePlaylists';
+import {sharePlaylist} from '../utils/sharePlaylist';
 
 const EMPTY_STRING = '';
 const oneSecond = 1000;
@@ -44,6 +46,15 @@ const EditIcon = (props: any) => (
     style={themedStyles.editIcon}
     fill={brightWhite}
     name="edit-outline"
+  />
+);
+
+const ShareIcon = (props: any) => (
+  <Icon
+    {...props}
+    style={themedStyles.shareIcon}
+    fill={brightWhite}
+    name="share-outline"
   />
 );
 
@@ -134,6 +145,23 @@ const PlaylistPreparation = () => {
   const onEditPress = () => {
     // @ts-ignore
     navigation.navigate('EditPlaylist', {playlistId});
+  };
+
+  const handleSharePress = async () => {
+    if (!playlist || playlist.meditationIds.length === 0) {
+      return;
+    }
+    try {
+      if (posthog) {
+        capturePlaylistFlowEvent(posthog, 'playlist_share_initiated', {
+          playlist_id: playlistId,
+          meditation_count: playlist.meditationIds.length,
+        });
+      }
+      await sharePlaylist(playlist);
+    } catch {
+      Toast.show({type: 'error', text1: 'Could not share playlist'});
+    }
   };
 
   const onBeginPress = () => {
@@ -255,13 +283,22 @@ const PlaylistPreparation = () => {
                 <BackIcon />
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              style={styles.topBarIcon}
-              onPress={onEditPress}>
-              <View style={styles.editIconContainer}>
-                <EditIcon />
-              </View>
-            </TouchableWithoutFeedback>
+            <View style={styles.rightIconsContainer}>
+              <TouchableWithoutFeedback
+                style={styles.topBarIcon}
+                onPress={handleSharePress}>
+                <View style={[styles.shareIconContainer, trackCount === 0 && styles.iconDisabled]}>
+                  <ShareIcon />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                style={styles.topBarIcon}
+                onPress={onEditPress}>
+                <View style={styles.editIconContainer}>
+                  <EditIcon />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
           <Text category="h5" style={styles.topBarText}>
             {playlist.name}
@@ -430,6 +467,23 @@ const themedStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 10,
+  },
+  shareIcon: {
+    height: 30,
+    width: 30,
+  },
+  shareIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    marginRight: 16,
+  },
+  rightIconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  iconDisabled: {
+    opacity: 0.3,
   },
   mainSection: {
     flex: 6,
