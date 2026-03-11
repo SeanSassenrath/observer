@@ -4,6 +4,7 @@ import {DocumentPickerResponse} from 'react-native-document-picker';
 import {MeditationFilePathData} from '../utils/asyncStorageMeditation';
 import {UnknownFileData} from '../types';
 import {getRawCatalogSync, FirestoreMeditation} from './meditationCatalog';
+import {makeFilePathData} from '../utils/filePicker';
 
 /**
  * Data-driven file matching service.
@@ -82,7 +83,7 @@ function matchFileToMeditation(
 ): MeditationFilePathData | null {
   const catalog = getRawCatalogSync();
   if (!catalog) {
-    return null;
+    return makeFilePathData(file) || null;
   }
 
   const fileSize = file.size;

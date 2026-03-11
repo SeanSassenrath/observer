@@ -58,7 +58,7 @@ export const makeFilePathDataList = (
   return {filePathDataList, unknownFiles};
 };
 
-const makeFilePathData = (file: DocumentPickerResponse) => {
+export const makeFilePathData = (file: DocumentPickerResponse) => {
   const fileSize = file.size;
   const fileSizeString = fileSize?.toString().slice(0, 5);
   const fileName = file.name;
