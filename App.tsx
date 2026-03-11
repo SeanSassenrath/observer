@@ -330,7 +330,7 @@ const App = () => {
                             <UnknownFilesContext.Provider
                               value={{unknownFiles, setUnknownFiles}}>
                               <StackNavigator />
-                              {__DEV__ && <DebugButton />}
+                              {/* {__DEV__ && <DebugButton />} */}
                               {__DEV__ && <DebugPanel />}
                             </UnknownFilesContext.Provider>
                           </MeditationFilePathsContext.Provider>
