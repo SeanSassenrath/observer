@@ -31,6 +31,10 @@ export const fbGetMeditationHistory = (
     })
     .catch(e => {
       console.log('FB get meditation history failed:', e);
+      return {
+        meditationInstances: [],
+        lastDocument: undefined,
+      };
     });
 };
 
@@ -76,7 +80,7 @@ export const fbAddMeditationHistory = async (
       return doc;
     })
     .catch(e => {
-      console.log('FB add meditation history success:', e);
+      console.log('FB add meditation history failed:', e);
     });
 };
 
@@ -99,6 +103,6 @@ export const fbUpdateMeditationHistory = async (
       return doc;
     })
     .catch(e => {
-      console.log('FB update meditation history success:', e);
+      console.log('FB update meditation history failed:', e);
     });
 };

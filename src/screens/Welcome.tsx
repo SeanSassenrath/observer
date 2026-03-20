@@ -7,19 +7,22 @@ import {Layout, Text} from '@ui-kitten/components/ui';
 import Button from '../components/Button';
 import {WelcomeScreenNavigationProp} from '../types';
 import UserContext from '../contexts/userData';
+import {fbUpdateUser} from '../fb/user';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
   const {user, setUser} = useContext(UserContext);
 
-  const onStartPress = () => {
-    setUser({
+  const onStartPress = async () => {
+    const updatedUser = {
       ...user,
       onboarding: {
         ...user.onboarding,
         hasSeenWelcome: true,
       },
-    });
+    };
+    await fbUpdateUser(user.uid, updatedUser);
+    setUser(updatedUser);
     navigation.navigate('PurchaseOnboarding');
   };
 

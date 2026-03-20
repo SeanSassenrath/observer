@@ -10,7 +10,7 @@ import UserContext from '../contexts/userData';
 import {termsAgreement} from '../constants/termsAgreement';
 
 const TermsAgreement = () => {
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const navigation = useNavigation();
 
@@ -24,7 +24,10 @@ const TermsAgreement = () => {
       },
     };
     await fbUpdateUser(user.uid, updatedUser)
-      .then(() => {
+      .then(didUpdateUser => {
+        if (didUpdateUser) {
+          setUser(updatedUser);
+        }
         navigation.navigate('AddMeditations');
       })
       .catch(e => {
