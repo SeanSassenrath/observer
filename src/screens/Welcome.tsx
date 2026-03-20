@@ -21,8 +21,14 @@ const WelcomeScreen = () => {
         hasSeenWelcome: true,
       },
     };
-    await fbUpdateUser(user.uid, updatedUser);
-    setUser(updatedUser);
+    const didUpdateUser = await fbUpdateUser(user.uid, updatedUser);
+
+    if (didUpdateUser) {
+      setUser(updatedUser);
+    } else {
+      console.log('Failed to persist hasSeenWelcome to Firebase.');
+    }
+
     navigation.navigate('PurchaseOnboarding');
   };
 
