@@ -331,7 +331,7 @@ const MeditationPlayer = ({
     .toISOString()
     .slice(12, 19);
   const trackTitle =
-    tracks[currentTrackIndex] && tracks[currentTrackIndex].title;
+    tracks[currentTrackIndex]?.title || 'Meditation';
 
   return (
     <Layout level="4" style={styles.container}>

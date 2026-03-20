@@ -197,32 +197,44 @@ const Profile = (props: Props) => {
         autoHide: false,
       });
 
-      await ref.putFile(image.path);
+      try {
+        await ref.putFile(image.path);
 
-      const url = await ref.getDownloadURL();
+        const url = await ref.getDownloadURL();
 
-      await fbUpdateUser(user.uid, {
-        'profile.photoURL': url,
-      });
+        await fbUpdateUser(user.uid, {
+          'profile.photoURL': url,
+        });
 
-      setUser({
-        ...user,
-        profile: {
-          ...user.profile,
-          photoURL: url,
-        },
-      });
+        setUser({
+          ...user,
+          profile: {
+            ...user.profile,
+            photoURL: url,
+          },
+        });
 
-      Toast.hide();
+        Toast.hide();
 
-      Toast.show({
-        type: 'success',
-        text1: 'Photo added',
-        text2: 'Nicely done!',
-        position: 'bottom',
-        bottomOffset: 100,
-        visibilityTime: 3000,
-      });
+        Toast.show({
+          type: 'success',
+          text1: 'Photo added',
+          text2: 'Nicely done!',
+          position: 'bottom',
+          bottomOffset: 100,
+          visibilityTime: 3000,
+        });
+      } catch {
+        Toast.hide();
+        Toast.show({
+          type: 'error',
+          text1: 'Unable to add photo',
+          text2: 'Please try again.',
+          position: 'bottom',
+          bottomOffset: 100,
+          visibilityTime: 3000,
+        });
+      }
     });
   };
 

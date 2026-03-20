@@ -43,6 +43,13 @@ export const fbGetMoreMeditationHistory = (
   //@ts-ignore
   lastDocument?: FirebaseFirestoreTypes.DocumentData,
 ): FbMeditationHistory | any => {
+  if (!lastDocument) {
+    return Promise.resolve({
+      meditationInstances: [],
+      lastDocument: undefined,
+    });
+  }
+
   return firestore()
     .collection('users')
     .doc(userId)
