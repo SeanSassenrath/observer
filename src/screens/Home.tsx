@@ -70,6 +70,7 @@ import {SearchBar} from '../components/SearchBar';
 import NotificationModal from '../components/NotificationModal';
 // import {getSeenNotificationModalInAsyncStorage} from '../utils/asyncStorageNotifs';
 import SubscribeModal from '../components/SubscribeModal';
+import BetaInviteModal from '../components/BetaInviteModal';
 
 const EMPTY_SEARCH = '';
 
@@ -442,6 +443,7 @@ const HomeScreen = () => {
         onClose={() => setIsNotifModalVisible(false)}
         isVisible={isNotifModalVisible}
       />
+      <BetaInviteModal />
       <SubscribeModal
         description="Add more meditations to your library by starting your free trial."
         isVisible={isSubscribeModalVisible}
