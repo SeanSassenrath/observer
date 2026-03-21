@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {ImageBackground, SafeAreaView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-toast-message';
 import {Layout, Text} from '@ui-kitten/components/ui';
 
 import Button from '../components/Button';
@@ -25,11 +26,16 @@ const WelcomeScreen = () => {
 
     if (didUpdateUser) {
       setUser(updatedUser);
+      navigation.navigate('PurchaseOnboarding');
     } else {
-      console.log('Failed to persist hasSeenWelcome to Firebase.');
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong',
+        text2: 'Please try again',
+        position: 'bottom',
+        bottomOffset: 100,
+      });
     }
-
-    navigation.navigate('PurchaseOnboarding');
   };
 
   return (
