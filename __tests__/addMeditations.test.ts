@@ -26,15 +26,33 @@ const mockSetMeditationBaseData = jest.fn();
 
 const mockUser = {
   uid: 'test-uid',
-  profile: {email: 'test@test.com', displayName: '', firstName: '', lastName: '', creationTime: '', lastSignInTime: '', photoURL: ''},
-  onboarding: {hasSeenWelcome: false, hasSeenAddMeditationOnboarding: false, hasSeenLibraryOnboarding: false, hasSeenHomeOnboarding: false, hasSeenInsightsOnboarding: false, hasSeenBreathworkOnboarding: false, hasSeenPlaylistOnboarding: false},
+  profile: {
+    email: 'test@test.com',
+    displayName: '',
+    firstName: '',
+    lastName: '',
+    creationTime: '',
+    lastSignInTime: '',
+    photoURL: '',
+  },
+  onboarding: {
+    hasSeenWelcome: false,
+    hasSeenAddMeditationOnboarding: false,
+    hasSeenLibraryOnboarding: false,
+    hasSeenHomeOnboarding: false,
+    hasSeenInsightsOnboarding: false,
+    hasSeenBreathworkOnboarding: false,
+    hasSeenPlaylistOnboarding: false,
+  },
   meditationUserData: {streaks: {current: 0, longest: 0}},
 } as any;
 
 beforeEach(() => {
   jest.clearAllMocks();
   (fbAddUnsupportedFiles as jest.Mock).mockResolvedValue(true);
-  (setMeditationFilePathDataInAsyncStorage as jest.Mock).mockResolvedValue(undefined);
+  (setMeditationFilePathDataInAsyncStorage as jest.Mock).mockResolvedValue(
+    undefined,
+  );
   (makeMeditationBaseData as jest.Mock).mockResolvedValue({});
 });
 
@@ -62,7 +80,13 @@ describe('onAddMeditations', () => {
 
   it('saves matched files to AsyncStorage and updates context', async () => {
     const pickedFiles = [
-      {name: 'meditation.m4a', size: 12345, type: 'audio/mp4', uri: 'file://med.m4a', fileCopyUri: '/path/med.m4a'},
+      {
+        name: 'meditation.m4a',
+        size: 12345,
+        type: 'audio/mp4',
+        uri: 'file://med.m4a',
+        fileCopyUri: '/path/med.m4a',
+      },
     ];
     const matchedData = {'m-test': '/path/med.m4a'};
 
@@ -71,7 +95,9 @@ describe('onAddMeditations', () => {
       filePathDataList: matchedData,
       unknownFiles: [],
     });
-    (makeMeditationBaseData as jest.Mock).mockResolvedValue({'m-test': {name: 'Test'}});
+    (makeMeditationBaseData as jest.Mock).mockResolvedValue({
+      'm-test': {name: 'Test'},
+    });
 
     await onAddMeditations(
       {},
@@ -81,18 +107,43 @@ describe('onAddMeditations', () => {
       mockSetMeditationBaseData,
     );
 
-    expect(setMeditationFilePathDataInAsyncStorage).toHaveBeenCalledWith(matchedData);
+    expect(setMeditationFilePathDataInAsyncStorage).toHaveBeenCalledWith(
+      matchedData,
+    );
     expect(mockSetFilePaths).toHaveBeenCalledWith(matchedData);
-    expect(mockSetMeditationBaseData).toHaveBeenCalledWith({'m-test': {name: 'Test'}});
+    expect(mockSetMeditationBaseData).toHaveBeenCalledWith({
+      'm-test': {name: 'Test'},
+    });
   });
 
   it('uploads unsupported files to Firebase (filtering intros/images)', async () => {
     const pickedFiles = [
-      {name: 'file.m4a', size: 100, type: 'audio/mp4', uri: 'file://f.m4a', fileCopyUri: '/path/f.m4a'},
+      {
+        name: 'file.m4a',
+        size: 100,
+        type: 'audio/mp4',
+        uri: 'file://f.m4a',
+        fileCopyUri: '/path/f.m4a',
+      },
     ];
-    const unknownAudio = {name: 'unknown.m4a', type: 'audio/mp4', size: 5000, uri: '/path/unknown.m4a'};
-    const introFile = {name: 'Introduction to meditation.m4a', type: 'audio/mp4', size: 2000, uri: '/path/intro.m4a'};
-    const imageFile = {name: 'cover.png', type: 'image/png', size: 1000, uri: '/path/cover.png'};
+    const unknownAudio = {
+      name: 'unknown.m4a',
+      type: 'audio/mp4',
+      size: 5000,
+      uri: '/path/unknown.m4a',
+    };
+    const introFile = {
+      name: 'Introduction to meditation.m4a',
+      type: 'audio/mp4',
+      size: 2000,
+      uri: '/path/intro.m4a',
+    };
+    const imageFile = {
+      name: 'cover.png',
+      type: 'image/png',
+      size: 1000,
+      uri: '/path/cover.png',
+    };
 
     (DocumentPicker.pick as jest.Mock).mockResolvedValue(pickedFiles);
     (makeFilePathDataList as jest.Mock).mockReturnValue({
@@ -109,15 +160,19 @@ describe('onAddMeditations', () => {
     );
 
     // Intros and images should be filtered out
-    expect(fbAddUnsupportedFiles).toHaveBeenCalledWith(
-      mockUser,
-      [unknownAudio],
-    );
+    expect(fbAddUnsupportedFiles).toHaveBeenCalledWith(mockUser, [
+      unknownAudio,
+    ]);
     expect(result._unknownFiles).toEqual([unknownAudio]);
   });
 
   it('filters out PDF files from unknown files', async () => {
-    const pdfFile = {name: 'manual.pdf', type: 'application/pdf', size: 3000, uri: '/path/manual.pdf'};
+    const pdfFile = {
+      name: 'manual.pdf',
+      type: 'application/pdf',
+      size: 3000,
+      uri: '/path/manual.pdf',
+    };
 
     (DocumentPicker.pick as jest.Mock).mockResolvedValue([]);
     (makeFilePathDataList as jest.Mock).mockReturnValue({
@@ -158,12 +213,21 @@ describe('onAddMeditations', () => {
   it('merges with existing meditation file path data', async () => {
     const existing = {'m-existing': '/old/path.m4a'};
     const pickedFiles = [
-      {name: 'new.m4a', size: 999, type: 'audio/mp4', uri: 'file://new.m4a', fileCopyUri: '/path/new.m4a'},
+      {
+        name: 'new.m4a',
+        size: 999,
+        type: 'audio/mp4',
+        uri: 'file://new.m4a',
+        fileCopyUri: '/path/new.m4a',
+      },
     ];
 
     (DocumentPicker.pick as jest.Mock).mockResolvedValue(pickedFiles);
     (makeFilePathDataList as jest.Mock).mockReturnValue({
-      filePathDataList: {'m-existing': '/old/path.m4a', 'm-new': '/new/path.m4a'},
+      filePathDataList: {
+        'm-existing': '/old/path.m4a',
+        'm-new': '/new/path.m4a',
+      },
       unknownFiles: [],
     });
     (makeMeditationBaseData as jest.Mock).mockResolvedValue({});

@@ -10,7 +10,10 @@ import InsightScreen from '../screens/Insight';
 import PlaylistsScreen from '../screens/Playlists';
 import {TabParamList} from '../types';
 import {onAddMeditations} from '../utils/addMeditations';
-import {captureAddFlowEvent, captureFeatureFlagExposure} from '../analytics/posthog';
+import {
+  captureAddFlowEvent,
+  captureFeatureFlagExposure,
+} from '../analytics/posthog';
 import {useFeatureFlag} from '../hooks/useFeatureFlag';
 import MeditationBaseDataContext from '../contexts/meditationBaseData';
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
@@ -43,7 +46,9 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
   const posthog = usePostHog();
   const {user} = useContext(UserContext);
   const {setMeditationBaseData} = useContext(MeditationBaseDataContext);
-  const {meditationFilePaths, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
   const {setUnknownFiles} = useContext(UnknownFilesContext);
 
   const handleAddPress = async () => {
@@ -74,24 +79,26 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
   };
 
   return (
-    <View style={{
-      flexDirection: 'row',
-      backgroundColor: 'rgba(0, 0, 0, 0.88)',
-      height: 90,
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      paddingBottom: 26,
-      paddingTop: 8,
-    }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        backgroundColor: 'rgba(0, 0, 0, 0.88)',
+        height: 90,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingBottom: 26,
+        paddingTop: 8,
+      }}>
       {state.routes.map((route: any, index: number) => {
         const {options} = descriptors[route.key];
-        const label = options.tabBarLabel !== undefined
-          ? options.tabBarLabel
-          : options.title !== undefined
-          ? options.title
-          : route.name;
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
         const isAddTab = route.name === 'Add';
@@ -124,19 +131,19 @@ const CustomTabBar = ({state, descriptors, navigation}: any) => {
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
-            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-          >
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Icon
               fill={color}
               style={{height: 24, width: 24}}
               name={iconName}
             />
-            <Text style={{
-              color,
-              fontSize: 12,
-              fontWeight: '500',
-              marginTop: 0,
-            }}>
+            <Text
+              style={{
+                color,
+                fontSize: 12,
+                fontWeight: '500',
+                marginTop: 0,
+              }}>
               {label}
             </Text>
           </TouchableOpacity>

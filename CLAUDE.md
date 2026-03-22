@@ -7,6 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Unlimited Meditations** - A React Native mobile app for iOS and Android that helps users organize and play Dr. Joe Dispenza meditation audio files stored locally on their device. The app uses Firebase for authentication and cloud storage of user data (meditation history, streaks), while meditation audio files remain local.
 
 **Key Technologies:**
+
 - React Native 0.72.17 + React 18.3.1
 - TypeScript 4.8.3
 - Firebase Suite v23.5.0 (Auth, Firestore, Analytics, Crashlytics)
@@ -18,6 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Common Development Commands
 
 ### Running the App
+
 ```bash
 # Start Metro bundler
 npm start
@@ -30,6 +32,7 @@ npm run android
 ```
 
 ### Testing & Linting
+
 ```bash
 # Run tests
 npm test
@@ -39,6 +42,7 @@ npm run lint
 ```
 
 ### iOS Development
+
 ```bash
 # Install CocoaPods dependencies (run after adding native modules)
 cd ios && pod install && cd ..
@@ -48,12 +52,14 @@ cd ios && rm -rf build && rm -rf Pods && rm Podfile.lock && pod install && cd ..
 ```
 
 ### Android Development
+
 ```bash
 # Clean Android build
 cd android && ./gradlew clean && cd ..
 ```
 
 ### Database Scripts
+
 ```bash
 # Build real fingerprint database from meditation files
 # (Requires organized meditation files in a directory)
@@ -67,6 +73,7 @@ node scripts/buildRealFingerprintDatabase.js /path/to/meditation-files
 The app uses React Context for global state management (not Redux). Each context provides domain-specific state:
 
 **Core Contexts** (`/src/contexts/`):
+
 - **UserContext** - User auth state, profile, onboarding flags, meditation stats
 - **MeditationBaseDataContext** - Master meditation metadata (all available meditations)
 - **MeditationInstanceDataContext** - Current meditation session data
@@ -75,6 +82,7 @@ The app uses React Context for global state management (not Redux). Each context
 - **UnknownFilesContext** - Files that couldn't be matched to meditation database
 
 All contexts follow this pattern:
+
 ```typescript
 interface Context {
   data: DataType;
@@ -104,6 +112,7 @@ Context providers are nested in `App.tsx` (lines 276-286), with all screens acce
 ### Firebase Integration (`/src/fb/`)
 
 **Firestore Schema:**
+
 ```
 /users/{uid}
   - uid, profile (name, email, photo)
@@ -115,12 +124,14 @@ Context providers are nested in `App.tsx` (lines 276-286), with all screens acce
 ```
 
 **Key Firebase Modules:**
+
 - `auth.tsx` - Email/password, Google Sign-In, Apple Sign-In helpers
 - `user.tsx` - CRUD operations on `/users/{userId}`
 - `meditationHistory.tsx` - Paginated history queries (20 records per page)
 - `unsupportedFiles.tsx`, `feedback.tsx` - Additional collections
 
 **Auth Flow** (App.tsx, lines 146-214):
+
 1. Firebase Auth listener (`onAuthStateChanged`) triggers on mount
 2. Load existing user data from Firestore OR create new user with `normalizeFirebaseUser()`
 3. Sync meditation history and streak data
@@ -131,22 +142,26 @@ Context providers are nested in `App.tsx` (lines 276-286), with all screens acce
 **Core Data Flow:** User adds local files → App matches to database → Stores paths → Plays on demand
 
 **Meditation Database** (`/src/constants/meditation-data.ts`):
+
 - Static database of ~1000+ Dr. Joe Dispenza meditations
 - Organized by series: Foundational, Daily, Generating, Breaking Habits, Breathwork, Walking, Synchronizing, Unlocked, Botec, Other
 - Each meditation has: `meditationBaseId`, `name`, `groupName`, `formattedDuration`, `type`, `artist`, `url`
 
 **File Matching Service** (`/src/services/meditationMatcher.ts`):
 Three matching strategies (in priority order):
+
 1. **Name-based matching** (Primary) - Fuzzy string matching with >50% confidence threshold
 2. **Size-based matching** (Fallback) - File size comparison
 3. **Fingerprint matching** (Disabled) - Audio hashing (disabled for performance)
 
 **File Path Storage:**
+
 - User-selected files stored as: `{ meditationBaseId: filePath }`
 - Persisted in AsyncStorage via `setMeditationFilePathDataInAsyncStorage()`
 - Loaded on app start into `MeditationFilePathsContext`
 
 **Audio Playback** (`react-native-track-player`):
+
 - Setup in `/src/services/setupService.ts` (called on app mount)
 - Configured with 30s min/play buffer
 - Playback capabilities: Play, Pause, Skip, Seek
@@ -155,6 +170,7 @@ Three matching strategies (in priority order):
 ### Key User Flows
 
 **Add Meditation Flow:**
+
 1. User taps "Add" tab → Document picker opens
 2. User selects audio files
 3. MeditationMatcher analyzes each file (name/size)
@@ -163,6 +179,7 @@ Three matching strategies (in priority order):
 6. On confirmation, sync to Firebase user document
 
 **Play Meditation Flow:**
+
 1. User selects meditation from Home/Library
 2. Navigate to Meditation screen → capture intention + notes
 3. Navigate to MeditationPlayer screen
@@ -176,11 +193,13 @@ Three matching strategies (in priority order):
 Firebase Analytics is deeply integrated with event tracking throughout the app:
 
 **Event Structure:**
+
 - **Source** enums: APP_INITIALIZATION, MEDITATION_ADD, MEDITATION_PLAYER, THINKBOX, PROFILE
 - **Action** enums: CLICK, DENIED, ENABLE, FAIL, SKIP, SUBMIT, VIEW
 - **Noun** enums: BUTTON, ON_MOUNT, ON_PLAY
 
 **Helper Functions:**
+
 - `meditationPlayerSendEvent()` - Track meditation playback
 - `meditationAddSendEvent()` - Track file imports
 - `appInitializationSendEvent()` - Track startup issues
@@ -222,29 +241,34 @@ src/
 ## Important Patterns & Conventions
 
 ### Component Organization
+
 - **Screens** (`/src/screens/`) - Full-page components rendered by navigation
 - **Components** (`/src/components/`) - Reusable UI elements
 - Keep business logic in `/src/services/` or `/src/utils/`
 - Use context hooks at component level, not in utility functions
 
 ### Data Fetching
+
 - User data loaded once on app mount (App.tsx)
 - Meditation history paginated (20 records per query)
 - Use `fbGetMoreMeditationHistory()` for lazy loading
 - All Firebase calls should handle errors and log to Analytics
 
 ### Styling
+
 - Use UI Kitten components from `@ui-kitten/components`
 - Theme defined in `theme.json` (Eva Design dark theme)
 - Navigation theme in `/src/constants/navTheme.ts`
 - Linear gradients for visual effects via `react-native-linear-gradient`
 
 ### TypeScript
+
 - All new code must be TypeScript
 - Use interfaces from `/src/types.tsx`
 - Strict mode enabled in tsconfig.json
 
 ### Error Handling
+
 - Log errors to Firebase Crashlytics
 - Send analytics events for important failures
 - Show user-friendly Toast messages for errors
@@ -252,21 +276,25 @@ src/
 ## Current State & Known Issues
 
 ### In-App Purchases (Disabled)
+
 - RevenueCat integration code exists but is commented out
 - Files: `Purchase.tsx`, `PurchaseOnboarding.tsx`, `useFetchOffering.ts`, `Subscriptions.tsx`
 - When re-enabling, configure RevenueCat API key and test with sandbox accounts
 
 ### Fingerprint Matching (Disabled)
+
 - Audio fingerprinting disabled for performance reasons
 - Name-based matching is primary strategy
 - Fingerprint code remains in codebase for future use
 
 ### Test Coverage
+
 - Minimal test coverage currently
 - Jest configured but few tests exist
 - Test files in `__tests__/` directory
 
 ### Purchase Testing Process
+
 1. Create Sandbox account in App Store Connect (use email+n@gmail.com)
 2. Install development build to physical device
 3. Update Sandbox account in device: Settings > App Store > Sandbox Account

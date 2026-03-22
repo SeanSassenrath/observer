@@ -1,5 +1,5 @@
 import auth from '@react-native-firebase/auth';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 
 import AppleSSOButtonComponent from './component';
 
@@ -19,12 +19,15 @@ const AppleSSOButton = (props: Props) => {
     console.log('appleAuthRequestResponse', appleAuthRequestResponse);
 
     // 2). if the request was successful, extract the token and nonce
-    const { identityToken, nonce } = appleAuthRequestResponse;
+    const {identityToken, nonce} = appleAuthRequestResponse;
 
     // can be null in some scenarios
     if (identityToken) {
       // 3). create a Firebase `AppleAuthProvider` credential
-      const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+      const appleCredential = auth.AppleAuthProvider.credential(
+        identityToken,
+        nonce,
+      );
 
       // 4). use the created `AppleAuthProvider` credential to start a Firebase auth request,
       //     in this example `signInWithCredential` is used, but you could also call `linkWithCredential`
@@ -33,17 +36,15 @@ const AppleSSOButton = (props: Props) => {
 
       props.setIsSigningIn(true);
       // user is now signed in, any Firebase `onAuthStateChanged` listeners you have will trigger
-      console.warn(`Firebase authenticated via Apple, UID: ${userCredential.user.uid}`);
+      console.warn(
+        `Firebase authenticated via Apple, UID: ${userCredential.user.uid}`,
+      );
     } else {
       // handle this - retry?
     }
-  }
+  };
 
-  return (
-    <AppleSSOButtonComponent
-      onPress={onPress}
-    />
-  )
-}
+  return <AppleSSOButtonComponent onPress={onPress} />;
+};
 
 export default AppleSSOButton;

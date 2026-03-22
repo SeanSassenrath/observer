@@ -89,9 +89,7 @@ async function getCachedCatalog(): Promise<CachedCatalog | null> {
   return null;
 }
 
-async function setCachedCatalog(
-  doc: MeditationCatalogDocument,
-): Promise<void> {
+async function setCachedCatalog(doc: MeditationCatalogDocument): Promise<void> {
   try {
     const cache: CachedCatalog = {
       version: doc.version,
@@ -131,9 +129,7 @@ interface CatalogResult {
  * 2. AsyncStorage cache
  * 3. Static fallback (bundled meditation-data.ts)
  */
-async function getMeditationCatalog(
-  posthog?: PostHog,
-): Promise<CatalogResult> {
+async function getMeditationCatalog(posthog?: PostHog): Promise<CatalogResult> {
   try {
     // Check feature flag — skip Firestore if disabled
     const flagValue = posthog?.getFeatureFlag('enable-firebase-catalog');
@@ -150,10 +146,15 @@ async function getMeditationCatalog(
     const cached = await getCachedCatalog();
 
     if (!firebaseCatalogEnabled) {
-      console.log('Catalog: Firebase catalog flag disabled, skipping Firestore fetch');
+      console.log(
+        'Catalog: Firebase catalog flag disabled, skipping Firestore fetch',
+      );
       if (cached) {
         console.log('Catalog: using cached data, version', cached.version);
-        return {map: transformToMeditationBaseMap(cached.data), doc: cached.data};
+        return {
+          map: transformToMeditationBaseMap(cached.data),
+          doc: cached.data,
+        };
       }
       console.log('Catalog: using static fallback');
       return {map: staticFallback, doc: null};
@@ -168,7 +169,10 @@ async function getMeditationCatalog(
           firestoreDoc.version,
         );
         await setCachedCatalog(firestoreDoc);
-        return {map: transformToMeditationBaseMap(firestoreDoc), doc: firestoreDoc};
+        return {
+          map: transformToMeditationBaseMap(firestoreDoc),
+          doc: firestoreDoc,
+        };
       }
       console.log('Catalog: Firestore version matches cache, using cache');
     }
@@ -213,6 +217,9 @@ export function getFullMeditationCatalogSync(): MeditationBaseMap {
  * Synchronous access to the raw catalog document (includes matchingData).
  * Returns null if catalog hasn't been loaded from Firestore/cache.
  */
-export function getRawCatalogSync(): Record<string, FirestoreMeditation> | null {
+export function getRawCatalogSync(): Record<
+  string,
+  FirestoreMeditation
+> | null {
   return _rawCatalogDoc?.meditations ?? null;
 }

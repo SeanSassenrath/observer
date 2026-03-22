@@ -15,10 +15,7 @@ const DebugButton: React.FC = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[
-          styles.button,
-          debugState.isVisible && styles.buttonActive
-        ]}
+        style={[styles.button, debugState.isVisible && styles.buttonActive]}
         onPress={toggleDebugPanel}
         activeOpacity={0.8}>
         <Text style={styles.buttonText}>🐛</Text>

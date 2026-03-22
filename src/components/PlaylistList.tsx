@@ -68,7 +68,10 @@ export const PlaylistList = ({
       <Text category="h6" style={styles.header}>
         {header}
       </Text>
-      <ScrollView horizontal={true} style={styles.horizontalContainer} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal={true}
+        style={styles.horizontalContainer}
+        showsHorizontalScrollIndicator={false}>
         {displayedPlaylists.map((playlist, index) => {
           const duration = calculateTotalDuration(playlist.meditationIds);
           const trackCount = playlist.meditationIds.length;
@@ -80,7 +83,11 @@ export const PlaylistList = ({
               name={playlist.name}
               trackCount={trackCount}
               totalDuration={formatDuration(duration)}
-              gradientColors={playlistGradients[playlist.gradientIndex ?? (index % playlistGradients.length)].colors}
+              gradientColors={
+                playlistGradients[
+                  playlist.gradientIndex ?? index % playlistGradients.length
+                ].colors
+              }
               onPress={onPlaylistPress}
             />
           );

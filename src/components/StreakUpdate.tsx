@@ -1,11 +1,11 @@
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 
 interface StreakUpdate {
-  current?: number,
-  longest?: number,
-  newLongestStreak?: boolean,
+  current?: number;
+  longest?: number;
+  newLongestStreak?: boolean;
 }
 
 export const StreakUpdate = ({
@@ -14,19 +14,23 @@ export const StreakUpdate = ({
   newLongestStreak,
 }: StreakUpdate) => {
   const styles = useStyleSheet(themedStyles);
-  const activeDay = current === 1 ? 'Day' : 'Days'
+  const activeDay = current === 1 ? 'Day' : 'Days';
 
   return (
-    <Layout level='4'>
-      <Layout level='2' style={styles.currentStreakContainer}> 
-        <Layout level='2'>
-          <Text category='h6' style={styles.streakText}>{current || 0} {activeDay}!</Text>
-          <Text category='s2' style={styles.currentStreakText}>Current Streak</Text>
+    <Layout level="4">
+      <Layout level="2" style={styles.currentStreakContainer}>
+        <Layout level="2">
+          <Text category="h6" style={styles.streakText}>
+            {current || 0} {activeDay}!
+          </Text>
+          <Text category="s2" style={styles.currentStreakText}>
+            Current Streak
+          </Text>
         </Layout>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   currentStreakContainer: {
@@ -56,4 +60,4 @@ const themedStyles = StyleSheet.create({
   streakText: {
     textAlign: 'center',
   },
-})
+});

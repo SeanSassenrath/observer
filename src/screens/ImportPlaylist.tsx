@@ -1,5 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 import LinearGradient from 'react-native-linear-gradient';
@@ -29,7 +34,10 @@ const BackIcon = (props: any) => (
   />
 );
 
-const calculateTotalDuration = (meditationIds: string[], meditationBaseData: any): number => {
+const calculateTotalDuration = (
+  meditationIds: string[],
+  meditationBaseData: any,
+): number => {
   let totalMinutes = 0;
   meditationIds.forEach(medId => {
     const meditation = meditationBaseData[medId];
@@ -79,18 +87,22 @@ const ImportPlaylist = () => {
 
   const decoded = decodePlaylist(encodedData);
 
-  const isVersionMismatch = !decoded && (() => {
-    try {
-      const match = encodedData.match(/[?&]data=([^&]+)/);
-      if (!match) {return false;}
-      const encoded = match[1].replace(/-/g, '+').replace(/_/g, '/');
-      const json = decodeURIComponent(escape(atob(encoded)));
-      const payload = JSON.parse(json);
-      return payload && typeof payload.v === 'number' && payload.v > 1;
-    } catch {
-      return false;
-    }
-  })();
+  const isVersionMismatch =
+    !decoded &&
+    (() => {
+      try {
+        const match = encodedData.match(/[?&]data=([^&]+)/);
+        if (!match) {
+          return false;
+        }
+        const encoded = match[1].replace(/-/g, '+').replace(/_/g, '/');
+        const json = decodeURIComponent(escape(atob(encoded)));
+        const payload = JSON.parse(json);
+        return payload && typeof payload.v === 'number' && payload.v > 1;
+      } catch {
+        return false;
+      }
+    })();
 
   const validIds = decoded
     ? decoded.meditationIds.filter(id => meditationBaseData[id])
@@ -189,9 +201,15 @@ const ImportPlaylist = () => {
           </Text>
         </View>
         <View style={styles.errorContainer}>
-          <Icon style={styles.errorIcon} fill="#E28E69" name="alert-circle-outline" />
+          <Icon
+            style={styles.errorIcon}
+            fill="#E28E69"
+            name="alert-circle-outline"
+          />
           <Text category="h6" style={styles.errorTitle}>
-            {isVersionMismatch ? 'Please update your app' : 'Invalid playlist link'}
+            {isVersionMismatch
+              ? 'Please update your app'
+              : 'Invalid playlist link'}
           </Text>
           <Text category="s1" style={styles.errorSubtitle}>
             {isVersionMismatch
@@ -225,7 +243,9 @@ const ImportPlaylist = () => {
         </Text>
       </View>
 
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}>
         {/* Gradient swatch */}
         <LinearGradient
           colors={gradientColors}
@@ -254,12 +274,16 @@ const ImportPlaylist = () => {
         {unknownIds.length > 0 && (
           <View style={styles.warningBanner}>
             <View style={styles.warningHeaderRow}>
-              <Icon style={styles.warningIcon} fill="#E28E69" name="alert-circle-outline" />
+              <Icon
+                style={styles.warningIcon}
+                fill="#E28E69"
+                name="alert-circle-outline"
+              />
               <Text category="s1" style={styles.warningTitle}>
                 {unknownIds.length}{' '}
                 {unknownIds.length === 1 ? 'meditation' : 'meditations'} in this
-                playlist {unknownIds.length === 1 ? 'is' : 'are'} not available in
-                your catalog and will be skipped.
+                playlist {unknownIds.length === 1 ? 'is' : 'are'} not available
+                in your catalog and will be skipped.
               </Text>
             </View>
           </View>
@@ -296,7 +320,9 @@ const ImportPlaylist = () => {
                   </Text>
                   {!isUnavailable && (
                     <Text category="c1" style={styles.meditationDuration}>
-                      {formatDuration(parseInt(meditation.formattedDuration, 10))}
+                      {formatDuration(
+                        parseInt(meditation.formattedDuration, 10),
+                      )}
                     </Text>
                   )}
                 </View>

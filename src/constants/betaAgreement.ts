@@ -29,4 +29,4 @@ Remedies. You agree that any breach of this Agreement by you may result in irrep
 9. The Recipient’s obligations under this Agreement shall survive any termination of this agreement. This Agreement shall be governed by and construed in accordance with the laws of California. The Recipient hereby agrees that breach of this Agreement will cause Company irreparable damage for which recovery of damages would be inadequate, and that the Company shall therefore be entitled to obtain timely injunctive relief under this Agreement, as well as such further relief as may be granted by a court of competent jurisdiction.  The Recipient will not assign or transfer any rights or obligations under this Agreement without the prior written consent of the Company.
 
 
-`
+`;

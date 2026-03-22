@@ -3,7 +3,12 @@
  * Focus on relative ranking and threshold behavior to avoid flaky tests
  */
 
-import { calculateNameSimilarity, expandSeriesAbbreviations, numbersMatch, romanToArabic } from '../src/utils/fuzzyMeditationMatching';
+import {
+  calculateNameSimilarity,
+  expandSeriesAbbreviations,
+  numbersMatch,
+  romanToArabic,
+} from '../src/utils/fuzzyMeditationMatching';
 
 describe('Fuzzy Meditation Matching', () => {
   /**
@@ -13,12 +18,12 @@ describe('Fuzzy Meditation Matching', () => {
   test('should rank breath variant higher than base meditation for breath files', () => {
     const breathVariantScore = calculateNameSimilarity(
       'tuning into new potentials - breath',
-      'Tuning Into New Potentials - Breath'
+      'Tuning Into New Potentials - Breath',
     );
 
     const baseVersionScore = calculateNameSimilarity(
       'tuning into new potentials - breath',
-      'Tuning Into New Potentials'
+      'Tuning Into New Potentials',
     );
 
     // Breath variant should score significantly higher than base
@@ -42,7 +47,7 @@ describe('Fuzzy Meditation Matching', () => {
   test('should match BEC files above confidence threshold', () => {
     const score = calculateNameSimilarity(
       '2 BEC-II Meditation',
-      'Blessing of the Energy Centers 02'
+      'Blessing of the Energy Centers 02',
     );
 
     // Should be above the 0.5 matching threshold
@@ -77,7 +82,7 @@ describe('Fuzzy Meditation Matching', () => {
   test('should still match base meditations when no variant keywords present', () => {
     const score = calculateNameSimilarity(
       'tuning into new potentials',
-      'Tuning Into New Potentials'
+      'Tuning Into New Potentials',
     );
 
     expect(score).toBeGreaterThan(0.5); // Should still match
@@ -90,12 +95,12 @@ describe('Fuzzy Meditation Matching', () => {
   test('should prefer meditations with matching variant keywords', () => {
     const withBreathScore = calculateNameSimilarity(
       'changing beliefs - breath',
-      'Changing Beliefs and Perceptions - Breath'
+      'Changing Beliefs and Perceptions - Breath',
     );
 
     const withoutBreathScore = calculateNameSimilarity(
       'changing beliefs - breath',
-      'Changing Beliefs and Perceptions - Meditation'
+      'Changing Beliefs and Perceptions - Meditation',
     );
 
     // File with "breath" should prefer meditation with "breath"

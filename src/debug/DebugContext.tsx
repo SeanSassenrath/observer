@@ -1,14 +1,28 @@
 import React, {createContext, useContext, useState, ReactNode} from 'react';
-import {DebugState, DebugTab, DebugLog, PerformanceMetrics, FileAnalysisResult, DebugSettings} from './types';
+import {
+  DebugState,
+  DebugTab,
+  DebugLog,
+  PerformanceMetrics,
+  FileAnalysisResult,
+  DebugSettings,
+} from './types';
 
 interface DebugContextValue {
   debugState: DebugState;
   setDebugState: React.Dispatch<React.SetStateAction<DebugState>>;
-  addLog: (level: DebugLog['level'], category: string, message: string, data?: any) => void;
+  addLog: (
+    level: DebugLog['level'],
+    category: string,
+    message: string,
+    data?: any,
+  ) => void;
   clearLogs: () => void;
   updatePerformanceMetrics: (metrics: Partial<PerformanceMetrics>) => void;
   currentAnalysis: FileAnalysisResult | null;
-  setCurrentAnalysis: React.Dispatch<React.SetStateAction<FileAnalysisResult | null>>;
+  setCurrentAnalysis: React.Dispatch<
+    React.SetStateAction<FileAnalysisResult | null>
+  >;
   debugSettings: DebugSettings;
   setDebugSettings: React.Dispatch<React.SetStateAction<DebugSettings>>;
 }
@@ -56,10 +70,17 @@ interface DebugProviderProps {
 
 export const DebugProvider: React.FC<DebugProviderProps> = ({children}) => {
   const [debugState, setDebugState] = useState<DebugState>(defaultDebugState);
-  const [currentAnalysis, setCurrentAnalysis] = useState<FileAnalysisResult | null>(null);
-  const [debugSettings, setDebugSettings] = useState<DebugSettings>(defaultDebugSettings);
+  const [currentAnalysis, setCurrentAnalysis] =
+    useState<FileAnalysisResult | null>(null);
+  const [debugSettings, setDebugSettings] =
+    useState<DebugSettings>(defaultDebugSettings);
 
-  const addLog = (level: DebugLog['level'], category: string, message: string, data?: any) => {
+  const addLog = (
+    level: DebugLog['level'],
+    category: string,
+    message: string,
+    data?: any,
+  ) => {
     const log: DebugLog = {
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
@@ -76,9 +97,12 @@ export const DebugProvider: React.FC<DebugProviderProps> = ({children}) => {
 
     // Also log to console in dev mode
     if (__DEV__) {
-      const consoleMethod = level === 'error' ? console.error : 
-                           level === 'warn' ? console.warn : 
-                           console.log;
+      const consoleMethod =
+        level === 'error'
+          ? console.error
+          : level === 'warn'
+            ? console.warn
+            : console.log;
       consoleMethod(`[${category}] ${message}`, data);
     }
   };
@@ -113,8 +137,6 @@ export const DebugProvider: React.FC<DebugProviderProps> = ({children}) => {
   };
 
   return (
-    <DebugContext.Provider value={value}>
-      {children}
-    </DebugContext.Provider>
+    <DebugContext.Provider value={value}>{children}</DebugContext.Provider>
   );
 };

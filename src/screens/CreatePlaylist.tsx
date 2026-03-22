@@ -340,7 +340,6 @@ const CreatePlaylist = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-
     </Layout>
   );
 };

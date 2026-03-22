@@ -1,5 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {Layout, Text, Icon} from '@ui-kitten/components';
 
 import MeditationFilePathsContext from '../contexts/meditationFilePaths';
@@ -11,28 +17,37 @@ import Button from '../components/Button';
 import {useNavigation} from '@react-navigation/native';
 
 const FilesScreen = () => {
-  const [activeTab, setActiveTab] = useState<'matched' | 'unmatched'>('matched');
-  
+  const [activeTab, setActiveTab] = useState<'matched' | 'unmatched'>(
+    'matched',
+  );
+
   const {user} = useContext(UserContext);
-  const {meditationFilePaths, setMeditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {meditationFilePaths, setMeditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
   const {unknownFiles, setUnknownFiles} = useContext(UnknownFilesContext);
-  const {meditationBaseData, setMeditationBaseData} = useContext(MeditationBaseDataContext);
+  const {meditationBaseData, setMeditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
   const navigation = useNavigation();
 
   const formatFileName = (filePath: string): string => {
     // Extract just the filename from the full path
     const fileName = filePath.split('/').pop() || 'Unknown file';
-    
+
     // Decode URL encoding (like %20 for spaces)
     const decodedFileName = decodeURIComponent(fileName);
-    
+
     // Extract file extension before cleaning
     const extensionMatch = decodedFileName.match(/\.(mp3|m4a|wav|aac|flac)$/i);
     const extension = extensionMatch ? extensionMatch[0] : '';
-    
+
     // Remove file extension for cleaning
-    const nameWithoutExtension = decodedFileName.replace(/\.(mp3|m4a|wav|aac|flac)$/i, '');
-    
+    const nameWithoutExtension = decodedFileName.replace(
+      /\.(mp3|m4a|wav|aac|flac)$/i,
+      '',
+    );
+
     // Clean up common prefixes and suffixes
     let cleanName = nameWithoutExtension
       .replace(/^(Dr\.?\s*Joe\s*(Dispenza)?[\s-]*)/i, '') // Remove "Dr Joe Dispenza" prefix
@@ -42,12 +57,12 @@ const FilesScreen = () => {
       .replace(/^[\d\s-]*/, '') // Remove leading numbers and dashes
       .replace(/[\s-]+/g, ' ') // Replace multiple spaces/dashes with single space
       .trim();
-    
+
     // If the cleaned name is too short or empty, use the original filename
     if (cleanName.length < 3) {
       cleanName = nameWithoutExtension;
     }
-    
+
     // Capitalize first letter and add extension back
     const finalName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
     return finalName + extension;
@@ -61,8 +76,11 @@ const FilesScreen = () => {
     }
   };
 
-
-  const handleFilePress = (meditationId: string, filePath: string, fileName: string) => {
+  const handleFilePress = (
+    meditationId: string,
+    filePath: string,
+    fileName: string,
+  ) => {
     // @ts-ignore
     navigation.navigate('ReassignFile', {
       meditationId,
@@ -95,17 +113,23 @@ const FilesScreen = () => {
     <View style={styles.tabContainer}>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'matched' && styles.activeTab]}
-        onPress={() => setActiveTab('matched')}
-      >
-        <Text style={[styles.tabText, activeTab === 'matched' && styles.activeTabText]}>
+        onPress={() => setActiveTab('matched')}>
+        <Text
+          style={[
+            styles.tabText,
+            activeTab === 'matched' && styles.activeTabText,
+          ]}>
           Matched Files
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.tab, activeTab === 'unmatched' && styles.activeTab]}
-        onPress={() => setActiveTab('unmatched')}
-      >
-        <Text style={[styles.tabText, activeTab === 'unmatched' && styles.activeTabText]}>
+        onPress={() => setActiveTab('unmatched')}>
+        <Text
+          style={[
+            styles.tabText,
+            activeTab === 'unmatched' && styles.activeTabText,
+          ]}>
           Unmatched Files
         </Text>
       </TouchableOpacity>
@@ -114,14 +138,15 @@ const FilesScreen = () => {
 
   const renderMatchedFiles = () => {
     const matchedFilesArray = Object.entries(meditationFilePaths || {});
-    
+
     if (matchedFilesArray.length === 0) {
       return (
         <View style={styles.emptyContainer}>
           <Icon name="file-outline" style={styles.emptyIcon} fill="#6B7280" />
           <Text style={styles.emptyTitle}>No Matched Files</Text>
           <Text style={styles.emptyDescription}>
-            You don't have any meditation files assigned to meditations yet. Upload files and assign them to meditations to see them here.
+            You don't have any meditation files assigned to meditations yet.
+            Upload files and assign them to meditations to see them here.
           </Text>
           <Button onPress={handleUploadFiles} style={styles.uploadButton}>
             Upload Files
@@ -133,21 +158,24 @@ const FilesScreen = () => {
     return (
       <ScrollView style={styles.filesList}>
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Files Currently Assigned to Meditations</Text>
+          <Text style={styles.sectionTitle}>
+            Files Currently Assigned to Meditations
+          </Text>
           <Text style={styles.sectionDescription}>
             View and manage files that have been matched to meditations
           </Text>
-          
+
           {matchedFilesArray.map(([meditationId, filePath]) => {
             const meditation = meditationBaseData[meditationId];
             const formattedFileName = formatFileName(filePath);
-            
+
             return (
-              <TouchableOpacity 
-                key={meditationId} 
+              <TouchableOpacity
+                key={meditationId}
                 style={styles.fileItem}
-                onPress={() => handleFilePress(meditationId, filePath, formattedFileName)}
-              >
+                onPress={() =>
+                  handleFilePress(meditationId, filePath, formattedFileName)
+                }>
                 <View style={styles.fileInfo}>
                   <View style={styles.fileDetails}>
                     <Text style={styles.fileName}>{formattedFileName}</Text>
@@ -155,7 +183,11 @@ const FilesScreen = () => {
                       {meditation?.name || 'Unknown Meditation'}
                     </Text>
                   </View>
-                  <Icon name="chevron-right-outline" style={styles.chevronIcon} fill="#6B7280" />
+                  <Icon
+                    name="chevron-right-outline"
+                    style={styles.chevronIcon}
+                    fill="#6B7280"
+                  />
                 </View>
               </TouchableOpacity>
             );
@@ -172,7 +204,9 @@ const FilesScreen = () => {
           <Icon name="file-outline" style={styles.emptyIcon} fill="#6B7280" />
           <Text style={styles.emptyTitle}>No Unmatched Files</Text>
           <Text style={styles.emptyDescription}>
-            All your uploaded files have been successfully matched to meditations. Upload more files to see them here if they can't be automatically matched.
+            All your uploaded files have been successfully matched to
+            meditations. Upload more files to see them here if they can't be
+            automatically matched.
           </Text>
           <Button onPress={handleUploadFiles} style={styles.uploadButton}>
             Upload Files
@@ -188,11 +222,15 @@ const FilesScreen = () => {
           <Text style={styles.sectionDescription}>
             Files that couldn't be automatically matched to meditations
           </Text>
-          
+
           {unknownFiles.map((file, index) => {
-            const formattedFileName = formatFileName(file.name || 'Unknown file');
-            const formattedSize = file.size ? formatFileSize(file.size) : 'Unknown size';
-            
+            const formattedFileName = formatFileName(
+              file.name || 'Unknown file',
+            );
+            const formattedSize = file.size
+              ? formatFileSize(file.size)
+              : 'Unknown size';
+
             return (
               <TouchableOpacity key={index} style={styles.fileItem}>
                 <View style={styles.fileInfo}>
@@ -200,12 +238,16 @@ const FilesScreen = () => {
                     <Text style={styles.fileName}>{formattedFileName}</Text>
                     <Text style={styles.fileSize}>{formattedSize}</Text>
                   </View>
-                  <Icon name="chevron-right-outline" style={styles.chevronIcon} fill="#6B7280" />
+                  <Icon
+                    name="chevron-right-outline"
+                    style={styles.chevronIcon}
+                    fill="#6B7280"
+                  />
                 </View>
               </TouchableOpacity>
             );
           })}
-          
+
           <Button onPress={handleUploadFiles} style={styles.uploadButton}>
             Upload More Files
           </Button>
@@ -213,7 +255,6 @@ const FilesScreen = () => {
       </ScrollView>
     );
   };
-
 
   return (
     <Layout level="4" style={styles.container}>
@@ -224,11 +265,13 @@ const FilesScreen = () => {
             Manage your meditation audio files and their assignments
           </Text>
         </View>
-        
+
         {renderTabBar()}
-        
+
         <View style={styles.content}>
-          {activeTab === 'matched' ? renderMatchedFiles() : renderUnmatchedFiles()}
+          {activeTab === 'matched'
+            ? renderMatchedFiles()
+            : renderUnmatchedFiles()}
         </View>
       </SafeAreaView>
     </Layout>

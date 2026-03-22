@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import React, {useState} from 'react';
+import {Pressable, StyleSheet} from 'react-native';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 enum FeedbackScore {
   None,
@@ -19,69 +19,75 @@ export const MeditationFeedbackCard = () => {
       case FeedbackScore.Bad:
         return {
           backgroundColor: '#C55F41',
-        }
+        };
       case FeedbackScore.Ok:
         return {
           backgroundColor: '#E7CD5C',
-        }
+        };
       case FeedbackScore.Good:
         return {
           backgroundColor: '#2D9411',
-        }
+        };
       case FeedbackScore.Great:
         return {
           backgroundColor: '#A1E66F',
-        }
+        };
       default:
         return null;
     }
-  }
+  };
 
   const setRatingCircleStyles = (_feedbackScore: FeedbackScore) => {
     if (_feedbackScore === feedbackScore) {
-      return (
-        {
-          ...setPressedScoreStyle(),
-          ...styles.ratingCircle
-        }
-      )
+      return {
+        ...setPressedScoreStyle(),
+        ...styles.ratingCircle,
+      };
     } else {
-      return styles.ratingCircle
+      return styles.ratingCircle;
     }
-  }
+  };
 
   return (
-    <Layout level='2' style={styles.container}>
-      <Text category='s1'>How did your meditation go?</Text>
-      <Layout level='2' style={styles.ratingsContainer}>
-        <Layout level='2' style={styles.ratingContainer}>
+    <Layout level="2" style={styles.container}>
+      <Text category="s1">How did your meditation go?</Text>
+      <Layout level="2" style={styles.ratingsContainer}>
+        <Layout level="2" style={styles.ratingContainer}>
           <Pressable onPress={() => setFeedbackScore(FeedbackScore.Bad)}>
-            <Layout style={setRatingCircleStyles(FeedbackScore.Bad)}/>
+            <Layout style={setRatingCircleStyles(FeedbackScore.Bad)} />
           </Pressable>
-          <Text category='s2' style={styles.ratingText}>Bad</Text>
+          <Text category="s2" style={styles.ratingText}>
+            Bad
+          </Text>
         </Layout>
-        <Layout level='2' style={styles.ratingContainer}>
+        <Layout level="2" style={styles.ratingContainer}>
           <Pressable onPress={() => setFeedbackScore(FeedbackScore.Ok)}>
             <Layout style={setRatingCircleStyles(FeedbackScore.Ok)} />
           </Pressable>
-          <Text category='s2' style={styles.ratingText} >Ok</Text>
+          <Text category="s2" style={styles.ratingText}>
+            Ok
+          </Text>
         </Layout>
-        <Layout level='2' style={styles.ratingContainer}>
+        <Layout level="2" style={styles.ratingContainer}>
           <Pressable onPress={() => setFeedbackScore(FeedbackScore.Good)}>
             <Layout style={setRatingCircleStyles(FeedbackScore.Good)} />
           </Pressable>
-          <Text category='s2' style={styles.ratingText} >Good</Text>
+          <Text category="s2" style={styles.ratingText}>
+            Good
+          </Text>
         </Layout>
-        <Layout level='2' style={styles.ratingContainer}>
+        <Layout level="2" style={styles.ratingContainer}>
           <Pressable onPress={() => setFeedbackScore(FeedbackScore.Great)}>
             <Layout style={setRatingCircleStyles(FeedbackScore.Great)} />
           </Pressable>
-          <Text category='s2' style={styles.ratingText} >Great</Text>
+          <Text category="s2" style={styles.ratingText}>
+            Great
+          </Text>
         </Layout>
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   container: {
@@ -109,5 +115,5 @@ const themedStyles = StyleSheet.create({
     marginTop: 30,
     borderColor: 'gray',
     borderWidth: 1,
-  }
-})
+  },
+});

@@ -14,7 +14,7 @@ const FileAnalysisDebugger: React.FC = () => {
 
   const simulateFileUpload = () => {
     addLog('info', 'FileAnalysis', 'Simulating file upload for testing');
-    
+
     // Simulate file analysis process
     const mockAnalysis = {
       fileName: 'test_meditation.mp3',
@@ -44,10 +44,10 @@ const FileAnalysisDebugger: React.FC = () => {
             startTime: 3390,
             endTime: 3420,
             text: 'When you are ready, slowly open your eyes and return to the present moment.',
-            confidence: 0.90,
+            confidence: 0.9,
           },
         ],
-        overallConfidence: 0.90,
+        overallConfidence: 0.9,
       },
       matchingResults: {
         topMatches: [
@@ -80,7 +80,7 @@ const FileAnalysisDebugger: React.FC = () => {
             step: 'Transcription Processing',
             duration: 8900,
             success: true,
-            details: {excerpts: 3, avgConfidence: 0.90},
+            details: {excerpts: 3, avgConfidence: 0.9},
           },
           {
             step: 'Database Matching',
@@ -107,7 +107,8 @@ const FileAnalysisDebugger: React.FC = () => {
       return <Text style={styles.noDataText}>No audio fingerprint data</Text>;
     }
 
-    const {hash, peaks, spectralHash, confidence} = currentAnalysis.audioFingerprint;
+    const {hash, peaks, spectralHash, confidence} =
+      currentAnalysis.audioFingerprint;
 
     return (
       <View style={styles.section}>
@@ -122,11 +123,15 @@ const FileAnalysisDebugger: React.FC = () => {
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Confidence:</Text>
-          <Text style={[styles.value, styles.confidence]}>{(confidence * 100).toFixed(1)}%</Text>
+          <Text style={[styles.value, styles.confidence]}>
+            {(confidence * 100).toFixed(1)}%
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Peaks:</Text>
-          <Text style={styles.value}>[{peaks.map(p => p.toFixed(2)).join(', ')}]</Text>
+          <Text style={styles.value}>
+            [{peaks.map(p => p.toFixed(2)).join(', ')}]
+          </Text>
         </View>
       </View>
     );
@@ -144,7 +149,9 @@ const FileAnalysisDebugger: React.FC = () => {
         <Text style={styles.sectionTitle}>Transcription Results</Text>
         <View style={styles.row}>
           <Text style={styles.label}>Overall Confidence:</Text>
-          <Text style={[styles.value, styles.confidence]}>{(overallConfidence * 100).toFixed(1)}%</Text>
+          <Text style={[styles.value, styles.confidence]}>
+            {(overallConfidence * 100).toFixed(1)}%
+          </Text>
         </View>
         {excerpts.map((excerpt, index) => (
           <View key={index} style={styles.excerptContainer}>
@@ -171,14 +178,16 @@ const FileAnalysisDebugger: React.FC = () => {
     return (
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Matching Results</Text>
-        
+
         <Text style={styles.subsectionTitle}>Top Matches:</Text>
         {topMatches.map((match, index) => (
           <View key={index} style={styles.matchContainer}>
             <Text style={styles.matchName}>{match.name}</Text>
             <Text style={styles.matchId}>ID: {match.meditationId}</Text>
             <View style={styles.matchRow}>
-              <Text style={styles.matchMethod}>{match.matchMethod.toUpperCase()}</Text>
+              <Text style={styles.matchMethod}>
+                {match.matchMethod.toUpperCase()}
+              </Text>
               <Text style={[styles.matchConfidence, styles.confidence]}>
                 {(match.confidence * 100).toFixed(1)}%
               </Text>
@@ -192,7 +201,11 @@ const FileAnalysisDebugger: React.FC = () => {
             <View style={styles.stepHeader}>
               <Text style={styles.stepName}>{step.step}</Text>
               <Text style={styles.stepDuration}>{step.duration}ms</Text>
-              <Text style={[styles.stepStatus, step.success ? styles.stepSuccess : styles.stepError]}>
+              <Text
+                style={[
+                  styles.stepStatus,
+                  step.success ? styles.stepSuccess : styles.stepError,
+                ]}>
                 {step.success ? '✓' : '✗'}
               </Text>
             </View>
@@ -208,8 +221,8 @@ const FileAnalysisDebugger: React.FC = () => {
   };
 
   return (
-    <ScrollView 
-      style={styles.container} 
+    <ScrollView
+      style={styles.container}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={true}
       bounces={true}>
@@ -218,7 +231,9 @@ const FileAnalysisDebugger: React.FC = () => {
         <TouchableOpacity style={styles.button} onPress={simulateFileUpload}>
           <Text style={styles.buttonText}>Simulate File Upload</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={clearAnalysis}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonSecondary]}
+          onPress={clearAnalysis}>
           <Text style={styles.buttonText}>Clear Analysis</Text>
         </TouchableOpacity>
       </View>
@@ -234,12 +249,17 @@ const FileAnalysisDebugger: React.FC = () => {
             </View>
             <View style={styles.row}>
               <Text style={styles.label}>File Size:</Text>
-              <Text style={styles.value}>{(currentAnalysis.fileSize / 1024 / 1024).toFixed(2)} MB</Text>
+              <Text style={styles.value}>
+                {(currentAnalysis.fileSize / 1024 / 1024).toFixed(2)} MB
+              </Text>
             </View>
             {currentAnalysis.duration && (
               <View style={styles.row}>
                 <Text style={styles.label}>Duration:</Text>
-                <Text style={styles.value}>{Math.floor(currentAnalysis.duration / 60)}:{(currentAnalysis.duration % 60).toString().padStart(2, '0')}</Text>
+                <Text style={styles.value}>
+                  {Math.floor(currentAnalysis.duration / 60)}:
+                  {(currentAnalysis.duration % 60).toString().padStart(2, '0')}
+                </Text>
               </View>
             )}
           </View>
@@ -250,8 +270,12 @@ const FileAnalysisDebugger: React.FC = () => {
         </>
       ) : (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyStateText}>No file analysis data available</Text>
-          <Text style={styles.emptyStateSubtext}>Upload a file or run a simulation to see analysis results</Text>
+          <Text style={styles.emptyStateText}>
+            No file analysis data available
+          </Text>
+          <Text style={styles.emptyStateSubtext}>
+            Upload a file or run a simulation to see analysis results
+          </Text>
         </View>
       )}
     </ScrollView>

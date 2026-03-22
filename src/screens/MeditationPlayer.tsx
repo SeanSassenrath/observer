@@ -106,8 +106,10 @@ const MeditationPlayer = ({
 
   const {id, meditationBreathId} = route.params;
   const meditation = meditationBaseData[id];
-const posthog = usePostHog();
-const playlist = meditationSession.playlistId ? playlists[meditationSession.playlistId] : null;
+  const posthog = usePostHog();
+  const playlist = meditationSession.playlistId
+    ? playlists[meditationSession.playlistId]
+    : null;
   useEffect(() => {
     meditationPlayerSendEvent(Action.VIEW, Noun.ON_MOUNT, {
       meditationName: meditation.name,
@@ -272,15 +274,17 @@ const playlist = meditationSession.playlistId ? playlists[meditationSession.play
   const onFinishPress = () => {
     // Update current meditation instance with partial time before navigating
     // Find and update the current instance with timeMeditated
-    const updatedInstances = meditationSession.instances.map((instance, idx) => {
-      if (idx === currentTrackIndex) {
-        return {
-          ...instance,
-          timeMeditated: position,  // Update with current position
-        };
-      }
-      return instance;
-    });
+    const updatedInstances = meditationSession.instances.map(
+      (instance, idx) => {
+        if (idx === currentTrackIndex) {
+          return {
+            ...instance,
+            timeMeditated: position, // Update with current position
+          };
+        }
+        return instance;
+      },
+    );
 
     setMeditationSession({
       ...meditationSession,

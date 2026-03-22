@@ -83,14 +83,14 @@ export const makeFilePathData = (file: DocumentPickerResponse) => {
         file.fileCopyUri,
       ),
     };
-  // Removing due to a bug
-  // https://www.reddit.com/r/unlimitedmeditations/comments/1dpn2ot/comment/lei1jfc/?%24deep_link=true&correlation_id=195b3528-813e-4a96-acf1-ded252ee1046&ref=email_comment_reply&ref_campaign=email_comment_reply&ref_source=email&%243p=e_as&_branch_match_id=1337543622327442147&utm_medium=Email+Amazon+SES&_branch_referrer=H4sIAAAAAAAAA32OXWrDMBCET6O%2B2a4k2ySFUAql1xAbaZ1soz8kGZPbd01S%2BlaQYJidb3eureX6NgwFnaPWQ869p3gbdH4XatT5hAbqC8tU6EIRvFmLP113SugPob74bdvWP3mbAhuF%2Fxo9BWroAvIAGqVY2eZAwNh2KV2OKjVW5%2BTuJkNp1dQMFs0fYwJVckzQQui4C8c9kvxe7H5c8%2F3RIWaztxb6s5UVhZptKgX9YwM59uVxOutJHbqD1NiNcJw7sIvsHDo1KUT5Os7MFVw4jAHIm2dVUzD7%2B2NmLIQMdIn%2Fhmpai8XfyA9nRXjOYgEAAA%3D%3D
-  // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
-  //   return {
-  //     [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
-  //       file.fileCopyUri,
-  //     ),
-  //   };
+    // Removing due to a bug
+    // https://www.reddit.com/r/unlimitedmeditations/comments/1dpn2ot/comment/lei1jfc/?%24deep_link=true&correlation_id=195b3528-813e-4a96-acf1-ded252ee1046&ref=email_comment_reply&ref_campaign=email_comment_reply&ref_source=email&%243p=e_as&_branch_match_id=1337543622327442147&utm_medium=Email+Amazon+SES&_branch_referrer=H4sIAAAAAAAAA32OXWrDMBCET6O%2B2a4k2ySFUAql1xAbaZ1soz8kGZPbd01S%2BlaQYJidb3eureX6NgwFnaPWQ869p3gbdH4XatT5hAbqC8tU6EIRvFmLP113SugPob74bdvWP3mbAhuF%2Fxo9BWroAvIAGqVY2eZAwNh2KV2OKjVW5%2BTuJkNp1dQMFs0fYwJVckzQQui4C8c9kvxe7H5c8%2F3RIWaztxb6s5UVhZptKgX9YwM59uVxOutJHbqD1NiNcJw7sIvsHDo1KUT5Os7MFVw4jAHIm2dVUzD7%2B2NmLIQMdIn%2Fhmpai8XfyA9nRXjOYgEAAA%3D%3D
+    // } else if (fileSize === BreakingHabitSizes.MedBreakingHabitSpace) {
+    //   return {
+    //     [BreakingHabitBaseKeys.MedBreakingHabitSpace]: makeRelativeFilePath(
+    //       file.fileCopyUri,
+    //     ),
+    //   };
   } else if (fileSize === BreakingHabitSizes.MedBreakingHabitWater) {
     return {
       [BreakingHabitBaseKeys.MedBreakingHabitWater]: makeRelativeFilePath(
@@ -176,45 +176,61 @@ export const makeFilePathData = (file: DocumentPickerResponse) => {
     // Outpicturing
     if (/out[\s\-_]*picturing/i.test(fileName)) {
       return {
-        [OtherBaseKeys.MedOutpicturing]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [OtherBaseKeys.MedOutpicturing]: makeRelativeFilePath(file.fileCopyUri),
+      };
     }
 
     // Life, Love, and the Mystical
-    if (/life[\s\-_,]*(love|&)[\s\-_,]*(and[\s\-_]*)?(the[\s\-_]*)?mystical/i.test(fileName)) {
+    if (
+      /life[\s\-_,]*(love|&)[\s\-_,]*(and[\s\-_]*)?(the[\s\-_]*)?mystical/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [OtherBaseKeys.MedLifeLoveMystical]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [OtherBaseKeys.MedLifeLoveMystical]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Changing Boxes - Short - Live with Mei-lan (in Cancun)
-    if (/changing[\s\-_]*boxes[\s\-_]*(short|live)[\s\-_]*(version[\s\-_]*)?(live[\s\-_]*)?(with[\s\-_]*)?mei[\s\-_]*lan/i.test(fileName)) {
+    if (
+      /changing[\s\-_]*boxes[\s\-_]*(short|live)[\s\-_]*(version[\s\-_]*)?(live[\s\-_]*)?(with[\s\-_]*)?mei[\s\-_]*lan/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [OtherBaseKeys.MedChangingBoxesLiveMeilan]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [OtherBaseKeys.MedChangingBoxesLiveMeilan]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Wholly Days
     if (/whol(l)?y[\s\-_]*days/i.test(fileName)) {
       return {
-        [OtherBaseKeys.MedWholyDays]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [OtherBaseKeys.MedWholyDays]: makeRelativeFilePath(file.fileCopyUri),
+      };
     }
 
     // Love Your Body (avoid matching "Falling in Love with Your Body")
     if (/^(?!.*falling).*love[\s\-_]*(your[\s\-_]*)?body/i.test(fileName)) {
       return {
-        [OtherBaseKeys.MedLoveYourBody]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [OtherBaseKeys.MedLoveYourBody]: makeRelativeFilePath(file.fileCopyUri),
+      };
     }
 
     // ===== BOTEC SERIES =====
 
     // Blessings From the Brain - Blessing of the Energy Centers 11
-    if (/blessings?[\s\-_]*from[\s\-_]*(the[\s\-_]*)?brain|blessings?[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?energy[\s\-_]*centers?[\s\-_]*(11|xi|eleven)/i.test(fileName)) {
+    if (
+      /blessings?[\s\-_]*from[\s\-_]*(the[\s\-_]*)?brain|blessings?[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?energy[\s\-_]*centers?[\s\-_]*(11|xi|eleven)/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [BotecBaseKeys.MedBotec11]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BotecBaseKeys.MedBotec11]: makeRelativeFilePath(file.fileCopyUri),
+      };
     }
 
     // ===== WALKING SERIES =====
@@ -222,131 +238,203 @@ export const makeFilePathData = (file: DocumentPickerResponse) => {
     // Changing Boxes Walking Meditation
     if (/changing[\s\-_]*boxes[\s\-_]*walking/i.test(fileName)) {
       return {
-        [WalkingBaseKeys.MedWalkingChangingBoxes]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [WalkingBaseKeys.MedWalkingChangingBoxes]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // ===== BREATHWORK SERIES =====
 
     // Warmth of the Sun's Rays
-    if (/warmth[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?sun('?s)?[\s\-_]*rays?/i.test(fileName)) {
+    if (
+      /warmth[\s\-_]*(of[\s\-_]*)?(the[\s\-_]*)?sun('?s)?[\s\-_]*rays?/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [BreathBaseKeys.BreathInspireV2WarmthSun]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2WarmthSun]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Inspire V2 Continuous Breath Mix (check before single-word matches)
-    if (/inspire[\s\-_]*v?2[\s\-_]*continuous[\s\-_]*(breath[\s\-_]*)?mix/i.test(fileName)) {
+    if (
+      /inspire[\s\-_]*v?2[\s\-_]*continuous[\s\-_]*(breath[\s\-_]*)?mix/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [BreathBaseKeys.BreathInspireV2ContinuousMix]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2ContinuousMix]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Opening the Cosmic Heart
     if (/opening[\s\-_]*(the[\s\-_]*)?cosmic[\s\-_]*heart/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2CosmicHeart]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2CosmicHeart]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Fire Gathering
     if (/fire[\s\-_]*gathering/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2FireGathering]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2FireGathering]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Prana Soundscapes
     if (/prana[\s\-_]*soundscapes?/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2PranaSoundscapes]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2PranaSoundscapes]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Riding Through
     if (/riding[\s\-_]*through/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2RidingThrough]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2RidingThrough]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Olorum
     if (/\bolorum\b/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2Olorum]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2Olorum]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Merging
     if (/\bmerging\b/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2Merging]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2Merging]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Overgrown
     if (/\bovergrown\b/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2Overgrown]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2Overgrown]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Moyayaj
     if (/\bmoyayaj\b/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2Moyayaj]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2Moyayaj]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // Inhalation
     if (/\binhalation\b/i.test(fileName)) {
       return {
-        [BreathBaseKeys.BreathInspireV2Inhalation]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [BreathBaseKeys.BreathInspireV2Inhalation]: makeRelativeFilePath(
+          file.fileCopyUri,
+        ),
+      };
     }
 
     // ===== COUNT YOUR BLESSINGS SERIES =====
     // Check in descending order (VIII to I) to avoid partial matches
 
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(viii|8|eight)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(viii|8|eight)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings8]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings8]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vii|7|seven)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vii|7|seven)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings7]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings7]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vi|6|six)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(vi|6|six)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings6]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings6]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(v(?![i])|5|five)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(v(?![i])|5|five)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings5]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings5]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iv|4|four)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iv|4|four)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings4]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings4]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iii|3|three)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(iii|3|three)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings3]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings3]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(ii(?![i])|2|two)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(ii(?![i])|2|two)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings2]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings2]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
-    if (/count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(i(?![ivx])|1|one)(\b|[\s\-_.])/i.test(fileName)) {
+    if (
+      /count[\s\-_]*(your[\s\-_]*)?blessings[\s\-_]*(i(?![ivx])|1|one)(\b|[\s\-_.])/i.test(
+        fileName,
+      )
+    ) {
       return {
-        [CountYourBlessingsBaseKeys.MedCountYourBlessings1]: makeRelativeFilePath(file.fileCopyUri)
-      }
+        [CountYourBlessingsBaseKeys.MedCountYourBlessings1]:
+          makeRelativeFilePath(file.fileCopyUri),
+      };
     }
   }
 

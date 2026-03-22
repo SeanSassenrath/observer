@@ -13,22 +13,24 @@ Use a `custom_` ID prefix for custom meditations. Store their metadata separatel
 ## 1. Types & Utility Module
 
 **`/src/types.tsx`** - Add:
+
 ```typescript
 export interface CustomMeditationMeta {
-  meditationBaseId: string;       // "custom_<timestamp>_<random>"
-  name: string;                    // User-provided
-  artist: string;                  // User-provided or "Custom"
-  groupName: string;               // "Custom Meditations"
-  formattedDuration: string;       // "Unknown" initially
-  type: MeditationTypes;           // 0 (standard meditation)
+  meditationBaseId: string; // "custom_<timestamp>_<random>"
+  name: string; // User-provided
+  artist: string; // User-provided or "Custom"
+  groupName: string; // "Custom Meditations"
+  formattedDuration: string; // "Unknown" initially
+  type: MeditationTypes; // 0 (standard meditation)
   createdAt: number;
-  fileName: string;                // Original filename for reference
+  fileName: string; // Original filename for reference
 }
 ```
 
 Also add `CreateCustomMeditation` to `StackParamList`.
 
 **New file: `/src/utils/customMeditations.ts`** - Utility functions:
+
 - `CUSTOM_PREFIX = 'custom_'`
 - `isCustomMeditation(id)` - checks prefix
 - `generateCustomMeditationId()` - `custom_<Date.now()>_<random>`
@@ -40,22 +42,26 @@ Also add `CreateCustomMeditation` to `StackParamList`.
 **`/src/utils/meditation.ts`** (lines 93-120)
 
 Currently only looks up catalog entries. Change to:
+
 1. Load `@custom_meditation_meta` from AsyncStorage alongside file paths
 2. For each key in file path data: if `isCustomMeditation(key)`, use `customMetaToMeditationBase()` instead of catalog lookup
 
 Also update:
+
 - **`updateAsyncStorageMeditationData()`** (lines 62-91) - Skip `custom_` prefixed keys (they have no catalog entry, no migration needed)
 - **`checkMeditationBaseId()`** (lines 24-31) - Return custom IDs as-is (they're valid, just not in catalog)
 
 ## 3. Fix Catalog-Only Lookups
 
 **`/src/screens/Meditation.tsx`** (line 87):
+
 ```typescript
 // Before:
 const meditation = meditationBaseMap[id];
 // After:
 const meditation = meditationBaseMap[id] || meditationBaseData[id];
 ```
+
 `meditationBaseData` (from context) already contains custom meditations after step 2.
 
 Same pattern for line 100 (last meditation lookup).
@@ -65,6 +71,7 @@ Same pattern for line 100 (last meditation lookup).
 **New file: `/src/screens/CreateCustomMeditation.tsx`**
 
 Closely mirrors `SubmitMeditation.tsx` in layout (same form fields: name, author). On submit:
+
 1. Generate custom ID
 2. Save `CustomMeditationMeta` to AsyncStorage
 3. Save `{customId: fileUri}` to `@meditation_file_path_data`
@@ -79,6 +86,7 @@ Also submits to Firebase `unsupportedFiles` (keep current analytics behavior).
 **`/src/screens/MeditationMatch.tsx`** (line 290-294)
 
 Change the "Can't find it?" link to offer two options:
+
 ```
 Can't find it?
 [Add as Custom]  |  [Submit for Support]
@@ -99,6 +107,7 @@ Add a dynamic "Custom Meditations" section that filters `meditationBaseData` for
 ## 8. Firebase Sync
 
 **`/src/fb/user.tsx`** or new module - Store custom meditation metadata on the user document:
+
 ```
 /users/{uid}.customMeditations: { [id]: CustomMeditationMeta }
 ```
@@ -108,6 +117,7 @@ Sync on save and load on app init (App.tsx). File paths are NOT synced (files ar
 ## 9. No Changes Needed
 
 These areas work automatically because they operate on `meditationBaseData` context or `MeditationInstance` data:
+
 - **Playback** - MeditationPlayer uses `meditationBaseData[id]` which will include custom meditations
 - **History** - Saves `MeditationInstance` with `meditationBaseId` + `name`, works for any ID
 - **Streaks/Stats** - Count history records regardless of meditation source
@@ -117,6 +127,7 @@ These areas work automatically because they operate on `meditationBaseData` cont
 ---
 
 ## Files to Modify
+
 1. `/src/types.tsx` - Add `CustomMeditationMeta`, nav params
 2. `/src/utils/customMeditations.ts` - **New** - utility module
 3. `/src/utils/meditation.ts` - Update `makeMeditationBaseData`, `checkMeditationBaseId`, `updateAsyncStorageMeditationData`
@@ -127,6 +138,7 @@ These areas work automatically because they operate on `meditationBaseData` cont
 8. `/src/navigation/Stack.tsx` - Register new screen
 
 ## Verification
+
 1. Add a file that doesn't match any catalog meditation
 2. On the MeditationMatch screen, tap "Add as Custom"
 3. Enter a name, submit

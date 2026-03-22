@@ -1,5 +1,8 @@
 import auth from '@react-native-firebase/auth';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 import crashlytics from '@react-native-firebase/crashlytics';
 
 import GoogleSSOButtonComponent from './component';
@@ -15,17 +18,18 @@ const GoogleSSOButton = (props: Props) => {
     try {
       await GoogleSignin.hasPlayServices();
       userInfo = await GoogleSignin.signIn();
-      const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-      const { user } = userInfo;
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        userInfo.idToken,
+      );
+      const {user} = userInfo;
 
       if (!user) {
         crashlytics().log('ERROR: Empty user object after sign up');
         return;
       }
 
-      crashlytics().setUserId(user.id),
-
-      await auth().signInWithCredential(googleCredential);
+      (crashlytics().setUserId(user.id),
+        await auth().signInWithCredential(googleCredential));
 
       props.setIsSigningIn(true);
     } catch (error: any) {
@@ -53,13 +57,9 @@ const GoogleSSOButton = (props: Props) => {
         // TODO: Add error handling
       }
     }
-  }
+  };
 
-  return (
-    <GoogleSSOButtonComponent
-      onPress={onPress}
-    />
-  )
-}
+  return <GoogleSSOButtonComponent onPress={onPress} />;
+};
 
 export default GoogleSSOButton;

@@ -42,17 +42,25 @@ const SettingsDebugger: React.FC = () => {
               enableVerboseLogging: false,
             };
             setDebugSettings(defaultSettings);
-            addLog('info', 'Settings', 'Reset all settings to defaults', defaultSettings);
+            addLog(
+              'info',
+              'Settings',
+              'Reset all settings to defaults',
+              defaultSettings,
+            );
           },
         },
-      ]
+      ],
     );
   };
 
   const exportSettings = () => {
     const settingsJson = JSON.stringify(debugSettings, null, 2);
     addLog('info', 'Settings', 'Exported settings', debugSettings);
-    Alert.alert('Settings Exported', `Settings exported to logs:\n\n${settingsJson}`);
+    Alert.alert(
+      'Settings Exported',
+      `Settings exported to logs:\n\n${settingsJson}`,
+    );
   };
 
   const WeightSlider: React.FC<{
@@ -88,20 +96,22 @@ const SettingsDebugger: React.FC = () => {
   };
 
   return (
-    <ScrollView 
-      style={styles.container} 
+    <ScrollView
+      style={styles.container}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={true}
       bounces={true}>
       {/* Matching Algorithm Settings */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Matching Algorithm</Text>
-        
+
         <View style={styles.settingItem}>
           <Text style={styles.settingLabel}>Audio Fingerprinting</Text>
           <Switch
             value={debugSettings.enableAudioFingerprinting}
-            onValueChange={(value) => updateSetting('enableAudioFingerprinting', value)}
+            onValueChange={value =>
+              updateSetting('enableAudioFingerprinting', value)
+            }
             trackColor={{false: '#333', true: '#007AFF'}}
             thumbColor={'#fff'}
           />
@@ -111,7 +121,7 @@ const SettingsDebugger: React.FC = () => {
           <Text style={styles.settingLabel}>Speech Transcription</Text>
           <Switch
             value={debugSettings.enableTranscription}
-            onValueChange={(value) => updateSetting('enableTranscription', value)}
+            onValueChange={value => updateSetting('enableTranscription', value)}
             trackColor={{false: '#333', true: '#007AFF'}}
             thumbColor={'#fff'}
           />
@@ -121,7 +131,7 @@ const SettingsDebugger: React.FC = () => {
           <Text style={styles.settingLabel}>File Size Fallback</Text>
           <Switch
             value={debugSettings.enableSizeFallback}
-            onValueChange={(value) => updateSetting('enableSizeFallback', value)}
+            onValueChange={value => updateSetting('enableSizeFallback', value)}
             trackColor={{false: '#333', true: '#007AFF'}}
             thumbColor={'#fff'}
           />
@@ -132,32 +142,43 @@ const SettingsDebugger: React.FC = () => {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Algorithm Weights</Text>
         <Text style={styles.sectionDescription}>
-          Adjust how much each matching method contributes to the final confidence score.
+          Adjust how much each matching method contributes to the final
+          confidence score.
         </Text>
 
         <WeightSlider
           label="Audio Fingerprint Weight"
           value={debugSettings.fingerprintWeight}
-          onChange={(value) => updateSetting('fingerprintWeight', value)}
+          onChange={value => updateSetting('fingerprintWeight', value)}
         />
 
         <WeightSlider
           label="Transcription Weight"
           value={debugSettings.transcriptionWeight}
-          onChange={(value) => updateSetting('transcriptionWeight', value)}
+          onChange={value => updateSetting('transcriptionWeight', value)}
         />
 
         <WeightSlider
           label="File Size Weight"
           value={debugSettings.sizeWeight}
-          onChange={(value) => updateSetting('sizeWeight', value)}
+          onChange={value => updateSetting('sizeWeight', value)}
         />
 
         <View style={styles.weightSummary}>
           <Text style={styles.weightSummaryText}>
-            Total Weight: {(debugSettings.fingerprintWeight + debugSettings.transcriptionWeight + debugSettings.sizeWeight).toFixed(2)}
+            Total Weight:{' '}
+            {(
+              debugSettings.fingerprintWeight +
+              debugSettings.transcriptionWeight +
+              debugSettings.sizeWeight
+            ).toFixed(2)}
           </Text>
-          {Math.abs((debugSettings.fingerprintWeight + debugSettings.transcriptionWeight + debugSettings.sizeWeight) - 1.0) > 0.01 && (
+          {Math.abs(
+            debugSettings.fingerprintWeight +
+              debugSettings.transcriptionWeight +
+              debugSettings.sizeWeight -
+              1.0,
+          ) > 0.01 && (
             <Text style={styles.weightWarning}>
               ⚠️ Weights should sum to 1.0 for optimal results
             </Text>
@@ -175,16 +196,24 @@ const SettingsDebugger: React.FC = () => {
         <WeightSlider
           label="Confidence Threshold"
           value={debugSettings.confidenceThreshold}
-          onChange={(value) => updateSetting('confidenceThreshold', value)}
+          onChange={value => updateSetting('confidenceThreshold', value)}
           step={0.05}
         />
 
         <View style={styles.thresholdGuide}>
           <Text style={styles.thresholdGuideTitle}>Threshold Guide:</Text>
-          <Text style={styles.thresholdGuideItem}>• 0.9+ : Very strict, few false positives</Text>
-          <Text style={styles.thresholdGuideItem}>• 0.7-0.9 : Balanced accuracy</Text>
-          <Text style={styles.thresholdGuideItem}>• 0.5-0.7 : More permissive</Text>
-          <Text style={styles.thresholdGuideItem}>• &lt;0.5 : Very permissive, many false positives</Text>
+          <Text style={styles.thresholdGuideItem}>
+            • 0.9+ : Very strict, few false positives
+          </Text>
+          <Text style={styles.thresholdGuideItem}>
+            • 0.7-0.9 : Balanced accuracy
+          </Text>
+          <Text style={styles.thresholdGuideItem}>
+            • 0.5-0.7 : More permissive
+          </Text>
+          <Text style={styles.thresholdGuideItem}>
+            • &lt;0.5 : Very permissive, many false positives
+          </Text>
         </View>
       </View>
 
@@ -196,7 +225,9 @@ const SettingsDebugger: React.FC = () => {
           <Text style={styles.settingLabel}>Performance Logging</Text>
           <Switch
             value={debugSettings.enablePerformanceLogging}
-            onValueChange={(value) => updateSetting('enablePerformanceLogging', value)}
+            onValueChange={value =>
+              updateSetting('enablePerformanceLogging', value)
+            }
             trackColor={{false: '#333', true: '#007AFF'}}
             thumbColor={'#fff'}
           />
@@ -206,23 +237,26 @@ const SettingsDebugger: React.FC = () => {
           <Text style={styles.settingLabel}>Verbose Logging</Text>
           <Switch
             value={debugSettings.enableVerboseLogging}
-            onValueChange={(value) => updateSetting('enableVerboseLogging', value)}
+            onValueChange={value =>
+              updateSetting('enableVerboseLogging', value)
+            }
             trackColor={{false: '#333', true: '#007AFF'}}
             thumbColor={'#fff'}
           />
         </View>
-        
+
         <Text style={styles.loggingNote}>
-          Note: Verbose logging may impact performance and should only be enabled for debugging.
+          Note: Verbose logging may impact performance and should only be
+          enabled for debugging.
         </Text>
       </View>
 
       {/* Quick Presets */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Quick Presets</Text>
-        
+
         <View style={styles.presetButtons}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.presetButton}
             onPress={() => {
               const preset = {
@@ -237,13 +271,20 @@ const SettingsDebugger: React.FC = () => {
                 enableVerboseLogging: false,
               };
               setDebugSettings(preset);
-              addLog('info', 'Settings', 'Applied High Accuracy preset', preset);
+              addLog(
+                'info',
+                'Settings',
+                'Applied High Accuracy preset',
+                preset,
+              );
             }}>
             <Text style={styles.presetButtonText}>High Accuracy</Text>
-            <Text style={styles.presetButtonDesc}>Fingerprint + Transcription</Text>
+            <Text style={styles.presetButtonDesc}>
+              Fingerprint + Transcription
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.presetButton}
             onPress={() => {
               const preset = {
@@ -258,13 +299,18 @@ const SettingsDebugger: React.FC = () => {
                 enableVerboseLogging: false,
               };
               setDebugSettings(preset);
-              addLog('info', 'Settings', 'Applied Fast Processing preset', preset);
+              addLog(
+                'info',
+                'Settings',
+                'Applied Fast Processing preset',
+                preset,
+              );
             }}>
             <Text style={styles.presetButtonText}>Fast Processing</Text>
             <Text style={styles.presetButtonDesc}>Fingerprint + Size only</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.presetButton}
             onPress={() => {
               const preset = {
@@ -292,7 +338,9 @@ const SettingsDebugger: React.FC = () => {
         <TouchableOpacity style={styles.actionButton} onPress={exportSettings}>
           <Text style={styles.actionButtonText}>Export Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.actionButton, styles.actionButtonSecondary]} onPress={resetToDefaults}>
+        <TouchableOpacity
+          style={[styles.actionButton, styles.actionButtonSecondary]}
+          onPress={resetToDefaults}>
           <Text style={styles.actionButtonText}>Reset to Defaults</Text>
         </TouchableOpacity>
       </View>

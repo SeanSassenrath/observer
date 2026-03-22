@@ -189,9 +189,7 @@
       "name": "Blessing of the Energy Centers 01",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "61719"
-        ]
+        "knownStringSizes": ["61719"]
       }
     },
     "m-botec-1-updated": {
@@ -203,10 +201,7 @@
       "name": "Blessing of the Energy Centers 01 - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "46805",
-          "69591"
-        ]
+        "knownStringSizes": ["46805", "69591"]
       }
     },
     "m-botec-2": {
@@ -218,9 +213,7 @@
       "name": "Blessing of the Energy Centers 02",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "69705"
-        ]
+        "knownStringSizes": ["69705"]
       }
     },
     "m-botec-2-updated": {
@@ -232,10 +225,7 @@
       "name": "Blessing of the Energy Centers 02 - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "48109",
-          "71520"
-        ]
+        "knownStringSizes": ["48109", "71520"]
       }
     },
     "m-botec-3": {
@@ -247,9 +237,7 @@
       "name": "Blessing of the Energy Centers 03",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "77717"
-        ]
+        "knownStringSizes": ["77717"]
       }
     },
     "m-botec-3-updated": {
@@ -261,9 +249,7 @@
       "name": "Blessing of the Energy Centers 03 - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "52464"
-        ]
+        "knownStringSizes": ["52464"]
       }
     },
     "m-botec-4": {
@@ -275,10 +261,7 @@
       "name": "Blessing of the Energy Centers 04",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "93864",
-          "63072"
-        ]
+        "knownStringSizes": ["93864", "63072"]
       }
     },
     "m-botec-5": {
@@ -290,10 +273,7 @@
       "name": "Blessing of the Energy Centers 05",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10421",
-          "68575"
-        ]
+        "knownStringSizes": ["10421", "68575"]
       }
     },
     "m-botec-6": {
@@ -305,11 +285,7 @@
       "name": "Blessing of the Energy Centers 06",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "11010",
-          "73078",
-          "93829"
-        ]
+        "knownStringSizes": ["11010", "73078", "93829"]
       }
     },
     "m-botec-7": {
@@ -321,10 +297,7 @@
       "name": "Blessing of the Energy Centers 07",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10765",
-          "72338"
-        ]
+        "knownStringSizes": ["10765", "72338"]
       }
     },
     "m-botec-8": {
@@ -336,10 +309,7 @@
       "name": "Blessing of the Energy Centers 08",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "13596",
-          "91332"
-        ]
+        "knownStringSizes": ["13596", "91332"]
       }
     },
     "m-botec-9": {
@@ -351,11 +321,7 @@
       "name": "Blessing of the Energy Centers 09",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "21175",
-          "14923",
-          "85552"
-        ]
+        "knownStringSizes": ["21175", "14923", "85552"]
       }
     },
     "m-botec-10": {
@@ -367,10 +333,7 @@
       "name": "Blessing of the Energy Centers 10",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "13820",
-          "55797"
-        ]
+        "knownStringSizes": ["13820", "55797"]
       }
     },
     "m-botec-11": {
@@ -396,9 +359,7 @@
       "name": "Breaking The Habit Of Being Yourself",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          149360649
-        ]
+        "knownFileSizes": [149360649]
       }
     },
     "m-breaking-habit-water": {
@@ -410,9 +371,7 @@
       "name": "Breaking The Habit Of Being Yourself - Water",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          140710975
-        ]
+        "knownFileSizes": [140710975]
       }
     },
     "m-breaking-habit-water-updated": {
@@ -424,9 +383,7 @@
       "name": "Breaking The Habit Of Being Yourself - Water - Updated",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          169398605
-        ]
+        "knownFileSizes": [169398605]
       }
     },
     "m-breaking-habit-placebo": {
@@ -438,9 +395,7 @@
       "name": "You are the Placebo",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "58249"
-        ]
+        "knownStringSizes": ["58249"]
       }
     },
     "m-morning": {
@@ -452,12 +407,8 @@
       "name": "Daily Morning",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          34907925
-        ],
-        "knownStringSizes": [
-          "23187"
-        ]
+        "knownFileSizes": [34907925],
+        "knownStringSizes": ["23187"]
       }
     },
     "m-morning-updated": {
@@ -469,10 +420,7 @@
       "name": "Daily Morning - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "33578",
-          "57534"
-        ]
+        "knownStringSizes": ["33578", "57534"]
       }
     },
     "m-evening": {
@@ -484,12 +432,8 @@
       "name": "Daily Evening",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          34099801
-        ],
-        "knownStringSizes": [
-          "22604"
-        ]
+        "knownFileSizes": [34099801],
+        "knownStringSizes": ["22604"]
       }
     },
     "m-evening-updated": {
@@ -501,12 +445,7 @@
       "name": "Daily Evening - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "29178",
-          "56234",
-          "88207",
-          "77225"
-        ]
+        "knownStringSizes": ["29178", "56234", "88207", "77225"]
       }
     },
     "m-generating-abundance": {
@@ -518,10 +457,7 @@
       "name": "Generating Abundance",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "86671",
-          "58213"
-        ]
+        "knownStringSizes": ["86671", "58213"]
       }
     },
     "m-generating-flow": {
@@ -533,10 +469,7 @@
       "name": "Generating Flow",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          14599092,
-          36484250
-        ]
+        "knownFileSizes": [14599092, 36484250]
       }
     },
     "m-generating-gratitude": {
@@ -548,11 +481,7 @@
       "name": "Generating Gratitude",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "14594",
-          "36493",
-          "27173"
-        ]
+        "knownStringSizes": ["14594", "36493", "27173"]
       }
     },
     "m-generating-empowerment": {
@@ -564,11 +493,7 @@
       "name": "Generating Empowerment",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "14596",
-          "14578",
-          "36498"
-        ]
+        "knownStringSizes": ["14596", "14578", "36498"]
       }
     },
     "m-generating-change": {
@@ -580,10 +505,7 @@
       "name": "Generating Change",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          14599015,
-          36503450
-        ]
+        "knownFileSizes": [14599015, 36503450]
       }
     },
     "m-generating-inspiration": {
@@ -595,10 +517,7 @@
       "name": "Generating Inspiration",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "15099",
-          "37713"
-        ]
+        "knownStringSizes": ["15099", "37713"]
       }
     },
     "m-generating-joy": {
@@ -610,10 +529,7 @@
       "name": "Generating Joy",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "14593",
-          "36479"
-        ]
+        "knownStringSizes": ["14593", "36479"]
       }
     },
     "b-new-potentials": {
@@ -625,9 +541,7 @@
       "name": "Tuning Into New Potentials - Breath",
       "type": 1,
       "matchingData": {
-        "knownFileSizes": [
-          9674897
-        ]
+        "knownFileSizes": [9674897]
       }
     },
     "b-new-potentials-updated": {
@@ -639,9 +553,7 @@
       "name": "Tuning Into New Potentials - Breath - Updated",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "17014"
-        ]
+        "knownStringSizes": ["17014"]
       }
     },
     "b-reconditioning": {
@@ -653,9 +565,7 @@
       "name": "Tuning Into New Potentials - Breath - Updated",
       "type": 1,
       "matchingData": {
-        "knownFileSizes": [
-          9503256
-        ]
+        "knownFileSizes": [9503256]
       }
     },
     "b-changing-beliefs-and-perceptions": {
@@ -667,10 +577,7 @@
       "name": "Changing Beliefs and Perceptions - Breath",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "18036",
-          "11743"
-        ]
+        "knownStringSizes": ["18036", "11743"]
       }
     },
     "b-inspire-tribal-trance": {
@@ -682,9 +589,7 @@
       "name": "Inspire - Tribal Trance",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "12921"
-        ]
+        "knownStringSizes": ["12921"]
       }
     },
     "b-inspire-emerging-heart": {
@@ -696,9 +601,7 @@
       "name": "Inspire - Emerging Heart",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "20626"
-        ]
+        "knownStringSizes": ["20626"]
       }
     },
     "b-inspire-suenos-selva": {
@@ -710,9 +613,7 @@
       "name": "Inspire - Sueños de la Selva",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "12733"
-        ]
+        "knownStringSizes": ["12733"]
       }
     },
     "b-inspire-inferno": {
@@ -724,9 +625,7 @@
       "name": "Inspire - Inferno",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "12909"
-        ]
+        "knownStringSizes": ["12909"]
       }
     },
     "b-inspire-refuge": {
@@ -738,9 +637,7 @@
       "name": "Inspire - Refuge",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "18921"
-        ]
+        "knownStringSizes": ["18921"]
       }
     },
     "b-inspire-king-fisher": {
@@ -752,9 +649,7 @@
       "name": "Inspire - Kingfisher",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "17862"
-        ]
+        "knownStringSizes": ["17862"]
       }
     },
     "b-inspire-shaman-goddess": {
@@ -766,9 +661,7 @@
       "name": "Inspire - Shaman Goddess",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "11812"
-        ]
+        "knownStringSizes": ["11812"]
       }
     },
     "b-inspire-cleansing": {
@@ -780,9 +673,7 @@
       "name": "Inspire - Cleansing",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "18238"
-        ]
+        "knownStringSizes": ["18238"]
       }
     },
     "b-inspire-breathing-life": {
@@ -794,9 +685,7 @@
       "name": "Inspire - Breathing Life",
       "type": 1,
       "matchingData": {
-        "knownStringSizes": [
-          "15436"
-        ]
+        "knownStringSizes": ["15436"]
       }
     },
     "b-inspire-v2-warmth-sun": {
@@ -822,9 +711,7 @@
       "name": "Olorum",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/\\bolorum\\b/i"
-        ]
+        "fileNamePatterns": ["/\\bolorum\\b/i"]
       }
     },
     "b-inspire-v2-riding-through": {
@@ -836,9 +723,7 @@
       "name": "Riding Through",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/riding[\\s\\-_]*through/i"
-        ]
+        "fileNamePatterns": ["/riding[\\s\\-_]*through/i"]
       }
     },
     "b-inspire-v2-merging": {
@@ -850,9 +735,7 @@
       "name": "Merging",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/\\bmerging\\b/i"
-        ]
+        "fileNamePatterns": ["/\\bmerging\\b/i"]
       }
     },
     "b-inspire-v2-overgrown": {
@@ -864,9 +747,7 @@
       "name": "Overgrown",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/\\bovergrown\\b/i"
-        ]
+        "fileNamePatterns": ["/\\bovergrown\\b/i"]
       }
     },
     "b-inspire-v2-moyayaj": {
@@ -878,9 +759,7 @@
       "name": "Moyayaj",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/\\bmoyayaj\\b/i"
-        ]
+        "fileNamePatterns": ["/\\bmoyayaj\\b/i"]
       }
     },
     "b-inspire-v2-inhalation": {
@@ -892,9 +771,7 @@
       "name": "Inhalation",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/\\binhalation\\b/i"
-        ]
+        "fileNamePatterns": ["/\\binhalation\\b/i"]
       }
     },
     "b-inspire-v2-fire-gathering": {
@@ -906,9 +783,7 @@
       "name": "Fire Gathering",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/fire[\\s\\-_]*gathering/i"
-        ]
+        "fileNamePatterns": ["/fire[\\s\\-_]*gathering/i"]
       }
     },
     "b-inspire-v2-cosmic-heart": {
@@ -934,9 +809,7 @@
       "name": "Prana Soundscapes",
       "type": 1,
       "matchingData": {
-        "fileNamePatterns": [
-          "/prana[\\s\\-_]*soundscapes?/i"
-        ]
+        "fileNamePatterns": ["/prana[\\s\\-_]*soundscapes?/i"]
       }
     },
     "b-inspire-v2-continuous-mix": {
@@ -962,12 +835,8 @@
       "name": "Tuning Into New Potentials",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          56004113
-        ],
-        "knownStringSizes": [
-          "56004113"
-        ]
+        "knownFileSizes": [56004113],
+        "knownStringSizes": ["56004113"]
       }
     },
     "m-new-potentials-updated": {
@@ -979,10 +848,7 @@
       "name": "Tuning Into New Potentials - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "17014",
-          "10954"
-        ]
+        "knownStringSizes": ["17014", "10954"]
       }
     },
     "m-present-moment": {
@@ -994,13 +860,8 @@
       "name": "Generous Present Moment",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          68710984
-        ],
-        "knownStringSizes": [
-          "45584",
-          "45619"
-        ]
+        "knownFileSizes": [68710984],
+        "knownStringSizes": ["45584", "45619"]
       }
     },
     "m-recondition": {
@@ -1012,9 +873,7 @@
       "name": "Reconditioning the Body to a New Mind",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          55295394
-        ]
+        "knownFileSizes": [55295394]
       }
     },
     "m-changing-beliefs-and-perceptions": {
@@ -1026,10 +885,7 @@
       "name": "Changing Beliefs and Perceptions - Meditation",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "64867",
-          "43092"
-        ]
+        "knownStringSizes": ["64867", "43092"]
       }
     },
     "m-changing-beliefs-and-perceptions-full": {
@@ -1041,9 +897,7 @@
       "name": "Changing Beliefs and Perceptions - Breath and Meditation",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "82233"
-        ]
+        "knownStringSizes": ["82233"]
       }
     },
     "m-walking-stepping-into-your-future": {
@@ -1055,10 +909,7 @@
       "name": "Walking Meditation 01 - Stepping into Your Future",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10961",
-          "19389"
-        ]
+        "knownStringSizes": ["10961", "19389"]
       }
     },
     "m-walking-stepping-into-your-future-updated": {
@@ -1070,9 +921,7 @@
       "name": "Walking Meditation 01 - Stepping Into Your Future - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "18218"
-        ]
+        "knownStringSizes": ["18218"]
       }
     },
     "m-walking-with-the-devine": {
@@ -1084,9 +933,7 @@
       "name": "Walking Meditation 02 - Walking with the Divine",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "88295"
-        ]
+        "knownStringSizes": ["88295"]
       }
     },
     "m-walking-with-the-devine-updated": {
@@ -1098,9 +945,7 @@
       "name": "Walking Meditation 02 - Walking with the Divine - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "14689"
-        ]
+        "knownStringSizes": ["14689"]
       }
     },
     "m-walking-with-heart-full-mind": {
@@ -1112,10 +957,7 @@
       "name": "Walking Meditation 02 - Walking with the Divine - Updated",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "16874",
-          "14102"
-        ]
+        "knownStringSizes": ["16874", "14102"]
       }
     },
     "m-walking-body-electric": {
@@ -1127,9 +969,7 @@
       "name": "Walking Meditation 11 - Body Electric",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "16865"
-        ]
+        "knownStringSizes": ["16865"]
       }
     },
     "m-walking-conditioning-body": {
@@ -1141,9 +981,7 @@
       "name": "Walking Meditation 04 - Conditioning the Body to a New Mind",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "55287"
-        ]
+        "knownStringSizes": ["55287"]
       }
     },
     "m-walking-noble-walk": {
@@ -1155,9 +993,7 @@
       "name": "Walking Meditation 09 - The Noble Walk",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "64241"
-        ]
+        "knownStringSizes": ["64241"]
       }
     },
     "m-walking-unlocking-code": {
@@ -1169,11 +1005,7 @@
       "name": "Walking Meditation 05 - Unlocking the Code",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "35271",
-          "70655",
-          "87701"
-        ]
+        "knownStringSizes": ["35271", "70655", "87701"]
       }
     },
     "m-walking-prayer-evocation-invocation": {
@@ -1185,13 +1017,7 @@
       "name": "Walking Meditation 06 - Prayer of Evocation & Invocation",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "72485",
-          "72817",
-          "10845",
-          "10985",
-          "18080"
-        ]
+        "knownStringSizes": ["72485", "72817", "10845", "10985", "18080"]
       }
     },
     "m-walking-radiant-light": {
@@ -1203,9 +1029,7 @@
       "name": "Walking Meditation 12 - Walking In Radiant Light",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "12375"
-        ]
+        "knownStringSizes": ["12375"]
       }
     },
     "m-walking-running": {
@@ -1217,9 +1041,7 @@
       "name": "Walking Meditation - Running",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "24162"
-        ]
+        "knownStringSizes": ["24162"]
       }
     },
     "m-walking-for-the-world": {
@@ -1240,9 +1062,7 @@
       "name": "Changing Boxes Walking Meditation",
       "type": 0,
       "matchingData": {
-        "fileNamePatterns": [
-          "/changing[\\s\\-_]*boxes[\\s\\-_]*walking/i"
-        ]
+        "fileNamePatterns": ["/changing[\\s\\-_]*boxes[\\s\\-_]*walking/i"]
       }
     },
     "m-sync-health": {
@@ -1254,10 +1074,7 @@
       "name": "Synchronizing Your Energy To Health",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "71508",
-          "65433"
-        ]
+        "knownStringSizes": ["71508", "65433"]
       }
     },
     "m-sync-energy-to-new-life": {
@@ -1269,10 +1086,7 @@
       "name": "Synchronizing Your Energy To New Life",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "75116",
-          "79596"
-        ]
+        "knownStringSizes": ["75116", "79596"]
       }
     },
     "m-sync-abundance": {
@@ -1284,11 +1098,7 @@
       "name": "Synchronizing Your Energy To Abundance",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "98396",
-          "99503",
-          "66027"
-        ]
+        "knownStringSizes": ["98396", "99503", "66027"]
       }
     },
     "m-sync-energy-to-love": {
@@ -1300,12 +1110,7 @@
       "name": "Synchronizing Your Energy To Love",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10475",
-          "96788",
-          "69555",
-          "13261"
-        ]
+        "knownStringSizes": ["10475", "96788", "69555", "13261"]
       }
     },
     "m-unlocked-s1-p3": {
@@ -1317,9 +1122,7 @@
       "name": "Unlocked - Session 1 - Part 3",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "82333"
-        ]
+        "knownStringSizes": ["82333"]
       }
     },
     "m-unlocked-s2-p3": {
@@ -1331,9 +1134,7 @@
       "name": "Unlocked- Session 2 - Part 3",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10683"
-        ]
+        "knownStringSizes": ["10683"]
       }
     },
     "m-unlocked-s3-p3": {
@@ -1345,9 +1146,7 @@
       "name": "Unlocked - Session 3 - Part 3",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "12146"
-        ]
+        "knownStringSizes": ["12146"]
       }
     },
     "m-unlocked-s4-p3": {
@@ -1359,9 +1158,7 @@
       "name": "Unlocked - Session 4 - Part 3",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "10736"
-        ]
+        "knownStringSizes": ["10736"]
       }
     },
     "m-count-your-blessings-1": {
@@ -1485,10 +1282,7 @@
       "name": "The Alchemist",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "14699",
-          "59139"
-        ]
+        "knownStringSizes": ["14699", "59139"]
       }
     },
     "m-changing-boxes": {
@@ -1500,11 +1294,7 @@
       "name": "Changing Boxes",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "75996",
-          "85420",
-          "50937"
-        ]
+        "knownStringSizes": ["75996", "85420", "50937"]
       }
     },
     "m-changing-boxes-sv": {
@@ -1516,9 +1306,7 @@
       "name": "Changing Boxes - Short Version",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "51829"
-        ]
+        "knownStringSizes": ["51829"]
       }
     },
     "m-go-love": {
@@ -1530,11 +1318,7 @@
       "name": "Go Love 20",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "12546",
-          "30196",
-          "22640"
-        ]
+        "knownStringSizes": ["12546", "30196", "22640"]
       }
     },
     "m-higher-love-couples": {
@@ -1546,9 +1330,7 @@
       "name": "Higher Love for Couples",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "78649"
-        ]
+        "knownStringSizes": ["78649"]
       }
     },
     "m-love-life-you-love": {
@@ -1560,10 +1342,7 @@
       "name": "Love The Life You Love",
       "type": 0,
       "matchingData": {
-        "knownFileSizes": [
-          74235672,
-          29873657
-        ]
+        "knownFileSizes": [74235672, 29873657]
       }
     },
     "m-turning-your-love-inward": {
@@ -1576,10 +1355,7 @@
       "type": 0,
       "color": "#003E54",
       "matchingData": {
-        "knownStringSizes": [
-          "30255",
-          "19411"
-        ]
+        "knownStringSizes": ["30255", "19411"]
       }
     },
     "m-heart-brain-sync": {
@@ -1591,10 +1367,7 @@
       "name": "Heart and Brain Sync",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "81972",
-          "32977"
-        ]
+        "knownStringSizes": ["81972", "32977"]
       }
     },
     "m-courageous-heart": {
@@ -1606,10 +1379,7 @@
       "name": "Courageous Heart",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "89041",
-          "35990"
-        ]
+        "knownStringSizes": ["89041", "35990"]
       }
     },
     "m-breaking-habits-addictions": {
@@ -1621,9 +1391,7 @@
       "name": "Breaking Habits and Addictions",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "86646"
-        ]
+        "knownStringSizes": ["86646"]
       }
     },
     "m-empowering-within": {
@@ -1635,10 +1403,7 @@
       "name": "Empowering the Power Within",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "56628",
-          "59375"
-        ]
+        "knownStringSizes": ["56628", "59375"]
       }
     },
     "m-pineal-gland-long": {
@@ -1650,9 +1415,7 @@
       "name": "Pineal Gland - Long",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "12129"
-        ]
+        "knownStringSizes": ["12129"]
       }
     },
     "m-pineal-gland-short": {
@@ -1664,10 +1427,7 @@
       "name": "Pineal Gland - Short",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "61080",
-          "80798"
-        ]
+        "knownStringSizes": ["61080", "80798"]
       }
     },
     "m-falling-into-love-body": {
@@ -1679,11 +1439,7 @@
       "name": "Falling into Love with Your Body",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "24779",
-          "62889",
-          "37064"
-        ]
+        "knownStringSizes": ["24779", "62889", "37064"]
       }
     },
     "m-tune-in-with-your-heart": {
@@ -1695,9 +1451,7 @@
       "name": "Tuning In With Your Heart",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "73866"
-        ]
+        "knownStringSizes": ["73866"]
       }
     },
     "m-center-of-the-magnet": {
@@ -1709,9 +1463,7 @@
       "name": "Center of the Magnet",
       "type": 0,
       "matchingData": {
-        "knownStringSizes": [
-          "15554"
-        ]
+        "knownStringSizes": ["15554"]
       }
     },
     "m-outpicturing": {
@@ -1723,9 +1475,7 @@
       "name": "Outpicturing",
       "type": 0,
       "matchingData": {
-        "fileNamePatterns": [
-          "/out[\\s\\-_]*picturing/i"
-        ]
+        "fileNamePatterns": ["/out[\\s\\-_]*picturing/i"]
       }
     },
     "m-life-love-mystical": {
@@ -1765,9 +1515,7 @@
       "name": "Wholly Days",
       "type": 0,
       "matchingData": {
-        "fileNamePatterns": [
-          "/whol(l)?y[\\s\\-_]*days/i"
-        ]
+        "fileNamePatterns": ["/whol(l)?y[\\s\\-_]*days/i"]
       }
     },
     "m-love-your-body": {

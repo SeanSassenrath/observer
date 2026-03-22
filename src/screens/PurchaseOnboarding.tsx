@@ -58,7 +58,7 @@ const PurchaseOnboarding = () => {
       glowAnimation.value = withRepeat(
         withTiming(1, {duration: 2000}),
         -1,
-        true
+        true,
       );
     }
   }, [currentIndex]);
@@ -99,7 +99,7 @@ const PurchaseOnboarding = () => {
   const animatedGlowStyle = useAnimatedStyle(() => {
     const shadowRadius = interpolate(glowAnimation.value, [0, 1], [10, 25]);
     const shadowOpacity = interpolate(glowAnimation.value, [0, 1], [0.4, 0.8]);
-    
+
     return {
       shadowRadius,
       shadowOpacity,
@@ -111,7 +111,8 @@ const PurchaseOnboarding = () => {
       <SafeAreaView style={styles.rootContainer}>
         <View style={styles.topContainer}>
           {currentIndex === 0 ? (
-            <Animated.View style={[styles.headerImageBackground, animatedGlowStyle]}>
+            <Animated.View
+              style={[styles.headerImageBackground, animatedGlowStyle]}>
               <Image source={currentImage} style={styles.heroImg} />
             </Animated.View>
           ) : (

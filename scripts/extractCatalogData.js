@@ -10,10 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const SRC_FILE = path.join(
-  __dirname,
-  '../src/constants/meditation-data.ts',
-);
+const SRC_FILE = path.join(__dirname, '../src/constants/meditation-data.ts');
 const OUT_FILE = path.join(__dirname, 'catalogData.json');
 
 const source = fs.readFileSync(SRC_FILE, 'utf-8');
@@ -28,7 +25,8 @@ let enumMatch;
 while ((enumMatch = enumBlockRe.exec(source)) !== null) {
   const enumName = enumMatch[1];
   const body = enumMatch[2];
-  const memberRe = /(?:'(\w+)'|"(\w+)"|(\w+))\s*=\s*(?:'([^']*)'|"([^"]*)"|(\d+))/g;
+  const memberRe =
+    /(?:'(\w+)'|"(\w+)"|(\w+))\s*=\s*(?:'([^']*)'|"([^"]*)"|(\d+))/g;
   let memberMatch;
   while ((memberMatch = memberRe.exec(body)) !== null) {
     const memberName = memberMatch[1] ?? memberMatch[2] ?? memberMatch[3];
@@ -78,8 +76,7 @@ const meditations = {};
 
 // Match individual meditation entries across all maps
 // Pattern: [SomeEnum.Key]: { ... }
-const entryRe =
-  /\[(\w+\.\w+)\]:\s*\{([^}]+)\}/g;
+const entryRe = /\[(\w+\.\w+)\]:\s*\{([^}]+)\}/g;
 
 let entryMatch;
 while ((entryMatch = entryRe.exec(source)) !== null) {
@@ -111,7 +108,8 @@ while ((entryMatch = entryRe.exec(source)) !== null) {
 
   // groupName
   const groupMatch = body.match(/groupName:\s*(\S+)/);
-  if (groupMatch) entry.groupName = resolveValue(groupMatch[1].replace(/,\s*$/, ''));
+  if (groupMatch)
+    entry.groupName = resolveValue(groupMatch[1].replace(/,\s*$/, ''));
 
   // name
   const nameMatch = body.match(/name:\s*'([^']+)'/);
@@ -127,7 +125,8 @@ while ((entryMatch = entryRe.exec(source)) !== null) {
 
   // updatedId (optional)
   const updatedIdMatch = body.match(/updatedId:\s*(\S+)/);
-  if (updatedIdMatch) entry.updatedId = resolveValue(updatedIdMatch[1].replace(/,\s*$/, ''));
+  if (updatedIdMatch)
+    entry.updatedId = resolveValue(updatedIdMatch[1].replace(/,\s*$/, ''));
 
   // Only include entries that look like real meditation data
   if (entry.name && entry.groupName && 'formattedDuration' in entry) {
@@ -141,15 +140,15 @@ const groupMap = {};
 const GROUP_DISPLAY_ORDER = {
   'Blessing of the Energy Centers': 1,
   'Breaking the Habit of Being Yourself': 2,
-  'Breathwork': 3,
+  Breathwork: 3,
   'Count Your Blessings': 4,
   'Daily Meditations': 5,
   'Foundational - Progressive': 6,
   'Generating Series': 7,
   'Synchronize Series': 8,
   'Unlocked Series': 9,
-  'Walking': 10,
-  'Other': 11,
+  Walking: 10,
+  Other: 11,
 };
 
 for (const [id, med] of Object.entries(meditations)) {

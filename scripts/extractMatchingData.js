@@ -10,7 +10,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const MEDITATION_DATA_FILE = path.join(__dirname, '../src/constants/meditation-data.ts');
+const MEDITATION_DATA_FILE = path.join(
+  __dirname,
+  '../src/constants/meditation-data.ts',
+);
 const FILE_PICKER_FILE = path.join(__dirname, '../src/utils/filePicker.ts');
 const CATALOG_FILE = path.join(__dirname, 'catalogData.json');
 
@@ -27,7 +30,8 @@ function parseEnums(source) {
     const enumName = m[1];
     const body = m[2];
     enums[enumName] = {};
-    const memberRe = /(?:'(\w+)'|"(\w+)"|(\w+))\s*=\s*(?:'([^']*)'|"([^"]*)"|(\d+))/g;
+    const memberRe =
+      /(?:'(\w+)'|"(\w+)"|(\w+))\s*=\s*(?:'([^']*)'|"([^"]*)"|(\d+))/g;
     let mm;
     while ((mm = memberRe.exec(body)) !== null) {
       const memberName = mm[1] ?? mm[2] ?? mm[3];
@@ -45,7 +49,8 @@ const enums = parseEnums(meditationSource);
 // 2a: Exact size matches (if/else if blocks)
 // Pattern: fileSize === EnumName.Member ... BaseKeys.MeditationId
 const exactSizeToId = {};
-const exactSizeRe = /fileSize\s*===\s*(\w+)\.(\w+)\)\s*\{[\s\S]*?\[(\w+)\.(\w+)\]/g;
+const exactSizeRe =
+  /fileSize\s*===\s*(\w+)\.(\w+)\)\s*\{[\s\S]*?\[(\w+)\.(\w+)\]/g;
 let esm;
 while ((esm = exactSizeRe.exec(filePickerSource)) !== null) {
   const sizeEnum = esm[1];
@@ -93,7 +98,8 @@ while ((scm = switchCaseRe.exec(filePickerSource)) !== null) {
 // 2c: Regex patterns from filePicker.ts
 // Pattern: if (/regex/.test(fileName)) { ... [BaseKeys.MeditationId]
 const regexToId = {};
-const regexRe = /if\s*\((\/.+?\/[gimsuy]*)\s*\.test\(fileName\)\)\s*\{[\s\S]*?\[(\w+)\.(\w+)\]/g;
+const regexRe =
+  /if\s*\((\/.+?\/[gimsuy]*)\s*\.test\(fileName\)\)\s*\{[\s\S]*?\[(\w+)\.(\w+)\]/g;
 let rm;
 while ((rm = regexRe.exec(filePickerSource)) !== null) {
   const regexStr = rm[1];
@@ -148,7 +154,9 @@ catalogData.updatedAt = new Date().toISOString();
 
 fs.writeFileSync(CATALOG_FILE, JSON.stringify(catalogData, null, 2));
 
-console.log(`Matching data merged into catalogData.json (version ${catalogData.version})`);
+console.log(
+  `Matching data merged into catalogData.json (version ${catalogData.version})`,
+);
 console.log(`  ${medsWithSizes} meditations with exact file sizes`);
 console.log(`  ${medsWithStringSizes} meditations with string sizes`);
 console.log(`  ${medsWithPatterns} meditations with filename patterns`);
@@ -157,4 +165,6 @@ console.log(`  ${medsWithPatterns} meditations with filename patterns`);
 const noMatch = Object.entries(catalogData.meditations)
   .filter(([, m]) => !m.matchingData)
   .map(([id]) => id);
-console.log(`  ${noMatch.length} meditations with NO matching data: ${noMatch.join(', ')}`);
+console.log(
+  `  ${noMatch.length} meditations with NO matching data: ${noMatch.join(', ')}`,
+);

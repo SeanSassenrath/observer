@@ -41,17 +41,20 @@ const getAuthErrorMessage = (error: AuthError): string => {
 // Email/Password Sign In
 export const signInWithEmailAndPassword = async (
   email: string,
-  password: string
+  password: string,
 ): Promise<AuthResult> => {
   try {
     crashlytics().log('Email sign-in attempt');
-    const userCredential = await auth().signInWithEmailAndPassword(email, password);
-    const { user } = userCredential;
+    const userCredential = await auth().signInWithEmailAndPassword(
+      email,
+      password,
+    );
+    const {user} = userCredential;
 
     if (user) {
       crashlytics().setUserId(user.uid);
       crashlytics().log('Email sign-in success');
-      
+
       return {
         success: true,
         user: user,
@@ -65,7 +68,7 @@ export const signInWithEmailAndPassword = async (
   } catch (error: any) {
     crashlytics().recordError(error);
     console.log('Email sign-in failed:', error);
-    
+
     return {
       success: false,
       error: getAuthErrorMessage(error),
@@ -77,20 +80,23 @@ export const signInWithEmailAndPassword = async (
 // Email/Password Sign Up
 export const createUserWithEmailAndPassword = async (
   email: string,
-  password: string
+  password: string,
 ): Promise<AuthResult> => {
   try {
     crashlytics().log('Email sign-up attempt');
-    const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-    const { user } = userCredential;
+    const userCredential = await auth().createUserWithEmailAndPassword(
+      email,
+      password,
+    );
+    const {user} = userCredential;
 
     if (user) {
       crashlytics().setUserId(user.uid);
       crashlytics().log('Email sign-up success');
-      
+
       // Send email verification
       await sendEmailVerification();
-      
+
       return {
         success: true,
         user: user,
@@ -104,7 +110,7 @@ export const createUserWithEmailAndPassword = async (
   } catch (error: any) {
     crashlytics().recordError(error);
     console.log('Email sign-up failed:', error);
-    
+
     return {
       success: false,
       error: getAuthErrorMessage(error),
@@ -114,19 +120,21 @@ export const createUserWithEmailAndPassword = async (
 };
 
 // Send Password Reset Email
-export const sendPasswordResetEmail = async (email: string): Promise<AuthResult> => {
+export const sendPasswordResetEmail = async (
+  email: string,
+): Promise<AuthResult> => {
   try {
     crashlytics().log('Password reset email attempt');
     await auth().sendPasswordResetEmail(email);
     crashlytics().log('Password reset email sent');
-    
+
     return {
       success: true,
     };
   } catch (error: any) {
     crashlytics().recordError(error);
     console.log('Password reset failed:', error);
-    
+
     return {
       success: false,
       error: getAuthErrorMessage(error),
@@ -149,14 +157,14 @@ export const sendEmailVerification = async (): Promise<AuthResult> => {
     crashlytics().log('Email verification attempt');
     await user.sendEmailVerification();
     crashlytics().log('Email verification sent');
-    
+
     return {
       success: true,
     };
   } catch (error: any) {
     crashlytics().recordError(error);
     console.log('Email verification failed:', error);
-    
+
     return {
       success: false,
       error: getAuthErrorMessage(error),

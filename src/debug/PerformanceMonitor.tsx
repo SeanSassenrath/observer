@@ -11,11 +11,13 @@ import {useDebug} from './DebugContext';
 const PerformanceMonitor: React.FC = () => {
   const {debugState, updatePerformanceMetrics, addLog} = useDebug();
   const [isMonitoring, setIsMonitoring] = useState(false);
-  const [recentProcessingTimes, setRecentProcessingTimes] = useState<number[]>([]);
+  const [recentProcessingTimes, setRecentProcessingTimes] = useState<number[]>(
+    [],
+  );
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
+
     if (isMonitoring) {
       interval = setInterval(() => {
         // Simulate performance data collection
@@ -25,9 +27,12 @@ const PerformanceMonitor: React.FC = () => {
           matchingTime: Math.random() * 500 + 100,
           memoryUsage: Math.random() * 100 + 50,
         };
-        
-        const totalTime = mockMetrics.audioProcessingTime + mockMetrics.transcriptionTime + mockMetrics.matchingTime;
-        
+
+        const totalTime =
+          mockMetrics.audioProcessingTime +
+          mockMetrics.transcriptionTime +
+          mockMetrics.matchingTime;
+
         updatePerformanceMetrics({
           ...mockMetrics,
           totalProcessingTime: totalTime,
@@ -44,11 +49,19 @@ const PerformanceMonitor: React.FC = () => {
         clearInterval(interval);
       }
     };
-  }, [isMonitoring, updatePerformanceMetrics, debugState.performanceMetrics.totalProcessed]);
+  }, [
+    isMonitoring,
+    updatePerformanceMetrics,
+    debugState.performanceMetrics.totalProcessed,
+  ]);
 
   const toggleMonitoring = () => {
     setIsMonitoring(!isMonitoring);
-    addLog('info', 'Performance', `Performance monitoring ${!isMonitoring ? 'started' : 'stopped'}`);
+    addLog(
+      'info',
+      'Performance',
+      `Performance monitoring ${!isMonitoring ? 'started' : 'stopped'}`,
+    );
   };
 
   const clearMetrics = () => {
@@ -65,7 +78,10 @@ const PerformanceMonitor: React.FC = () => {
     addLog('info', 'Performance', 'Performance metrics cleared');
   };
 
-  const getPerformanceStatus = (value: number, thresholds: {good: number, warning: number}) => {
+  const getPerformanceStatus = (
+    value: number,
+    thresholds: {good: number; warning: number},
+  ) => {
     if (value <= thresholds.good) return 'good';
     if (value <= thresholds.warning) return 'warning';
     return 'error';
@@ -73,10 +89,14 @@ const PerformanceMonitor: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'good': return '#4CAF50';
-      case 'warning': return '#FF9500';
-      case 'error': return '#F44336';
-      default: return '#999';
+      case 'good':
+        return '#4CAF50';
+      case 'warning':
+        return '#FF9500';
+      case 'error':
+        return '#F44336';
+      default:
+        return '#999';
     }
   };
 
@@ -92,21 +112,26 @@ const PerformanceMonitor: React.FC = () => {
   const metrics = debugState.performanceMetrics;
 
   return (
-    <ScrollView 
-      style={styles.container} 
+    <ScrollView
+      style={styles.container}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={true}
       bounces={true}>
       {/* Controls */}
       <View style={styles.controls}>
-        <TouchableOpacity 
-          style={[styles.button, isMonitoring ? styles.buttonStop : styles.buttonStart]} 
+        <TouchableOpacity
+          style={[
+            styles.button,
+            isMonitoring ? styles.buttonStop : styles.buttonStart,
+          ]}
           onPress={toggleMonitoring}>
           <Text style={styles.buttonText}>
             {isMonitoring ? 'Stop Monitoring' : 'Start Monitoring'}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={clearMetrics}>
+        <TouchableOpacity
+          style={[styles.button, styles.buttonSecondary]}
+          onPress={clearMetrics}>
           <Text style={styles.buttonText}>Clear Metrics</Text>
         </TouchableOpacity>
       </View>
@@ -120,17 +145,22 @@ const PerformanceMonitor: React.FC = () => {
             <Text style={styles.overviewLabel}>Total Processed</Text>
           </View>
           <View style={styles.overviewItem}>
-            <Text style={[styles.overviewValue, {color: getStatusColor('good')}]}>
+            <Text
+              style={[styles.overviewValue, {color: getStatusColor('good')}]}>
               {(metrics.successRate * 100).toFixed(1)}%
             </Text>
             <Text style={styles.overviewLabel}>Success Rate</Text>
           </View>
           <View style={styles.overviewItem}>
-            <Text style={styles.overviewValue}>{formatTime(metrics.totalProcessingTime)}</Text>
+            <Text style={styles.overviewValue}>
+              {formatTime(metrics.totalProcessingTime)}
+            </Text>
             <Text style={styles.overviewLabel}>Avg Total Time</Text>
           </View>
           <View style={styles.overviewItem}>
-            <Text style={styles.overviewValue}>{formatMemory(metrics.memoryUsage)}</Text>
+            <Text style={styles.overviewValue}>
+              {formatMemory(metrics.memoryUsage)}
+            </Text>
             <Text style={styles.overviewLabel}>Memory Usage</Text>
           </View>
         </View>
@@ -139,26 +169,39 @@ const PerformanceMonitor: React.FC = () => {
       {/* Processing Times */}
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Processing Times</Text>
-        
+
         <View style={styles.metricItem}>
           <View style={styles.metricHeader}>
             <Text style={styles.metricName}>Audio Processing</Text>
-            <Text style={[
-              styles.metricValue,
-              {color: getStatusColor(getPerformanceStatus(metrics.audioProcessingTime, {good: 1000, warning: 2000}))}
-            ]}>
+            <Text
+              style={[
+                styles.metricValue,
+                {
+                  color: getStatusColor(
+                    getPerformanceStatus(metrics.audioProcessingTime, {
+                      good: 1000,
+                      warning: 2000,
+                    }),
+                  ),
+                },
+              ]}>
               {formatTime(metrics.audioProcessingTime)}
             </Text>
           </View>
           <View style={styles.progressBar}>
-            <View 
+            <View
               style={[
-                styles.progressFill, 
+                styles.progressFill,
                 {
                   width: `${Math.min((metrics.audioProcessingTime / 3000) * 100, 100)}%`,
-                  backgroundColor: getStatusColor(getPerformanceStatus(metrics.audioProcessingTime, {good: 1000, warning: 2000}))
-                }
-              ]} 
+                  backgroundColor: getStatusColor(
+                    getPerformanceStatus(metrics.audioProcessingTime, {
+                      good: 1000,
+                      warning: 2000,
+                    }),
+                  ),
+                },
+              ]}
             />
           </View>
         </View>
@@ -166,22 +209,35 @@ const PerformanceMonitor: React.FC = () => {
         <View style={styles.metricItem}>
           <View style={styles.metricHeader}>
             <Text style={styles.metricName}>Transcription</Text>
-            <Text style={[
-              styles.metricValue,
-              {color: getStatusColor(getPerformanceStatus(metrics.transcriptionTime, {good: 5000, warning: 10000}))}
-            ]}>
+            <Text
+              style={[
+                styles.metricValue,
+                {
+                  color: getStatusColor(
+                    getPerformanceStatus(metrics.transcriptionTime, {
+                      good: 5000,
+                      warning: 10000,
+                    }),
+                  ),
+                },
+              ]}>
               {formatTime(metrics.transcriptionTime)}
             </Text>
           </View>
           <View style={styles.progressBar}>
-            <View 
+            <View
               style={[
-                styles.progressFill, 
+                styles.progressFill,
                 {
                   width: `${Math.min((metrics.transcriptionTime / 15000) * 100, 100)}%`,
-                  backgroundColor: getStatusColor(getPerformanceStatus(metrics.transcriptionTime, {good: 5000, warning: 10000}))
-                }
-              ]} 
+                  backgroundColor: getStatusColor(
+                    getPerformanceStatus(metrics.transcriptionTime, {
+                      good: 5000,
+                      warning: 10000,
+                    }),
+                  ),
+                },
+              ]}
             />
           </View>
         </View>
@@ -189,22 +245,35 @@ const PerformanceMonitor: React.FC = () => {
         <View style={styles.metricItem}>
           <View style={styles.metricHeader}>
             <Text style={styles.metricName}>Matching</Text>
-            <Text style={[
-              styles.metricValue,
-              {color: getStatusColor(getPerformanceStatus(metrics.matchingTime, {good: 200, warning: 500}))}
-            ]}>
+            <Text
+              style={[
+                styles.metricValue,
+                {
+                  color: getStatusColor(
+                    getPerformanceStatus(metrics.matchingTime, {
+                      good: 200,
+                      warning: 500,
+                    }),
+                  ),
+                },
+              ]}>
               {formatTime(metrics.matchingTime)}
             </Text>
           </View>
           <View style={styles.progressBar}>
-            <View 
+            <View
               style={[
-                styles.progressFill, 
+                styles.progressFill,
                 {
                   width: `${Math.min((metrics.matchingTime / 1000) * 100, 100)}%`,
-                  backgroundColor: getStatusColor(getPerformanceStatus(metrics.matchingTime, {good: 200, warning: 500}))
-                }
-              ]} 
+                  backgroundColor: getStatusColor(
+                    getPerformanceStatus(metrics.matchingTime, {
+                      good: 200,
+                      warning: 500,
+                    }),
+                  ),
+                },
+              ]}
             />
           </View>
         </View>
@@ -219,18 +288,21 @@ const PerformanceMonitor: React.FC = () => {
               {recentProcessingTimes.map((time, index) => {
                 const maxTime = Math.max(...recentProcessingTimes);
                 const height = (time / maxTime) * 100;
-                const status = getPerformanceStatus(time, {good: 8000, warning: 15000});
-                
+                const status = getPerformanceStatus(time, {
+                  good: 8000,
+                  warning: 15000,
+                });
+
                 return (
                   <View key={index} style={styles.chartBar}>
-                    <View 
+                    <View
                       style={[
                         styles.chartBarFill,
                         {
                           height: `${height}%`,
                           backgroundColor: getStatusColor(status),
-                        }
-                      ]} 
+                        },
+                      ]}
                     />
                     <Text style={styles.chartBarLabel}>{index + 1}</Text>
                   </View>
@@ -238,8 +310,11 @@ const PerformanceMonitor: React.FC = () => {
               })}
             </View>
             <Text style={styles.chartNote}>
-              Max: {formatTime(Math.max(...recentProcessingTimes))} | 
-              Avg: {formatTime(recentProcessingTimes.reduce((a, b) => a + b, 0) / recentProcessingTimes.length)}
+              Max: {formatTime(Math.max(...recentProcessingTimes))} | Avg:{' '}
+              {formatTime(
+                recentProcessingTimes.reduce((a, b) => a + b, 0) /
+                  recentProcessingTimes.length,
+              )}
             </Text>
           </View>
         </View>
@@ -251,17 +326,20 @@ const PerformanceMonitor: React.FC = () => {
         <View style={styles.recommendations}>
           {metrics.audioProcessingTime > 2000 && (
             <Text style={styles.recommendation}>
-              ⚠️ Audio processing is slow. Consider optimizing fingerprint extraction.
+              ⚠️ Audio processing is slow. Consider optimizing fingerprint
+              extraction.
             </Text>
           )}
           {metrics.transcriptionTime > 10000 && (
             <Text style={styles.recommendation}>
-              ⚠️ Transcription is taking too long. Check speech recognition configuration.
+              ⚠️ Transcription is taking too long. Check speech recognition
+              configuration.
             </Text>
           )}
           {metrics.memoryUsage > 150 && (
             <Text style={styles.recommendation}>
-              ⚠️ High memory usage detected. Consider clearing audio buffers more frequently.
+              ⚠️ High memory usage detected. Consider clearing audio buffers
+              more frequently.
             </Text>
           )}
           {metrics.successRate < 0.8 && (
@@ -269,11 +347,15 @@ const PerformanceMonitor: React.FC = () => {
               ❌ Low success rate. Review matching algorithm parameters.
             </Text>
           )}
-          {metrics.audioProcessingTime <= 1000 && metrics.transcriptionTime <= 5000 && metrics.memoryUsage <= 100 && metrics.successRate >= 0.9 && (
-            <Text style={[styles.recommendation, styles.recommendationGood]}>
-              ✅ Performance is optimal. All metrics are within acceptable ranges.
-            </Text>
-          )}
+          {metrics.audioProcessingTime <= 1000 &&
+            metrics.transcriptionTime <= 5000 &&
+            metrics.memoryUsage <= 100 &&
+            metrics.successRate >= 0.9 && (
+              <Text style={[styles.recommendation, styles.recommendationGood]}>
+                ✅ Performance is optimal. All metrics are within acceptable
+                ranges.
+              </Text>
+            )}
         </View>
       </View>
     </ScrollView>

@@ -30,7 +30,10 @@ describe('signInWithEmailAndPassword', () => {
     const mockUser = {uid: 'test-123', email: 'test@test.com'};
     mockAuth.signInWithEmailAndPassword.mockResolvedValue({user: mockUser});
 
-    const result = await signInWithEmailAndPassword('test@test.com', 'password123');
+    const result = await signInWithEmailAndPassword(
+      'test@test.com',
+      'password123',
+    );
 
     expect(result.success).toBe(true);
     expect(result.user).toEqual(mockUser);
@@ -75,7 +78,9 @@ describe('signInWithEmailAndPassword', () => {
     const result = await signInWithEmailAndPassword('test@test.com', 'pass');
 
     expect(result.success).toBe(false);
-    expect(result.error).toBe('Too many failed attempts. Please try again later.');
+    expect(result.error).toBe(
+      'Too many failed attempts. Please try again later.',
+    );
   });
 
   it('returns error when no user returned', async () => {
@@ -107,7 +112,10 @@ describe('createUserWithEmailAndPassword', () => {
     mockAuth.createUserWithEmailAndPassword.mockResolvedValue({user: mockUser});
     mockAuth.currentUser = mockUser;
 
-    const result = await createUserWithEmailAndPassword('new@test.com', 'pass123');
+    const result = await createUserWithEmailAndPassword(
+      'new@test.com',
+      'pass123',
+    );
 
     expect(result.success).toBe(true);
     expect(result.user).toEqual(mockUser);
@@ -120,7 +128,10 @@ describe('createUserWithEmailAndPassword', () => {
       message: 'Email in use',
     });
 
-    const result = await createUserWithEmailAndPassword('existing@test.com', 'pass');
+    const result = await createUserWithEmailAndPassword(
+      'existing@test.com',
+      'pass',
+    );
 
     expect(result.success).toBe(false);
     expect(result.error).toBe('An account with this email already exists.');
@@ -142,7 +153,10 @@ describe('createUserWithEmailAndPassword', () => {
   it('returns error when no user returned', async () => {
     mockAuth.createUserWithEmailAndPassword.mockResolvedValue({user: null});
 
-    const result = await createUserWithEmailAndPassword('test@test.com', 'pass123');
+    const result = await createUserWithEmailAndPassword(
+      'test@test.com',
+      'pass123',
+    );
 
     expect(result.success).toBe(false);
     expect(result.error).toBe('No user returned from sign-up');
@@ -156,7 +170,9 @@ describe('sendPasswordResetEmail', () => {
     const result = await sendPasswordResetEmail('test@test.com');
 
     expect(result.success).toBe(true);
-    expect(mockAuth.sendPasswordResetEmail).toHaveBeenCalledWith('test@test.com');
+    expect(mockAuth.sendPasswordResetEmail).toHaveBeenCalledWith(
+      'test@test.com',
+    );
   });
 
   it('returns error for unknown email', async () => {

@@ -322,7 +322,9 @@ export interface Playlist {
 
 export interface PlaylistContextType {
   playlists: Record<PlaylistId, Playlist>;
-  setPlaylists: React.Dispatch<React.SetStateAction<Record<PlaylistId, Playlist>>>;
+  setPlaylists: React.Dispatch<
+    React.SetStateAction<Record<PlaylistId, Playlist>>
+  >;
 }
 
 export interface ShareablePlaylist {

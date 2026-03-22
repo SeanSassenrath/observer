@@ -1,10 +1,15 @@
-import { Pressable, StyleSheet } from "react-native"
-import { Icon, Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import {Pressable, StyleSheet} from 'react-native';
+import {Icon, Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 const lightWhite = '#f3f3f3';
 
 const PlusIcon = (props: any) => (
-  <Icon {...props} style={themedStyles.plusIcon} fill={lightWhite} name='plus-outline' />
+  <Icon
+    {...props}
+    style={themedStyles.plusIcon}
+    fill={lightWhite}
+    name="plus-outline"
+  />
 );
 
 interface AddMeditationsPillProps {
@@ -12,7 +17,7 @@ interface AddMeditationsPillProps {
 }
 
 export const AddMeditationsPill = ({
-  onAddMeditationsPress
+  onAddMeditationsPress,
 }: AddMeditationsPillProps) => {
   const styles = useStyleSheet(themedStyles);
 
@@ -21,12 +26,12 @@ export const AddMeditationsPill = ({
       <Pressable onPress={onAddMeditationsPress}>
         <Layout style={styles.addMeditationsButton}>
           <PlusIcon />
-          <Text category='s1'>Add Meditations</Text>
+          <Text category="s1">Add Meditations</Text>
         </Layout>
       </Pressable>
     </Layout>
-  )
-}
+  );
+};
 
 const themedStyles = StyleSheet.create({
   addIcon: {
@@ -66,4 +71,4 @@ const themedStyles = StyleSheet.create({
     width: 25,
     marginRight: 4,
   },
-})
+});

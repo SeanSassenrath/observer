@@ -1,5 +1,8 @@
 import React, {useContext, useEffect, useRef} from 'react';
-import {NavigationContainer, NavigationContainerRef} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import analytics from '@react-native-firebase/analytics';
 import {PostHogProvider, usePostHog} from 'posthog-react-native';
@@ -43,7 +46,8 @@ import ImportPlaylistScreen from '../screens/ImportPlaylist';
 
 const {Navigator, Screen} = createNativeStackNavigator<StackParamList>();
 
-export const navigationRef = React.createRef<NavigationContainerRef<StackParamList>>();
+export const navigationRef =
+  React.createRef<NavigationContainerRef<StackParamList>>();
 
 const PostHogIdentifier = () => {
   const posthog = usePostHog();
@@ -104,40 +108,49 @@ const StackNavigator = () => {
       }}
       theme={myTheme}>
       <PostHogProvider client={posthogClient} autocapture>
-      <PostHogIdentifier />
-      <Navigator
-        initialRouteName={getInitialRouteName()}
-        screenOptions={{headerShown: false}}>
-        <Screen name="Welcome" component={WelcomeScreen} />
-        <Screen name="SignIn" component={SignInScreen} />
-        <Screen name="EmailSignIn" component={EmailSignInScreen} />
-        {/* <Screen name="Subscriptions" component={SubscriptionsScreen} /> */}
-        <Screen name="BetaAgreement" component={BetaAgreement} />
-        <Screen name="Disclaimer" component={Disclaimer} />
-        <Screen name="AddMeditations" component={AddMeditationsScreen} />
-        <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
-        <Screen name="AddMedsSuccess" component={AddMedsSuccessScreen} />
-        <Screen name="TabNavigation" component={TabNavigator} />
-        <Screen name="Meditation" component={MeditationScreen} />
-        <Screen name="MeditationFinish" component={MeditationFinishScreen} />
-        <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
-        <Screen name="MeditationMatch" component={MeditationMatchScreen} />
-        <Screen name="LimitedVersion" component={LimitedVersion} />
-        <Screen name="Profile" component={Profile} />
-        {/* <Screen name="Purchase" component={Purchase} /> */}
-        <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
-        <Screen name="UnrecognizedFiles" component={UnrecognizedFilesScreen} />
-        <Screen name="Feedback" component={FeedbackScreen} />
-        <Screen name="ReassignFile" component={ReassignFileScreen} />
-        <Screen name="TermsAgreement" component={TermsAgreementScreen} />
-        <Screen name="Playlists" component={PlaylistsScreen} />
-        <Screen name="CreatePlaylist" component={CreatePlaylistScreen} />
-        <Screen name="EditPlaylist" component={EditPlaylistScreen} />
-        <Screen name="PlaylistPreparation" component={PlaylistPreparationScreen} />
-        <Screen name="SubmitMeditation" component={SubmitMeditationScreen} />
-        <Screen name="MeditationSelector" component={MeditationSelectorScreen} />
-        <Screen name="ImportPlaylist" component={ImportPlaylistScreen} />
-      </Navigator>
+        <PostHogIdentifier />
+        <Navigator
+          initialRouteName={getInitialRouteName()}
+          screenOptions={{headerShown: false}}>
+          <Screen name="Welcome" component={WelcomeScreen} />
+          <Screen name="SignIn" component={SignInScreen} />
+          <Screen name="EmailSignIn" component={EmailSignInScreen} />
+          {/* <Screen name="Subscriptions" component={SubscriptionsScreen} /> */}
+          <Screen name="BetaAgreement" component={BetaAgreement} />
+          <Screen name="Disclaimer" component={Disclaimer} />
+          <Screen name="AddMeditations" component={AddMeditationsScreen} />
+          <Screen name="AddMedsMatching" component={AddMedsMatchingScreen} />
+          <Screen name="AddMedsSuccess" component={AddMedsSuccessScreen} />
+          <Screen name="TabNavigation" component={TabNavigator} />
+          <Screen name="Meditation" component={MeditationScreen} />
+          <Screen name="MeditationFinish" component={MeditationFinishScreen} />
+          <Screen name="MeditationPlayer" component={MeditationPlayerModal} />
+          <Screen name="MeditationMatch" component={MeditationMatchScreen} />
+          <Screen name="LimitedVersion" component={LimitedVersion} />
+          <Screen name="Profile" component={Profile} />
+          {/* <Screen name="Purchase" component={Purchase} /> */}
+          <Screen name="PurchaseOnboarding" component={PurchaseOnboarding} />
+          <Screen
+            name="UnrecognizedFiles"
+            component={UnrecognizedFilesScreen}
+          />
+          <Screen name="Feedback" component={FeedbackScreen} />
+          <Screen name="ReassignFile" component={ReassignFileScreen} />
+          <Screen name="TermsAgreement" component={TermsAgreementScreen} />
+          <Screen name="Playlists" component={PlaylistsScreen} />
+          <Screen name="CreatePlaylist" component={CreatePlaylistScreen} />
+          <Screen name="EditPlaylist" component={EditPlaylistScreen} />
+          <Screen
+            name="PlaylistPreparation"
+            component={PlaylistPreparationScreen}
+          />
+          <Screen name="SubmitMeditation" component={SubmitMeditationScreen} />
+          <Screen
+            name="MeditationSelector"
+            component={MeditationSelectorScreen}
+          />
+          <Screen name="ImportPlaylist" component={ImportPlaylistScreen} />
+        </Navigator>
       </PostHogProvider>
     </NavigationContainer>
   );

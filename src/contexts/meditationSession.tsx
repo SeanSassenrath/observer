@@ -8,7 +8,7 @@ export interface MeditationSession {
   playlistId?: PlaylistId;
   playlistName?: string;
   sessionStartTime?: number;
-  instances: MeditationInstance[];  // Partially populated during playback
+  instances: MeditationInstance[]; // Partially populated during playback
   timeMeditated?: number;
 }
 

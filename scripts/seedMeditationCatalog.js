@@ -31,14 +31,22 @@ async function main() {
 
   const medCount = Object.keys(catalogData.meditations).length;
   const groupCount = Object.keys(catalogData.groups).length;
-  console.log(`Catalog: ${medCount} meditations, ${groupCount} groups, version ${catalogData.version}`);
+  console.log(
+    `Catalog: ${medCount} meditations, ${groupCount} groups, version ${catalogData.version}`,
+  );
 
   if (isDryRun) {
-    console.log('\n--dry-run: Would write the following document to', `${COLLECTION}/${DOC_ID}:`);
+    console.log(
+      '\n--dry-run: Would write the following document to',
+      `${COLLECTION}/${DOC_ID}:`,
+    );
     const docSize = Buffer.byteLength(JSON.stringify(catalogData), 'utf-8');
     console.log(`Document size: ${(docSize / 1024).toFixed(1)} KB`);
     console.log('Groups:', Object.keys(catalogData.groups).join(', '));
-    console.log('\nSample meditation:', JSON.stringify(Object.values(catalogData.meditations)[0], null, 2));
+    console.log(
+      '\nSample meditation:',
+      JSON.stringify(Object.values(catalogData.meditations)[0], null, 2),
+    );
     return;
   }
 
