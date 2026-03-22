@@ -5,6 +5,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## Auth
 
 ### Bug 1. Firebase Auth Listener Never Unsubscribed
+
 - What to test:
   1. Launch the app from a cold start.
   2. Sign in.
@@ -17,6 +18,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Repeat sign-in and sign-out several times in one session. This previously exposed stacked auth listeners.
 
 ### Bug 2. `fbGetMeditationHistory` Returns `undefined` on Error
+
 - What to test:
   1. Put the device in airplane mode or disable network.
   2. Launch the app and sign in with an existing account.
@@ -27,6 +29,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Keep network disabled while the app attempts to fetch meditation history during sign-in.
 
 ### Bug 3. AppleSSOButton Has No Error Handling
+
 - What to test:
   1. Go to the sign-in screen.
   2. Start Apple Sign-In.
@@ -37,6 +40,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Dismiss the Apple sign-in modal before completion or use invalid Apple auth conditions.
 
 ### Bug 10. EmailSignIn Timeout Not Cleaned Up on Unmount
+
 - What to test:
   1. Sign in with email so the screen begins its post-login redirect delay.
   2. Immediately navigate away, background the app, or trigger a fast screen transition before the 1 second timeout completes.
@@ -49,6 +53,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## Onboarding
 
 ### Bug 6. TermsAgreement Updates Firebase But Not Local State
+
 - What to test:
   1. Use an account that has not accepted terms yet.
   2. Open Terms Agreement.
@@ -61,6 +66,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Before the fix, accepting terms and then backing out or restarting could loop the user back into Terms because local state stayed stale.
 
 ### Bug 7. Welcome Screen Flag Not Persisted to Firebase
+
 - What to test:
   1. Use a user who has not seen the Welcome screen.
   2. Tap the button to continue past Welcome.
@@ -72,6 +78,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Complete Welcome, then fully restart the app to verify the flag was persisted and not only kept in memory.
 
 ### Bug 8. `fbAddUser` Failure Leaves App on Splash Screen Forever
+
 - What to test:
   1. Create a new user or use a setup that exercises the new-user creation path.
   2. Simulate a Firestore write failure during profile creation if possible by disabling network at the right moment.
@@ -82,6 +89,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Interrupt connectivity while the app is attempting the first `fbAddUser()` write.
 
 ### Bug 14. TermsAgreement Error Silently Swallowed
+
 - What to test:
   1. Open Terms Agreement with a user who still needs to accept.
   2. Disable network before tapping `I Agree`.
@@ -94,6 +102,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## Add Meditation
 
 ### Bug 4. Missing `await` on AsyncStorage Write
+
 - What to test:
   1. Add one or more meditation files from the Add Meditations flow.
   2. Wait for the import to complete.
@@ -107,6 +116,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## Play Meditation
 
 ### Bug 5. Error Logs Say "success" in Catch Blocks
+
 - What to test:
   1. Start a meditation session that will save or update meditation history.
   2. Simulate a Firestore failure during the history write or update.
@@ -117,6 +127,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Disable network right before the app saves meditation history, then inspect the log output.
 
 ### Bug 11. `fbGetMoreMeditationHistory` Crashes With Empty History
+
 - What to test:
   1. Use an account with no meditation history.
   2. Open the screen that loads meditation history and attempt to paginate or load more.
@@ -126,6 +137,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Use a brand-new account with zero history and perform the action that requests more history.
 
 ### Bug 12. MeditationPlayer Renders "undefined" for Track Title
+
 - What to test:
   1. Start playback in a scenario where the track queue may briefly be empty or not yet resolved.
   2. Watch the title area at the top of `MeditationPlayer`.
@@ -135,6 +147,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
   Enter the player quickly on a slow device or with a setup where the track list is empty or the current index is out of bounds.
 
 ### Bug 13. Stack.tsx `onReady` Crashes if Route is Undefined
+
 - What to test:
   1. Launch the app from a cold start several times.
   2. Also test opening the app from background and after a force quit.
@@ -146,6 +159,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## Profile
 
 ### Bug 15. Profile Image Upload Has No Error Handling
+
 - What to test:
   1. Open Profile.
   2. Tap the avatar edit control and choose an image.
@@ -159,6 +173,7 @@ Use this on a device or simulator to validate QA bugs 1-15 in roughly 15-20 minu
 ## CI
 
 ### Bug 9. CI Pipeline Missing Lint and Type Checks
+
 - What to test:
   1. Open the CI workflow config.
   2. Confirm the workflow includes lint, TypeScript type-checking, and tests.

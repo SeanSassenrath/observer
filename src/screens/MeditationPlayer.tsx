@@ -330,8 +330,7 @@ const MeditationPlayer = ({
   const timeLeft = new Date((duration - position) * 1000)
     .toISOString()
     .slice(12, 19);
-  const trackTitle =
-    tracks[currentTrackIndex]?.title || 'Meditation';
+  const trackTitle = tracks[currentTrackIndex]?.title || 'Meditation';
 
   return (
     <Layout level="4" style={styles.container}>

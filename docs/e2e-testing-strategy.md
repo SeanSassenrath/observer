@@ -174,23 +174,27 @@ Note: current code routes differently today. The E2E suite should assert current
 ### What to assert at each step
 
 1. Launch logged-out app
+
 - Sign-in options are visible.
 - Email sign-in CTA is tappable.
 - Google/Apple buttons render on supported platforms.
 
 2. Email sign-up/sign-in
+
 - Invalid email shows validation error.
 - Short password shows validation error.
 - Valid credentials show loading state.
 - Successful auth transitions away from auth screen.
 
 3. Terms
+
 - `I Agree` is disabled before reaching the bottom.
 - Scrolling to bottom enables `I Agree`.
 - Tapping `I Agree` navigates forward.
 - On relaunch, the same user is not sent back to terms.
 
 4. Welcome/home handoff
+
 - Welcome CTA is visible if that screen is part of the flow.
 - Entering the app lands on home/tab navigation.
 - Home root element is visible.
@@ -229,20 +233,24 @@ Flow: tap Add -> pick files -> matching -> success or unrecognized
 ### What to assert at each step
 
 1. Start import
+
 - Add tab/button is visible.
 - Tapping Add opens the import path in E2E mode.
 
 2. File selection
+
 - Fixture file selection returns one recognized file.
 - Matching screen appears.
 - Matching copy is shown while processing.
 
 3. Success path
+
 - Success screen appears.
 - Continue returns to home.
 - Newly available meditation is visible/selectable from the app surface that lists user-available meditations.
 
 4. Partial/unrecognized path
+
 - Unrecognized screen shows correct count.
 - Continue routes to the manual fix flow if supported.
 - Skip returns to the main app without crashing.
@@ -279,25 +287,30 @@ Flow: select meditation -> intention/notes -> player -> finish -> history saved
 ### What to assert at each step
 
 1. Start from home/list
+
 - A known meditation card is visible.
 - Tapping it opens the preparation screen.
 
 2. Preparation screen
+
 - Intention input is editable.
 - Start button navigates to player.
 - If breathwork is optional, base path still works without breathwork selection.
 
 3. Player
+
 - Player screen appears with the correct title.
 - Playback starts automatically or can be started manually.
 - Finish action is available.
 
 4. Finish screen
+
 - Finish/Thinkbox screen renders.
 - Notes and feedback fields accept text.
 - Done action exits the flow successfully.
 
 5. Persistence
+
 - Insights/history surface reflects the newly completed session, or
 - seeded Firebase record count increases via test harness assertion
 
@@ -335,10 +348,12 @@ This flow should only run when playlists are forced on in E2E mode.
 ### What to assert at each step
 
 1. Playlist tab
+
 - Playlist tab is visible when feature flag is enabled.
 - Empty state or list renders without error.
 
 2. Create playlist
+
 - Create button opens the form.
 - Save is disabled until name and meditations are present.
 - Enter playlist name.
@@ -347,11 +362,13 @@ This flow should only run when playlists are forced on in E2E mode.
 - New playlist card is visible with correct title and track count.
 
 3. Playlist preparation
+
 - Playlist detail screen shows title and track count.
 - Begin starts playback.
 - First meditation in playlist is the one loaded into player.
 
 4. Share
+
 - Share action triggers share handler.
 - Shared payload contains a valid encoded URL.
 - Decoding the URL produces the expected playlist name and meditation IDs.
