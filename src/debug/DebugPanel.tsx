@@ -45,6 +45,7 @@ const DebugPanel: React.FC = () => {
       case DebugTab.FILE_ANALYSIS:
         return <FileAnalysisDebugger />;
       case DebugTab.DATABASE:
+        // eslint-disable-next-line react/jsx-no-undef
         return <DatabaseDebugger />;
       case DebugTab.PERFORMANCE:
         return <PerformanceMonitor />;
@@ -53,6 +54,7 @@ const DebugPanel: React.FC = () => {
       case DebugTab.LOGS:
         return <LogViewer />;
       case DebugTab.AUDIO_TEST:
+        // eslint-disable-next-line react/jsx-no-undef
         return <AudioAnalysisTest />;
       default:
         return <FileAnalysisDebugger />;

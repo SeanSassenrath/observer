@@ -53,6 +53,7 @@ const EmailSignInScreen = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
