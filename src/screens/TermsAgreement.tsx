@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Layout, Text} from '@ui-kitten/components/ui';
 import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import Button from '../components/Button';
 import {fbUpdateUser} from '../fb/user';
@@ -10,7 +11,7 @@ import UserContext from '../contexts/userData';
 import {termsAgreement} from '../constants/termsAgreement';
 
 const TermsAgreement = () => {
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
   const [isEnabled, setIsEnabled] = useState(false);
   const navigation = useNavigation();
 
@@ -23,13 +24,19 @@ const TermsAgreement = () => {
         date: now,
       },
     };
-    await fbUpdateUser(user.uid, updatedUser)
-      .then(() => {
-        navigation.navigate('AddMeditations');
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    const didUpdateUser = await fbUpdateUser(user.uid, updatedUser);
+
+    if (didUpdateUser) {
+      setUser(updatedUser);
+      navigation.navigate('AddMeditations');
+      return;
+    }
+
+    Toast.show({
+      type: 'error',
+      text1: 'Unable to save terms agreement',
+      text2: 'Please try again.',
+    });
   };
 
   const isCloseToBottom = ({

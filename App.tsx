@@ -224,6 +224,10 @@ const App = () => {
             if (initializing) {
               setInitializing(false);
             }
+          } else {
+            if (initializing) {
+              setInitializing(false);
+            }
           }
         }
       } else {
@@ -250,7 +254,7 @@ const App = () => {
 
     return () => {
       unmounted = true;
-      subscriber;
+      subscriber();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

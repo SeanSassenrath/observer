@@ -75,7 +75,7 @@ export const onAddMeditations = async (
   }
 
   if (!isEmpty(filePathDataList)) {
-    setMeditationFilePathDataInAsyncStorage(filePathDataList);
+    await setMeditationFilePathDataInAsyncStorage(filePathDataList);
     setExistingMeditationFilePathData(filePathDataList);
     meditationBaseData = await makeMeditationBaseData();
     if (meditationBaseData && Object.keys(meditationBaseData).length > 0) {

@@ -2,25 +2,40 @@ import React, {useContext} from 'react';
 import {ImageBackground, SafeAreaView, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-toast-message';
 import {Layout, Text} from '@ui-kitten/components/ui';
 
 import Button from '../components/Button';
 import {WelcomeScreenNavigationProp} from '../types';
 import UserContext from '../contexts/userData';
+import {fbUpdateUser} from '../fb/user';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
   const {user, setUser} = useContext(UserContext);
 
-  const onStartPress = () => {
-    setUser({
+  const onStartPress = async () => {
+    const updatedUser = {
       ...user,
       onboarding: {
         ...user.onboarding,
         hasSeenWelcome: true,
       },
-    });
-    navigation.navigate('PurchaseOnboarding');
+    };
+    const didUpdateUser = await fbUpdateUser(user.uid, updatedUser);
+
+    if (didUpdateUser) {
+      setUser(updatedUser);
+      navigation.navigate('PurchaseOnboarding');
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Something went wrong',
+        text2: 'Please try again',
+        position: 'bottom',
+        bottomOffset: 100,
+      });
+    }
   };
 
   return (

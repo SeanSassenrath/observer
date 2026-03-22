@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
@@ -31,16 +31,23 @@ const EmailSignInScreen = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigation = useNavigation();
   const styles = useStyleSheet(themedStyles);
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     redirectUser();
+
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
   }, [user.uid]);
 
   const redirectUser = () => {
     if (!user.uid) {
       return;
     } else {
-      return setTimeout(() => {
+      redirectTimeoutRef.current = setTimeout(() => {
         setIsSigningIn(false);
 
         if (!user.termsAgreement) {
@@ -50,6 +57,8 @@ const EmailSignInScreen = () => {
           navigation.navigate('TabNavigation', {screen: 'Home'});
         }
       }, 1000);
+
+      return redirectTimeoutRef.current;
     }
   };
 
