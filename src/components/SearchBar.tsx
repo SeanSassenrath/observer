@@ -26,7 +26,9 @@ export const SearchBar = (props: SearchBarProps) => (
     placeholderTextColor="#9CA3AF"
     value={props.input}
     onChangeText={nextInput => props.onChangeText(nextInput)}
-    accessoryLeft={<Icon style={styles.searchIcon} fill="#9CA3AF" name="search" />}
+    accessoryLeft={
+      <Icon style={styles.searchIcon} fill="#9CA3AF" name="search" />
+    }
     accessoryRight={
       props.input.length ? (
         <ClearButton onClearPress={props.onClearPress} />

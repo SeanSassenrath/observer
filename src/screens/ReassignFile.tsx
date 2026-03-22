@@ -44,7 +44,8 @@ const ReassignFileScreen = () => {
     string | null
   >(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] =
+    useState<boolean>(false);
 
   const {meditationFilePaths, setMeditationFilePaths} = useContext(
     MeditationFilePathsContext,
@@ -130,9 +131,9 @@ const ReassignFileScreen = () => {
     // Remove the file assignment from context
     const updatedPaths = {...meditationFilePaths};
     delete updatedPaths[meditationId];
-    
+
     setMeditationFilePaths(updatedPaths);
-    
+
     // Remove from async storage
     await setMeditationFilePathDataInAsyncStorage(updatedPaths);
 
@@ -276,26 +277,36 @@ const ReassignFileScreen = () => {
           visible={showDeleteConfirmation}
           transparent={true}
           animationType="fade"
-          onRequestClose={cancelDelete}
-        >
+          onRequestClose={cancelDelete}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               <Text style={styles.modalTitle}>Remove File from Library</Text>
-              
+
               <Text style={styles.modalMessage}>
-                Are you sure you want to remove "{fileName}" from your meditation library? This action cannot be undone.
+                Are you sure you want to remove "{fileName}" from your
+                meditation library? This action cannot be undone.
               </Text>
               {affectedPlaylists.length > 0 && (
                 <Text style={styles.playlistWarning}>
-                  This meditation is used in: {affectedPlaylists.map(p => p.name).join(', ')}. It will be automatically removed from {affectedPlaylists.length === 1 ? 'this playlist' : 'these playlists'}.
+                  This meditation is used in:{' '}
+                  {affectedPlaylists.map(p => p.name).join(', ')}. It will be
+                  automatically removed from{' '}
+                  {affectedPlaylists.length === 1
+                    ? 'this playlist'
+                    : 'these playlists'}
+                  .
                 </Text>
               )}
 
               <View style={styles.modalButtons}>
-                <TouchableOpacity style={styles.modalCancelButton} onPress={cancelDelete}>
+                <TouchableOpacity
+                  style={styles.modalCancelButton}
+                  onPress={cancelDelete}>
                   <Text style={styles.modalCancelButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.modalDeleteButton} onPress={confirmDelete}>
+                <TouchableOpacity
+                  style={styles.modalDeleteButton}
+                  onPress={confirmDelete}>
                   <Text style={styles.modalDeleteButtonText}>Remove</Text>
                 </TouchableOpacity>
               </View>

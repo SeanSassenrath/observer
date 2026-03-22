@@ -80,10 +80,7 @@ describe('matchingService - makeFilePathDataList', () => {
         fileCopyUri: '/path/to/Documents/random-name.m4a',
       });
 
-      const {filePathDataList, unknownFiles} = makeFilePathDataList(
-        [file],
-        {},
-      );
+      const {filePathDataList, unknownFiles} = makeFilePathDataList([file], {});
 
       expect(filePathDataList).toHaveProperty('m-botec-1');
       expect(unknownFiles).toHaveLength(0);
@@ -167,10 +164,7 @@ describe('matchingService - makeFilePathDataList', () => {
         fileCopyUri: '/path/to/Documents/unknown.m4a',
       });
 
-      const {filePathDataList, unknownFiles} = makeFilePathDataList(
-        [file],
-        {},
-      );
+      const {filePathDataList, unknownFiles} = makeFilePathDataList([file], {});
 
       expect(Object.keys(filePathDataList)).toHaveLength(0);
       expect(unknownFiles).toHaveLength(1);
@@ -183,10 +177,7 @@ describe('matchingService - makeFilePathDataList', () => {
       (getRawCatalogSync as jest.Mock).mockReturnValue(null);
 
       const file = makeFile({size: 58234567});
-      const {filePathDataList, unknownFiles} = makeFilePathDataList(
-        [file],
-        {},
-      );
+      const {filePathDataList, unknownFiles} = makeFilePathDataList([file], {});
 
       expect(Object.keys(filePathDataList)).toHaveLength(0);
       expect(unknownFiles).toHaveLength(1);

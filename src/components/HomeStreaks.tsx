@@ -1,63 +1,85 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Layout, Text, useStyleSheet } from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
+import {Layout, Text, useStyleSheet} from '@ui-kitten/components';
 
 interface StreakProps {
-  styles: any,
+  styles: any;
 }
 
-const StreaksV1 = ({ styles }: StreakProps) => (
-  <Layout level='4'>
-    <Text category='h6' style={styles.header}>Streaks</Text>
-    <Layout level='1' style={styles.streakCardContainer}>
-      <Layout level='1'>
-        <Text category='s2' style={styles.streakCardHeader}>Current</Text>
-        <Layout level='1'>
-          <Text category='h5' style={styles.streakCardCountStart}>8</Text>
+const StreaksV1 = ({styles}: StreakProps) => (
+  <Layout level="4">
+    <Text category="h6" style={styles.header}>
+      Streaks
+    </Text>
+    <Layout level="1" style={styles.streakCardContainer}>
+      <Layout level="1">
+        <Text category="s2" style={styles.streakCardHeader}>
+          Current
+        </Text>
+        <Layout level="1">
+          <Text category="h5" style={styles.streakCardCountStart}>
+            8
+          </Text>
         </Layout>
-        <Text category='s2' style={styles.streakCardHeader}>Days</Text>
+        <Text category="s2" style={styles.streakCardHeader}>
+          Days
+        </Text>
       </Layout>
       <Layout style={styles.streakCardDivider} />
-      <Layout level='1'>
-        <Text category='s2' style={styles.streakCardHeader}>Longest</Text>
-        <Layout level='1'>
-          <Text category='h5' style={styles.streakCardCountEnd}>43</Text>
+      <Layout level="1">
+        <Text category="s2" style={styles.streakCardHeader}>
+          Longest
+        </Text>
+        <Layout level="1">
+          <Text category="h5" style={styles.streakCardCountEnd}>
+            43
+          </Text>
         </Layout>
-        <Text category='s2' style={styles.streakCardHeader}>Days</Text>
+        <Text category="s2" style={styles.streakCardHeader}>
+          Days
+        </Text>
       </Layout>
     </Layout>
   </Layout>
-)
+);
 
-const StreaksV2 = ({ styles }: StreakProps) => (
-  <Layout level='4'>
-    <Text category='h6' style={styles.header}>Streaks</Text>
-    <Layout level='1' style={styles.streakCardContainerV2}>
+const StreaksV2 = ({styles}: StreakProps) => (
+  <Layout level="4">
+    <Text category="h6" style={styles.header}>
+      Streaks
+    </Text>
+    <Layout level="1" style={styles.streakCardContainerV2}>
       <Layout style={styles.barContainer}>
         <Layout style={styles.textContainer}>
           <Layout style={styles.streakTextContainer}>
-            <Text category='s1' style={styles.textLabel}>Current:</Text>
-            <Text category='s1' style={styles.textAmount}>8</Text>
+            <Text category="s1" style={styles.textLabel}>
+              Current:
+            </Text>
+            <Text category="s1" style={styles.textAmount}>
+              8
+            </Text>
           </Layout>
           <Layout style={styles.streakTextContainer}>
-            <Text category='s1' style={styles.textLabel}>Best:</Text>
-            <Text category='s1' style={styles.textAmount}>59</Text>
+            <Text category="s1" style={styles.textLabel}>
+              Best:
+            </Text>
+            <Text category="s1" style={styles.textAmount}>
+              59
+            </Text>
           </Layout>
         </Layout>
         <Layout style={styles.largestBar} />
-        <Layout style={styles.currentBar}/>
+        <Layout style={styles.currentBar} />
       </Layout>
     </Layout>
   </Layout>
-)
+);
 
 export const HomeStreaks = () => {
   const styles = useStyleSheet(themedStyles);
 
-  return (
-    <StreaksV2 styles={styles} />
-  )
-}
+  return <StreaksV2 styles={styles} />;
+};
 
 const themedStyles = StyleSheet.create({
   barContainer: {
@@ -124,5 +146,5 @@ const themedStyles = StyleSheet.create({
   streakTextContainer: {
     flexDirection: 'row',
     marginBottom: 18,
-  }
-})
+  },
+});

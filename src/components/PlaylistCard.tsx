@@ -30,7 +30,8 @@ export const PlaylistCard = (props: PlaylistCardProps) => (
       </View>
       <View style={styles.metaContainer}>
         <Text category="s2" style={styles.metaText}>
-          {props.trackCount} {props.trackCount === 1 ? 'track' : 'tracks'} • {props.totalDuration}
+          {props.trackCount} {props.trackCount === 1 ? 'track' : 'tracks'} •{' '}
+          {props.totalDuration}
         </Text>
       </View>
     </LinearGradient>

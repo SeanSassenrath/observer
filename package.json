@@ -98,6 +98,26 @@
     "setupFiles": [
       "./jest.setup.js"
     ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!**/node_modules/**",
+      "!**/__tests__/**",
+      "!**/coverage/**",
+      "!**/*.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 13,
+        "lines": 13,
+        "functions": 8,
+        "branches": 13
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "json-summary"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",

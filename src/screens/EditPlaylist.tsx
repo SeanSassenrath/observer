@@ -417,7 +417,6 @@ const EditPlaylist = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-
     </Layout>
   );
 };

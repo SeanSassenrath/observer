@@ -112,8 +112,14 @@ export const makeMeditationBaseData = async () => {
       meditationBaseData = {[key]: meditationBase, ...meditationBaseData};
     });
 
-    console.log('makeMeditationBaseData - built meditationBaseData keys:', Object.keys(meditationBaseData));
-    console.log('makeMeditationBaseData - is array?', Array.isArray(meditationBaseData));
+    console.log(
+      'makeMeditationBaseData - built meditationBaseData keys:',
+      Object.keys(meditationBaseData),
+    );
+    console.log(
+      'makeMeditationBaseData - is array?',
+      Array.isArray(meditationBaseData),
+    );
 
     return meditationBaseData;
   }
@@ -164,7 +170,8 @@ export const makeUpdatedBreathMeditationCountData = (
   if (!meditationBaseBreathId) {
     return;
   }
-  const meditationBaseData = getFullMeditationCatalogSync()[meditationBaseBreathId];
+  const meditationBaseData =
+    getFullMeditationCatalogSync()[meditationBaseBreathId];
   const meditationBreathCount = getMeditationBreathCountFromUserData(
     user,
     meditationInstanceData,

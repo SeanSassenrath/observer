@@ -6,17 +6,17 @@ jest.mock('@react-native-async-storage/async-storage', () => {
   return {
     __esModule: true,
     default: {
-      getItem: jest.fn((key) => Promise.resolve(store[key] || null)),
+      getItem: jest.fn(key => Promise.resolve(store[key] || null)),
       setItem: jest.fn((key, value) => {
         store[key] = value;
         return Promise.resolve();
       }),
-      removeItem: jest.fn((key) => {
+      removeItem: jest.fn(key => {
         delete store[key];
         return Promise.resolve();
       }),
       clear: jest.fn(() => {
-        Object.keys(store).forEach((key) => delete store[key]);
+        Object.keys(store).forEach(key => delete store[key]);
         return Promise.resolve();
       }),
       getAllKeys: jest.fn(() => Promise.resolve(Object.keys(store))),
@@ -160,7 +160,10 @@ jest.mock('react-native-track-player', () => ({
     RemotePause: 'remote-pause',
   },
   RepeatMode: {Off: 0, Track: 1, Queue: 2},
-  AppKilledPlaybackBehavior: {ContinuePlayback: 'continue', StopPlaybackAndRemoveNotification: 'stop'},
+  AppKilledPlaybackBehavior: {
+    ContinuePlayback: 'continue',
+    StopPlaybackAndRemoveNotification: 'stop',
+  },
 }));
 
 // Document Picker mock

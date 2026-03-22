@@ -1,24 +1,39 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import Slider from '@react-native-community/slider';
-import TrackPlayer, { useProgress, useTrackPlayerEvents, Event, Track } from 'react-native-track-player';
-import { Icon, Layout, Text } from '@ui-kitten/components';
-import { MeditationBase } from '../types';
+import TrackPlayer, {
+  useProgress,
+  useTrackPlayerEvents,
+  Event,
+  Track,
+} from 'react-native-track-player';
+import {Icon, Layout, Text} from '@ui-kitten/components';
+import {MeditationBase} from '../types';
 
 const brightWhite = '#fcfcfc';
 const lightWhite = '#f3f3f3';
 const lightestWhite = '#dcdcdc';
 
 const PlayIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='play-circle' />
+  <Icon
+    {...props}
+    style={styles.playerIcon}
+    fill={lightWhite}
+    name="play-circle"
+  />
 );
 
 const PauseIcon = (props: any) => (
-  <Icon {...props} style={styles.playerIcon} fill={lightWhite} name='pause-circle' />
+  <Icon
+    {...props}
+    style={styles.playerIcon}
+    fill={lightWhite}
+    name="pause-circle"
+  />
 );
 
 const RestartIcon = (props: any) => (
-  <Icon {...props} style={styles.restartIcon} fill={lightWhite} name='sync' />
+  <Icon {...props} style={styles.restartIcon} fill={lightWhite} name="sync" />
 );
 
 interface PlayerProps {
@@ -29,7 +44,7 @@ interface PlayerProps {
 
 export const Player = (props: PlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const { position, duration } = useProgress()
+  const {position, duration} = useProgress();
   const [trackData, setTrackData] = useState({} as Track);
 
   useEffect(() => {
@@ -37,12 +52,12 @@ export const Player = (props: PlayerProps) => {
     const timeout = setTimeout(() => {
       TrackPlayer.play();
       setIsPlaying(true);
-    }, 5000)
+    }, 5000);
 
     return () => {
       removeTracks();
       clearTimeout(timeout);
-    }
+    };
   }, []);
 
   useTrackPlayerEvents([Event.PlaybackTrackChanged], async event => {
@@ -53,8 +68,8 @@ export const Player = (props: PlayerProps) => {
     if (event.type === Event.PlaybackTrackChanged && event.nextTrack != null) {
       const track = await TrackPlayer.getTrack(event.nextTrack);
       if (track) {
-        console.log('TRACK PLAYER EVENT TRACK NAME', track.name)
-        console.log(' ')
+        console.log('TRACK PLAYER EVENT TRACK NAME', track.name);
+        console.log(' ');
         setTrackData(track);
         props.setCurrentTrackName(track.name);
       }
@@ -63,32 +78,32 @@ export const Player = (props: PlayerProps) => {
 
   const addTracks = async () => {
     try {
-      await TrackPlayer.add(props.tracks)
+      await TrackPlayer.add(props.tracks);
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const removeTracks = async () => {
     // await TrackPlayer.reset();
-  }
+  };
 
   const onPlayPress = async () => {
     TrackPlayer.play();
     const test = await TrackPlayer.getState();
     console.log('player state', test);
     setIsPlaying(true);
-  }
+  };
 
   const onPausePress = async () => {
     TrackPlayer.pause();
     await TrackPlayer.getState();
     setIsPlaying(false);
-  }
+  };
 
   const onRestartPress = async () => {
     TrackPlayer.seekTo(0);
-  }
+  };
 
   const timePassed = new Date(position * 1000).toISOString().slice(14, 19);
 
@@ -97,16 +112,14 @@ export const Player = (props: PlayerProps) => {
     .slice(14, 19);
 
   return (
-    <Layout style={styles.container} level='4'>
+    <Layout style={styles.container} level="4">
       <Layout>
-        <Text category='s2'>{`Name: ${trackData.name}`}</Text>
-        <Text category='s2'>{`Url: ${trackData.url}`}</Text>
-        <Text category='s2'>{`State: ${props.trackState}`}</Text>
+        <Text category="s2">{`Name: ${trackData.name}`}</Text>
+        <Text category="s2">{`Url: ${trackData.url}`}</Text>
+        <Text category="s2">{`State: ${props.trackState}`}</Text>
       </Layout>
-      <TouchableWithoutFeedback
-        onPress={onRestartPress}
-      >
-        <Layout style={styles.restartContainer} level='4'>
+      <TouchableWithoutFeedback onPress={onRestartPress}>
+        <Layout style={styles.restartContainer} level="4">
           <RestartIcon />
         </Layout>
       </TouchableWithoutFeedback>
@@ -120,29 +133,28 @@ export const Player = (props: PlayerProps) => {
         maximumTrackTintColor={lightestWhite}
         onSlidingComplete={TrackPlayer.seekTo}
       />
-      <Layout style={styles.timeTextContainer} level='4'>
-        <Layout style={styles.timeContainer} level='4'>
-          <Text category='s2' style={styles.timePassed}>{timePassed}</Text>
+      <Layout style={styles.timeTextContainer} level="4">
+        <Layout style={styles.timeContainer} level="4">
+          <Text category="s2" style={styles.timePassed}>
+            {timePassed}
+          </Text>
         </Layout>
-        <Layout style={styles.timeContainer} level='4'>
-          <Text category='s2' style={styles.timeLeft}>{`-${timeLeft}`}</Text>
+        <Layout style={styles.timeContainer} level="4">
+          <Text category="s2" style={styles.timeLeft}>{`-${timeLeft}`}</Text>
         </Layout>
       </Layout>
-      {isPlaying
-        ? <TouchableWithoutFeedback
-          onPress={onPausePress}
-        >
+      {isPlaying ? (
+        <TouchableWithoutFeedback onPress={onPausePress}>
           <PauseIcon />
         </TouchableWithoutFeedback>
-        : <TouchableWithoutFeedback
-          onPress={onPlayPress}
-        >
+      ) : (
+        <TouchableWithoutFeedback onPress={onPlayPress}>
           <PlayIcon />
         </TouchableWithoutFeedback>
-      }
+      )}
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -176,5 +188,5 @@ const styles = StyleSheet.create({
   timeLeft: {
     textAlign: 'right',
     color: '#f3f3f3',
-  }
-})
+  },
+});

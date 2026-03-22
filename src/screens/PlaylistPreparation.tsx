@@ -1,9 +1,5 @@
 import React, {useContext, useRef, useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -58,7 +54,10 @@ const ShareIcon = (props: any) => (
   />
 );
 
-type PlaylistPreparationRouteProp = RouteProp<StackParamList, 'PlaylistPreparation'>;
+type PlaylistPreparationRouteProp = RouteProp<
+  StackParamList,
+  'PlaylistPreparation'
+>;
 
 const PlaylistPreparation = () => {
   const navigation = useNavigation();
@@ -76,7 +75,9 @@ const PlaylistPreparation = () => {
   const {user} = useContext(UserContext);
 
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
-  const [removedMeditationNames, setRemovedMeditationNames] = useState<string[]>([]);
+  const [removedMeditationNames, setRemovedMeditationNames] = useState<
+    string[]
+  >([]);
   const styles = useStyleSheet(themedStyles);
   const hasCleanedUp = useRef(false);
 
@@ -114,7 +115,8 @@ const PlaylistPreparation = () => {
       medId => !meditationBaseData[medId] || !meditationFilePaths[medId],
     );
     const removedNames = removedIds.map(
-      medId => getFullMeditationCatalogSync()[medId]?.name || 'Unknown Meditation',
+      medId =>
+        getFullMeditationCatalogSync()[medId]?.name || 'Unknown Meditation',
     );
     setRemovedMeditationNames(removedNames);
 
@@ -192,7 +194,7 @@ const PlaylistPreparation = () => {
       playlistId,
       playlistName: playlist?.name,
       sessionStartTime: meditationInstanceData.meditationStartTime,
-      instances: meditationInstances,  // Pre-populate with all meditations
+      instances: meditationInstances, // Pre-populate with all meditations
     });
 
     // Keep existing for backward compatibility
@@ -287,7 +289,11 @@ const PlaylistPreparation = () => {
               <TouchableWithoutFeedback
                 style={styles.topBarIcon}
                 onPress={handleSharePress}>
-                <View style={[styles.shareIconContainer, trackCount === 0 && styles.iconDisabled]}>
+                <View
+                  style={[
+                    styles.shareIconContainer,
+                    trackCount === 0 && styles.iconDisabled,
+                  ]}>
                   <ShareIcon />
                 </View>
               </TouchableWithoutFeedback>
@@ -314,7 +320,8 @@ const PlaylistPreparation = () => {
               </Text>
             )}
             <Text category="s1" style={styles.metaText}>
-              {trackCount} {trackCount === 1 ? 'track' : 'tracks'} • {formatDuration(totalDuration)}
+              {trackCount} {trackCount === 1 ? 'track' : 'tracks'} •{' '}
+              {formatDuration(totalDuration)}
             </Text>
           </View>
 
@@ -380,8 +387,12 @@ const PlaylistPreparation = () => {
                       <Text category="p2" style={styles.meditationPreviewName}>
                         {meditation.name}
                       </Text>
-                      <Text category="c1" style={styles.meditationPreviewDuration}>
-                        {formatDuration(parseInt(meditation.formattedDuration, 10))}
+                      <Text
+                        category="c1"
+                        style={styles.meditationPreviewDuration}>
+                        {formatDuration(
+                          parseInt(meditation.formattedDuration, 10),
+                        )}
                       </Text>
                     </View>
                   </View>

@@ -333,7 +333,9 @@ const HomeScreen = () => {
               existingMeditationFilePathData={meditationFilePaths}
             />
           ) : null}
-          {playlistsEnabled && Object.values(playlists).length > 0 && searchInput.length === 0 ? (
+          {playlistsEnabled &&
+          Object.values(playlists).length > 0 &&
+          searchInput.length === 0 ? (
             <PlaylistList
               header="Playlists"
               playlists={Object.values(playlists).sort(
@@ -402,14 +404,13 @@ const HomeScreen = () => {
           title="Your Home"
         />
       ) : null}
-      {playlistsEnabled && user.onboarding.hasSeenHomeOnboarding &&
+      {playlistsEnabled &&
+      user.onboarding.hasSeenHomeOnboarding &&
       !user.onboarding.hasSeenPlaylistOnboarding ? (
         <EduPromptComponent
           description="Sequence your meditations into playlists for a seamless practice. Head to the Playlists tab to create your first one!"
           onPress={onPlaylistEduClosePress}
-          renderIcon={(props: any) => (
-            <Icon {...props} name="list-outline" />
-          )}
+          renderIcon={(props: any) => <Icon {...props} name="list-outline" />}
           title="Playlists"
         />
       ) : null}

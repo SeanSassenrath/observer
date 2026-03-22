@@ -8,7 +8,7 @@ module.exports = {
   dependencies: {
     'react-native-purchases': {
       platforms: {
-        ios: null,  // Excludes from iOS autolinking
+        ios: null, // Excludes from iOS autolinking
       },
     },
   },

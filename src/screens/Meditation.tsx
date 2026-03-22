@@ -11,10 +11,7 @@ import {
   MeditationScreenNavigationProp,
   MeditationStackScreenProps,
 } from '../types';
-import {
-  MeditationGroupName,
-  breathMap,
-} from '../constants/meditation-data';
+import {MeditationGroupName, breathMap} from '../constants/meditation-data';
 import {getFullMeditationCatalogSync} from '../services/meditationCatalog';
 import {MultiLineInput} from '../components/MultiLineInput';
 import MeditationInstanceDataContext from '../contexts/meditationInstanceData';
@@ -69,10 +66,16 @@ const MeditationScreen = ({
   const {meditationInstanceData, setMeditationInstanceData} = useContext(
     MeditationInstanceDataContext,
   );
-  const {meditationSession, setMeditationSession} = useContext(MeditationSessionContext);
-  const {setMeditationBaseData, meditationBaseData} = useContext(MeditationBaseDataContext);
+  const {meditationSession, setMeditationSession} = useContext(
+    MeditationSessionContext,
+  );
+  const {setMeditationBaseData, meditationBaseData} = useContext(
+    MeditationBaseDataContext,
+  );
   const {meditationHistory} = useContext(MeditationHistoryContext);
-  const {setMeditationFilePaths, meditationFilePaths} = useContext(MeditationFilePathsContext);
+  const {setMeditationFilePaths, meditationFilePaths} = useContext(
+    MeditationFilePathsContext,
+  );
   const {playlists} = useContext(PlaylistContext);
   const [inputValue, setInputValue] = useState(EMPTY_STRING);
   const [selectedBreathCardId, setSelectedBreathCardId] = useState('');
@@ -89,7 +92,6 @@ const MeditationScreen = ({
   const affectedPlaylists = Object.values(playlists).filter(p =>
     p.meditationIds.includes(id),
   );
-
 
   const lastMeditationInstance =
     meditationHistory &&
@@ -117,13 +119,13 @@ const MeditationScreen = ({
       meditationBaseId: meditation.meditationBaseId,
       name: meditation.name,
       type: meditation.type,
-    }
+    };
 
     setMeditationSession({
       instances: [initialInstance],
       sessionStartTime,
-    })
-  }
+    });
+  };
 
   const onBackPress = () => {
     navigation.goBack();
@@ -157,26 +159,29 @@ const MeditationScreen = ({
         meditationBaseId: meditation.meditationBaseId,
         name: meditation.name,
         type: meditation.type,
-      }
+      };
 
       setMeditationSession({
         ...meditationSession,
         instances: [initialInstance],
-      })
+      });
     } else {
       setMeditationBreathId(meditationBaseBreathId);
       setSelectedBreathCardId(meditationBaseBreathId);
 
-      const breathwork = meditationBaseMap[meditationBaseBreathId]
+      const breathwork = meditationBaseMap[meditationBaseBreathId];
 
       setMeditationSession({
         ...meditationSession,
-        instances: [{
-          meditationBaseId: meditationBaseBreathId,
-          name: breathwork.name,
-          type: breathwork.type,
-        }, ...meditationSession.instances],
-      })
+        instances: [
+          {
+            meditationBaseId: meditationBaseBreathId,
+            name: breathwork.name,
+            type: breathwork.type,
+          },
+          ...meditationSession.instances,
+        ],
+      });
     }
   };
 
@@ -199,24 +204,24 @@ const MeditationScreen = ({
       if (key !== id) {
         updatedMedBaseDataContext = {
           ...updatedMedBaseDataContext,
-          [key]: meditationBaseData[key]
-        }
+          [key]: meditationBaseData[key],
+        };
       }
     }
 
-    let updatedFilePathContext = {}
+    let updatedFilePathContext = {};
     for (const key in meditationFilePaths) {
       if (key !== id) {
         updatedFilePathContext = {
           ...updatedFilePathContext,
-          [key]: meditationFilePaths[key]
-        }
+          [key]: meditationFilePaths[key],
+        };
       }
     }
 
     setMeditationBaseData(updatedMedBaseDataContext);
     setMeditationFilePaths(updatedFilePathContext);
-    await setMeditationFilePathDataInAsyncStorage(updatedFilePathContext)
+    await setMeditationFilePathDataInAsyncStorage(updatedFilePathContext);
 
     Toast.show({
       type: 'success',
@@ -226,7 +231,7 @@ const MeditationScreen = ({
     });
 
     navigation.goBack();
-  }
+  };
 
   const hasUserSeenBreathOnboarding = getUserSawBreathOnboarding(user);
   const showBreathworkEdu =
@@ -351,23 +356,38 @@ const MeditationScreen = ({
         isVisible={isSubscribeModalVisible}
         onClose={() => setIsSubscribeModalVisible(false)}
       />
-    <Modal
-      visible={isDeleteModalVisible}
-      backdropStyle={styles.backdrop}>
-      <Layout level="2" style={styles.modalRootContainer}>
-        <Layout level="2">
-          <Text category="h5" style={styles.modalTitle}>Delete Meditation</Text>
-          <Text category="s1" style={styles.modalDescription}>Are you sure you want to delete this meditation?</Text>
-          {affectedPlaylists.length > 0 && (
-            <Text category="c1" style={styles.playlistWarning}>
-              This meditation is used in: {affectedPlaylists.map(p => p.name).join(', ')}. It will be automatically removed from {affectedPlaylists.length === 1 ? 'this playlist' : 'these playlists'}.
+      <Modal visible={isDeleteModalVisible} backdropStyle={styles.backdrop}>
+        <Layout level="2" style={styles.modalRootContainer}>
+          <Layout level="2">
+            <Text category="h5" style={styles.modalTitle}>
+              Delete Meditation
             </Text>
-          )}
-          <_Button style={styles.deleteButton} onPress={onDeletePress}>Delete</_Button>
-          <_Button status='basic' appearance='outline' onPress={() => setIsDeleteModalVisible(false)}>Cancel</_Button>
+            <Text category="s1" style={styles.modalDescription}>
+              Are you sure you want to delete this meditation?
+            </Text>
+            {affectedPlaylists.length > 0 && (
+              <Text category="c1" style={styles.playlistWarning}>
+                This meditation is used in:{' '}
+                {affectedPlaylists.map(p => p.name).join(', ')}. It will be
+                automatically removed from{' '}
+                {affectedPlaylists.length === 1
+                  ? 'this playlist'
+                  : 'these playlists'}
+                .
+              </Text>
+            )}
+            <_Button style={styles.deleteButton} onPress={onDeletePress}>
+              Delete
+            </_Button>
+            <_Button
+              status="basic"
+              appearance="outline"
+              onPress={() => setIsDeleteModalVisible(false)}>
+              Cancel
+            </_Button>
+          </Layout>
         </Layout>
-      </Layout>
-    </Modal>
+      </Modal>
     </Layout>
   );
 };

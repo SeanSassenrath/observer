@@ -20,7 +20,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import StackNavigator, {navigationRef} from './src/navigation/Stack';
 import {
@@ -78,9 +78,11 @@ const App = () => {
   const [meditationInstanceData, setMeditationInstanceData] = useState(
     {} as MeditationInstance,
   );
-  const [meditationSession, setMeditationSession] = useState<MeditationSession>({
-    instances: [],
-  });
+  const [meditationSession, setMeditationSession] = useState<MeditationSession>(
+    {
+      instances: [],
+    },
+  );
   const [meditationHistory, setMeditationHistory] = useState({});
   const [meditationFilePaths, setMeditationFilePaths] = useState(
     {} as MeditationFilePath,
@@ -90,7 +92,9 @@ const App = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPlayerReady, setIsPlayerReady] = useState<boolean>(false);
   const [unknownFiles, setUnknownFiles] = useState([] as UnknownFileData[]);
-  const [playlists, setPlaylists] = useState({} as Record<PlaylistId, Playlist>);
+  const [playlists, setPlaylists] = useState(
+    {} as Record<PlaylistId, Playlist>,
+  );
   const [pendingDeepLink, setPendingDeepLink] = useState<string | null>(null);
 
   const getFirstName = (firebaseUser: any) => {
@@ -273,7 +277,9 @@ const App = () => {
   useEffect(() => {
     if (!initializing && pendingDeepLink) {
       setPendingDeepLink(null);
-      navigationRef.current?.navigate('ImportPlaylist', {encodedData: pendingDeepLink});
+      navigationRef.current?.navigate('ImportPlaylist', {
+        encodedData: pendingDeepLink,
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initializing, pendingDeepLink]);
@@ -314,7 +320,10 @@ const App = () => {
         const playlistsFromStorage = await getPlaylistsFromAsyncStorage();
 
         // Merge Firebase (source of truth) with local cache
-        const mergedPlaylists = {...playlistsFromStorage, ...playlistsFromFirebase};
+        const mergedPlaylists = {
+          ...playlistsFromStorage,
+          ...playlistsFromFirebase,
+        };
         setPlaylists(mergedPlaylists);
       } catch (error) {
         console.error('Error loading playlists:', error);
@@ -327,44 +336,47 @@ const App = () => {
   }
 
   return (
-      <GestureHandlerRootView style={{flex: 1}}>
-        <IconRegistry icons={EvaIconsPack} />
-          <ApplicationProvider
-            {...eva}
-            theme={{...eva.dark, ...theme}}
-            // @ts-ignore
-            // customMapping={mapping}
-          >
-            <DebugProvider>
-              <UserContext.Provider value={{user, setUser}}>
-                <PlaylistContext.Provider value={{playlists, setPlaylists}}>
-                  <MeditationHistoryContext.Provider
-                    value={{meditationHistory, setMeditationHistory}}>
-                    <MeditationBaseDataContext.Provider
-                      value={{meditationBaseData, setMeditationBaseData}}>
-                      <MeditationSessionContext.Provider
-                        value={{meditationSession, setMeditationSession}}>
-                        <MeditationInstanceDataContext.Provider
-                          value={{meditationInstanceData, setMeditationInstanceData}}>
-                          <MeditationFilePathsContext.Provider
-                            value={{meditationFilePaths, setMeditationFilePaths}}>
-                            <UnknownFilesContext.Provider
-                              value={{unknownFiles, setUnknownFiles}}>
-                              <StackNavigator />
-                              {/* {__DEV__ && <DebugButton />} */}
-                              {__DEV__ && <DebugPanel />}
-                            </UnknownFilesContext.Provider>
-                          </MeditationFilePathsContext.Provider>
-                        </MeditationInstanceDataContext.Provider>
-                      </MeditationSessionContext.Provider>
-                    </MeditationBaseDataContext.Provider>
-                  </MeditationHistoryContext.Provider>
-                </PlaylistContext.Provider>
-              </UserContext.Provider>
-            </DebugProvider>
-          </ApplicationProvider>
-        <Toast config={toastConfig as any} />
-      </GestureHandlerRootView> 
+    <GestureHandlerRootView style={{flex: 1}}>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider
+        {...eva}
+        theme={{...eva.dark, ...theme}}
+        // @ts-ignore
+        // customMapping={mapping}
+      >
+        <DebugProvider>
+          <UserContext.Provider value={{user, setUser}}>
+            <PlaylistContext.Provider value={{playlists, setPlaylists}}>
+              <MeditationHistoryContext.Provider
+                value={{meditationHistory, setMeditationHistory}}>
+                <MeditationBaseDataContext.Provider
+                  value={{meditationBaseData, setMeditationBaseData}}>
+                  <MeditationSessionContext.Provider
+                    value={{meditationSession, setMeditationSession}}>
+                    <MeditationInstanceDataContext.Provider
+                      value={{
+                        meditationInstanceData,
+                        setMeditationInstanceData,
+                      }}>
+                      <MeditationFilePathsContext.Provider
+                        value={{meditationFilePaths, setMeditationFilePaths}}>
+                        <UnknownFilesContext.Provider
+                          value={{unknownFiles, setUnknownFiles}}>
+                          <StackNavigator />
+                          {/* {__DEV__ && <DebugButton />} */}
+                          {__DEV__ && <DebugPanel />}
+                        </UnknownFilesContext.Provider>
+                      </MeditationFilePathsContext.Provider>
+                    </MeditationInstanceDataContext.Provider>
+                  </MeditationSessionContext.Provider>
+                </MeditationBaseDataContext.Provider>
+              </MeditationHistoryContext.Provider>
+            </PlaylistContext.Provider>
+          </UserContext.Provider>
+        </DebugProvider>
+      </ApplicationProvider>
+      <Toast config={toastConfig as any} />
+    </GestureHandlerRootView>
   );
 };
 

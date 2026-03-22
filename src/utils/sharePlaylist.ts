@@ -17,16 +17,11 @@ function b64Encode(str: string): string {
     } else if (c < 0x800) {
       bytes.push(0xc0 | (c >> 6), 0x80 | (c & 0x3f));
     } else if (c < 0xd800 || c >= 0xe000) {
-      bytes.push(
-        0xe0 | (c >> 12),
-        0x80 | ((c >> 6) & 0x3f),
-        0x80 | (c & 0x3f),
-      );
+      bytes.push(0xe0 | (c >> 12), 0x80 | ((c >> 6) & 0x3f), 0x80 | (c & 0x3f));
     } else {
       // surrogate pair
       i++;
-      const c2 =
-        0x10000 + (((c & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
+      const c2 = 0x10000 + (((c & 0x3ff) << 10) | (str.charCodeAt(i) & 0x3ff));
       bytes.push(
         0xf0 | (c2 >> 18),
         0x80 | ((c2 >> 12) & 0x3f),
@@ -152,7 +147,10 @@ export const decodePlaylist = (url: string): ShareablePlaylist | null => {
     if (payload.gradientIndex !== undefined) {
       payload.gradientIndex = Math.max(
         0,
-        Math.min(playlistGradients.length - 1, Math.floor(payload.gradientIndex)),
+        Math.min(
+          playlistGradients.length - 1,
+          Math.floor(payload.gradientIndex),
+        ),
       );
     }
 

@@ -1,10 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Pressable, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   Icon,
@@ -58,6 +53,7 @@ const EmailSignInScreen = () => {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -66,7 +62,7 @@ const EmailSignInScreen = () => {
   const handleSignIn = async () => {
     setError('');
     setSuccessMessage('');
-    
+
     if (!validateEmail(email)) {
       setError('Please enter a valid email address');
       return;
@@ -80,12 +76,14 @@ const EmailSignInScreen = () => {
     setIsSigningIn(true);
 
     let result: AuthResult;
-    
+
     if (isSignUp) {
       result = await createUserWithEmailAndPassword(email, password);
-      
+
       if (result.success) {
-        setSuccessMessage('Account created! Please check your email to verify your account.');
+        setSuccessMessage(
+          'Account created! Please check your email to verify your account.',
+        );
       }
     } else {
       result = await signInWithEmailAndPassword(email, password);
@@ -95,21 +93,21 @@ const EmailSignInScreen = () => {
       setIsSigningIn(false);
       setError(result.error || 'Something went wrong. Please try again.');
     }
-    
+
     // If successful, the user context will update and redirectUser will handle navigation
   };
 
   const handleForgotPassword = async () => {
     setError('');
     setSuccessMessage('');
-    
+
     if (!validateEmail(email)) {
       setError('Please enter your email address first');
       return;
     }
 
     const result = await sendPasswordResetEmail(email);
-    
+
     if (result.success) {
       setSuccessMessage('Password reset email sent! Check your inbox.');
     } else {
@@ -129,10 +127,7 @@ const EmailSignInScreen = () => {
 
   const renderPasswordIcon = (props: any) => (
     <Pressable onPress={togglePasswordVisibility}>
-      <Icon
-        {...props}
-        name={showPassword ? 'eye-off' : 'eye'}
-      />
+      <Icon {...props} name={showPassword ? 'eye-off' : 'eye'} />
     </Pressable>
   );
 
@@ -141,7 +136,9 @@ const EmailSignInScreen = () => {
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.headerContainer}>
-            <Pressable onPress={() => navigation.goBack()} style={styles.backButton}>
+            <Pressable
+              onPress={() => navigation.goBack()}
+              style={styles.backButton}>
               <Icon name="arrow-back" width={24} height={24} fill="#FFF" />
             </Pressable>
           </View>
@@ -152,10 +149,9 @@ const EmailSignInScreen = () => {
                 {isSignUp ? 'Create Account' : 'Sign In'}
               </Text>
               <Text category="s2" style={styles.textDescription}>
-                {isSignUp 
+                {isSignUp
                   ? 'Enter your email and create a password to get started.'
-                  : 'Enter your email and password to continue.'
-                }
+                  : 'Enter your email and password to continue.'}
               </Text>
             </View>
           </View>
@@ -206,7 +202,9 @@ const EmailSignInScreen = () => {
             </Button>
 
             {!isSignUp && (
-              <Pressable onPress={handleForgotPassword} style={styles.forgotPasswordContainer}>
+              <Pressable
+                onPress={handleForgotPassword}
+                style={styles.forgotPasswordContainer}>
                 <Text style={styles.forgotPassword} category="s2">
                   Forgot Password?
                 </Text>
@@ -215,7 +213,9 @@ const EmailSignInScreen = () => {
 
             <View style={styles.switchModeContainer}>
               <Text category="s2" style={styles.switchModeText}>
-                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
+                {isSignUp
+                  ? 'Already have an account?'
+                  : "Don't have an account?"}
               </Text>
               <Pressable onPress={toggleSignUpMode}>
                 <Text style={styles.switchModeLink} category="s2">

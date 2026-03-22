@@ -1,13 +1,18 @@
-import { FlatList, StyleSheet } from "react-native";
-import { Icon, Layout, Modal, Text } from "@ui-kitten/components";
+import {FlatList, StyleSheet} from 'react-native';
+import {Icon, Layout, Modal, Text} from '@ui-kitten/components';
 
-import { UnsupportedFileData } from "../../types";
-import _Button from "../Button";
+import {UnsupportedFileData} from '../../types';
+import _Button from '../Button';
 
 const errorRed = '#E28E69';
 
 const ErrorIcon = (props: any) => (
-  <Icon {...props} style={iconStyles.errorIcon} fill={errorRed} name='alert-circle-outline' />
+  <Icon
+    {...props}
+    style={iconStyles.errorIcon}
+    fill={errorRed}
+    name="alert-circle-outline"
+  />
 );
 
 interface Props {
@@ -17,55 +22,49 @@ interface Props {
 }
 
 const renderUnsupportedFile = (file: UnsupportedFileData) => (
-  <Layout level='1' style={styles.item}>
-    <Text category="s1">{file.name || ""}</Text>
+  <Layout level="1" style={styles.item}>
+    <Text category="s1">{file.name || ''}</Text>
   </Layout>
-)
+);
 
 export const UnsupportedFilesModalComponent = (props: Props) => {
-  const {
-    isVisible,
-    unsupportedFiles,
-    setUnsupportedFiles,
-  } = props;
+  const {isVisible, unsupportedFiles, setUnsupportedFiles} = props;
 
   const onContinuePress = () => {
     setUnsupportedFiles([]);
-  }
+  };
 
   return (
-    <Modal
-      visible={isVisible}
-      backdropStyle={styles.backdrop}
-    >
-      <Layout level='3' style={styles.container}>
-        <Layout level='3' style={styles.headerContainer}>
+    <Modal visible={isVisible} backdropStyle={styles.backdrop}>
+      <Layout level="3" style={styles.container}>
+        <Layout level="3" style={styles.headerContainer}>
           <ErrorIcon />
-          <Text category='h6' style={styles.header}>
+          <Text category="h6" style={styles.header}>
             There was an error adding the following meditations:
           </Text>
         </Layout>
-        <Layout level='2' style={styles.flatListContainer}>
+        <Layout level="2" style={styles.flatListContainer}>
           <FlatList
             data={unsupportedFiles}
-            renderItem={({ item }) => renderUnsupportedFile(item)}
+            renderItem={({item}) => renderUnsupportedFile(item)}
           />
         </Layout>
-        <Layout level='3' style={styles.buttonContainer}>
+        <Layout level="3" style={styles.buttonContainer}>
           <Text category="s1" style={styles.bottomText}>
-            The team is looking into this error. Please email <Text category="s1" status="info">sean.sassenrath@gmail.com</Text> with any questions.
+            The team is looking into this error. Please email{' '}
+            <Text category="s1" status="info">
+              sean.sassenrath@gmail.com
+            </Text>{' '}
+            with any questions.
           </Text>
-          <_Button
-            onPress={onContinuePress}
-            style={styles.button}
-          >
+          <_Button onPress={onContinuePress} style={styles.button}>
             Close
           </_Button>
         </Layout>
       </Layout>
     </Modal>
-  )
-}
+  );
+};
 
 const iconStyles = StyleSheet.create({
   errorIcon: {
@@ -115,5 +114,5 @@ const styles = StyleSheet.create({
   item: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-  }
-})
+  },
+});

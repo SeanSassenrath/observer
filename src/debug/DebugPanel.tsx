@@ -45,6 +45,7 @@ const DebugPanel: React.FC = () => {
       case DebugTab.FILE_ANALYSIS:
         return <FileAnalysisDebugger />;
       case DebugTab.DATABASE:
+        // eslint-disable-next-line react/jsx-no-undef
         return <DatabaseDebugger />;
       case DebugTab.PERFORMANCE:
         return <PerformanceMonitor />;
@@ -53,6 +54,7 @@ const DebugPanel: React.FC = () => {
       case DebugTab.LOGS:
         return <LogViewer />;
       case DebugTab.AUDIO_TEST:
+        // eslint-disable-next-line react/jsx-no-undef
         return <AudioAnalysisTest />;
       default:
         return <FileAnalysisDebugger />;
@@ -85,8 +87,8 @@ const DebugPanel: React.FC = () => {
 
         {/* Tab Navigation */}
         <View style={styles.tabContainer}>
-          <ScrollView 
-            horizontal 
+          <ScrollView
+            horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.tabScrollContent}
             style={styles.tabScrollView}>
@@ -95,14 +97,15 @@ const DebugPanel: React.FC = () => {
                 key={tab.key}
                 style={[
                   styles.tab,
-                  debugState.activeTab === tab.key && styles.tabActive
+                  debugState.activeTab === tab.key && styles.tabActive,
                 ]}
                 onPress={() => setActiveTab(tab.key)}>
                 <Text style={styles.tabIcon}>{tab.icon}</Text>
-                <Text style={[
-                  styles.tabText,
-                  debugState.activeTab === tab.key && styles.tabTextActive
-                ]}>
+                <Text
+                  style={[
+                    styles.tabText,
+                    debugState.activeTab === tab.key && styles.tabTextActive,
+                  ]}>
                   {tab.label}
                 </Text>
               </TouchableOpacity>
@@ -111,9 +114,7 @@ const DebugPanel: React.FC = () => {
         </View>
 
         {/* Content */}
-        <View style={styles.content}>
-          {renderTabContent()}
-        </View>
+        <View style={styles.content}>{renderTabContent()}</View>
       </SafeAreaView>
     </Modal>
   );

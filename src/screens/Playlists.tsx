@@ -124,7 +124,8 @@ const Playlists = () => {
 
           <View style={styles.cardFooter}>
             <Text category="c1" style={styles.metaText}>
-              {trackCount} {trackCount === 1 ? 'track' : 'tracks'} • {formatDuration(duration)}
+              {trackCount} {trackCount === 1 ? 'track' : 'tracks'} •{' '}
+              {formatDuration(duration)}
             </Text>
           </View>
         </View>
@@ -134,20 +135,15 @@ const Playlists = () => {
 
   const renderEmptyState = () => (
     <Layout style={styles.emptyContainer}>
-      <Icon
-        name="list-outline"
-        fill="#6B7280"
-        style={styles.emptyIcon}
-      />
+      <Icon name="list-outline" fill="#6B7280" style={styles.emptyIcon} />
       <Text category="h6" style={styles.emptyTitle}>
         No playlists yet
       </Text>
       <Text category="p2" style={styles.emptyDescription}>
-        Create your first playlist to sequence meditations for a perfect session.
+        Create your first playlist to sequence meditations for a perfect
+        session.
       </Text>
-      <_Button
-        style={styles.emptyButton}
-        onPress={handleCreatePlaylist}>
+      <_Button style={styles.emptyButton} onPress={handleCreatePlaylist}>
         Create a Playlist
       </_Button>
     </Layout>
@@ -169,11 +165,7 @@ const Playlists = () => {
             <TouchableOpacity
               onPress={handleCreatePlaylist}
               style={styles.addButton}>
-              <Icon
-                name="plus"
-                fill={COLOR_PRIMARY}
-                style={styles.addIcon}
-              />
+              <Icon name="plus" fill={COLOR_PRIMARY} style={styles.addIcon} />
             </TouchableOpacity>
           )}
         </View>

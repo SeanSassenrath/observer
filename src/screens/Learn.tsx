@@ -1,14 +1,14 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { Layout, Text } from '@ui-kitten/components/ui';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {Layout, Text} from '@ui-kitten/components/ui';
 
 const LearnScreen = () => (
   <Layout style={styles.rootContainer}>
     <SafeAreaView style={styles.contentContainer}>
-      <Text category='h6'>Learn Screen</Text>
+      <Text category="h6">Learn Screen</Text>
     </SafeAreaView>
   </Layout>
-)
+);
 
 const styles = StyleSheet.create({
   rootContainer: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-  }
-})
+  },
+});
 
 export default LearnScreen;

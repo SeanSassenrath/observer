@@ -38,10 +38,12 @@ Instead of waiting for a JS timer to call `play()`, start playback immediately w
    - The `isFinishButtonDisabled` check (`time > 3`) stays the same
 
 ## Files to modify
+
 - `src/screens/MeditationPlayer.tsx` -- main changes
 - `src/assets/silence.mp3` -- new file (generated)
 
 ## Verification
+
 1. Start a meditation, lock phone during countdown, wait >5 seconds, unlock -- audio should be playing
 2. Start a meditation normally (no lock) -- countdown works, meditation plays as before
 3. Playlist mode -- all tracks play in order, track indicator shows correct numbers

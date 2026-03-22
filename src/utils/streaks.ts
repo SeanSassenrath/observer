@@ -41,7 +41,6 @@ export const checkStreakData = (
   const yesterdayMonth = dt.minus({days: 1}).month;
   const yesterdayYear = dt.minus({days: 1}).year;
 
-
   if (lastMeditation && lastMeditation.meditationStartTime) {
     const lastMeditationDt = DateTime.fromSeconds(
       lastMeditation.meditationStartTime,
@@ -51,8 +50,12 @@ export const checkStreakData = (
     const lastMeditationYear = lastMeditationDt.year;
 
     if (
-      lastMeditationDay === currentDay && lastMeditationMonth === currentMonth && lastMeditationYear === currentYear ||
-      lastMeditationDay === yesterdayDay && lastMeditationMonth === yesterdayMonth && lastMeditationYear === yesterdayYear
+      (lastMeditationDay === currentDay &&
+        lastMeditationMonth === currentMonth &&
+        lastMeditationYear === currentYear) ||
+      (lastMeditationDay === yesterdayDay &&
+        lastMeditationMonth === yesterdayMonth &&
+        lastMeditationYear === yesterdayYear)
     ) {
       return streakData;
     } else {

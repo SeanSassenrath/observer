@@ -14,19 +14,24 @@ import {DebugLog} from './types';
 const LogViewer: React.FC = () => {
   const {debugState, clearLogs, addLog} = useDebug();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLevel, setSelectedLevel] = useState<DebugLog['level'] | 'all'>('all');
+  const [selectedLevel, setSelectedLevel] = useState<DebugLog['level'] | 'all'>(
+    'all',
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const filteredLogs = useMemo(() => {
     return debugState.logs.filter(log => {
-      const matchesSearch = searchQuery === '' || 
+      const matchesSearch =
+        searchQuery === '' ||
         log.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
         log.category.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesLevel = selectedLevel === 'all' || log.level === selectedLevel;
-      
-      const matchesCategory = selectedCategory === 'all' || log.category === selectedCategory;
-      
+
+      const matchesLevel =
+        selectedLevel === 'all' || log.level === selectedLevel;
+
+      const matchesCategory =
+        selectedCategory === 'all' || log.category === selectedCategory;
+
       return matchesSearch && matchesLevel && matchesCategory;
     });
   }, [debugState.logs, searchQuery, selectedLevel, selectedCategory]);
@@ -36,45 +41,86 @@ const LogViewer: React.FC = () => {
     return cats;
   }, [debugState.logs]);
 
-  const levels: Array<DebugLog['level'] | 'all'> = ['all', 'debug', 'info', 'warn', 'error'];
+  const levels: Array<DebugLog['level'] | 'all'> = [
+    'all',
+    'debug',
+    'info',
+    'warn',
+    'error',
+  ];
 
   const getLevelColor = (level: DebugLog['level']) => {
     switch (level) {
-      case 'debug': return '#666';
-      case 'info': return '#007AFF';
-      case 'warn': return '#FF9500';
-      case 'error': return '#F44336';
-      default: return '#999';
+      case 'debug':
+        return '#666';
+      case 'info':
+        return '#007AFF';
+      case 'warn':
+        return '#FF9500';
+      case 'error':
+        return '#F44336';
+      default:
+        return '#999';
     }
   };
 
   const getLevelIcon = (level: DebugLog['level']) => {
     switch (level) {
-      case 'debug': return '🔍';
-      case 'info': return 'ℹ️';
-      case 'warn': return '⚠️';
-      case 'error': return '❌';
-      default: return '📝';
+      case 'debug':
+        return '🔍';
+      case 'info':
+        return 'ℹ️';
+      case 'warn':
+        return '⚠️';
+      case 'error':
+        return '❌';
+      default:
+        return '📝';
     }
   };
 
   const formatTimestamp = (timestamp: string) => {
     const date = new Date(timestamp);
-    return date.toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit', 
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
       second: '2-digit',
-      fractionalSecondDigits: 3
+      fractionalSecondDigits: 3,
     });
   };
 
   const generateTestLogs = () => {
     const testLogs = [
-      { level: 'info' as const, category: 'FileAnalysis', message: 'Starting file upload analysis', data: { fileName: 'test.mp3' } },
-      { level: 'debug' as const, category: 'AudioFingerprint', message: 'Extracting audio peaks', data: { peaks: 247 } },
-      { level: 'warn' as const, category: 'Transcription', message: 'Low confidence in transcription', data: { confidence: 0.45 } },
-      { level: 'info' as const, category: 'Database', message: 'Found 3 candidate matches', data: { matches: ['m-botec-1', 'm-botec-2'] } },
-      { level: 'error' as const, category: 'AudioFingerprint', message: 'Failed to extract fingerprint', data: { error: 'Invalid audio format' } },
+      {
+        level: 'info' as const,
+        category: 'FileAnalysis',
+        message: 'Starting file upload analysis',
+        data: {fileName: 'test.mp3'},
+      },
+      {
+        level: 'debug' as const,
+        category: 'AudioFingerprint',
+        message: 'Extracting audio peaks',
+        data: {peaks: 247},
+      },
+      {
+        level: 'warn' as const,
+        category: 'Transcription',
+        message: 'Low confidence in transcription',
+        data: {confidence: 0.45},
+      },
+      {
+        level: 'info' as const,
+        category: 'Database',
+        message: 'Found 3 candidate matches',
+        data: {matches: ['m-botec-1', 'm-botec-2']},
+      },
+      {
+        level: 'error' as const,
+        category: 'AudioFingerprint',
+        message: 'Failed to extract fingerprint',
+        data: {error: 'Invalid audio format'},
+      },
     ];
 
     testLogs.forEach(log => {
@@ -83,11 +129,15 @@ const LogViewer: React.FC = () => {
   };
 
   const exportLogs = async () => {
-    const logsText = filteredLogs.map(log => {
-      const timestamp = formatTimestamp(log.timestamp);
-      const data = log.data ? `\nData: ${JSON.stringify(log.data, null, 2)}` : '';
-      return `[${timestamp}] ${log.level.toUpperCase()} ${log.category}: ${log.message}${data}`;
-    }).join('\n\n');
+    const logsText = filteredLogs
+      .map(log => {
+        const timestamp = formatTimestamp(log.timestamp);
+        const data = log.data
+          ? `\nData: ${JSON.stringify(log.data, null, 2)}`
+          : '';
+        return `[${timestamp}] ${log.level.toUpperCase()} ${log.category}: ${log.message}${data}`;
+      })
+      .join('\n\n');
 
     try {
       await Share.share({
@@ -104,13 +154,17 @@ const LogViewer: React.FC = () => {
       {/* Controls */}
       <View style={styles.controls}>
         <View style={styles.controlRow}>
-          <TouchableOpacity style={styles.controlButton} onPress={generateTestLogs}>
+          <TouchableOpacity
+            style={styles.controlButton}
+            onPress={generateTestLogs}>
             <Text style={styles.controlButtonText}>Generate Test Logs</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.controlButton} onPress={exportLogs}>
             <Text style={styles.controlButtonText}>Export</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.controlButton, styles.dangerButton]} onPress={clearLogs}>
+          <TouchableOpacity
+            style={[styles.controlButton, styles.dangerButton]}
+            onPress={clearLogs}>
             <Text style={styles.controlButtonText}>Clear</Text>
           </TouchableOpacity>
         </View>
@@ -126,9 +180,9 @@ const LogViewer: React.FC = () => {
 
         {/* Filters */}
         <View style={styles.filterRow}>
-          <ScrollView 
-            horizontal 
-            showsHorizontalScrollIndicator={false} 
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
             style={styles.filterScroll}
             contentContainerStyle={styles.filterScrollContent}>
             {/* Level Filter */}
@@ -139,13 +193,14 @@ const LogViewer: React.FC = () => {
                   key={level}
                   style={[
                     styles.filterChip,
-                    selectedLevel === level && styles.filterChipActive
+                    selectedLevel === level && styles.filterChipActive,
                   ]}
                   onPress={() => setSelectedLevel(level)}>
-                  <Text style={[
-                    styles.filterChipText,
-                    selectedLevel === level && styles.filterChipTextActive
-                  ]}>
+                  <Text
+                    style={[
+                      styles.filterChipText,
+                      selectedLevel === level && styles.filterChipTextActive,
+                    ]}>
                     {level}
                   </Text>
                 </TouchableOpacity>
@@ -160,13 +215,15 @@ const LogViewer: React.FC = () => {
                   key={category}
                   style={[
                     styles.filterChip,
-                    selectedCategory === category && styles.filterChipActive
+                    selectedCategory === category && styles.filterChipActive,
                   ]}
                   onPress={() => setSelectedCategory(category)}>
-                  <Text style={[
-                    styles.filterChipText,
-                    selectedCategory === category && styles.filterChipTextActive
-                  ]}>
+                  <Text
+                    style={[
+                      styles.filterChipText,
+                      selectedCategory === category &&
+                        styles.filterChipTextActive,
+                    ]}>
                     {category}
                   </Text>
                 </TouchableOpacity>
@@ -184,8 +241,8 @@ const LogViewer: React.FC = () => {
       </View>
 
       {/* Logs */}
-      <ScrollView 
-        style={styles.logsContainer} 
+      <ScrollView
+        style={styles.logsContainer}
         contentContainerStyle={styles.logsContent}
         showsVerticalScrollIndicator={true}
         bounces={true}>
@@ -193,10 +250,9 @@ const LogViewer: React.FC = () => {
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateText}>No logs to display</Text>
             <Text style={styles.emptyStateSubtext}>
-              {debugState.logs.length === 0 ? 
-                'Generate test logs or use the app to see logs here' : 
-                'Try adjusting your search or filter criteria'
-              }
+              {debugState.logs.length === 0
+                ? 'Generate test logs or use the app to see logs here'
+                : 'Try adjusting your search or filter criteria'}
             </Text>
           </View>
         ) : (
@@ -205,16 +261,22 @@ const LogViewer: React.FC = () => {
               <View style={styles.logHeader}>
                 <View style={styles.logHeaderLeft}>
                   <Text style={styles.logIcon}>{getLevelIcon(log.level)}</Text>
-                  <Text style={[styles.logLevel, {color: getLevelColor(log.level)}]}>
+                  <Text
+                    style={[
+                      styles.logLevel,
+                      {color: getLevelColor(log.level)},
+                    ]}>
                     {log.level.toUpperCase()}
                   </Text>
                   <Text style={styles.logCategory}>{log.category}</Text>
                 </View>
-                <Text style={styles.logTimestamp}>{formatTimestamp(log.timestamp)}</Text>
+                <Text style={styles.logTimestamp}>
+                  {formatTimestamp(log.timestamp)}
+                </Text>
               </View>
-              
+
               <Text style={styles.logMessage}>{log.message}</Text>
-              
+
               {log.data && (
                 <View style={styles.logData}>
                   <Text style={styles.logDataTitle}>Data:</Text>

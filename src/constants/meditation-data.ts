@@ -769,7 +769,7 @@ export const breathMap = {
     id: placeholder,
     groupName: MeditationGroupName.BreathTracks,
     meditationBaseId: BreathBaseKeys.BreathInspireV2WarmthSun,
-    name: 'Warmth of the Sun\'s Rays',
+    name: "Warmth of the Sun's Rays",
     type: MeditationTypes.Breath,
     url: placeholder,
   },

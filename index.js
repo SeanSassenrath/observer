@@ -9,4 +9,6 @@ import App from './App';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
-TrackPlayer.registerPlaybackService(() => require('./src/services/audioPlayer'));
+TrackPlayer.registerPlaybackService(() =>
+  require('./src/services/audioPlayer'),
+);

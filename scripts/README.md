@@ -5,6 +5,7 @@ This script creates a production-ready fingerprint database from actual Dr. Joe 
 ## Quick Start
 
 1. **Organize your meditation files** in a directory structure:
+
    ```
    meditation-files/
    ├── botec/
@@ -24,6 +25,7 @@ This script creates a production-ready fingerprint database from actual Dr. Joe 
    ```
 
 2. **Run the script**:
+
    ```bash
    node scripts/buildRealFingerprintDatabase.js /path/to/meditation-files
    ```
@@ -53,18 +55,18 @@ The script automatically maps filenames to meditation base keys:
 
 ## Directory Structure
 
-| Directory | Meditation Group |
-|-----------|------------------|
-| `botec/` | BlessingEnergyCenter |
-| `breaking-habit/` | BreakingHabit |
-| `breath/` | BreathTracks |
-| `daily/` | Daily |
-| `foundational/` | Foundational |
-| `generating/` | Generating |
-| `synchronize/` | Synchronize |
-| `walking/` | Walking |
-| `unlocked/` | Unlocked |
-| `other/` | Other |
+| Directory         | Meditation Group     |
+| ----------------- | -------------------- |
+| `botec/`          | BlessingEnergyCenter |
+| `breaking-habit/` | BreakingHabit        |
+| `breath/`         | BreathTracks         |
+| `daily/`          | Daily                |
+| `foundational/`   | Foundational         |
+| `generating/`     | Generating           |
+| `synchronize/`    | Synchronize          |
+| `walking/`        | Walking              |
+| `unlocked/`       | Unlocked             |
+| `other/`          | Other                |
 
 ## Production Deployment
 

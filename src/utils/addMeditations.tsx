@@ -49,7 +49,9 @@ export const onAddMeditations = async (
   >,
   setUnknownFiles: (a: UnknownFileData[]) => void,
   user: User,
-  setMeditationBaseData: React.Dispatch<React.SetStateAction<MeditationBaseMap>>,
+  setMeditationBaseData: React.Dispatch<
+    React.SetStateAction<MeditationBaseMap>
+  >,
 ) => {
   meditationAddSendEvent(Action.SUBMIT, Noun.BUTTON);
   let meditationBaseData = {} as any;
